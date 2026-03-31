@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(unzip -l /Users/jlsll/Documents/titan/etoplugin.zip)",
+      "Bash(unzip -p /Users/jlsll/Documents/titan/etoplugin.zip easytaxioffice/easytaxioffice.php)",
+      "WebFetch(domain:www.figma.com)",
+      "Bash(npx tsc:*)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\Usuario\\Downloads"
+    ]
+  }
+}

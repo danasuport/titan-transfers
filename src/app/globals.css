@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME — Light only
+   ═══════════════════════════════════════════════════════════════════ */
+
+@theme inline {
+  --font-sans: var(--font-archivo);
+  --font-display: var(--font-russo);
+  /* Override dark grays to brand dark */
+  --color-gray-900: #252527;
+  --color-gray-800: #2e2e31;
+  /* Brand green palette */
+  --color-brand-50: #f4f8e8;
+  --color-brand-100: #e5efc5;
+  --color-brand-200: #d0e29a;
+  --color-brand-300: #b5d060;
+  --color-brand-400: #9dbe3a;
+  --color-brand-500: #8baa1d;
+  --color-brand-600: #749118;
+  --color-brand-700: #5d7413;
+  --color-brand-800: #4a5c10;
+}
+
+@theme {
+  --color-dark: #ffffff;
+  --color-dark-light: #f8fafc;
+  --color-dark-card: #ffffff;
+  --color-dark-elevated: #f1f5f9;
+  --color-dark-border: rgba(0, 0, 0, 0.08);
+  --color-dark-border-hover: rgba(0, 0, 0, 0.15);
+  --color-surface-50: #f8fafc;
+  --color-surface-100: #f1f5f9;
+  --color-surface-200: #e2e8f0;
+  --color-surface-300: #cbd5e1;
+  --color-surface-400: #94a3b8;
+  --color-heading: #252527;
+  --color-body: #475569;
+  --color-muted: #64748b;
+  --color-glass-bg: rgba(0, 0, 0, 0.02);
+  --color-glass-bg-hover: rgba(0, 0, 0, 0.05);
+  --color-glass-ring: rgba(0, 0, 0, 0.08);
+  --color-glass-ring-hover: rgba(0, 0, 0, 0.15);
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background-color: #ffffff;
+  color: #475569;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-russo), system-ui, sans-serif;
+  font-weight: 400;
+  color: #252527;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   FOOTER — always dark
+   ═══════════════════════════════════════════════════════════════════ */
+footer {
+  --color-dark: #0a0e13;
+  --color-dark-light: #10151c;
+  --color-dark-card: #131920;
+  --color-heading: #ffffff;
+  --color-body: #9ca3af;
+  --color-muted: #6b7280;
+  --color-glass-bg: rgba(255, 255, 255, 0.03);
+  --color-glass-ring: rgba(255, 255, 255, 0.06);
+  background-color: #0a0e13;
+  color: #9ca3af;
+}
+footer .text-white { color: #ffffff !important; }
+footer .text-gray-300 { color: #9ca3af !important; }
+footer .text-gray-400 { color: #6b7280 !important; }
+footer .text-gray-500 { color: #6b7280 !important; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════════ */
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+::selection {
+  background-color: rgba(139, 170, 29, 0.3);
+  color: #0f172a;
+}
+
+/* ── Russo One utility ── */
+.font-russo {
+  font-family: var(--font-russo), system-ui, sans-serif !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+}
+
+/* ── Prose ── */
+.prose h2 { @apply mt-10 mb-4 text-2xl font-bold; color: var(--color-heading); }
+.prose h3 { @apply mt-6 mb-3 text-lg font-semibold; color: var(--color-heading); opacity: 0.85; }
+.prose p { @apply mb-4 leading-relaxed; color: var(--color-body); }
+.prose ul { @apply mb-4 list-disc pl-6; color: var(--color-body); }
+.prose ol { @apply mb-4 list-decimal pl-6; color: var(--color-body); }
+.prose li { @apply mb-1; }
+.prose a { @apply underline; color: #5d7413; }
+.prose a:hover { color: #749118; }
+.prose strong { @apply font-semibold; color: var(--color-heading); }
+.prose blockquote { @apply border-l-4 border-brand-500/30 pl-4 italic; color: var(--color-muted); }
+
+/* ── Marquee ── */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+  will-change: transform;
+}
