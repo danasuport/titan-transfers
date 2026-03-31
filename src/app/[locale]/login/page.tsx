@@ -16,7 +16,7 @@ export default async function LoginPage({ params }: { params: Promise<{ locale: 
   const t = await getTranslations({ locale, namespace: 'login' })
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="site-container px-4 py-8 sm:px-6 lg:px-8">
       <Breadcrumbs items={[{ label: t('title') }]} />
       <h1 className="mb-4 text-3xl font-bold text-heading sm:text-4xl">{t('title')}</h1>
       <p className="mb-8 text-lg text-body">{t('subtitle')}</p>

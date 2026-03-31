@@ -16,7 +16,7 @@ export function FAQ({ items, title }: { items: FAQItem[]; title?: string }) {
 
   return (
     <section className="py-16">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div className="site-container">
         <SchemaOrg data={generateFAQSchema(items)} />
         {title && <h2 className="mb-8 text-2xl font-extrabold tracking-tight text-heading sm:text-3xl">{title}</h2>}
         <div className="space-y-3">

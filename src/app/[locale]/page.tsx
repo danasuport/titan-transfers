@@ -27,29 +27,19 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   return (
     <>
       <SchemaOrg data={generateLocalBusinessSchema()} />
-      {/* 1. Hero */}
       <HeroSection />
-      {/* 2. Booking widget */}
-      <div className="bg-white pb-12">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="bg-white py-10">
+        <div className="site-container">
           <BookingWidget />
         </div>
       </div>
-      {/* 3. Why choose us */}
       <WhyChooseUs />
-      {/* 4. Services */}
       <ServiceTypes />
-      {/* 5. Popular Destinations */}
       <PopularDestinations locale={locale} />
-      {/* 6. How It Works */}
       <HowItWorks />
-      {/* 7. Fleet */}
       <FleetShowcase />
-      {/* 8. Browse Categories */}
       <BrowseCategories />
-      {/* 9. Testimonials */}
       <Testimonials />
-      {/* 10. CTA */}
       <CtaSection />
     </>
   )

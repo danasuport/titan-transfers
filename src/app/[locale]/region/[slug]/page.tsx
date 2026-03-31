@@ -47,7 +47,7 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
   ]
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
       <Breadcrumbs items={breadcrumbs} />
       <SchemaOrg data={generateTaxiServiceSchema({ name: `${regionTitle} Transfers`, description: `Private transfers in ${regionTitle}`, url: `/region/${slug}/`, areaServed: regionTitle, rating: 4.8 })} />
 

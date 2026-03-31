@@ -71,7 +71,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
   ]
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="site-container px-4 py-8 sm:px-6 lg:px-8">
       <Breadcrumbs items={[{ label: 'Blog', href: '/blog/' }, { label: postTitle }]} />
       <SchemaOrg data={generateBlogPostingSchema({ title: postTitle, description: post.excerpt || postTitle, url: `/blog/${slug}/`, image: post.featuredImage?.asset?.url, publishDate: post.publishDate })} />
 

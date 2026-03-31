@@ -16,11 +16,20 @@ import { LatestNews } from '@/components/sections/LatestNews'
 import { PortableText } from '@portabletext/react'
 import type { Locale } from '@/lib/i18n/config'
 
+const MULTI_AIRPORT_CITIES = new Set(['Beijing', 'Chicago', 'Dubai', 'Houston', 'Istanbul', 'London', 'Milan', 'New York', 'Panama City', 'Paris', 'Rome', 'Shanghai', 'Washington D.C.'])
+
 export async function generateStaticParams() {
   const airports = await sanityClient.fetch(allAirportsQuery)
   const params: { slug: string }[] = []
   for (const a of airports) {
     params.push({ slug: a.slug.current })
+    // For single-airport cities, also register the SEO slug: {city-slug}-airport-transfers
+    const citySlug = a.city?.slug?.current
+    const cityTitle = a.city?.title || ''
+    if (citySlug && !MULTI_AIRPORT_CITIES.has(cityTitle)) {
+      const seoSlug = `${citySlug}-airport-transfers`
+      if (seoSlug !== a.slug.current) params.push({ slug: seoSlug })
+    }
     const esSlug = a.translations?.es?.slug?.current
     if (esSlug && esSlug !== a.slug.current) {
       params.push({ slug: esSlug })
@@ -33,7 +42,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale, slug } = await params
   const airport = await sanityClient.fetch(airportBySlugQuery, { slug })
   if (!airport) return {}
-  const { title, description } = generateAirportMetadata(airport, locale as Locale)
+  const MULTI = new Set(['Beijing', 'Chicago', 'Dubai', 'Houston', 'Istanbul', 'London', 'Milan', 'New York', 'Panama City', 'Paris', 'Rome', 'Shanghai', 'Washington D.C.'])
+  const cityTitle = airport.city?.title || ''
+  const airportTitleMeta = (locale !== 'en' && airport.translations?.[locale]?.title) || airport.title
+  const cityTitleMeta = (locale !== 'en' && airport.city?.translations?.[locale]?.title) || cityTitle
+  const isMulti = MULTI.has(cityTitle)
+  const seoKeyword = isMulti ? `${airportTitleMeta} transfers` : `${cityTitleMeta} airport transfers`
+  const { description } = generateAirportMetadata(airport, locale as Locale)
+  const title = airport.seoTitle || `${seoKeyword} | Private Transfers | Titan Transfers`
   return generatePageMetadata({
     title,
     description,
@@ -107,6 +123,12 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
   const description = (locale !== 'en' && airport.translations?.[locale]?.description) || airport.description
   const cityName = (locale !== 'en' && airport.city?.translations?.[locale]?.title) || airport.city?.title || ''
 
+  // Cities with multiple airports — keep specific airport name in H1
+  const MULTI_AIRPORT_CITIES = new Set(['Beijing', 'Chicago', 'Dubai', 'Houston', 'Istanbul', 'London', 'Milan', 'New York', 'Panama City', 'Paris', 'Rome', 'Shanghai', 'Washington D.C.'])
+  const isMultiAirport = MULTI_AIRPORT_CITIES.has(airport.city?.title || '')
+  // For single-airport cities use "City airport transfers" as H1 — higher search volume keyword
+  const h1 = airport.seoH1 || (isMultiAirport ? `${airportTitle} transfers` : `${cityName} airport transfers`)
+
   // Images
   const heroImg = urlFor(airport.featuredImage)?.width(1920).height(900).quality(90).url()
   const gallery = (airport.gallery || []).map((img: { asset?: { _ref?: string }; alt?: string; title?: string }) => ({
@@ -165,7 +187,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
         {/* Brand accent line at top */}
         <div className="absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-brand-500 via-brand-400 to-brand-500" />
 
-        <div className="relative mx-auto flex min-h-[600px] max-w-7xl flex-col justify-center px-4 pb-20 pt-16 sm:px-6 lg:min-h-[680px] lg:px-8">
+        <div className="relative flex min-h-[600px] flex-col justify-center pb-20 pt-16 site-container">
           <Breadcrumbs items={breadcrumbs} />
 
           <div className="mt-auto grid gap-12 lg:grid-cols-5">
@@ -180,7 +202,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
               </div>
 
               <h1 className="mb-6 text-4xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
-                {t('h1', { airport: airportTitle })}
+                {h1}
               </h1>
 
               <p className="mb-10 max-w-2xl text-lg leading-relaxed text-gray-300/90">
@@ -225,8 +247,8 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
           INTRO — Centered headline on subtle gray bg
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section className="border-b border-white/[0.06] bg-dark-light py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
+        <div className="site-container">
+          <div className="site-container text-center">
             <BrandLine />
             <h2 className="mb-5 text-3xl font-extrabold tracking-tight text-heading sm:text-4xl">
               {t('transferBestPrice', { airport: airportTitle })}
@@ -257,7 +279,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       {(description || gallery.length > 0) && (
         <section className="bg-dark py-24">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="site-container">
             {/* Gallery mosaic — full width, visually rich */}
             {gallery.length > 0 && (
               <div className="mb-16 grid gap-4 md:grid-cols-4 md:grid-rows-2">
@@ -277,7 +299,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
 
             {/* Description — clean single-column prose */}
             {description && (
-              <div className="prose prose-lg prose-invert mx-auto max-w-4xl text-body prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-heading prose-p:leading-relaxed prose-a:text-brand-400 prose-a:no-underline hover:prose-a:underline">
+              <div className="prose prose-lg prose-invert site-container text-body prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-heading prose-p:leading-relaxed prose-a:text-brand-400 prose-a:no-underline hover:prose-a:underline">
                 <PortableText value={description} />
               </div>
             )}
@@ -289,7 +311,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
           PRICES & RATES — Asymmetric layout with floating card
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section className="bg-dark-light py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="grid items-center gap-16 lg:grid-cols-2">
             <div>
               <BrandLine />
@@ -350,7 +372,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
           VEHICLES — Alternating horizontal cards
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section className="bg-dark py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="mx-auto mb-16 max-w-3xl text-center">
             <BrandLine />
             <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-heading sm:text-4xl">
@@ -413,7 +435,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
       <section className="relative overflow-hidden bg-dark py-24">
         {/* Subtle background pattern */}
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative w-full">
           <div className="mx-auto mb-16 max-w-3xl text-center">
             <div className="mx-auto mb-6 h-1 w-16 rounded-full bg-brand-500" />
             <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-heading sm:text-4xl">
@@ -445,7 +467,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
           TESTIMONIALS — Real testimonial cards
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section className="bg-gradient-to-br from-brand-500 via-brand-600 to-brand-700 py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="mx-auto mb-14 max-w-3xl text-center">
             <div className="mx-auto mb-6 h-1 w-16 rounded-full bg-white/30" />
             <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
@@ -502,10 +524,10 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
           ROUTES — Subtle gray background for visual rhythm
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section className="bg-dark-light py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="mx-auto mb-12 max-w-3xl text-center">
             <BrandLine />
-            <p className="text-sm font-semibold uppercase tracking-widest text-brand-500">{locale === 'es' ? 'Destinos populares' : 'Popular destinations'}</p>
+            <p className="text-sm font-semibold text-brand-500">{locale === 'es' ? 'Destinos populares' : 'Popular destinations'}</p>
           </div>
           <RoutesList
             routes={airport.routes || []}
@@ -520,10 +542,10 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
           FAQ — Clean white with generous spacing
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section className="bg-dark py-24">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="mx-auto mb-12 max-w-3xl text-center">
             <BrandLine />
-            <p className="text-sm font-semibold uppercase tracking-widest text-brand-500">{locale === 'es' ? 'Resolvemos tus dudas' : 'We answer your questions'}</p>
+            <p className="text-sm font-semibold text-brand-500">{locale === 'es' ? 'Resolvemos tus dudas' : 'We answer your questions'}</p>
           </div>
           <FAQ items={faqItems} title={t('faq', { city: cityName })} />
         </div>
@@ -543,7 +565,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
         )}
         <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/95 to-dark/80" />
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative w-full">
           <div className="flex flex-col items-center gap-10 text-center lg:flex-row lg:justify-between lg:text-left">
             <div>
               <div className="mx-auto mb-6 h-1 w-16 rounded-full bg-brand-500 lg:mx-0" />
@@ -564,10 +586,10 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
           NEARBY AIRPORTS — Gray bg for rhythm
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section className="bg-dark-light py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="mx-auto mb-12 max-w-3xl text-center">
             <BrandLine />
-            <p className="text-sm font-semibold uppercase tracking-widest text-brand-500">{locale === 'es' ? 'Más aeropuertos' : 'More airports'}</p>
+            <p className="text-sm font-semibold text-brand-500">{locale === 'es' ? 'Más aeropuertos' : 'More airports'}</p>
           </div>
           <NearbyAirports airports={airport.nearbyAirports || []} title={t('nearbyAirports')} />
         </div>
@@ -577,7 +599,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
           LATEST NEWS
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section className="bg-dark py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="mx-auto mb-12 max-w-3xl text-center">
             <BrandLine />
           </div>

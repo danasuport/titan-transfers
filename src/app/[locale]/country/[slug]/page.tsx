@@ -70,7 +70,7 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
         <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/60 to-dark/40" />
         <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
 
-        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-32 sm:px-6 lg:px-8">
+        <div className="relative w-full px-4 pb-16 pt-32 sm:px-6 lg:px-8">
           <Breadcrumbs items={[{ label: countryTitle }]} />
           <h1 className="mb-4 mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
             {t('transfers', { country: countryTitle })}
@@ -102,7 +102,7 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
       {/* Description */}
       {description && (
         <section className="bg-dark py-16">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <div className="site-container">
             <div className="prose prose-lg mx-auto max-w-none prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-heading prose-p:leading-relaxed prose-p:text-body">
               <PortableText value={description} />
             </div>
@@ -113,7 +113,7 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
       {/* Airports */}
       {country.airports?.length > 0 && (
         <section className="bg-dark-light py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="site-container">
             <div className="mb-8">
               <div className="mb-4 h-1 w-16 rounded-full bg-brand-500" />
               <h2 className="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl">
@@ -128,7 +128,7 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
       {/* Cities */}
       {country.cities?.length > 0 && (
         <section className="bg-surface-100 py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="site-container">
             <div className="mb-8">
               <div className="mb-4 h-1 w-16 rounded-full bg-brand-500" />
               <h2 className="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl">
@@ -143,7 +143,7 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
       {/* Regions */}
       {country.regions?.length > 0 && (
         <section className="bg-dark-light py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="site-container">
             <div className="mb-8">
               <div className="mb-4 h-1 w-16 rounded-full bg-brand-500" />
               <h2 className="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl">
@@ -160,7 +160,7 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
 
       {/* FAQ */}
       <section className="bg-dark py-16">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <FAQ items={faqItems} title={t('faq')} />
         </div>
       </section>
@@ -168,7 +168,7 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
       {/* CTA */}
       <section className="relative overflow-hidden bg-dark py-20">
         <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-        <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+        <div className="relative site-container px-4 text-center sm:px-6 lg:px-8">
           <h2 className="mb-6 text-3xl font-extrabold tracking-tight text-heading sm:text-4xl">
             {t('bookTransfer', { country: countryTitle })}
           </h2>
@@ -180,7 +180,7 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
 
       {/* Latest News */}
       <section className="bg-dark-light py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <LatestNews type="country" id={country._id} title={t('latestNews', { country: countryTitle })} limit={6} />
         </div>
       </section>

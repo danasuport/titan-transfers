@@ -38,35 +38,38 @@ export function HeroSection() {
   const t = useTranslations('home')
 
   return (
-    <section className="bg-white" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '500px' }}>
+    <section style={{ background: '#F8FAF0', display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '580px' }}>
 
       {/* Left: text */}
       <div
         className="flex flex-col justify-center py-16"
-        style={{
-          paddingLeft: 'max(1.5rem, calc((100vw - 80rem) / 2 + 2rem))',
-          paddingRight: '3rem',
-        }}
+        style={{ paddingLeft: '6vw', paddingRight: '4vw' }}
       >
         <h1
-          className={`${russoOne.className} mb-6 text-[3.6rem] leading-[1.05] text-gray-900 xl:text-[4.2rem]`}
+          className={`${russoOne.className} mb-6`}
+          style={{ fontSize: '5rem', lineHeight: 1.05, color: '#242426' }}
         >
           {t('heroTitle')}
         </h1>
 
-        <p className="mb-10 max-w-sm text-base leading-relaxed text-gray-500 sm:text-lg">
+        <p className="mb-10 leading-relaxed text-gray-500" style={{ fontSize: '24px' }}>
           {t('heroSubtitle')}
         </p>
 
         <div className="mb-10">
-          <div className="flex items-baseline gap-1.5 mb-4">
-            <span className={`${russoOne.className} text-[3.2rem] leading-none text-brand-500`}>4.8</span>
-            <span className="text-2xl text-gray-400">/5</span>
+          <div className="flex gap-3 mb-4">
+            {Array.from({ length: 4 }).map((_, i) => <StarFull key={i} size={64} />)}
+            <StarPartial size={64} />
           </div>
-          <div className="flex gap-3">
-            {Array.from({ length: 4 }).map((_, i) => <StarFull key={i} />)}
-            <StarPartial />
-          </div>
+          <p className="text-gray-600" style={{ fontSize: '24px' }}>
+            {t('heroRating')}{' '}
+            <span
+              className={`${russoOne.className} underline`}
+              style={{ color: '#8BAA1D', fontSize: '24px' }}
+            >
+              4.8
+            </span>
+          </p>
         </div>
 
         <div className="flex flex-wrap gap-3">

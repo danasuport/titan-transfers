@@ -42,7 +42,7 @@ export default async function CitiesPage({ params }: { params: Promise<{ locale:
         <div className="absolute -right-40 -top-40 h-[600px] w-[600px] rounded-full bg-brand-500/5 blur-3xl" />
         <div className="absolute -left-40 bottom-0 h-[400px] w-[400px] rounded-full bg-brand-500/3 blur-3xl" />
 
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative w-full">
           <Breadcrumbs items={[{ label: t('cities') }]} />
 
           <div className="mt-8 grid gap-12 lg:grid-cols-2 lg:items-end">
@@ -83,7 +83,7 @@ export default async function CitiesPage({ params }: { params: Promise<{ locale:
 
       {/* Listing */}
       <section className="bg-dark py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="space-y-20">
             {Object.entries(grouped).sort(([a], [b]) => a.localeCompare(b)).map(([country, countryCities]) => (
               <div key={country}>

@@ -8,7 +8,8 @@
   --font-sans: var(--font-archivo);
   --font-display: var(--font-russo);
   /* Override dark grays to brand dark */
-  --color-gray-900: #252527;
+  --color-gray-950: #1a1a1c;
+  --color-gray-900: #242426;
   --color-gray-800: #2e2e31;
   /* Brand green palette */
   --color-brand-50: #f4f8e8;
@@ -23,6 +24,9 @@
 }
 
 @theme {
+  --color-gray-900: #242426;
+  --color-gray-800: #2e2e31;
+  --color-gray-950: #1a1a1c;
   --color-dark: #ffffff;
   --color-dark-light: #f8fafc;
   --color-dark-card: #ffffff;
@@ -56,7 +60,13 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-russo), system-ui, sans-serif;
   font-weight: 400;
-  color: #252527;
+  color: #242426;
+}
+
+/* Forzar color oscuro correcto en toda la web */
+[class~="text-gray-900"],
+[class~="text-gray-800"] {
+  color: #242426;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -93,6 +103,13 @@ footer .text-gray-500 { color: #6b7280 !important; }
   color: #0f172a;
 }
 
+/* ── Site-wide container ── */
+.site-container {
+  padding-left: 6vw;
+  padding-right: 6vw;
+  width: 100%;
+}
+
 /* ── Russo One utility ── */
 .font-russo {
   font-family: var(--font-russo), system-ui, sans-serif !important;
@@ -111,6 +128,63 @@ footer .text-gray-500 { color: #6b7280 !important; }
 .prose a:hover { color: #749118; }
 .prose strong { @apply font-semibold; color: var(--color-heading); }
 .prose blockquote { @apply border-l-4 border-brand-500/30 pl-4 italic; color: var(--color-muted); }
+
+/* ── Skewed buttons hover ── */
+.skew-btn-primary { transition: background 0.2s; }
+.skew-btn-primary:hover { background: #242426 !important; }
+.skew-btn-outline { transition: background 0.2s, color 0.2s; }
+.skew-btn-outline:hover { background: #242426 !important; color: #ffffff !important; border-color: #242426 !important; }
+.skew-btn-outline-white { transition: background 0.2s, color 0.2s; }
+.skew-btn-outline-white:hover { background: #ffffff !important; color: #242426 !important; }
+
+/* ── Skewed buttons ── */
+.btn-primary {
+  display: inline-block;
+  background: #8BAA1D;
+  color: #ffffff;
+  padding: 0.75rem 1.75rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transform: skewX(-12deg);
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-primary span { display: inline-block; transform: skewX(12deg); }
+.btn-primary:hover { background: #242426; transform: skewX(-12deg) scale(1.03); }
+
+.btn-outline {
+  display: inline-block;
+  background: transparent;
+  color: #242426;
+  padding: 0.75rem 1.75rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: 2px solid #242426;
+  cursor: pointer;
+  transform: skewX(-12deg);
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.btn-outline span { display: inline-block; transform: skewX(12deg); }
+.btn-outline:hover { background: #242426; color: #ffffff; transform: skewX(-12deg) scale(1.03); }
+
+.btn-outline-white {
+  display: inline-block;
+  background: transparent;
+  color: #ffffff;
+  padding: 0.75rem 1.75rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  transform: skewX(-12deg);
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.btn-outline-white span { display: inline-block; transform: skewX(12deg); }
+.btn-outline-white:hover { background: #ffffff; color: #242426; transform: skewX(-12deg) scale(1.03); }
 
 /* ── Marquee ── */
 @keyframes marquee {

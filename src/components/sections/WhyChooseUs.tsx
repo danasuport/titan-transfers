@@ -1,12 +1,12 @@
 'use client'
 
 import Image from 'next/image'
-import { Link } from '@/lib/i18n/navigation'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
+import { russoOne } from '@/lib/fonts'
 
 function IconCheck() {
   return (
-    <svg className="h-4 w-4 flex-shrink-0 text-brand-500" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+    <svg className="h-4 w-4 flex-shrink-0" style={{ color: '#8BAA1D' }} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
     </svg>
   )
@@ -15,6 +15,7 @@ function IconCheck() {
 export function WhyChooseUs() {
   const t = useTranslations('home')
   const tTrust = useTranslations('trust')
+  const locale = useLocale()
 
   const features = [
     tTrust('fixedPrice'),
@@ -23,65 +24,93 @@ export function WhyChooseUs() {
   ]
 
   const stats = [
-    { value: '120+', label: tTrust('airports') },
-    { value: '30+', label: tTrust('countries') },
-    { value: '24/7', label: tTrust('support') },
+    { value: '+120', label: tTrust('airports'), icon: '/icon-airplane.svg' },
+    { value: '+30', label: tTrust('countries'), icon: '/icon-map.svg' },
+    { value: '24/7', label: locale === 'es' ? 'Soporte' : 'Support', icon: '/icon-countries.svg' },
   ]
 
   return (
-    <section className="bg-white py-16 lg:py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+    <section className="bg-white py-16 lg:py-24">
+      <div className="site-container">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
 
           {/* ── Left: Text ── */}
           <div>
-            <h2 className="mb-4 text-3xl leading-tight text-gray-900 sm:text-4xl" style={{ fontFamily: 'var(--font-russo)' }}>
+            <h2
+              className={russoOne.className}
+              style={{ fontSize: '2.75rem', lineHeight: 1.1, color: '#242426', marginBottom: '1.25rem' }}
+            >
               {t('whyChooseTitle')}
             </h2>
 
-            <p className="mb-8 max-w-md text-base leading-relaxed text-gray-500">
+            <p style={{ fontSize: '24px', lineHeight: 1.6, color: '#475569', marginBottom: '2rem', maxWidth: '600px' }}>
               {t('whyChooseSubtitle')}
             </p>
 
             {/* Feature list */}
-            <ul className="mb-8 flex flex-wrap gap-x-8 gap-y-3">
+            <ul style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem 2.5rem', marginBottom: '2rem' }}>
               {features.map((f) => (
-                <li key={f} className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                <li key={f} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', fontWeight: 600, color: '#374151' }}>
                   <IconCheck />
                   {f}
                 </li>
               ))}
             </ul>
 
-            {/* CTA */}
-            <Link
-              href="/services/"
-              className="inline-block rounded-lg bg-brand-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-600"
-            >
-              {t('viewAllServices')}
-            </Link>
-
             {/* Stats */}
-            <div className="mt-10 flex flex-wrap gap-8">
+            <div style={{ marginTop: '2rem', display: 'flex', flexWrap: 'wrap', gap: '3rem' }}>
               {stats.map((s) => (
-                <div key={s.label}>
-                  <div className="text-3xl font-extrabold text-brand-500">{s.value}</div>
-                  <div className="mt-0.5 text-sm text-gray-500">{s.label}</div>
+                <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: '0.875rem' }}>
+                  <Image src={s.icon} alt="" width={64} height={64} style={{ flexShrink: 0 }} />
+                  <div>
+                    <div className={russoOne.className} style={{ fontSize: '2.5rem', color: '#8BAA1D', lineHeight: 1 }}>
+                      {s.value}
+                    </div>
+                    <div style={{ marginTop: '0.25rem', fontSize: '1rem', color: '#6b7280' }}>
+                      {s.label}
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* ── Right: Image ── */}
-          <div className="relative h-72 overflow-hidden rounded-2xl sm:h-80 lg:h-[420px] lg:rounded-3xl">
-            <Image
-              src="/vehicles/executive.jpg"
-              alt="Passenger in luxury transfer"
-              fill
-              className="object-cover object-center"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
+          {/* ── Right: Image with 3-strip diagonal mask ── */}
+          {/*
+            Each strip is a parallelogram: left edge is diagonal (top-left pushed right).
+            All 3 divs are positioned absolutely and sized to cover the full container,
+            then clipped to show only their respective vertical slice.
+            clip-path coords: top-left%, top-right%, bottom-right%, bottom-left%
+            Diagonal offset: ~6% of width shifts the top-left inward
+          */}
+          <div style={{ position: 'relative', height: '480px', width: '100%' }}>
+
+            {/* Strip 1 — very narrow, diagonal inverted (leans left going down) */}
+            <div style={{
+              position: 'absolute', inset: 0,
+              clipPath: 'polygon(5% 0%, 12% 0%, 7% 100%, 0% 100%)',
+            }}>
+              <Image src="/woman-car.jpg" alt="" fill className="object-cover" sizes="50vw" style={{ objectPosition: 'center center' }} />
+            </div>
+
+            {/* Strip 2 — narrow */}
+            <div style={{
+              position: 'absolute', inset: 0,
+              clipPath: 'polygon(20% 0%, 27% 0%, 22% 100%, 15% 100%)',
+            }}>
+              <Image src="/woman-car.jpg" alt="" fill className="object-cover" sizes="50vw" style={{ objectPosition: 'center center' }} />
+            </div>
+
+            {/* Strip 3 — main wide slice on the right */}
+            <div style={{
+              position: 'absolute', inset: 0,
+              clipPath: 'polygon(35% 0%, 100% 0%, 100% 100%, 30% 100%)',
+            }}>
+              <Image src="/woman-car.jpg" alt="Woman in luxury transfer" fill className="object-cover" sizes="50vw" style={{ objectPosition: 'center center' }} />
+            </div>
+
           </div>
+
         </div>
       </div>
     </section>

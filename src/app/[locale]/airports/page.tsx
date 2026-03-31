@@ -42,7 +42,7 @@ export default async function AirportsPage({ params }: { params: Promise<{ local
         <div className="absolute -left-40 -top-40 h-[600px] w-[600px] rounded-full bg-brand-500/5 blur-3xl" />
         <div className="absolute -right-40 bottom-0 h-[400px] w-[400px] rounded-full bg-brand-500/3 blur-3xl" />
 
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative w-full">
           <Breadcrumbs items={[{ label: t('airports') }]} />
 
           <div className="mt-8 grid gap-12 lg:grid-cols-2 lg:items-end">
@@ -83,7 +83,7 @@ export default async function AirportsPage({ params }: { params: Promise<{ local
 
       {/* Listing */}
       <section className="bg-dark py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="space-y-20">
             {Object.entries(grouped).sort(([a], [b]) => a.localeCompare(b)).map(([country, countryAirports]) => (
               <div key={country}>
@@ -168,7 +168,7 @@ export default async function AirportsPage({ params }: { params: Promise<{ local
 
       {/* Cross-links */}
       <section className="bg-dark-light py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="grid gap-4 sm:grid-cols-3">
             <Link href="/cities/" className="group rounded-2xl bg-glass-bg p-6 text-center ring-1 ring-glass-ring transition-all hover:ring-brand-500/40">
               <div className="mb-2 text-2xl font-extrabold text-brand-400">145+</div>

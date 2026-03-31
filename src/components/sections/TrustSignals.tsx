@@ -50,7 +50,7 @@ export function TrustSignals({ compact = false }: { compact?: boolean }) {
 
   return (
     <section className="bg-dark-light py-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div style={{ paddingLeft: '6vw', paddingRight: '6vw' }}>
         <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-6">
           {signals.map((s) => (
             <div key={s.key} className="group text-center">

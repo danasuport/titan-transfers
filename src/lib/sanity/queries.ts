@@ -20,7 +20,11 @@ export const allAirportsQuery = groq`*[_type == "airport"] | order(title asc) {
   translations
 }`
 
-export const airportBySlugQuery = groq`*[_type == "airport" && (slug.current == $slug || translations.es.slug.current == $slug)][0] {
+export const airportBySlugQuery = groq`*[_type == "airport" && (
+  slug.current == $slug ||
+  translations.es.slug.current == $slug ||
+  city->slug.current + "-airport-transfers" == $slug
+)][0] {
   _id, title, slug, iataCode,
   country->{ _id, title, slug, translations },
   city->{ _id, title, slug, translations },

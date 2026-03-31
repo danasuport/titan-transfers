@@ -1,96 +1,203 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { motion } from 'framer-motion'
+import { russoOne } from '@/lib/fonts'
+import { SkewButton } from '@/components/ui/SkewButton'
 
-function IconUsers({ className = 'h-5 w-5' }: { className?: string }) {
-  return <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg>
+const DURATION = 5000
+const PER_PAGE = 4
+
+function IconPerson() {
+  return (
+    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0" />
+    </svg>
+  )
 }
-function IconCheck({ className = 'h-4 w-4' }: { className?: string }) {
-  return <svg className={className} fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+function IconBag() {
+  return (
+    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0" />
+    </svg>
+  )
+}
+
+function IconCheck() {
+  return (
+    <svg style={{ flexShrink: 0 }} width="16" height="16" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#8BAA1D">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+    </svg>
+  )
 }
 
 const vehicles = [
-  { key: 'economy', pax: '1-3', img: '/vehicles/sedan.jpg' },
-  { key: 'standard', pax: '1-4', img: '/vehicles/mpv.jpg' },
-  { key: 'firstClass', pax: '1-3', img: '/vehicles/executive.jpg' },
-  { key: 'minibus', pax: '5-16', img: '/vehicles/minibus.jpg' },
+  { key: 'economy',       pax: 3, bags: 3, img: '/vehicles/economy.jpg',         icon: '/vehicles/icon-economy.png' },
+  { key: 'standard',      pax: 3, bags: 3, img: '/vehicles/standard.jpg',        icon: '/vehicles/icon-standard.png' },
+  { key: 'firstClass',    pax: 3, bags: 2, img: '/vehicles/first-class.jpg',     icon: '/vehicles/icon-first-class.png' },
+  { key: 'suv',           pax: 6, bags: 6, img: '/vehicles/suv.jpg',             icon: '/vehicles/icon-suv.png' },
+  { key: 'vanStandard',   pax: 7, bags: 7, img: '/vehicles/van-standard.jpg',    icon: '/vehicles/icon-van-standard.png' },
+  { key: 'vanFirstClass', pax: 6, bags: 6, img: '/vehicles/van-first-class.jpg', icon: '/vehicles/icon-van-first-class.png' },
 ] as const
 
 export function FleetShowcase() {
   const t = useTranslations('fleet')
   const tTrust = useTranslations('trust')
 
+  const pages = Math.ceil(vehicles.length / PER_PAGE)
+  const [page, setPage] = useState(0)
+  const [animKey, setAnimKey] = useState(0)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setPage(p => (p === pages - 1 ? 0 : p + 1))
+      setAnimKey(k => k + 1)
+    }, DURATION)
+    return () => clearTimeout(timer)
+  }, [page, animKey, pages])
+
+  function goTo(i: number) {
+    setPage(i)
+    setAnimKey(k => k + 1)
+  }
+
+  const visible = vehicles.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
+  const showCta = visible.length < PER_PAGE
+
   return (
-    <section className="relative overflow-hidden bg-dark-light py-28">
-      <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '48px 48px' }} />
+    <section className="bg-white py-16 lg:py-24">
+      <div className="site-container">
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mx-auto mb-16 max-w-3xl text-center"
-        >
-          <div className="mx-auto mb-4 inline-flex items-center gap-2 rounded-full bg-brand-500/10 px-4 py-1.5 text-sm font-medium text-brand-400 ring-1 ring-brand-500/20">
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 00-.879-2.121l-1.431-1.431A2.999 2.999 0 0017.466 9.5H15.75m-6 0V6.375m0 0a2.625 2.625 0 115.25 0M9.75 6.375v3.125" />
-            </svg>
-            {t('subtitle')}
-          </div>
-          <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-heading sm:text-4xl lg:text-5xl">
-            {t('title')}
-          </h2>
-          <p className="text-lg text-body">{t('subtitle')}</p>
-        </motion.div>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {vehicles.map((v, i) => (
-            <motion.div
-              key={v.key}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group overflow-hidden rounded-2xl bg-glass-bg ring-1 ring-glass-ring transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-brand-500/30"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src={v.img}
-                  alt={t(v.key)}
-                  fill
-                  loading="lazy"
-                  quality={75}
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark-card/90 via-transparent to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-500/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
-                {/* Pax badge — on image, keep white */}
-                <div className="absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-dark/80 px-3 py-1.5 text-xs font-bold text-white shadow-lg backdrop-blur-sm ring-1 ring-white/[0.06]">
-                  <IconUsers className="h-3.5 w-3.5 text-brand-500" />
-                  {v.pax}
-                </div>
-              </div>
-              {/* Card body — not on image, use theme-aware colors */}
-              <div className="p-5">
-                <h3 className="mb-2 text-lg font-bold text-heading transition-colors duration-300 group-hover:text-brand-400">{t(v.key)}</h3>
-                <p className="mb-4 text-sm leading-relaxed text-body">{t(`${v.key}Desc`)}</p>
-                <div className="flex flex-wrap gap-x-3 gap-y-1.5">
-                  {[tTrust('fixedPrice'), tTrust('freeCancel')].map((feat) => (
-                    <span key={feat} className="inline-flex items-center gap-1.5 text-xs text-muted">
-                      <IconCheck className="h-3.5 w-3.5 text-brand-500" />
-                      {feat}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
+        {/* Preload all images silently so carousel never flickers */}
+        <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+          {vehicles.map(v => (
+            <Image key={v.key} src={v.img} alt="" fill sizes="1px" priority />
           ))}
         </div>
+
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <h2 className={russoOne.className} style={{ fontSize: '3rem', color: '#242426', marginBottom: '0.75rem' }}>
+            {t('title')}
+          </h2>
+          <p style={{ fontSize: '1rem', color: '#475569', marginBottom: '1.5rem' }}>
+            {t('subtitle')}
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            {[tTrust('fixedPrice'), tTrust('freeCancel')].map((feat) => (
+              <div key={feat} style={{
+                display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+                border: '1.5px solid #8BAA1D', padding: '0.4rem 1rem',
+                fontSize: '0.875rem', fontWeight: 500, color: '#242426',
+              }}>
+                <IconCheck />
+                {feat}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.25rem', marginTop: '2.5rem' }}>
+          {visible.map((v) => (
+            <div key={v.key} style={{ border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+              <div style={{ position: 'relative', aspectRatio: '16/10', overflow: 'hidden' }}>
+                <Image src={v.img} alt={t(v.key as any)} fill quality={80} className="object-cover" sizes="25vw" />
+                <div style={{
+                  position: 'absolute', bottom: '0.6rem', left: '0.6rem',
+                  display: 'flex', gap: '0.5rem',
+                }}>
+                  <span style={{
+                    display: 'flex', alignItems: 'center', gap: '0.25rem',
+                    background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)',
+                    color: '#ffffff', fontSize: '0.75rem', fontWeight: 600,
+                    padding: '0.2rem 0.5rem', borderRadius: '3px',
+                  }}>
+                    <IconPerson />{v.pax}
+                  </span>
+                  <span style={{
+                    display: 'flex', alignItems: 'center', gap: '0.25rem',
+                    background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)',
+                    color: '#ffffff', fontSize: '0.75rem', fontWeight: 600,
+                    padding: '0.2rem 0.5rem', borderRadius: '3px',
+                  }}>
+                    <IconBag />{v.bags}
+                  </span>
+                </div>
+              </div>
+              <div style={{ padding: '1rem 1.25rem 1.25rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                  <Image src={v.icon} alt="" width={64} height={38} style={{ objectFit: 'contain', flexShrink: 0 }} />
+                  <h3 style={{ fontSize: '1rem', fontWeight: 400, color: '#242426' }}>{t(v.key as any)}</h3>
+                </div>
+                <p style={{ fontSize: '0.875rem', color: '#475569', lineHeight: 1.6 }}>
+                  {t(`${v.key}Desc` as any)}
+                </p>
+              </div>
+            </div>
+          ))}
+
+          {/* CTA card */}
+          {showCta && (
+            <div style={{ position: 'relative', overflow: 'hidden', minHeight: '260px' }}>
+              {/* Background photo */}
+              <Image
+                src="/how-it-works.jpg"
+                alt=""
+                fill
+                className="object-cover"
+                sizes="25vw"
+              />
+              {/* Green overlay */}
+              <div style={{ position: 'absolute', inset: 0, background: 'rgba(139,170,29,0.88)' }} />
+              {/* Content */}
+              <div style={{ position: 'relative', zIndex: 1, padding: '2rem', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <h3 className={russoOne.className} style={{ fontSize: '1.4rem', color: '#ffffff', marginBottom: '0.75rem', lineHeight: 1.2 }}>
+                  {tTrust('bookTransfer')}
+                </h3>
+                <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.9)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+                  {tTrust('fixedPriceDesc')}
+                </p>
+                <SkewButton href="/#booking" variant="outline-white" style={{ alignSelf: 'flex-start', fontSize: '0.875rem', padding: '0.6rem 1.5rem' }}>{tTrust('bookNow')}</SkewButton>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Dots */}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '6px', marginTop: '1.25rem', alignItems: 'flex-end' }}>
+          <style>{`
+            @keyframes fillDotFleet {
+              from { transform: scaleX(0) }
+              to   { transform: scaleX(1) }
+            }
+          `}</style>
+          {Array.from({ length: pages }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              aria-label={`Página ${i + 1}`}
+              style={{
+                position: 'relative', width: '28px',
+                height: i === page ? '36px' : '28px',
+                padding: 0, border: 'none',
+                background: i < page ? '#8BAA1D' : '#242426',
+                cursor: 'pointer', transform: 'skewX(-12deg)',
+                transition: 'height 0.3s', overflow: 'hidden',
+              }}
+            >
+              {i === page && (
+                <span key={animKey} style={{
+                  position: 'absolute', inset: 0, background: '#8BAA1D',
+                  transformOrigin: 'left center',
+                  animation: `fillDotFleet ${DURATION}ms linear forwards`,
+                }} />
+              )}
+            </button>
+          ))}
+        </div>
+
       </div>
     </section>
   )

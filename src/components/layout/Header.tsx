@@ -5,9 +5,11 @@ import Image from 'next/image'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link } from '@/lib/i18n/navigation'
 import { LanguageSwitcher } from './LanguageSwitcher'
+import { SkewButton } from '@/components/ui/SkewButton'
 
 export function Header() {
   const t = useTranslations('nav')
+  const locale = useLocale()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navItems = [
@@ -17,17 +19,17 @@ export function Header() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+    <header className="sticky top-0 z-50 bg-white">
+      <div style={{ paddingLeft: '6vw', paddingRight: '6vw', paddingTop: '1rem', paddingBottom: '1rem' }}>
+        <div className="flex h-20 items-center justify-between">
 
           {/* Logo */}
           <Link href="/" className="flex items-center flex-shrink-0">
             <Image
               src="/Logo-titan-transfers-texto-negro.png"
               alt="Titan Transfers"
-              width={180}
-              height={40}
+              width={220}
+              height={50}
               priority
             />
           </Link>
@@ -38,7 +40,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-brand-600"
+                className="flex items-center gap-1 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-colors hover:text-brand-600"
               >
                 {item.label}
                 {item.hasDropdown && (
@@ -53,12 +55,7 @@ export function Header() {
           {/* Right side */}
           <div className="flex items-center gap-3">
             <LanguageSwitcher />
-            <Link
-              href="/contact/"
-              className="hidden rounded-lg bg-brand-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-600 sm:block"
-            >
-              {t('contact')}
-            </Link>
+            <SkewButton href={`/${locale}/contact/`} variant="primary" className="hidden sm:inline-block" style={{ padding: '0.5rem 1.25rem', fontSize: '0.875rem' }}>{t('contact')}</SkewButton>
 
             {/* Mobile menu button */}
             <button

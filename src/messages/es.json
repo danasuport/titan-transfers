@@ -53,6 +53,7 @@
   },
   "home": {
     "heroTitle": "Transfers privados en todo el mundo",
+    "heroRating": "Nuestra valoración es de",
     "heroSubtitle": "Traslados puerta a puerta desde aeropuertos en más de 100 destinos. Precios fijos, recogida personalizada, soporte 24/7.",
     "bookYourTransfer": "Reserva Tu Transfer",
     "popularDestinations": "Destinos Populares",
@@ -101,7 +102,13 @@
     "firstClass": "Primera Clase",
     "firstClassDesc": "Vehículos Mercedes-Benz premium para ejecutivos y viajeros VIP.",
     "minibus": "Minibús",
-    "minibusDesc": "Ideal para grandes grupos, eventos y convenciones. Hasta 16 pasajeros."
+    "minibusDesc": "Ideal para grandes grupos, eventos y convenciones. Hasta 16 pasajeros.",
+    "suv": "SUV",
+    "suvDesc": "Vehículo amplio y versátil, ideal para familias y viajes con mayor comodidad.",
+    "vanStandard": "Van estándar",
+    "vanStandardDesc": "Vehículo espacioso para familias con niños o grupos reducidos. Amplio espacio para equipaje.",
+    "vanFirstClass": "Van primera clase",
+    "vanFirstClassDesc": "Ideal para grandes grupos, eventos y convenciones. Hasta 8 pasajeros."
   },
   "trust": {
     "rating": "4.8/5 Valoración",
@@ -117,7 +124,9 @@
     "freeCancel": "Cancelación Gratuita",
     "freeCancelDesc": "Hasta 24h antes",
     "airports": "Aeropuertos",
-    "countries": "Países"
+    "countries": "Países",
+    "bookTransfer": "Reserva tu transfer",
+    "bookNow": "Reservar ahora"
   },
   "airport": {
     "h1": "Traslados {airport}: Transfers privados",
@@ -288,14 +297,14 @@
   },
   "footer": {
     "description": "Titan Transfers ofrece servicios premium de transfer privado en todo el mundo. Traslados de aeropuerto, puerto y ciudad a ciudad con precios fijos y soporte 24/7.",
-    "quickLinks": "Enlaces Rápidos",
-    "services": "Nuestros Servicios",
+    "quickLinks": "Enlaces rápidos",
+    "services": "Nuestros servicios",
     "support": "Soporte",
     "followUs": "Síguenos",
     "copyright": "Titan Transfers. Todos los derechos reservados.",
-    "privacy": "Política de Privacidad",
-    "terms": "Términos y Condiciones",
-    "cookies": "Política de Cookies"
+    "privacy": "Política de privacidad",
+    "terms": "Términos y condiciones",
+    "cookies": "Política de cookies"
   },
   "booking": {
     "pickup": "Recogida",

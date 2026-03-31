@@ -15,7 +15,19 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    return []
+    const airportRedirects = [
+      ['barcelona-el-prat-airport', 'barcelona-airport-transfers'],
+      ['girona-costa-brava-airport', 'girona-airport-transfers'],
+      ['reus-airport', 'reus-airport-transfers'],
+      ['prague-airport-prg-airport-transfers', 'prague-airport-transfers'],
+      ['dallas-fort-worth-airport-transfers', 'dallas-airport-transfers'],
+      ['los-angeles-lax-airport-transfers', 'los-angeles-airport-transfers'],
+      ['marrakesh-airport-transfers', 'marrakech-airport-transfers'],
+    ].flatMap(([from, to]) => [
+      { source: `/airport/${from}/`, destination: `/airport/${to}/`, permanent: true },
+      { source: `/es/aeropuerto/${from}/`, destination: `/es/aeropuerto/${to}/`, permanent: true },
+    ])
+    return airportRedirects
   },
   async headers() {
     return [

@@ -54,7 +54,7 @@ export function TrustNumbers({ compact = false }: { compact?: boolean }) {
   if (compact) {
     return (
       <div className="border-y border-dark-border bg-dark/80 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-10 gap-y-3 px-4 py-4">
+        <div className="site-container flex flex-wrap items-center justify-center gap-x-10 gap-y-3 py-4">
           {stats.map((s) => (
             <div key={s.key} className="flex items-center gap-2.5">
               <s.icon className="h-4 w-4 text-brand-400" />
@@ -72,7 +72,7 @@ export function TrustNumbers({ compact = false }: { compact?: boolean }) {
       <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
       <div className="absolute left-1/2 top-0 h-[1px] w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-brand-500/50 to-transparent" />
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative w-full">
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
           {stats.map((s, i) => (
             <motion.div

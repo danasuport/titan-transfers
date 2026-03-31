@@ -97,7 +97,7 @@ export function SearchBar() {
             <div className="max-h-80 overflow-y-auto p-2">
               {results!.airports.length > 0 && (
                 <div>
-                  <p className="px-3 py-1 text-xs font-semibold uppercase text-muted">{nav('airports')}</p>
+                  <p className="px-3 py-1 text-xs font-semibold text-muted">{nav('airports')}</p>
                   {results!.airports.map((item) => (
                     <button
                       key={item._id}
@@ -112,7 +112,7 @@ export function SearchBar() {
               )}
               {results!.cities.length > 0 && (
                 <div>
-                  <p className="px-3 py-1 text-xs font-semibold uppercase text-muted">{nav('cities')}</p>
+                  <p className="px-3 py-1 text-xs font-semibold text-muted">{nav('cities')}</p>
                   {results!.cities.map((item) => (
                     <button
                       key={item._id}
@@ -127,7 +127,7 @@ export function SearchBar() {
               )}
               {results!.countries.length > 0 && (
                 <div>
-                  <p className="px-3 py-1 text-xs font-semibold uppercase text-muted">{nav('countries')}</p>
+                  <p className="px-3 py-1 text-xs font-semibold text-muted">{nav('countries')}</p>
                   {results!.countries.map((item) => (
                     <button
                       key={item._id}
@@ -141,7 +141,7 @@ export function SearchBar() {
               )}
               {results!.regions.length > 0 && (
                 <div>
-                  <p className="px-3 py-1 text-xs font-semibold uppercase text-muted">{nav('regions')}</p>
+                  <p className="px-3 py-1 text-xs font-semibold text-muted">{nav('regions')}</p>
                   {results!.regions.map((item) => (
                     <button
                       key={item._id}

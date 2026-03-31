@@ -99,7 +99,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e13] via-[#0a0e13]/80 to-[#0a0e13]/60" />
         <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
 
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative w-full">
           <Breadcrumbs items={[{ label: t('services'), href: '/services/' }, { label: serviceTitle }]} />
 
           <div className="mt-8 max-w-3xl">
@@ -132,7 +132,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
       {/* Description */}
       {description && (
         <section className="bg-dark-light py-20">
-          <div className="prose prose-headings:text-heading prose-p:text-body mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <div className="prose prose-headings:text-heading prose-p:text-body site-container">
             <PortableText value={description} />
           </div>
         </section>
@@ -140,7 +140,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
 
       {/* Benefits */}
       <section className="bg-dark py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="mx-auto mb-14 max-w-3xl text-center">
             <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-heading sm:text-4xl">
               {locale === 'es' ? `¿Por qué elegir nuestro servicio de ${serviceTitle.toLowerCase()}?` : `Why choose our ${serviceTitle.toLowerCase()} service?`}
@@ -165,7 +165,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
 
       {/* Internal links */}
       <section className="bg-dark-light py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <h2 className="mb-8 text-2xl font-extrabold tracking-tight text-heading">
             {locale === 'es' ? 'Explora más' : 'Explore more'}
           </h2>

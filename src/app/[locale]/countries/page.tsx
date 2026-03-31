@@ -29,7 +29,7 @@ export default async function CountriesPage({ params }: { params: Promise<{ loca
       <section className="relative overflow-hidden bg-dark pb-16 pt-32">
         <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
         <div className="absolute -left-20 -top-20 h-[400px] w-[400px] rounded-full bg-brand-500/5 blur-3xl" />
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative w-full">
           <Breadcrumbs items={[{ label: t('countries') }]} />
           <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
             {t('countries')}
@@ -44,7 +44,7 @@ export default async function CountriesPage({ params }: { params: Promise<{ loca
 
       {/* Listing */}
       <section className="bg-dark py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {countries.map((country: any) => {
               const imgUrl = urlFor(country.featuredImage)?.width(800).height(500).quality(85).url()

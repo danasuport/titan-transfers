@@ -76,7 +76,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
         <div className="absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-brand-500/5 blur-3xl" />
 
-        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-32 sm:px-6 lg:px-8">
+        <div className="relative w-full px-4 pb-16 pt-32 sm:px-6 lg:px-8">
           <Breadcrumbs items={breadcrumbs} />
 
           {/* Route badges */}
@@ -123,7 +123,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
       {/* Description */}
       {description && (
         <section className="bg-dark py-16">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <div className="site-container">
             <div className="prose prose-lg mx-auto max-w-none prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-heading prose-p:leading-relaxed prose-p:text-body">
               <PortableText value={description} />
             </div>
@@ -133,7 +133,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
 
       {/* Why Book — 6 cards with SVG icons */}
       <section className="bg-dark-light py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="mb-10">
             <div className="mb-4 h-1 w-16 rounded-full bg-brand-500" />
             <h2 className="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl">
@@ -158,14 +158,14 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
 
       {/* FAQ */}
       <section className="bg-dark py-16">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <FAQ items={faqItems} title={t('faq')} />
         </div>
       </section>
 
       {/* Internal Links */}
       <section className="bg-dark py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {route.destination?.slug?.current && (
               <Link
@@ -218,7 +218,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
       {/* CTA */}
       <section className="relative overflow-hidden bg-dark-light py-20">
         <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-        <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+        <div className="relative site-container px-4 text-center sm:px-6 lg:px-8">
           <h2 className="mb-6 text-3xl font-extrabold tracking-tight text-heading sm:text-4xl">
             {t('bookTransfer', { destination: destTitle })}
           </h2>
@@ -231,7 +231,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
       {/* Latest News */}
       {route.destination && (
         <section className="bg-dark-light py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="site-container">
             <LatestNews type="city" id={route.destination._id} title={t('news', { destination: destTitle })} limit={3} />
           </div>
         </section>

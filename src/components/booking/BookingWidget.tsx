@@ -30,7 +30,7 @@ export function BookingWidget({
   })
 
   return (
-    <div id="booking" className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+    <div id="booking" className="border overflow-hidden" style={{ borderColor: '#8BAA1D' }}>
       <iframe
         src={iframeUrl}
         className="w-full border-0"

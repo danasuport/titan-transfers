@@ -73,7 +73,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
         <div className="absolute -left-40 -top-40 h-[600px] w-[600px] rounded-full bg-brand-500/5 blur-3xl" />
         <div className="absolute -right-40 bottom-0 h-[400px] w-[400px] rounded-full bg-brand-500/3 blur-3xl" />
 
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative w-full">
           <Breadcrumbs items={[{ label: t('services') }]} />
 
           <div className="mt-8 max-w-3xl">
@@ -99,7 +99,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
 
       {/* Service Cards */}
       <section className="bg-dark py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="space-y-8">
             {services.map((s: any, i: number) => {
               const slug = locale === 'es'

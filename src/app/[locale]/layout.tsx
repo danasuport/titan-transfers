@@ -6,6 +6,7 @@ import { getMessages } from 'next-intl/server'
 import { locales } from '@/lib/i18n/config'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
+import { StickyHelp } from '@/components/ui/StickyHelp'
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
@@ -39,6 +40,7 @@ export default async function LocaleLayout({
       <Header />
       <main>{children}</main>
       <Footer />
+      <StickyHelp />
     </NextIntlClientProvider>
   )
 }

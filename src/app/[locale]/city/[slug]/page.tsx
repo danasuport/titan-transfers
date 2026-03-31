@@ -79,7 +79,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
         <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/60 to-dark/40" />
         <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
 
-        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-32 sm:px-6 lg:px-8">
+        <div className="relative w-full px-4 pb-16 pt-32 sm:px-6 lg:px-8">
           <Breadcrumbs items={breadcrumbs} />
           {city.country && (
             <span className="mb-4 mt-6 inline-block rounded-full bg-brand-500/20 px-4 py-1 text-sm font-medium text-brand-400">
@@ -104,7 +104,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
       {/* Description */}
       {description && (
         <section className="bg-dark py-16">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <div className="site-container">
             <div className="prose prose-lg mx-auto max-w-none prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-heading prose-p:leading-relaxed prose-p:text-body">
               <PortableText value={description} />
             </div>
@@ -115,7 +115,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
       {/* Nearby Airports */}
       {city.nearbyAirports?.length > 0 && (
         <div className="bg-dark-light">
-          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="w-full px-4 py-16 sm:px-6 lg:px-8">
             <NearbyAirports airports={city.nearbyAirports} title={t('airportTransfers', { city: cityTitle })} />
           </div>
         </div>
@@ -124,7 +124,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
       {/* Routes */}
       {allRoutes.length > 0 && (
         <section className="bg-surface-100 py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="site-container">
             <div className="mb-8">
               <div className="mb-4 h-1 w-16 rounded-full bg-brand-500" />
               <h2 className="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl">
@@ -178,7 +178,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
       {/* Related Cities */}
       {city.relatedCities?.length > 0 && (
         <div className="bg-dark-light">
-          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="w-full px-4 py-16 sm:px-6 lg:px-8">
             <RelatedCities cities={city.relatedCities} title={t('whyChoose', { city: cityTitle })} />
           </div>
         </div>
@@ -186,7 +186,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
 
       {/* Available Services — Internal Linking */}
       <section className="bg-dark py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <div className="mb-8">
             <div className="mb-4 h-1 w-16 rounded-full bg-brand-500" />
             <h2 className="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl">
@@ -219,7 +219,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
 
       {/* FAQ */}
       <section className="bg-dark-light py-16">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <FAQ items={faqItems} title={t('faq')} />
         </div>
       </section>
@@ -227,7 +227,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
       {/* CTA */}
       <section className="relative overflow-hidden bg-dark py-20">
         <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-        <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+        <div className="relative site-container px-4 text-center sm:px-6 lg:px-8">
           <h2 className="mb-6 text-3xl font-extrabold tracking-tight text-heading sm:text-4xl">
             {t('bookTransfer', { city: cityTitle })}
           </h2>
@@ -239,7 +239,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
 
       {/* Latest News */}
       <section className="bg-dark-light py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="site-container">
           <LatestNews type="city" id={city._id} title={t('latestNews', { city: cityTitle })} />
         </div>
       </section>
