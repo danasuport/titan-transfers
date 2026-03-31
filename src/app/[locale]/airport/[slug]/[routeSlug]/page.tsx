@@ -124,7 +124,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
       {description && (
         <section className="bg-dark py-16">
           <div className="site-container">
-            <div className="prose prose-lg mx-auto max-w-none prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-heading prose-p:leading-relaxed prose-p:text-body">
+            <div className="prose prose-lg mx-auto max-w-none prose-headings:font-normal prose-headings:text-heading prose-p:leading-relaxed prose-p:text-body">
               <PortableText value={description} />
             </div>
           </div>

@@ -25,7 +25,7 @@ export function HowItWorks() {
   ]
 
   return (
-    <section className="bg-white py-16 lg:py-24">
+    <section className="bg-white py-10 lg:py-14">
       <div className="site-container">
 
         {/* Header */}

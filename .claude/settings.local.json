@@ -64,10 +64,42 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:upload.wikimedia.org)",
       "WebFetch(domain:www.trustedshops.com)",
-      "WebFetch(domain:etrusted.com)"
+      "WebFetch(domain:etrusted.com)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3003/)",
+      "Bash(taskkill /F /IM node.exe)",
+      "Bash(cmd /c \"taskkill /F /IM node.exe\")",
+      "Bash(cmd /c \"cd c:\\\\Users\\\\Usuario\\\\Documents\\\\titan-transfers-main\\\\titan-transfers-main && start /B npm run dev\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/)",
+      "Read(//mnt/c/Users/Usuario/AppData/Local/Temp/claude/c--Users-Usuario-Documents-titan-transfers-main-titan-transfers-main/4d399f67-f4ff-4a62-a299-89fc81222907/tasks/**)",
+      "Bash(cmd /c \"cd c:\\\\Users\\\\Usuario\\\\Documents\\\\titan-transfers-main\\\\titan-transfers-main && npm run dev > c:\\\\Users\\\\Usuario\\\\dev.log 2>&1\")",
+      "Bash(cmd /c \"type c:\\\\Users\\\\Usuario\\\\dev.log\")",
+      "Bash(cmd /c \"npm run dev\")",
+      "Bash(cmd /c \"netstat -ano | findstr :3000\")",
+      "Bash(cmd /c \"netstat -ano | findstr :3000 | findstr LISTENING\")",
+      "Bash(cmd /c \"start cmd /k \"\"npm run dev\"\"\")",
+      "Bash(cmd /c \"start cmd /k npm run dev\")",
+      "Bash(cmd /c \"taskkill /F /IM node.exe && timeout /t 2 && start cmd /k npm run dev\")",
+      "Bash(cmd /c \"del /F /Q C:\\\\Users\\\\Usuario\\\\Documents\\\\titan-transfers-main\\\\titan-transfers-main\\\\.next\\\\dev\\\\lock && start cmd /k npm run dev\")",
+      "Bash(cmd /c \"wmic process where name=''node.exe'' get ProcessId,CommandLine\")",
+      "Bash(cmd /c \"wmic process where \"\"name=''node.exe''\"\" get ProcessId\")",
+      "Bash(cmd /c \"rmdir /S /Q C:\\\\Users\\\\Usuario\\\\Documents\\\\titan-transfers-main\\\\titan-transfers-main\\\\.next\\\\dev 2>nul & start cmd /k \"\"cd /d C:\\\\Users\\\\Usuario\\\\Documents\\\\titan-transfers-main\\\\titan-transfers-main && npm run dev\"\"\")",
+      "Bash(cmd /c \"rmdir /S /Q C:\\\\Users\\\\Usuario\\\\Documents\\\\titan-transfers-main\\\\titan-transfers-main\\\\.next\\\\dev 2>nul\")",
+      "Bash(cmd /c \"netstat -ano | findstr LISTENING | findstr :300\")",
+      "Bash(cmd /c \"netstat -ano | findstr LISTENING\")",
+      "Bash(rm -f \"/mnt/c/Users/Usuario/Documents/titan-transfers-main/titan-transfers-main/.next/dev/lock\")",
+      "Read(//mnt/c/Users/Usuario/Documents/titan-transfers-main/titan-transfers-main/.next/**)",
+      "Bash(cmd /c \"taskkill /F /IM node.exe & timeout /t 3 /nobreak & npm run dev\")",
+      "Bash(cmd /c \"taskkill /F /IM node.exe 2>&1\")",
+      "Bash(cmd /c \"taskkill /F /IM node.exe 2>&1 && echo KILLED\")",
+      "Bash(cmd /c \"wmic process where \"\"name=''node.exe''\"\" delete 2>&1\")",
+      "Bash(cmd /c \"del /F C:\\\\Users\\\\Usuario\\\\Documents\\\\titan-transfers-main\\\\titan-transfers-main\\\\.next\\\\dev\\\\lock 2>&1\")",
+      "Bash(cmd /c \"powershell -Command \"\"Get-Process node | Stop-Process -Force\"\"\")",
+      "Bash(cmd /c \"powershell -Command \"\"Get-Process node | Stop-Process -Force; Start-Sleep 2; Remove-Item ''C:\\\\Users\\\\Usuario\\\\Documents\\\\titan-transfers-main\\\\titan-transfers-main\\\\.next\\\\dev\\\\lock'' -Force -ErrorAction SilentlyContinue\"\"\")",
+      "Bash(cmd /c \"powershell -Command \"\"Get-Process | Where-Object {$_Name -like ''*node*'' -or $_Name -like ''*next*''} | Select-Object Id, Name, CPU\"\"\")"
     ],
     "additionalDirectories": [
-      "C:\\Users\\Usuario\\Downloads"
+      "C:\\Users\\Usuario\\Downloads",
+      "C:\\Users\\Usuario\\Desktop"
     ]
   }
 }

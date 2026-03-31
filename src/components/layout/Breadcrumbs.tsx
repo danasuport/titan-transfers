@@ -8,7 +8,7 @@ interface BreadcrumbItem {
   href?: string
 }
 
-export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
+export function Breadcrumbs({ items, variant = 'dark' }: { items: BreadcrumbItem[]; variant?: 'dark' | 'light' }) {
   const t = useTranslations('breadcrumb')
 
   const allItems = [{ label: t('home'), href: '/' }, ...items]
@@ -16,24 +16,29 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
     .filter((item) => item.href)
     .map((item) => ({ name: item.label, url: item.href! }))
 
+  const linkColor = variant === 'light' ? '#8BAA1D' : '#8BAA1D'
+  const separatorColor = variant === 'light' ? '#94a3b8' : '#6b7280'
+  const currentColor = variant === 'light' ? '#242426' : '#ffffff'
+  const baseColor = variant === 'light' ? '#64748b' : '#9ca3af'
+
   return (
     <>
       <SchemaOrg data={generateBreadcrumbSchema(schemaItems)} />
       <nav aria-label="Breadcrumb" className="mb-6">
-        <ol className="flex flex-wrap items-center gap-1 text-sm text-gray-300">
+        <ol style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '4px', fontSize: '0.8rem', color: baseColor, listStyle: 'none', margin: 0, padding: 0 }}>
           {allItems.map((item, i) => (
-            <li key={i} className="flex items-center gap-1">
+            <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               {i > 0 && (
-                <svg className="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke={separatorColor}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
               )}
               {item.href && i < allItems.length - 1 ? (
-                <Link href={item.href} className="text-brand-400 transition-colors hover:text-brand-300">
+                <Link href={item.href} style={{ color: linkColor, textDecoration: 'none', fontWeight: 500 }}>
                   {item.label}
                 </Link>
               ) : (
-                <span className="font-medium text-white">{item.label}</span>
+                <span style={{ fontWeight: 600, color: currentColor }}>{item.label}</span>
               )}
             </li>
           ))}

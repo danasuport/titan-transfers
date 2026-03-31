@@ -45,11 +45,10 @@ function GoogleLogo() {
 
 function TrustedShopsLogo() {
   return (
-    <svg height="20" viewBox="0 0 112 20" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="10" cy="10" r="10" fill="#FFDC0F"/>
-      <path d="M10 4l1.4 4.3H16l-3.7 2.7 1.4 4.3-3.7-2.7-3.7 2.7 1.4-4.3L4 8.3h4.6L10 4z" fill="#333"/>
-      <text x="24" y="14" fontFamily="Arial,sans-serif" fontSize="11" fontWeight="700" fill="#333">Trusted Shops</text>
-    </svg>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+      <img src="/logo-trusted-shops.png" alt="Trusted Shops" width={20} height={20} style={{ objectFit: 'contain' }} />
+      <span style={{ fontFamily: 'Arial,sans-serif', fontSize: '13px', fontWeight: 700, color: '#333' }}>Trusted Shops</span>
+    </div>
   )
 }
 

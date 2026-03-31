@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { HeroSection } from '@/components/sections/HeroSection'
-import { BookingWidget } from '@/components/booking/BookingWidget'
+import { BookingForm } from '@/components/ui/BookingForm'
 import { WhyChooseUs } from '@/components/sections/WhyChooseUs'
 import { ServiceTypes } from '@/components/sections/ServiceTypes'
 import { PopularDestinations } from '@/components/sections/PopularDestinations'
@@ -30,7 +30,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <HeroSection />
       <div className="bg-white py-10">
         <div className="site-container">
-          <BookingWidget />
+          <BookingForm />
         </div>
       </div>
       <WhyChooseUs />

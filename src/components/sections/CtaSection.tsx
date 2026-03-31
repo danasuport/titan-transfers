@@ -10,7 +10,7 @@ export function CtaSection() {
   const es = locale === 'es'
 
   return (
-    <section style={{ background: '#ffffff', position: 'relative', paddingBottom: '8rem' }}>
+    <section style={{ background: '#ffffff', position: 'relative', paddingTop: '8rem', paddingBottom: '8rem' }}>
       <div style={{ display: 'grid', gridTemplateColumns: '45fr 55fr', minHeight: '500px' }}>
 
         {/* LEFT: phones */}

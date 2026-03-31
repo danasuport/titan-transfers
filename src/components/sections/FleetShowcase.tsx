@@ -49,13 +49,6 @@ export function FleetShowcase() {
   const [page, setPage] = useState(0)
   const [animKey, setAnimKey] = useState(0)
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setPage(p => (p === pages - 1 ? 0 : p + 1))
-      setAnimKey(k => k + 1)
-    }, DURATION)
-    return () => clearTimeout(timer)
-  }, [page, animKey, pages])
 
   function goTo(i: number) {
     setPage(i)

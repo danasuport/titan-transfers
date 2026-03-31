@@ -26,12 +26,11 @@ export function Footer() {
     <footer style={{ background: '#F8FAF0', color: '#475569' }}>
 
       {/* Top bar with diagonal accent */}
-      <div style={{ background: '#8BAA1D', height: '4px', width: '100%' }} />
 
-      <div className="site-container" style={{ paddingTop: '4rem', paddingBottom: '3rem' }}>
+      <div className="site-container" style={{ paddingTop: '8rem', paddingBottom: '7rem' }}>
 
         {/* Main grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1.2fr', gap: '3rem', marginBottom: '3rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 0.9fr', gap: '3rem', marginBottom: '3rem' }}>
 
           {/* Brand column */}
           <div>
@@ -131,31 +130,78 @@ export function Footer() {
           {/* Reviews column */}
           <div>
             <div className={russoOne.className} style={headingStyle}>{locale === 'es' ? 'Opiniones' : 'Reviews'}</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {[
-                { count: '+400', platform: 'Trustpilot', color: '#00B67A', star: 'M11 0l2.7 8.3H22l-7 5.1 2.7 8.3-7-5.1-7 5.1 2.7-8.3-7-5.1h8.3L11 0z' },
-                { count: '+1.900', platform: 'Trusted Shops', color: '#FFDC0F', star: 'M11 0l2.7 8.3H22l-7 5.1 2.7 8.3-7-5.1-7 5.1 2.7-8.3-7-5.1h8.3L11 0z' },
-                { count: '+100', platform: 'Google', color: '#4285F4', star: 'M11 0l2.7 8.3H22l-7 5.1 2.7 8.3-7-5.1-7 5.1 2.7-8.3-7-5.1h8.3L11 0z' },
-              ].map(r => (
-                <div key={r.platform} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <svg width="18" height="18" viewBox="0 0 22 22" fill={r.color}>
-                    <path d={r.star} />
-                  </svg>
-                  <div>
-                    <div className={russoOne.className} style={{ color: '#242426', fontSize: '1.1rem', lineHeight: 1 }}>{r.count}</div>
-                    <div style={{ fontSize: '0.8rem', color: '#64748b' }}>{r.platform}</div>
-                  </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+
+              {/* Trustpilot */}
+              <a href="https://es.trustpilot.com/review/titantransfers.net" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', background: '#ffffff', borderRadius: '8px', padding: '0.6rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '0.25rem', transition: 'box-shadow 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)')}
+                onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#00B67A"><path d="M12 0l3.09 9.26H24l-7.85 5.7 3.09 9.26L12 18.52l-7.24 5.7 3.09-9.26L0 9.26h8.91z"/></svg>
+                  <span style={{ fontWeight: 700, fontSize: '0.85rem', color: '#242426' }}>Trustpilot</span>
                 </div>
-              ))}
+                <div style={{ display: 'flex', gap: '2px' }}>
+                  {[...Array(5)].map((_, i) => <svg key={i} width="13" height="13" viewBox="0 0 24 24" fill="#00B67A"><path d="M12 0l3.09 9.26H24l-7.85 5.7 3.09 9.26L12 18.52l-7.24 5.7 3.09-9.26L0 9.26h8.91z"/></svg>)}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: '#64748b' }}>4.9 / 5 · +500 {locale === 'es' ? 'opiniones' : 'reviews'}</div>
+              </a>
+
+              {/* Trusted Shops */}
+              <a href="https://www.trustedshops.com/buyerrating/info_PLACEHOLDER.html" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', background: '#ffffff', borderRadius: '8px', padding: '0.6rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '0.25rem', transition: 'box-shadow 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)')}
+                onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <Image src="/logo-trusted-shops.png" alt="Trusted Shops" width={16} height={16} style={{ objectFit: 'contain' }} />
+                  <span style={{ fontWeight: 700, fontSize: '0.85rem', color: '#242426' }}>Trusted Shops</span>
+                </div>
+                <div style={{ display: 'flex', gap: '2px' }}>
+                  {[...Array(5)].map((_, i) => <svg key={i} width="13" height="13" viewBox="0 0 24 24" fill="#FFDC0F"><path d="M12 0l3.09 9.26H24l-7.85 5.7 3.09 9.26L12 18.52l-7.24 5.7 3.09-9.26L0 9.26h8.91z"/></svg>)}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: '#64748b' }}>4.9 / 5 · +1.800 {locale === 'es' ? 'opiniones' : 'reviews'}</div>
+              </a>
+
+              {/* Google */}
+              <a href="https://g.page/r/PLACEHOLDER/review" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', background: '#ffffff', borderRadius: '8px', padding: '0.6rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '0.25rem', transition: 'box-shadow 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)')}
+                onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <Image src="/logo-google.svg" alt="Google" width={16} height={16} style={{ objectFit: 'contain' }} />
+                  <span style={{ fontWeight: 700, fontSize: '0.85rem', color: '#242426' }}>Google</span>
+                </div>
+                <div style={{ display: 'flex', gap: '2px' }}>
+                  {[...Array(5)].map((_, i) => <svg key={i} width="13" height="13" viewBox="0 0 24 24" fill="#FBBC05"><path d="M12 0l3.09 9.26H24l-7.85 5.7 3.09 9.26L12 18.52l-7.24 5.7 3.09-9.26L0 9.26h8.91z"/></svg>)}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: '#64748b' }}>4.8 / 5 · +100 {locale === 'es' ? 'opiniones' : 'reviews'}</div>
+              </a>
+
             </div>
           </div>
 
         </div>
 
+
         <div style={{ paddingTop: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
           <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
-            &copy; {new Date().getFullYear()} {t('copyright')}
+            &copy; {new Date().getFullYear()} {t('copyright')} · <a href="https://kmadisseny.es" target="_blank" rel="noopener noreferrer" style={{ color: '#94a3b8', textDecoration: 'none' }} onMouseEnter={e => (e.currentTarget.style.color = '#8BAA1D')} onMouseLeave={e => (e.currentTarget.style.color = '#94a3b8')}>Diseño web Barcelona</a>
           </p>
+
+          {/* Payment icons */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            {[
+              { src: '/payment-icons/visa.svg', alt: 'Visa', height: 32 },
+              { src: '/payment-icons/mastercard.svg', alt: 'Mastercard', height: 32 },
+              { src: '/payment-icons/american-express.svg', alt: 'American Express', height: 32 },
+              { src: '/payment-icons/paypal.svg', alt: 'PayPal', height: 32 },
+              { src: '/payment-icons/apay.svg', alt: 'Apple Pay', height: 20 },
+              { src: '/payment-icons/gpay.svg', alt: 'Google Pay', height: 20 },
+            ].map(({ src, alt, height }) => (
+              <Image key={alt} src={src} alt={alt} width={height * 2} height={height} style={{ height, width: 'auto', opacity: 0.75 }} />
+            ))}
+          </div>
+
           <div style={{ display: 'flex', gap: '1.5rem' }}>
             {[
               { href: '/privacy/', label: t('privacy') },
