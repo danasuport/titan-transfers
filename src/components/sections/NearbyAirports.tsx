@@ -71,6 +71,7 @@ export function NearbyAirports({ airports, title }: { airports: Airport[]; title
       {/* Cards */}
       <div
         key={animKey}
+        className="resp-nearby-grid"
         style={{
           display: 'grid',
           gridTemplateColumns: `repeat(${Math.min(visible.length, 4)}, 1fr)`,

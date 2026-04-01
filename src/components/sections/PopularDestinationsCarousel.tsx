@@ -83,7 +83,7 @@ export function PopularDestinationsCarousel({ cities, heading, subheading }: {
         </div>
 
         {/* Cards grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.75rem', minHeight: '340px' }}>
+        <div className="resp-destinations-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.75rem', minHeight: '340px' }}>
           {visible.map((city) => (
             <Link
               key={city._id}

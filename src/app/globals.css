@@ -330,6 +330,15 @@ footer .text-gray-500 { color: #6b7280 !important; }
 }
 
 @media (max-width: 768px) {
+  /* Carruseles de destinos y aeropuertos cercanos → 2 cols */
+  .resp-destinations-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    min-height: unset !important;
+  }
+  .resp-nearby-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
   .resp-hero-grid {
     grid-template-columns: 1fr;
     min-height: unset;
@@ -387,6 +396,8 @@ footer .text-gray-500 { color: #6b7280 !important; }
 }
 
 @media (max-width: 480px) {
+  .resp-destinations-grid { grid-template-columns: 1fr !important; }
+  .resp-nearby-grid { grid-template-columns: 1fr !important; }
   .resp-4col { grid-template-columns: 1fr; }
   .resp-form-row > div,
   .resp-form-row > button { flex: 0 0 100%; }
