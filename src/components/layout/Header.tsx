@@ -49,7 +49,7 @@ export function Header() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center flex-shrink-0" onClick={() => setActiveMenu(null)}>
-            <Image src="/Logo-titan-transfers-texto-negro.png" alt="Titan Transfers" width={220} height={50} priority />
+            <Image src="/Logo-titan-transfers-texto-negro.png" alt="Titan Transfers" width={220} height={50} priority className="w-36 sm:w-48 lg:w-56" style={{ height: 'auto' }} />
           </Link>
 
           {/* Desktop Navigation */}
@@ -89,7 +89,8 @@ export function Header() {
             <LanguageSwitcher />
             <SkewButton href={`/${locale}/contact/`} variant="primary" className="hidden sm:inline-block" style={{ padding: '0.5rem 1.25rem', fontSize: '0.875rem' }}>{t('contact')}</SkewButton>
             <Link href="/login/"
-              style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#ffffff', textDecoration: 'none', background: '#242426', border: '2px solid #242426', transform: 'skewX(-12deg)', padding: '0.4rem 0.9rem', transition: 'background 0.2s, border-color 0.2s', fontSize: '0.875rem', fontWeight: 700 }}
+              className="hidden sm:flex"
+              style={{ alignItems: 'center', gap: '0.4rem', color: '#ffffff', textDecoration: 'none', background: '#242426', border: '2px solid #242426', transform: 'skewX(-12deg)', padding: '0.4rem 0.9rem', transition: 'background 0.2s, border-color 0.2s', fontSize: '0.875rem', fontWeight: 700 }}
               onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#8BAA1D'; e.currentTarget.style.borderColor = '#8BAA1D' }}
               onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#242426'; e.currentTarget.style.borderColor = '#242426' }}
             >

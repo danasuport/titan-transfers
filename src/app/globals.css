@@ -294,74 +294,100 @@ footer .text-gray-500 { color: #6b7280 !important; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   MOBILE — !important para sobreescribir inline styles
-   Sin ningún efecto en desktop
+   RESPONSIVE CLASSES — desktop values + mobile overrides
+   Components use these classes instead of inline gridTemplateColumns
    ═══════════════════════════════════════════════════════════════════ */
 
-@media (max-width: 768px) {
+/* Hero split: 2 cols desktop, 1 col mobile */
+.resp-hero-grid {
+  grid-template-columns: 1fr 1fr;
+  min-height: 580px;
+}
 
-  /* 2-col grids → columna única */
-  .mob-stack {
-    grid-template-columns: 1fr !important;
+/* Generic 2-col section grids */
+.resp-2col {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* CTA section: asymmetric 2 cols */
+.resp-cta-grid {
+  grid-template-columns: 45fr 55fr;
+  min-height: 500px;
+}
+
+/* 4-col grids (browse categories, fleet) */
+.resp-4col {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Booking form row */
+.resp-form-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: stretch;
+}
+
+@media (max-width: 768px) {
+  .resp-hero-grid {
+    grid-template-columns: 1fr;
+    min-height: unset;
+  }
+  .resp-2col {
+    grid-template-columns: 1fr;
     min-height: unset !important;
   }
-
-  /* Paneles de imagen en heroes apilados */
-  .mob-img-panel {
-    min-height: 260px !important;
+  .resp-cta-grid {
+    grid-template-columns: 1fr;
+    min-height: unset;
+  }
+  .resp-4col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  /* Hero image panels: show with height when stacked */
+  .resp-img-panel {
+    min-height: 260px;
     clip-path: none !important;
   }
-
-  /* 4-col → 2-col */
-  .mob-2col {
-    grid-template-columns: repeat(2, 1fr) !important;
+  /* Booking form wraps into rows */
+  .resp-form-row {
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
-
-  /* Booking form: wrap en varias filas */
-  .mob-form-row {
-    flex-wrap: wrap !important;
-    gap: 0.5rem !important;
-  }
-  .mob-form-row > div:nth-child(1) { flex: 0 0 100% !important; }
-  .mob-form-row > div:nth-child(2) { flex: 0 0 100% !important; }
-  .mob-form-row > div:nth-child(3) { flex: 1 1 100% !important; }
-  .mob-form-row > div:nth-child(4),
-  .mob-form-row > div:nth-child(5) { flex: 1 1 calc(50% - 0.25rem) !important; }
-  .mob-form-row > button           { flex: 0 0 100% !important; min-height: 48px !important; padding: 0 !important; }
-
-  /* Trust badges → 2 cols */
+  .resp-form-row > div:nth-child(1) { flex: 0 0 100%; }
+  .resp-form-row > div:nth-child(2) { flex: 0 0 100%; }
+  .resp-form-row > div:nth-child(3) { flex: 1 1 100%; }
+  .resp-form-row > div:nth-child(4),
+  .resp-form-row > div:nth-child(5) { flex: 1 1 calc(50% - 0.25rem); }
+  .resp-form-row > button { flex: 0 0 100%; min-height: 48px; padding: 0; }
+  /* Trust badges 2-col */
   .trust-badges-row > div {
     border-right: none !important;
     padding-right: 0 !important;
     margin-right: 0 !important;
     flex: 0 0 calc(50% - 0.5rem) !important;
   }
-
-  /* Stats → wrap */
-  .stats-skew-row { flex-wrap: wrap !important; }
-
-  /* Services listing → stack */
-  .services-listing-grid { grid-template-columns: 1fr !important; }
-  .services-listing-grid .service-image { min-height: 220px !important; clip-path: none !important; }
-
-  /* Espaciado */
+  /* Services listing stack */
+  .services-listing-grid { grid-template-columns: 1fr; }
+  .services-listing-grid .service-image { min-height: 220px; clip-path: none !important; }
+  /* Stats wrap */
+  .stats-skew-row { flex-wrap: wrap; }
+  /* CTA section reduced padding */
+  .resp-cta-section { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+  /* Hide mockup image on mobile */
+  .resp-cta-img { display: none !important; }
+  /* Site container */
   .site-container { padding-left: 4vw; padding-right: 4vw; }
   h1 { word-break: break-word; }
+
+  /* Hero font sizes reducidos en mobile */
+  .resp-hero-grid h1 { font-size: 2.5rem !important; line-height: 1.1 !important; }
+  .resp-hero-grid p  { font-size: 1rem !important; }
 }
 
 @media (max-width: 480px) {
-  /* 2-col → 1-col */
-  .mob-2col { grid-template-columns: 1fr !important; }
-
-  /* Todos los campos del form a ancho completo */
-  .mob-form-row > div,
-  .mob-form-row > button { flex: 0 0 100% !important; }
-
-  /* Ocultar stats decorativas */
-  .stats-skew-row { display: none !important; }
-
-  /* CtaSection: padding reducido en móvil */
-  .mob-cta-section { padding-top: 3rem !important; padding-bottom: 3rem !important; }
-  /* Ocultar mockup en móvil (no aporta en pantalla pequeña) */
-  .mob-cta-img { display: none !important; }
+  .resp-4col { grid-template-columns: 1fr; }
+  .resp-form-row > div,
+  .resp-form-row > button { flex: 0 0 100%; }
+  .stats-skew-row { display: none; }
+  .resp-hero-grid h1 { font-size: 2rem !important; }
 }

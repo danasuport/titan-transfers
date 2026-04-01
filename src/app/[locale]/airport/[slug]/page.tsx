@@ -166,7 +166,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
       <SchemaOrg data={generateTaxiServiceSchema({ name: `${airportTitle} ${t('transfers')}`, description: t('transferBestPriceDesc', { airport: airportTitle }), url: `/airport/${slug}/`, areaServed: cityName, rating: 4.8, reviewCount: 2500 })} />
 
       {/* ─── HERO ───────────────────────────────────────────────────────── */}
-      <section className="mob-stack" style={{ background: '#F8FAF0', display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '520px' }}>
+      <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '520px' }}>
 
         {/* Left: content */}
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '6vw', paddingRight: '4vw', paddingTop: '4rem', paddingBottom: '4rem' }}>
@@ -182,7 +182,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
         </div>
 
         {/* Right: image with diagonal left mask */}
-        <div className="mob-img-panel" style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
+        <div className="resp-img-panel" style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
           {heroImg ? (
             <Image
               src={heroImg}
@@ -255,7 +255,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
 
       {/* ─── WHY CHOOSE US — prices & features ─────────────────────────── */}
       <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
-        <div className="mob-stack" style={{ display: 'grid', gap: '4rem', gridTemplateColumns: '1fr 1fr', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
+        <div className="resp-2col" style={{ display: 'grid', gap: '4rem', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
           <div>
             <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
             <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)', color: '#242426', marginBottom: '1rem', textTransform: 'none' }}>
@@ -348,9 +348,9 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
 
       {/* ─── CTA BANNER ────────────────────────────────────────────────── */}
       <section style={{ background: '#8BAA1D', overflow: 'hidden' }}>
-        <div className="mob-stack" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '380px' }}>
+        <div className="resp-2col" style={{ display: 'grid', minHeight: '380px' }}>
           {/* Left: image with diagonal clip */}
-          <div className="mob-img-panel" style={{ position: 'relative', clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }}>
+          <div className="resp-img-panel" style={{ position: 'relative', clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }}>
             <Image
               src="/services/city-to-city.png"
               alt={es ? `Conductor profesional ${airportTitle}` : `Professional driver ${airportTitle}`}

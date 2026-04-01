@@ -10,11 +10,11 @@ export function CtaSection() {
   const es = locale === 'es'
 
   return (
-    <section className="mob-cta-section" style={{ background: '#ffffff', position: 'relative', paddingTop: '8rem', paddingBottom: '8rem' }}>
-      <div className="mob-stack" style={{ display: 'grid', gridTemplateColumns: '45fr 55fr', minHeight: '500px' }}>
+    <section className="resp-cta-section" style={{ background: '#ffffff', position: 'relative', paddingTop: '8rem', paddingBottom: '8rem' }}>
+      <div className="resp-cta-grid" style={{ display: 'grid' }}>
 
         {/* LEFT: phones */}
-        <div className="mob-cta-img" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '6vw', zIndex: 3 }}>
+        <div className="resp-cta-img" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '6vw', zIndex: 3 }}>
           <Image
             src="/mockup.png"
             alt="Titan Transfers app"
