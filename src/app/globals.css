@@ -49,9 +49,11 @@
 
 html {
   color-scheme: light;
+  overflow-x: hidden;
 }
 
 body {
+  overflow-x: hidden;
   background-color: #ffffff;
   color: #475569;
   font-family: var(--font-archivo), system-ui, sans-serif;
