@@ -112,7 +112,7 @@ export function Header() {
         </div>
 
         {/* Mobile search row — hidden on lg+ */}
-        <div className="lg:hidden pb-3">
+        <div className="lg:hidden pb-3" style={{ display: 'flex' }}>
           <GlobalSearch />
         </div>
       </div>
