@@ -84,10 +84,11 @@ export function PopularDestinationsCarousel({ cities, heading, subheading }: {
 
         {/* Cards grid */}
         <div className="resp-destinations-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.75rem', minHeight: '340px' }}>
-          {visible.map((city) => (
+          {visible.map((city, idx) => (
             <Link
               key={city._id}
               href={`${city.linkPrefix ?? '/city/'}${city.localSlug}/` as any}
+              className={idx >= 4 ? 'dest-card-5th' : ''}
               style={{ textDecoration: 'none', display: 'block', borderRadius: '8px', overflow: 'hidden', position: 'relative', aspectRatio: '3/4' }}
             >
               {/* Image */}

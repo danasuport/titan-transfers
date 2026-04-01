@@ -61,7 +61,7 @@ export default async function RegionsPage({ params }: { params: Promise<{ locale
       <section style={{ background: '#F8FAF0', padding: '5rem 6vw 4rem' }}>
         <Breadcrumbs items={[{ label: t('regions') }]} variant="light" />
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'end', marginTop: '2rem' }}>
+        <div className="resp-listing-hero" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'end', marginTop: '2rem' }}>
           <div>
             <h1 className={russoOne.className} style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1.25rem' }}>
               {es ? 'Regiones' : 'Regions'}
@@ -74,16 +74,16 @@ export default async function RegionsPage({ params }: { params: Promise<{ locale
           </div>
 
           {/* Stats */}
-          <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'flex-end' }}>
+          <div className="listing-stats-row" style={{ display: 'flex', gap: '1.5rem', justifyContent: 'flex-end' }}>
             {[
               { value: `${totalRegions}+`, label: es ? 'Regiones' : 'Regions' },
               { value: `${totalCountries}+`, label: es ? 'Países' : 'Countries' },
               { value: '4.8★', label: es ? 'Valoración' : 'Rating' },
             ].map((s) => (
-              <div key={s.label} style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '2rem 2.5rem', transform: 'skewX(-8deg)', textAlign: 'center', flex: 1 }}>
-                <div style={{ transform: 'skewX(8deg)' }}>
-                  <div className={russoOne.className} style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', color: '#8BAA1D', lineHeight: 1 }}>{s.value}</div>
-                  <div style={{ fontSize: '0.9rem', color: '#94a3b8', marginTop: '0.4rem' }}>{s.label}</div>
+              <div key={s.label} style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1rem 1.25rem', transform: 'skewX(-6deg)', textAlign: 'center', minWidth: '80px' }}>
+                <div style={{ transform: 'skewX(6deg)' }}>
+                  <div className={russoOne.className} style={{ fontSize: '1.5rem', color: '#8BAA1D', lineHeight: 1 }}>{s.value}</div>
+                  <div style={{ fontSize: '0.7rem', color: '#94a3b8', marginTop: '3px' }}>{s.label}</div>
                 </div>
               </div>
             ))}
@@ -116,7 +116,7 @@ export default async function RegionsPage({ params }: { params: Promise<{ locale
               </div>
 
               {/* Regions grid */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '0.5rem' }}>
                 {countryRegions.map((region: any) => (
                   <RegionCard key={region._id} href={getRegionUrl(region, locale as Locale)} title={getTranslatedTitle(region, locale as Locale)} />
                 ))}

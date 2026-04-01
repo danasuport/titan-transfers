@@ -42,7 +42,7 @@ export function HeroSection() {
 
       {/* Left: text */}
       <div
-        className="flex flex-col justify-center py-16"
+        className="resp-hero-text flex flex-col justify-center py-16"
         style={{ paddingLeft: '6vw', paddingRight: '4vw' }}
       >
         <h1
@@ -72,7 +72,7 @@ export function HeroSection() {
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-3">
+        <div className="hidden sm:flex flex-wrap gap-3">
           <a href="#" className="transition-opacity hover:opacity-80">
             <Image src="/app-store-btn.png" alt="Download on the App Store" width={160} height={48} className="h-12 w-auto" />
           </a>

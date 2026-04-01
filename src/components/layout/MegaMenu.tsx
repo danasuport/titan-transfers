@@ -72,7 +72,7 @@ function Flag({ countrySlug }: { countrySlug: string }) {
 
 type Tab = 'airports' | 'cities' | 'countries'
 
-export function MegaMenu({ type, onClose }: { type: Tab; onClose: () => void }) {
+export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose: () => void; mobile?: boolean }) {
   const locale = useLocale()
   const router = useRouter()
   const es = locale === 'es'
@@ -132,9 +132,17 @@ export function MegaMenu({ type, onClose }: { type: Tab; onClose: () => void }) 
     transition: 'background 0.12s',
   })
 
+  if (mobile) {
+    return (
+      <MegaMenuMobile type={type} onClose={onClose} es={es} data={data}
+        airports={airports} cities={cities} countries={countries}
+        airportsByCountry={airportsByCountry} citiesByCountry={citiesByCountry}
+        slug={slug} go={go} />
+    )
+  }
+
   return (
     <div style={{ padding: '1.5rem 0 1rem' }}>
-
 
       {/* AIRPORTS */}
       {type === 'airports' && (
@@ -215,6 +223,94 @@ export function MegaMenu({ type, onClose }: { type: Tab; onClose: () => void }) 
         </div>
       )}
 
+    </div>
+  )
+}
+
+function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, airportsByCountry, citiesByCountry, slug, go }: {
+  type: Tab; onClose: () => void; es: boolean; data: MenuData | null
+  airports: Airport[]; cities: City[]; countries: Country[]
+  airportsByCountry: Record<string, Airport[]>; citiesByCountry: Record<string, City[]>
+  slug: (item: { slug: string; esSlug?: string }) => string
+  go: (path: string) => void
+}) {
+  const [openCountry, setOpenCountry] = useState<string | null>(null)
+
+  const groupStyle: React.CSSProperties = { borderBottom: '1px solid #f1f5f9' }
+  const groupHeader: React.CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.65rem 0', cursor: 'pointer', gap: '0.5rem' }
+  const itemRowStyle: React.CSSProperties = { display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', cursor: 'pointer', borderBottom: '1px solid #f8fafc' }
+
+  return (
+    <div style={{ padding: '0.5rem 0' }}>
+      {!data && <div style={{ padding: '1rem 0', color: '#94a3b8', fontSize: '0.85rem' }}>Cargando...</div>}
+
+      {/* AIRPORTS & CITIES — grouped by country accordion */}
+      {(type === 'airports' || type === 'cities') && data && (
+        <>
+          {Object.entries(type === 'airports' ? airportsByCountry : citiesByCountry).map(([country, items]) => (
+            <div key={country} style={groupStyle}>
+              <div style={groupHeader} onClick={() => setOpenCountry(openCountry === country ? null : country)}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <Flag countrySlug={(items[0] as any)?.countrySlug ?? ''} />
+                  <span className={russoOne.className} style={{ fontSize: '0.8rem', color: '#242426' }}>{country}</span>
+                  <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>({items.length})</span>
+                </div>
+                <svg style={{ flexShrink: 0, transition: 'transform 0.2s', transform: openCountry === country ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                  width="14" height="14" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#94a3b8">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+              {openCountry === country && (
+                <div style={{ paddingBottom: '0.5rem' }}>
+                  {type === 'airports' && (items as Airport[]).map(a => (
+                    <div key={a._id} style={itemRowStyle} onClick={() => go(es ? `/aeropuerto/${slug(a)}/` : `/airport/${slug(a)}/`)}>
+                      {a.iataCode && <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#8BAA1D', background: '#f0f4e3', padding: '1px 5px', flexShrink: 0 }}>{a.iataCode}</span>}
+                      <span style={{ fontSize: '0.875rem', color: '#242426' }}>{a.title}</span>
+                    </div>
+                  ))}
+                  {type === 'cities' && (items as City[]).map(c => (
+                    <div key={c._id} style={itemRowStyle} onClick={() => go(es ? `/ciudad/${slug(c)}/` : `/city/${slug(c)}/`)}>
+                      <span style={{ fontSize: '0.875rem', color: '#242426' }}>{c.title}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+          <div style={{ paddingTop: '1rem' }}>
+            <button onClick={() => go(type === 'airports' ? (es ? '/aeropuertos/' : '/airports/') : (es ? '/ciudades/' : '/cities/'))}
+              style={{ background: '#242426', color: '#ffffff', border: 'none', padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', fontFamily: 'inherit', width: '100%' }}>
+              {type === 'airports' ? (es ? 'Ver todos los aeropuertos →' : 'Browse all airports →') : (es ? 'Ver todas las ciudades →' : 'Browse all cities →')}
+            </button>
+          </div>
+        </>
+      )}
+
+      {/* COUNTRIES — simple grid */}
+      {type === 'countries' && data && (
+        <>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.4rem', marginBottom: '1rem' }}>
+            {countries.map(c => (
+              <div key={c._id} onClick={() => go(es ? `/pais/${slug(c)}/` : `/country/${slug(c)}/`)}
+                style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', cursor: 'pointer', background: '#f8fafc', borderRadius: '4px' }}>
+                <Flag countrySlug={c.slug} />
+                <div>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#242426', lineHeight: 1.2 }}>{c.title}</div>
+                  {(c.airportCount || c.cityCount) && (
+                    <div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>
+                      {[c.airportCount && `${c.airportCount} ${es ? 'aerop.' : 'airports'}`, c.cityCount && `${c.cityCount} ${es ? 'ciud.' : 'cities'}`].filter(Boolean).join(' · ')}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          <button onClick={() => go(es ? '/paises/' : '/countries/')}
+            style={{ background: '#242426', color: '#ffffff', border: 'none', padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', fontFamily: 'inherit', width: '100%' }}>
+            {es ? 'Ver todos los países →' : 'Browse all countries →'}
+          </button>
+        </>
+      )}
     </div>
   )
 }

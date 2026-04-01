@@ -20,6 +20,7 @@ export function CtaSection() {
             alt="Titan Transfers app"
             width={600}
             height={650}
+            className="cta-mockup-img"
             style={{ objectFit: 'contain', maxHeight: '620px', position: 'relative', zIndex: 4 }}
           />
         </div>
@@ -28,7 +29,7 @@ export function CtaSection() {
         <div style={{ display: 'flex', flexDirection: 'column' }}>
 
           {/* Top: CTA */}
-          <div style={{ flex: 1, padding: '3.5rem 5vw 3rem 4vw' }}>
+          <div className="cta-top-block" style={{ flex: 1, padding: '3.5rem 5vw 3rem 4vw' }}>
             <h2 className={russoOne.className} style={{ fontSize: '3.5rem', color: '#242426', lineHeight: 1.05, marginBottom: '1rem' }}>
               {es ? '¿Listo para reservar tu transfer?' : 'Ready to book your transfer?'}
             </h2>
@@ -55,14 +56,14 @@ export function CtaSection() {
             </div>
 
             {/* Buttons */}
-            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-              <SkewButton href="/#booking" variant="primary">{es ? 'Reserva tu transfer ahora' : 'Book your transfer now'}</SkewButton>
-              <SkewButton href="/contact/" variant="outline">{es ? 'Contáctanos' : 'Contact us'}</SkewButton>
+            <div className="cta-buttons-row" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              <SkewButton href="/#booking" variant="primary" style={{ fontSize: '0.85rem', padding: '0.6rem 1.1rem' }}>{es ? 'Reservar transfer' : 'Book transfer'}</SkewButton>
+              <SkewButton href="/contact/" variant="outline" style={{ fontSize: '0.85rem', padding: '0.6rem 1.1rem' }}>{es ? 'Contáctanos' : 'Contact us'}</SkewButton>
             </div>
           </div>
 
           {/* Bottom: App download */}
-          <div style={{ padding: '2.5rem 4vw', border: '1px solid #e5e7eb', margin: '0 2vw 4rem -8vw', position: 'relative', zIndex: 2, background: '#ffffff' }}>
+          <div className="cta-app-block" style={{ padding: '2.5rem 4vw', border: '1px solid #e5e7eb', margin: '0 2vw 4rem -8vw', position: 'relative', zIndex: 2, background: '#ffffff' }}>
             <h3 className={russoOne.className} style={{ fontSize: '2rem', color: '#8BAA1D', lineHeight: 1.2, marginBottom: '1.25rem' }}>
               {es ? 'Descarga la app y reserva tu transfer ahora' : 'Download the app and book your transfer now'}
             </h3>

@@ -121,7 +121,7 @@ export function BookingForm() {
 
   return (
     <>
-      <form onSubmit={handleSubmit} style={{ background: '#8BAA1D', border: '2px solid #8BAA1D', transform: 'skewX(-8deg)', padding: '1.25rem 1.75rem' }}>
+      <form onSubmit={handleSubmit} className="booking-form-wrap" style={{ background: '#8BAA1D', border: '2px solid #8BAA1D', transform: 'skewX(-8deg)', padding: '1.25rem 1.75rem' }}>
 
         {/* Single row */}
         <div className="resp-form-row" style={{ transform: 'skewX(8deg)' }}>
@@ -192,9 +192,14 @@ export function BookingForm() {
 
           {/* Submit */}
           <button type="submit" style={{ background: '#242426', border: 'none', cursor: 'pointer', padding: '0 1.5rem', transform: 'skewX(-8deg)', flexShrink: 0, display: 'flex', alignItems: 'center' }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" style={{ transform: 'skewX(8deg)' }}>
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
+            <span style={{ transform: 'skewX(8deg)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+              <span className="booking-btn-text" style={{ display: 'none', color: '#ffffff', fontSize: '0.95rem', fontWeight: 700, letterSpacing: '0.02em' }}>
+                {es ? 'Calcular precio' : 'Get a price'}
+              </span>
+            </span>
           </button>
 
         </div>

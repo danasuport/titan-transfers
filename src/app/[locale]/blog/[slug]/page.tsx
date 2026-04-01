@@ -115,7 +115,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
       <SchemaOrg data={generateBlogPostingSchema({ title: postTitle, description: post.excerpt || postTitle, url: `/blog/${slug}/`, image: post.featuredImage?.asset?.url, publishDate: post.publishDate })} />
 
       {/* ─── HERO — split grid like airport pages ─────────────────────────── */}
-      <section style={{ background: '#F8FAF0', display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '480px' }}>
+      <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '480px' }}>
 
         {/* Left: content */}
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '6vw', paddingRight: '4vw', paddingTop: '4rem', paddingBottom: '4rem' }}>
@@ -144,7 +144,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
         </div>
 
         {/* Right: featured image with diagonal clip */}
-        <div style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
+        <div className="resp-img-panel" style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
           {post.featuredImage?.asset?.url ? (
             <Image
               src={post.featuredImage.asset.url}

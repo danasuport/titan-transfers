@@ -47,7 +47,7 @@ export default async function AirportsPage({ params }: { params: Promise<{ local
       <section style={{ background: '#F8FAF0', padding: '5rem 6vw 4rem' }}>
         <Breadcrumbs items={[{ label: es ? 'Aeropuertos' : 'Airports' }]} variant="light" />
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'flex-end', gap: '3rem', marginTop: '1.5rem', flexWrap: 'wrap' }}>
+        <div className="resp-listing-hero" style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'flex-end', gap: '3rem', marginTop: '1.5rem' }}>
           <div>
             <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
             <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1rem' }}>
@@ -61,7 +61,7 @@ export default async function AirportsPage({ params }: { params: Promise<{ local
           </div>
 
           {/* Stats */}
-          <div style={{ display: 'flex', gap: '1rem', flexShrink: 0 }}>
+          <div className="listing-stats-row" style={{ display: 'flex', gap: '1rem', flexShrink: 0 }}>
             {[
               { n: '124', label: es ? 'aeropuertos' : 'airports' },
               { n: '30', label: es ? 'países' : 'countries' },

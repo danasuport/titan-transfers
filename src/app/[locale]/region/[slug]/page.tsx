@@ -68,7 +68,7 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
       <SchemaOrg data={generateTaxiServiceSchema({ name: `${regionTitle} Transfers`, description: `Private transfers in ${regionTitle}`, url: `/region/${slug}/`, areaServed: regionTitle, rating: 4.8 })} />
 
       {/* ─── HERO ─────────────────────────────────────────────────────────── */}
-      <section style={{ background: '#F8FAF0', display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '520px' }}>
+      <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '520px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '6vw', paddingRight: '4vw', paddingTop: '4rem', paddingBottom: '4rem' }}>
           <Breadcrumbs items={breadcrumbs} variant="light" />
           <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1.25rem', marginTop: '0.75rem' }}>
@@ -79,7 +79,7 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
           </p>
         </div>
 
-        <div style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
+        <div className="resp-img-panel" style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
           {heroImg ? (
             <Image src={heroImg} alt={`Transfers ${regionTitle}`} fill priority style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="50vw" />
           ) : (
@@ -94,13 +94,13 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
           {es ? `Reserva tu transfer — ${regionTitle}` : `Book your transfer — ${regionTitle}`}
         </p>
         <BookingForm />
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 0, marginTop: '1.25rem', borderTop: '1px solid #e5e7eb', paddingTop: '1.25rem' }}>
+        <div style={{ display: 'flex', gap: '2rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
           {trustBadges.map((b, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0 1.5rem 0 0', marginRight: '1.5rem', borderRight: i < trustBadges.length - 1 ? '1px solid #e5e7eb' : 'none' }}>
-              <span style={{ color: '#8BAA1D', fontSize: '1rem', flexShrink: 0 }}>{b.icon}</span>
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ color: '#8BAA1D', fontSize: '1rem', lineHeight: 1, flexShrink: 0 }}>{b.icon}</span>
               <div>
-                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#242426', lineHeight: 1.2 }}>{b.label}</div>
-                <div style={{ fontSize: '0.72rem', color: '#94a3b8', lineHeight: 1.3 }}>{b.desc}</div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#242426' }}>{b.label}</div>
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>{b.desc}</div>
               </div>
             </div>
           ))}
@@ -156,8 +156,8 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
 
       {/* ─── CTA BANNER ───────────────────────────────────────────────────── */}
       <section style={{ background: '#8BAA1D', overflow: 'hidden' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '380px' }}>
-          <div style={{ position: 'relative', clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }}>
+        <div className="resp-2col" style={{ display: 'grid', minHeight: '380px' }}>
+          <div className="resp-img-panel" style={{ position: 'relative', clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }}>
             <Image src="/services/city-to-city.png" alt="" fill style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="50vw" />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '4rem 6vw 4rem 5vw' }}>

@@ -54,7 +54,7 @@ export function Footer() {
   return (
     <footer style={{ background: '#F8FAF0', color: '#475569' }}>
 
-      <div className="site-container" style={{ paddingTop: '8rem', paddingBottom: '7rem' }}>
+      <div className="site-container" style={{ paddingTop: '4rem', paddingBottom: '7rem' }}>
 
         {/* Main grid — desktop 5-col, mobile 1-col */}
         <div className="footer-main-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 0.9fr', gap: '3rem', marginBottom: '3rem' }}>
@@ -118,7 +118,7 @@ export function Footer() {
           </AccordionCol>
 
           {/* Contact */}
-          <AccordionCol title={t('contact')}>
+          <AccordionCol title={locale === 'es' ? 'Contacto' : 'Contact info'}>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
               {[
                 { href: `tel:+34930477712`, label: '+34 930 47 77 12' },

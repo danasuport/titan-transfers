@@ -12,6 +12,32 @@ import { MegaMenu } from './MegaMenu'
 
 type MenuType = 'airports' | 'cities' | 'countries' | null
 
+function MobileAccordionSection({ label, href, menuKey, onClose }: { label: string; href: string; menuKey: MenuType; onClose: () => void }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div style={{ borderBottom: '1px solid #e5e7eb' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Link href={href as any} onClick={onClose}
+          style={{ flex: 1, padding: '1rem 0', fontSize: '1rem', fontWeight: 600, color: '#242426', textDecoration: 'none', display: 'block' }}>
+          {label}
+        </Link>
+        <button onClick={() => setOpen(!open)}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem', color: '#94a3b8', flexShrink: 0 }}>
+          <svg style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', display: 'block' }}
+            width="16" height="16" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+      </div>
+      {open && menuKey && (
+        <div style={{ paddingBottom: '0.5rem' }}>
+          <MegaMenu type={menuKey} onClose={onClose} mobile={true} />
+        </div>
+      )}
+    </div>
+  )
+}
+
 export function Header() {
   const t = useTranslations('nav')
   const locale = useLocale()
@@ -172,18 +198,46 @@ export function Header() {
         </div>
       )}
 
-      {/* Mobile menu */}
+      {/* Mobile drawer */}
       {mobileMenuOpen && (
-        <nav className="border-t border-gray-100 py-4 lg:hidden" style={{ paddingLeft: '6vw', paddingRight: '6vw' }}>
-          {navItems.map((item) => (
-            <Link key={item.key} href={item.href as any} className="block py-2 text-sm font-medium text-gray-700" onClick={() => setMobileMenuOpen(false)}>
-              {item.label}
+        <div style={{ position: 'fixed', inset: 0, zIndex: 300, display: 'flex', flexDirection: 'column', background: '#ffffff' }}>
+          {/* Drawer header */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem 6vw', borderBottom: '1px solid #e5e7eb', flexShrink: 0 }}>
+            <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+              <img src="/Logo-titan-transfers-texto-negro.png" alt="Titan Transfers" style={{ height: '36px', width: 'auto' }} />
             </Link>
-          ))}
-          <Link href="/contact/" className="mt-2 block py-2 text-sm font-semibold" style={{ color: '#8BAA1D' }} onClick={() => setMobileMenuOpen(false)}>
-            {t('contact')}
-          </Link>
-        </nav>
+            <button onClick={() => setMobileMenuOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem' }}>
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#242426">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Scrollable content */}
+          <div style={{ flex: 1, overflowY: 'auto', padding: '0 6vw' }}>
+            {navItems.map((item) => (
+              <MobileAccordionSection
+                key={item.key}
+                label={item.label}
+                href={item.href}
+                menuKey={item.key}
+                onClose={() => setMobileMenuOpen(false)}
+              />
+            ))}
+          </div>
+
+          {/* Footer links */}
+          <div style={{ flexShrink: 0, borderTop: '1px solid #e5e7eb', padding: '1rem 6vw', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <Link href={`/${locale}/contact/`} onClick={() => setMobileMenuOpen(false)}
+              style={{ flex: 1, background: '#8BAA1D', color: '#ffffff', padding: '0.7rem 1rem', fontWeight: 700, fontSize: '0.875rem', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
+              {t('contact')}
+            </Link>
+            <Link href="/login/" onClick={() => setMobileMenuOpen(false)}
+              style={{ flex: 1, background: '#242426', color: '#ffffff', padding: '0.7rem 1rem', fontWeight: 700, fontSize: '0.875rem', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
+              {locale === 'es' ? 'Acceder' : 'Login'}
+            </Link>
+          </div>
+        </div>
       )}
     </header>
   )

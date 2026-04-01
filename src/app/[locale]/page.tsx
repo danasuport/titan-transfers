@@ -28,7 +28,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     <>
       <SchemaOrg data={generateLocalBusinessSchema()} />
       <HeroSection />
-      <div className="bg-white py-10">
+      <div className="bg-white py-10 resp-booking-section">
         <div className="site-container">
           <BookingForm />
           <div style={{ display: 'flex', gap: '2rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>

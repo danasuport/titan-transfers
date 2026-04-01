@@ -207,13 +207,13 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
         <BookingForm />
 
         {/* Trust badges inline below form */}
-        <div className="trust-badges-row" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0', marginTop: '1.25rem', borderTop: '1px solid #e5e7eb', paddingTop: '1.25rem' }}>
+        <div style={{ display: 'flex', gap: '2rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
           {trustBadges.map((b, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0 1.5rem 0 0', marginRight: '1.5rem', borderRight: i < trustBadges.length - 1 ? '1px solid #e5e7eb' : 'none' }}>
-              <span style={{ color: '#8BAA1D', flexShrink: 0 }}>{b.icon}</span>
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ color: '#8BAA1D', fontSize: '1rem', lineHeight: 1, flexShrink: 0 }}>{b.icon}</span>
               <div>
-                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#242426', lineHeight: 1.2 }}>{b.label}</div>
-                <div style={{ fontSize: '0.72rem', color: '#94a3b8', lineHeight: 1.3 }}>{b.desc}</div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#242426' }}>{b.label}</div>
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>{b.desc}</div>
               </div>
             </div>
           ))}

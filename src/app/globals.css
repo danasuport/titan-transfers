@@ -337,6 +337,7 @@ footer .text-gray-500 { color: #6b7280 !important; }
 
 @media (max-width: 768px) {
   /* Carruseles de destinos y aeropuertos cercanos → 2 cols */
+  .dest-card-5th { display: none !important; }
   .resp-destinations-grid {
     grid-template-columns: repeat(2, 1fr) !important;
     min-height: unset !important;
@@ -362,20 +363,99 @@ footer .text-gray-500 { color: #6b7280 !important; }
   }
   /* Hero image panels: show with height when stacked */
   .resp-img-panel {
-    min-height: 260px;
-    clip-path: none !important;
+    min-height: 160px !important;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 88%, 0% 100%) !important;
+    order: -1;
   }
-  /* Booking form wraps into rows */
+  .resp-hero-text {
+    order: 1;
+    padding-bottom: 2rem;
+  }
+  /* Service types carousel — 1 col on mobile */
+  .service-types-section {
+    padding-top: 0 !important;
+  }
+  .service-carousel-wrap {
+    grid-template-columns: 1fr !important;
+    min-height: unset !important;
+  }
+  .service-carousel-img {
+    min-height: 220px !important;
+    order: -1;
+  }
+  .service-carousel-img-el {
+    object-fit: cover !important;
+    object-position: top center !important;
+  }
+  .service-carousel-content {
+    padding: 1.5rem !important;
+  }
+  .service-carousel-dots {
+    justify-content: center !important;
+  }
+
+  .resp-booking-section {
+    margin-top: -2.5rem;
+    position: relative;
+    z-index: 10;
+    border-radius: 8px 8px 0 0;
+  }
+  /* Booking form — mobile: no skew, clean layout */
+  .booking-form-wrap {
+    transform: none !important;
+    border-radius: 0 !important;
+    padding: 1rem !important;
+  }
   .resp-form-row {
+    transform: none !important;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
-  .resp-form-row > div:nth-child(1) { flex: 0 0 100%; }
-  .resp-form-row > div:nth-child(2) { flex: 0 0 100%; }
-  .resp-form-row > div:nth-child(3) { flex: 1 1 100%; }
-  .resp-form-row > div:nth-child(4),
-  .resp-form-row > div:nth-child(5) { flex: 1 1 calc(50% - 0.25rem); }
-  .resp-form-row > button { flex: 0 0 100%; min-height: 48px; padding: 0; }
+  /* Pickup: full width */
+  .resp-form-row > div:nth-child(1) {
+    flex: 0 0 100% !important;
+    transform: none !important;
+    min-height: 48px;
+  }
+  /* Dest: full width */
+  .resp-form-row > div:nth-child(2) {
+    flex: 0 0 100% !important;
+    transform: none !important;
+    min-height: 48px;
+  }
+  /* Date: full width */
+  .resp-form-row > div:nth-child(3) {
+    flex: 0 0 100% !important;
+    transform: none !important;
+    min-height: 48px;
+  }
+  /* Pax + Luggage: 2 cols side by side */
+  .resp-form-row > div:nth-child(4) {
+    flex: 1 1 calc(50% - 0.25rem) !important;
+    transform: none !important;
+    min-height: 48px;
+  }
+  .resp-form-row > div:nth-child(5) {
+    flex: 1 1 calc(50% - 0.25rem) !important;
+    transform: none !important;
+    min-height: 48px;
+  }
+  .resp-form-row > div > div {
+    transform: none !important;
+  }
+  .resp-form-row > button {
+    flex: 0 0 100% !important;
+    min-height: 52px;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    transform: none !important;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+  .resp-form-row > button svg {
+    transform: none !important;
+  }
+  .booking-btn-text { display: inline !important; }
   /* Trust badges 2-col */
   .trust-badges-row > div {
     border-right: none !important;
@@ -389,9 +469,29 @@ footer .text-gray-500 { color: #6b7280 !important; }
   /* Stats wrap */
   .stats-skew-row { flex-wrap: wrap; }
   /* CTA section reduced padding */
-  .resp-cta-section { padding-top: 3rem !important; padding-bottom: 3rem !important; }
-  /* Hide mockup image on mobile */
-  .resp-cta-img { display: none !important; }
+  .resp-cta-section { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+  /* Mockup: show on mobile, reduce height */
+  .resp-cta-img { display: flex !important; padding-left: 0 !important; justify-content: center; }
+  .cta-mockup-img { max-height: 260px !important; width: auto !important; }
+  /* CTA blocks: reset negative margins */
+  .cta-top-block { padding: 1.5rem 4vw !important; }
+  .cta-app-block { margin: 0 0 1.5rem 0 !important; padding: 1.5rem 4vw !important; }
+  .resp-cta-grid { grid-template-columns: 1fr !important; min-height: unset !important; }
+  .cta-buttons-row { flex-wrap: nowrap !important; }
+  /* Listing hero (cities, airports, countries) — stack on mobile */
+  .resp-listing-hero {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+  /* Stats row — fit width, smaller padding */
+  .listing-stats-row {
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+  }
+  .listing-stats-row > div {
+    padding: 1rem 1.25rem !important;
+    flex: 1 1 auto !important;
+  }
   /* Site container */
   .site-container { padding-left: 4vw; padding-right: 4vw; }
   h1 { word-break: break-word; }
@@ -402,10 +502,11 @@ footer .text-gray-500 { color: #6b7280 !important; }
   /* Estrellas hero más pequeñas */
   .resp-hero-stars svg { width: 36px !important; height: 36px !important; }
 
-  /* H2 de secciones: de ~3rem → 1.6rem en mobile */
-  h2 { font-size: 1.6rem !important; }
-  /* H3 proporcional */
-  h3 { font-size: 1.2rem !important; }
+  /* H2/H3 secciones mobile */
+  h2 { font-size: 1.75rem !important; }
+  h3 { font-size: 1.25rem !important; }
+  /* Párrafos con fontSize inline grandes → reducir */
+  p { font-size: 1rem !important; line-height: 1.6 !important; }
 
   /* Routes: 6-col → 3-col */
   .resp-routes-grid { grid-template-columns: repeat(3, 1fr) !important; }
@@ -424,11 +525,11 @@ footer .text-gray-500 { color: #6b7280 !important; }
 }
 
 @media (max-width: 480px) {
-  .resp-destinations-grid { grid-template-columns: 1fr !important; }
+  .resp-destinations-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .resp-nearby-grid { grid-template-columns: 1fr !important; }
   .resp-4col { grid-template-columns: 1fr; }
   .resp-form-row > div,
-  .resp-form-row > button { flex: 0 0 100%; }
+  .resp-form-row > button { flex: 0 0 100% !important; }
   .stats-skew-row { display: none; }
   .resp-hero-grid h1 { font-size: 2rem !important; }
   .resp-routes-grid { grid-template-columns: repeat(2, 1fr) !important; }
