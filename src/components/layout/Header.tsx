@@ -87,7 +87,9 @@ export function Header() {
           {/* Right side */}
           <div className="flex items-center gap-3">
             <LanguageSwitcher />
-            <SkewButton href={`/${locale}/contact/`} variant="primary" className="hidden lg:inline-block" style={{ padding: '0.5rem 1.25rem', fontSize: '0.875rem' }}>{t('contact')}</SkewButton>
+            <div className="hidden lg:block">
+              <SkewButton href={`/${locale}/contact/`} variant="primary" style={{ padding: '0.5rem 1.25rem', fontSize: '0.875rem' }}>{t('contact')}</SkewButton>
+            </div>
             <Link href="/login/"
               className="hidden sm:flex"
               style={{ alignItems: 'center', gap: '0.4rem', color: '#ffffff', textDecoration: 'none', background: '#242426', border: '2px solid #242426', transform: 'skewX(-12deg)', padding: '0.4rem 0.9rem', transition: 'background 0.2s, border-color 0.2s', fontSize: '0.875rem', fontWeight: 700 }}
