@@ -14,6 +14,7 @@ import { FAQ } from '@/components/sections/FAQ'
 import { FleetShowcase } from '@/components/sections/FleetShowcase'
 import { CtaSection } from '@/components/sections/CtaSection'
 import { HowItWorks } from '@/components/sections/HowItWorks'
+import { Testimonials } from '@/components/sections/Testimonials'
 import { BookingForm } from '@/components/ui/BookingForm'
 import { PortableText } from '@portabletext/react'
 import type { Locale } from '@/lib/i18n/config'
@@ -143,19 +144,6 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
     { question: t('faqDelayQ', { airport: airportTitle }), answer: t('faqDelayA') },
   ]
 
-  // FAQ images — test with Barcelona, will be automated via Unsplash/Sanity per city
-  const faqImages = cityName.toLowerCase().includes('barcelona') ? [
-    { url: 'https://images.unsplash.com/photo-1539037179278-f246b6a6f9e6?w=800&q=80', alt: `VIP private transfer ${cityName} airport` },
-    { url: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=800&q=80', alt: `Mercedes executive transfer ${cityName}` },
-    { url: 'https://images.unsplash.com/photo-1508050919630-b135583b29ab?w=800&q=80', alt: `Child seat transfer ${airportTitle}` },
-    { url: 'https://images.unsplash.com/photo-1583422409516-2895a9e4ac44?w=800&q=80', alt: `VIP transfer service ${cityName} city` },
-    { url: 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=800&q=80', alt: `Group transfer ${airportTitle}` },
-    { url: 'https://images.unsplash.com/photo-1548199569-3e1c6aa8f469?w=800&q=80', alt: `Pet friendly transfer ${cityName}` },
-    { url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80', alt: `Licensed private driver ${cityName}` },
-    { url: 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&q=80', alt: `Airport transfer services ${airportTitle}` },
-    { url: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&q=80', alt: `Wheelchair accessible transfer ${cityName}` },
-    { url: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80', alt: `Flight delay transfer ${airportTitle}` },
-  ] : undefined
 
   const trustBadges = [
     { icon: <IconStar />, label: tc('rating'), desc: tc('ratingDesc') },
@@ -184,16 +172,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '6vw', paddingRight: '4vw', paddingTop: '4rem', paddingBottom: '4rem' }}>
           <Breadcrumbs items={breadcrumbs} variant="light" />
 
-          {/* IATA label — simple, no pill */}
-          {airport.iataCode && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '1.5rem', marginBottom: '1rem' }}>
-              <span style={{ fontFamily: 'monospace', fontWeight: 700, fontSize: '0.85rem', color: '#8BAA1D', letterSpacing: '0.12em' }}>{airport.iataCode}</span>
-              <span style={{ color: '#cbd5e1', fontSize: '0.75rem' }}>—</span>
-              {cityName && <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 500 }}>{cityName}</span>}
-            </div>
-          )}
-
-          <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1.25rem', textTransform: 'none' }}>
+          <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1.25rem', marginTop: '0.75rem', textTransform: 'none' }}>
             {h1}
           </h1>
 
@@ -241,26 +220,6 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
         </div>
       </section>
 
-      {/* ─── INTRO ─────────────────────────────────────────────────────── */}
-      <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
-        <div style={{ maxWidth: '760px', margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ width: '48px', height: '3px', background: '#8BAA1D', margin: '0 auto 1.25rem' }} />
-          <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', color: '#242426', marginBottom: '1rem', textTransform: 'none' }}>
-            {t('transferBestPrice', { airport: airportTitle })}
-          </h2>
-          <p style={{ fontSize: '1.05rem', color: '#475569', lineHeight: 1.75 }}>
-            {t('transferBestPriceDesc', { airport: airportTitle })}
-          </p>
-          {/* Pill features */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.6rem', marginTop: '2rem' }}>
-            {[tc('fixedPrice'), tc('freeCancel'), tc('support'), tc('meetGreet')].map((pill, i) => (
-              <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '6px 16px', borderRadius: '999px', fontSize: '0.82rem', fontWeight: 600, color: '#374151' }}>
-                <IconCheck />{pill}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ─── ABOUT / DESCRIPTION + GALLERY ────────────────────────────── */}
       {(description || gallery.length > 0) && (
@@ -296,7 +255,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
 
       {/* ─── WHY CHOOSE US — prices & features ─────────────────────────── */}
       <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
-        <div style={{ display: 'grid', gap: '4rem', gridTemplateColumns: gallery.length > 0 ? '1fr 1fr' : '1fr', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ display: 'grid', gap: '4rem', gridTemplateColumns: '1fr 1fr', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
           <div>
             <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
             <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)', color: '#242426', marginBottom: '1rem', textTransform: 'none' }}>
@@ -304,49 +263,37 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
             </h2>
             <p style={{ color: '#475569', lineHeight: 1.75, marginBottom: '2rem' }}>{t('pricesAndRatesDesc')}</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {[
-                { icon: <IconTag />, title: tc('fixedPrice'), desc: tc('fixedPriceDesc') },
-                { icon: <IconShield />, title: tc('freeCancel'), desc: tc('freeCancelDesc') },
-                { icon: <IconStar />, title: tc('meetGreet'), desc: tc('meetGreetDesc') },
-              ].map((item, i) => (
-                <div key={i} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1.25rem 1.5rem', borderRadius: '4px' }}>
-                  <div style={{ flexShrink: 0, background: '#8BAA1D', color: '#ffffff', padding: '10px', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'skewX(-8deg)' }}>
-                    <span style={{ transform: 'skewX(8deg)', display: 'block' }}>{item.icon}</span>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
+                {[
+                  { icon: <IconTag />, title: tc('fixedPrice'), desc: tc('fixedPriceDesc') },
+                  { icon: <IconShield />, title: tc('freeCancel'), desc: tc('freeCancelDesc') },
+                  { icon: <IconStar />, title: tc('meetGreet'), desc: tc('meetGreetDesc') },
+                  { icon: <IconClock />, title: tc('support'), desc: tc('supportDesc') },
+                  { icon: <IconCheck />, title: tc('rating'), desc: tc('ratingDesc') },
+                  { icon: <IconPlane />, title: es ? 'Conductor profesional' : 'Professional driver', desc: es ? 'Con cartel con tu nombre' : 'With name sign at arrivals' },
+                ].map((item, i) => (
+                  <div key={i} style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1rem', transform: 'skewX(-6deg)' }}>
+                    <div style={{ transform: 'skewX(6deg)' }}>
+                      <span style={{ color: '#8BAA1D', display: 'block', marginBottom: '0.4rem' }}>{item.icon}</span>
+                      <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#242426', lineHeight: 1.3 }}>{item.title}</div>
+                      <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '2px', lineHeight: 1.4 }}>{item.desc}</div>
+                    </div>
                   </div>
-                  <div>
-                    <div style={{ fontWeight: 700, color: '#242426', marginBottom: '2px' }}>{item.title}</div>
-                    <div style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: 1.6 }}>{item.desc}</div>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-          {gallery.length > 0 && (
-            <div style={{ position: 'relative' }}>
-              <div style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden', borderRadius: '4px' }}>
-                <Image
-                  src={gallery[gallery.length > 2 ? 2 : 0].url}
-                  alt={t('pricesAndRates', { airport: airportTitle })}
-                  fill
-                  style={{ objectFit: 'cover' }}
-                />
-                {/* mask on image */}
-                <svg style={{ position: 'absolute', bottom: -1, left: 0, width: '100%', zIndex: 1 }} viewBox="0 0 400 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0,50 L0,25 Q200,0 400,25 L400,50 Z" fill="#F8FAF0" />
-                </svg>
-              </div>
-              {/* Floating rating card */}
-              <div style={{ position: 'absolute', bottom: '-1.5rem', left: '-1.5rem', background: '#242426', padding: '1rem 1.5rem', display: 'flex', alignItems: 'center', gap: '1rem', zIndex: 2, transform: 'skewX(-6deg)' }}>
-                <div style={{ transform: 'skewX(6deg)', display: 'flex', gap: '3px' }}>
-                  {[1,2,3,4,5].map(s => <svg key={s} width="16" height="16" fill="#f59e0b" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>)}
-                </div>
-                <div style={{ transform: 'skewX(6deg)' }}>
-                  <div style={{ color: '#ffffff', fontWeight: 800, fontSize: '1.2rem', lineHeight: 1 }}>4.8<span style={{ fontSize: '0.8rem', fontWeight: 400, color: 'rgba(255,255,255,0.5)' }}>/5</span></div>
-                  <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem' }}>{tc('ratingDesc')}</div>
-                </div>
-              </div>
-            </div>
-          )}
+          {/* Mockup image */}
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Image
+              src="/mockup.png"
+              alt=""
+              aria-hidden="true"
+              width={555}
+              height={605}
+              style={{ objectFit: 'contain', maxHeight: '535px', width: 'auto', marginTop: '2rem' }}
+            />
+          </div>
         </div>
       </section>
 
@@ -378,77 +325,51 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
       </section>
 
       {/* ─── TESTIMONIALS ──────────────────────────────────────────────── */}
-      <section style={{ background: '#242426', padding: '5rem 6vw' }}>
-        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <div style={{ width: '48px', height: '3px', background: '#8BAA1D', margin: '0 auto 1.25rem' }} />
-          <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)', color: '#ffffff', textTransform: 'none' }}>
-            {t('testimonials', { airport: airportTitle })}
-          </h2>
-          <p style={{ color: 'rgba(255,255,255,0.55)', marginTop: '0.75rem' }}>{t('testimonialsDesc', { airport: airportTitle })}</p>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', maxWidth: '1100px', margin: '0 auto' }}>
-          {[
-            { name: 'Carlos M.', loc: 'Madrid', text: es ? 'Servicio impecable. El conductor nos esperaba con un cartel, el coche estaba inmaculado y el precio fue exactamente el que nos indicaron. Repetiremos seguro.' : 'Impeccable service. The driver was waiting with a sign, the car was spotless and the price was exactly as quoted. Will book again.' },
-            { name: 'Sarah L.', loc: 'London', text: es ? 'Reservamos el transfer VIP para una ocasión especial. El Mercedes Clase S era espectacular y el conductor muy profesional. Una experiencia de 10.' : 'We booked the VIP transfer for a special occasion. The Mercedes S-Class was spectacular and the driver very professional. A 10/10 experience.' },
-            { name: 'Marco R.', loc: 'Roma', text: es ? 'Nuestro vuelo se retrasó 2 horas y el conductor ajustó la recogida sin ningún problema ni coste extra. Eso es profesionalidad.' : 'Our flight was delayed 2 hours and the driver adjusted pickup with no issue or extra cost. That is professionalism.' },
-          ].map((review, i) => (
-            <div key={i} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', padding: '1.75rem', borderRadius: '4px' }}>
-              <IconQuote />
-              <p style={{ fontSize: '0.9rem', lineHeight: 1.75, color: 'rgba(255,255,255,0.8)', margin: '1rem 0 1.5rem' }}>{review.text}</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#8BAA1D', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontWeight: 700, fontSize: '0.9rem', flexShrink: 0 }}>
-                  {review.name.charAt(0)}
-                </div>
-                <div>
-                  <div style={{ color: '#ffffff', fontWeight: 600, fontSize: '0.875rem' }}>{review.name}</div>
-                  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem' }}>{review.loc}</div>
-                </div>
-                <div style={{ marginLeft: 'auto', display: 'flex', gap: '2px' }}>
-                  {[1,2,3,4,5].map(s => <svg key={s} width="13" height="13" fill="#f59e0b" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>)}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        {/* Overall rating */}
-        <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-          <div style={{ fontSize: '3rem', fontWeight: 900, color: '#ffffff', lineHeight: 1 }}>4.8<span style={{ fontSize: '1.2rem', fontWeight: 400, color: 'rgba(255,255,255,0.4)' }}>/5</span></div>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '3px', margin: '0.5rem 0' }}>
-            {[1,2,3,4,5].map(s => <svg key={s} width="20" height="20" fill={s === 5 ? '#ca8a04' : '#f59e0b'} viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>)}
-          </div>
-          <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.85rem' }}>{tc('ratingDesc')}</div>
-        </div>
-      </section>
+      <Testimonials />
 
       {/* ─── ROUTES ────────────────────────────────────────────────────── */}
-      <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
-        <div style={{ marginBottom: '3rem' }} />
-        <RoutesList
-          routes={airport.routes || []}
-          airportSlug={slug}
-          cityName={cityName}
-          title={es ? `Rutas populares desde ${airportTitle}` : `Popular routes from ${airportTitle}`}
-        />
-      </section>
+      {airport.routes?.length > 0 && (
+        <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
+          <RoutesList
+            routes={airport.routes}
+            airportSlug={slug}
+            cityName={cityName}
+            title={es ? `Rutas populares desde ${airportTitle}` : `Popular routes from ${airportTitle}`}
+          />
+        </section>
+      )}
 
       {/* ─── FAQ ───────────────────────────────────────────────────────── */}
       <section style={{ background: '#ffffff', padding: '5rem 6vw' }}>
-        <div style={{ marginBottom: '3rem' }} />
-        <FAQ items={faqItems} title={t('faq', { city: cityName })} images={faqImages} />
+        <div style={{ maxWidth: '860px', margin: '0 auto' }}>
+          <FAQ items={faqItems} title={t('faq', { city: cityName })} />
+        </div>
       </section>
 
       {/* ─── CTA BANNER ────────────────────────────────────────────────── */}
-      <section style={{ background: '#8BAA1D', padding: '4rem 6vw' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-          <div>
-            <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', color: '#ffffff', textTransform: 'none', marginBottom: '0.5rem' }}>
+      <section style={{ background: '#8BAA1D', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '380px' }}>
+          {/* Left: image with diagonal clip */}
+          <div style={{ position: 'relative', clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }}>
+            <Image
+              src="/services/city-to-city.png"
+              alt={es ? `Conductor profesional ${airportTitle}` : `Professional driver ${airportTitle}`}
+              fill
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
+              sizes="50vw"
+            />
+          </div>
+          {/* Right: text */}
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '4rem 6vw 4rem 5vw' }}>
+            <div style={{ width: '48px', height: '3px', background: '#ffffff', marginBottom: '1.25rem' }} />
+            <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', color: '#ffffff', marginBottom: '1rem' }}>
               {t('joinDrivers', { airport: airportTitle })}
             </h2>
-            <p style={{ color: 'rgba(255,255,255,0.8)', maxWidth: '520px', lineHeight: 1.7 }}>{t('joinDriversDesc')}</p>
+            <p style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, marginBottom: '2rem', maxWidth: '440px' }}>{t('joinDriversDesc')}</p>
+            <a href="/contact/" style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
+              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{tc('support')} →</span>
+            </a>
           </div>
-          <a href="/contact/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', border: '2px solid #242426', padding: '0.75rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s, border-color 0.2s', flexShrink: 0 }}>
-            <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{tc('support')} →</span>
-          </a>
         </div>
       </section>
 

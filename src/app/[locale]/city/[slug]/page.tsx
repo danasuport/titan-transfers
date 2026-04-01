@@ -8,17 +8,17 @@ import { generatePageMetadata, generateCityMetadata } from '@/lib/seo/generateMe
 import { generateTaxiServiceSchema } from '@/lib/seo/schemaOrg'
 import { SchemaOrg } from '@/components/seo/SchemaOrg'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
-import { InlineBooking } from '@/components/sections/InlineBooking'
+import { BookingForm } from '@/components/ui/BookingForm'
 import { NearbyAirports } from '@/components/sections/NearbyAirports'
-import { RelatedCities } from '@/components/sections/RelatedCities'
-import { Link } from '@/lib/i18n/navigation'
-import { formatDistance, formatDuration } from '@/lib/utils/formatters'
+import { RoutesList } from '@/components/sections/RoutesList'
 import { FAQ } from '@/components/sections/FAQ'
-import { LatestNews } from '@/components/sections/LatestNews'
-import { TrustNumbers } from '@/components/sections/TrustNumbers'
+import { FleetShowcase } from '@/components/sections/FleetShowcase'
+import { HowItWorks } from '@/components/sections/HowItWorks'
+import { Testimonials } from '@/components/sections/Testimonials'
+import { CtaSection } from '@/components/sections/CtaSection'
 import { PortableText } from '@portabletext/react'
 import type { Locale } from '@/lib/i18n/config'
-import { getServiceUrl } from '@/lib/utils/slugHelpers'
+import { russoOne } from '@/lib/fonts'
 
 export async function generateStaticParams() {
   const cities = await sanityClient.fetch(allCitiesQuery)
@@ -39,9 +39,12 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
   if (!city) notFound()
 
   const t = await getTranslations({ locale, namespace: 'city' })
+  const tc = await getTranslations({ locale, namespace: 'trust' })
+  const es = locale === 'es'
+
   const cityTitle = (locale !== 'en' && city.translations?.[locale]?.title) || city.title
   const description = (locale !== 'en' && city.translations?.[locale]?.description) || city.description
-  const imgUrl = urlFor(city.featuredImage)?.width(1920).height(600).quality(80).url()
+  const heroImg = urlFor(city.featuredImage)?.width(1920).height(900).quality(90).url()
 
   const breadcrumbs = [
     { label: city.country?.title || '', href: `/country/${city.country?.slug?.current}/` },
@@ -55,194 +58,130 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
     { question: `What areas of ${cityTitle} do you cover?`, answer: `We cover all areas of ${cityTitle} and surrounding regions including airports, ports, train stations, and hotels. If your destination is not listed, contact us for a custom quote.` },
   ]
 
-  // Combine routesTo and routesFrom
+  const trustBadges = [
+    { icon: '★', label: tc('rating'), desc: tc('ratingDesc') },
+    { icon: '◈', label: tc('fixedPrice'), desc: tc('fixedPriceDesc') },
+    { icon: '◷', label: tc('support'), desc: tc('supportDesc') },
+    { icon: '✓', label: tc('freeCancel'), desc: tc('freeCancelDesc') },
+  ]
+
   const allRoutes = [...(city.routesTo || []), ...(city.routesFrom || [])]
 
   return (
     <>
       <SchemaOrg data={generateTaxiServiceSchema({ name: `Private Transfers in ${cityTitle}`, description: `Book private transfers in ${cityTitle}`, url: `/city/${slug}/`, areaServed: cityTitle, rating: 4.8 })} />
 
-      {/* Hero */}
-      <section className="hero-always-dark relative overflow-hidden bg-dark">
-        {imgUrl ? (
-          <Image
-            src={imgUrl}
-            alt={`Private transfers in ${cityTitle}`}
-            fill
-            className="object-cover opacity-30"
-            sizes="100vw"
-            priority
-          />
-        ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-dark via-dark to-brand-900/20" />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/60 to-dark/40" />
-        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+      {/* ─── HERO ─────────────────────────────────────────────────────────── */}
+      <section style={{ background: '#F8FAF0', display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '520px' }}>
+        {/* Left: content */}
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '6vw', paddingRight: '4vw', paddingTop: '4rem', paddingBottom: '4rem' }}>
+          <Breadcrumbs items={breadcrumbs} variant="light" />
 
-        <div className="relative w-full px-4 pb-16 pt-32 sm:px-6 lg:px-8">
-          <Breadcrumbs items={breadcrumbs} />
-          {city.country && (
-            <span className="mb-4 mt-6 inline-block rounded-full bg-brand-500/20 px-4 py-1 text-sm font-medium text-brand-400">
-              {city.country.title}
-            </span>
-          )}
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
+          <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1.25rem', marginTop: '0.75rem' }}>
             {t('transfers', { city: cityTitle })}
           </h1>
-          <p className="max-w-2xl text-lg text-gray-400">
+
+          <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '480px' }}>
             {t('privateTaxi', { city: cityTitle })}
           </p>
         </div>
+
+        {/* Right: image with diagonal clip */}
+        <div style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
+          {heroImg ? (
+            <Image src={heroImg} alt={`${t('transfers')} ${cityTitle}`} fill priority style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="50vw" />
+          ) : (
+            <div style={{ position: 'absolute', inset: 0, background: '#242426' }} />
+          )}
+        </div>
       </section>
 
-      {/* Trust Numbers compact */}
-      <TrustNumbers compact />
+      {/* ─── BOOKING FORM ─────────────────────────────────────────────────── */}
+      <section style={{ background: '#ffffff', paddingTop: '2.5rem', paddingBottom: '2.5rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
+        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#8BAA1D', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
+          {es ? `Reserva tu transfer — ${cityTitle}` : `Book your transfer — ${cityTitle}`}
+        </p>
+        <BookingForm />
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 0, marginTop: '1.25rem', borderTop: '1px solid #e5e7eb', paddingTop: '1.25rem' }}>
+          {trustBadges.map((b, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0 1.5rem 0 0', marginRight: '1.5rem', borderRight: i < trustBadges.length - 1 ? '1px solid #e5e7eb' : 'none' }}>
+              <span style={{ color: '#8BAA1D', fontSize: '1rem', flexShrink: 0 }}>{b.icon}</span>
+              <div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#242426', lineHeight: 1.2 }}>{b.label}</div>
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8', lineHeight: 1.3 }}>{b.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
-      {/* Inline Booking */}
-      <InlineBooking title={t('bookTransfer', { city: cityTitle })} toLocation={cityTitle} toCategory="city" />
-
-      {/* Description */}
+      {/* ─── DESCRIPTION ──────────────────────────────────────────────────── */}
       {description && (
-        <section className="bg-dark py-16">
-          <div className="site-container">
-            <div className="prose prose-lg mx-auto max-w-none prose-headings:font-normal prose-headings:text-heading prose-p:leading-relaxed prose-p:text-body">
-              <PortableText value={description} />
-            </div>
+        <section style={{ background: '#ffffff', padding: '5rem 6vw' }}>
+          <div style={{ maxWidth: '800px', margin: '0 auto' }} className="prose prose-lg prose-headings:font-normal prose-headings:text-[#242426] prose-p:text-[#475569] prose-p:leading-relaxed prose-a:text-[#8BAA1D] prose-a:no-underline">
+            <PortableText value={description} />
           </div>
         </section>
       )}
 
-      {/* Nearby Airports */}
+      {/* ─── FLEET ────────────────────────────────────────────────────────── */}
+      <FleetShowcase />
+
+      {/* ─── HOW IT WORKS ─────────────────────────────────────────────────── */}
+      <HowItWorks />
+
+      {/* ─── TESTIMONIALS ─────────────────────────────────────────────────── */}
+      <Testimonials />
+
+      {/* ─── NEARBY AIRPORTS ──────────────────────────────────────────────── */}
       {city.nearbyAirports?.length > 0 && (
-        <div className="bg-dark-light">
-          <div className="w-full px-4 py-16 sm:px-6 lg:px-8">
-            <NearbyAirports airports={city.nearbyAirports} title={t('airportTransfers', { city: cityTitle })} />
-          </div>
-        </div>
-      )}
-
-      {/* Routes */}
-      {allRoutes.length > 0 && (
-        <section className="bg-surface-100 py-16">
-          <div className="site-container">
-            <div className="mb-8">
-              <div className="mb-4 h-1 w-16 rounded-full bg-brand-500" />
-              <h2 className="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl">
-                {t('cityToCity', { city: cityTitle })}
-              </h2>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {allRoutes.map((route: { _id: string; title: string; slug: { current: string }; distance?: number; estimatedDuration?: number; origin?: { _id: string; _type: string; title: string; slug: { current: string }; iataCode?: string; translations?: Record<string, { title?: string; slug?: { current: string } }> }; destination?: { _id: string; title: string; slug: { current: string }; translations?: Record<string, { title?: string; slug?: { current: string } }> }; translations?: Record<string, { slug?: { current: string } }> }) => {
-                const originSlug = route.origin?.slug?.current
-                const routeSlug = (locale !== 'en' && route.translations?.[locale]?.slug?.current) || route.slug.current
-                const originName = (locale !== 'en' && route.origin?.translations?.[locale]?.title) || route.origin?.title || ''
-                const destName = (locale !== 'en' && route.destination?.translations?.[locale]?.title) || route.destination?.title || ''
-                if (!originSlug) return null
-                return (
-                  <Link
-                    key={route._id}
-                    href={`/airport/${originSlug}/${routeSlug}/` as any}
-                    className="group relative overflow-hidden rounded-2xl bg-white/[0.03] ring-1 ring-white/[0.06] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:ring-brand-500/30 hover:shadow-lg"
-                  >
-                    <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-brand-500 to-brand-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                    {/* Origin → Destination */}
-                    <div className="mb-3 flex items-center gap-2">
-                      <span className="shrink-0 text-sm font-bold text-heading">{originName}</span>
-                      <svg className="h-4 w-4 shrink-0 text-brand-500" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                      </svg>
-                      <span className="shrink-0 text-sm font-bold text-brand-400">{destName}</span>
-                    </div>
-                    <div className="flex gap-4 text-xs text-muted">
-                      {route.distance && (
-                        <span className="flex items-center gap-1">
-                          <svg className="h-3.5 w-3.5 text-muted" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
-                          {formatDistance(route.distance)}
-                        </span>
-                      )}
-                      {route.estimatedDuration && (
-                        <span className="flex items-center gap-1">
-                          <svg className="h-3.5 w-3.5 text-muted" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                          {formatDuration(route.estimatedDuration)}
-                        </span>
-                      )}
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
+        <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
+          <NearbyAirports airports={city.nearbyAirports} title={t('airportTransfers', { city: cityTitle })} />
         </section>
       )}
 
-      {/* Related Cities */}
-      {city.relatedCities?.length > 0 && (
-        <div className="bg-dark-light">
-          <div className="w-full px-4 py-16 sm:px-6 lg:px-8">
-            <RelatedCities cities={city.relatedCities} title={t('whyChoose', { city: cityTitle })} />
-          </div>
-        </div>
+      {/* ─── ROUTES ───────────────────────────────────────────────────────── */}
+      {allRoutes.length > 0 && (
+        <section style={{ background: '#ffffff', padding: '5rem 6vw' }}>
+          <RoutesList
+            routes={allRoutes}
+            airportSlug={city.nearbyAirports?.[0]?.slug?.current || slug}
+            cityName={cityTitle}
+            title={es ? `Rutas populares desde ${cityTitle}` : `Popular routes from ${cityTitle}`}
+          />
+        </section>
       )}
 
-      {/* Available Services — Internal Linking */}
-      <section className="bg-dark py-16">
-        <div className="site-container">
-          <div className="mb-8">
-            <div className="mb-4 h-1 w-16 rounded-full bg-brand-500" />
-            <h2 className="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl">
-              {locale === 'es' ? `Servicios disponibles en ${cityTitle}` : `Services available in ${cityTitle}`}
-            </h2>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { href: getServiceUrl(locale === 'es' ? 'traslados-aeropuerto' : 'airport-transfers', locale as Locale), label: locale === 'es' ? 'Traslados Aeropuerto' : 'Airport Transfers', icon: 'M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5' },
-              { href: getServiceUrl(locale === 'es' ? 'traslados-puerto' : 'port-transfers', locale as Locale), label: locale === 'es' ? 'Traslados Puerto' : 'Port Transfers', icon: 'M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z' },
-              { href: getServiceUrl(locale === 'es' ? 'traslados-estacion-tren' : 'train-station-transfers', locale as Locale), label: locale === 'es' ? 'Traslados Estación' : 'Station Transfers', icon: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 00-.879-2.121l-1.431-1.431A2.999 2.999 0 0017.466 9.5H15.75m-6 0V6.375m0 0a2.625 2.625 0 115.25 0M9.75 6.375v3.125' },
-              { href: getServiceUrl(locale === 'es' ? 'ciudad-a-ciudad' : 'city-to-city', locale as Locale), label: locale === 'es' ? 'Ciudad a Ciudad' : 'City to City', icon: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 00-.879-2.121L16.5 10.5M6 6.5h10.5' },
-            ].map((svc) => (
-              <Link
-                key={svc.href}
-                href={svc.href}
-                className="group flex items-center gap-4 rounded-2xl bg-glass-bg p-5 ring-1 ring-glass-ring transition-all duration-300 hover:ring-brand-500/40"
-              >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-500/10 text-brand-400 ring-1 ring-brand-500/20">
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d={svc.icon} />
-                  </svg>
-                </div>
-                <span className="text-sm font-semibold text-heading transition-colors group-hover:text-brand-400">{svc.label}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="bg-dark-light py-16">
-        <div className="site-container">
+      {/* ─── FAQ ──────────────────────────────────────────────────────────── */}
+      <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto' }}>
           <FAQ items={faqItems} title={t('faq')} />
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="relative overflow-hidden bg-dark py-20">
-        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-        <div className="relative site-container px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="mb-6 text-3xl font-extrabold tracking-tight text-heading sm:text-4xl">
-            {t('bookTransfer', { city: cityTitle })}
-          </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-lg text-body">
-            {t('privateTaxi', { city: cityTitle })}
-          </p>
+      {/* ─── CTA BANNER ───────────────────────────────────────────────────── */}
+      <section style={{ background: '#8BAA1D', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '380px' }}>
+          <div style={{ position: 'relative', clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }}>
+            <Image src="/services/city-to-city.png" alt="" fill style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="50vw" />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '4rem 6vw 4rem 5vw' }}>
+            <div style={{ width: '48px', height: '3px', background: '#ffffff', marginBottom: '1.25rem' }} />
+            <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', color: '#ffffff', marginBottom: '1rem' }}>
+              {es ? `¿Eres conductor profesional en ${cityTitle}?` : `Are you a professional driver in ${cityTitle}?`}
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, marginBottom: '2rem', maxWidth: '440px' }}>
+              {es ? 'Únete a nuestra red de conductores y recibe reservas directas sin comisiones abusivas.' : 'Join our driver network and receive direct bookings with no excessive commissions.'}
+            </p>
+            <a href="/contact/" style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
+              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{es ? 'Contactar →' : 'Get in touch →'}</span>
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* Latest News */}
-      <section className="bg-dark-light py-16">
-        <div className="site-container">
-          <LatestNews type="city" id={city._id} title={t('latestNews', { city: cityTitle })} />
-        </div>
-      </section>
+      {/* ─── CTA ──────────────────────────────────────────────────────────── */}
+      <CtaSection />
     </>
   )
 }

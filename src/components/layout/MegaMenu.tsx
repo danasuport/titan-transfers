@@ -11,29 +11,63 @@ interface Country { _id: string; title: string; slug: string; esSlug?: string; a
 interface MenuData { airports: Airport[]; cities: City[]; countries: Country[] }
 
 const COUNTRY_FLAGS: Record<string, string> = {
+  // Europe
   'spain': 'es', 'france': 'fr', 'italy': 'it', 'germany': 'de',
-  'united-kingdom': 'gb', 'united-states': 'us', 'portugal': 'pt',
-  'netherlands': 'nl', 'greece': 'gr', 'turkey': 'tr', 'japan': 'jp',
-  'thailand': 'th', 'australia': 'au', 'canada': 'ca', 'mexico': 'mx',
-  'morocco': 'ma', 'czech-republic': 'cz', 'austria': 'at',
-  'singapore': 'sg', 'united-arab-emirates': 'ae', 'china': 'cn',
-  'panama': 'pa', 'belgium': 'be', 'hungary': 'hu', 'egypt': 'eg',
-  'ireland': 'ie', 'colombia': 'co', 'brazil': 'br', 'argentina': 'ar',
+  'united-kingdom': 'gb', 'uk': 'gb', 'great-britain': 'gb', 'england': 'gb',
+  'portugal': 'pt', 'netherlands': 'nl', 'holland': 'nl', 'greece': 'gr',
+  'turkey': 'tr', 'turkiye': 'tr', 'morocco': 'ma', 'maroc': 'ma',
+  'czech-republic': 'cz', 'czechia': 'cz', 'austria': 'at',
+  'belgium': 'be', 'hungary': 'hu', 'ireland': 'ie',
   'switzerland': 'ch', 'sweden': 'se', 'norway': 'no', 'denmark': 'dk',
   'poland': 'pl', 'romania': 'ro', 'croatia': 'hr', 'bulgaria': 'bg',
-  'russia': 'ru', 'ukraine': 'ua', 'india': 'in', 'indonesia': 'id',
-  'malaysia': 'my', 'south-korea': 'kr', 'taiwan': 'tw', 'vietnam': 'vn',
-  'philippines': 'ph', 'new-zealand': 'nz', 'south-africa': 'za',
-  'kenya': 'ke', 'nigeria': 'ng', 'israel': 'il', 'jordan': 'jo',
+  'russia': 'ru', 'ukraine': 'ua', 'finland': 'fi', 'slovakia': 'sk',
+  'serbia': 'rs', 'slovenia': 'si', 'albania': 'al', 'montenegro': 'me',
+  'north-macedonia': 'mk', 'bosnia': 'ba', 'bosnia-and-herzegovina': 'ba',
+  'luxembourg': 'lu', 'malta': 'mt', 'cyprus': 'cy', 'iceland': 'is',
+  'latvia': 'lv', 'lithuania': 'lt', 'estonia': 'ee',
+  'moldova': 'md', 'belarus': 'by', 'georgia': 'ge', 'armenia': 'am',
+  'azerbaijan': 'az', 'kosovo': 'xk',
+  // Americas
+  'united-states': 'us', 'usa': 'us', 'canada': 'ca', 'mexico': 'mx',
+  'brazil': 'br', 'argentina': 'ar', 'colombia': 'co', 'chile': 'cl',
+  'peru': 'pe', 'ecuador': 'ec', 'venezuela': 've', 'bolivia': 'bo',
+  'paraguay': 'py', 'uruguay': 'uy', 'panama': 'pa', 'costa-rica': 'cr',
+  'cuba': 'cu', 'jamaica': 'jm', 'dominican-republic': 'do',
+  'puerto-rico': 'pr', 'guatemala': 'gt', 'honduras': 'hn',
+  'el-salvador': 'sv', 'nicaragua': 'ni', 'haiti': 'ht',
+  'trinidad-and-tobago': 'tt', 'barbados': 'bb', 'bahamas': 'bs',
+  // Asia
+  'japan': 'jp', 'thailand': 'th', 'singapore': 'sg',
+  'united-arab-emirates': 'ae', 'uae': 'ae', 'china': 'cn',
+  'india': 'in', 'indonesia': 'id', 'malaysia': 'my',
+  'south-korea': 'kr', 'korea': 'kr', 'taiwan': 'tw', 'vietnam': 'vn',
+  'philippines': 'ph', 'israel': 'il', 'jordan': 'jo',
   'saudi-arabia': 'sa', 'qatar': 'qa', 'kuwait': 'kw', 'bahrain': 'bh',
-  'peru': 'pe', 'chile': 'cl', 'ecuador': 'ec', 'dominican-republic': 'do',
-  'costa-rica': 'cr', 'cuba': 'cu', 'jamaica': 'jm',
+  'oman': 'om', 'iran': 'ir', 'iraq': 'iq', 'pakistan': 'pk',
+  'bangladesh': 'bd', 'sri-lanka': 'lk', 'nepal': 'np',
+  'myanmar': 'mm', 'cambodia': 'kh', 'laos': 'la',
+  'hong-kong': 'hk', 'macau': 'mo', 'mongolia': 'mn',
+  'uzbekistan': 'uz', 'kazakhstan': 'kz', 'kyrgyzstan': 'kg',
+  'tajikistan': 'tj', 'turkmenistan': 'tm', 'afghanistan': 'af',
+  'lebanon': 'lb', 'syria': 'sy', 'yemen': 'ye',
+  // Africa
+  'south-africa': 'za', 'kenya': 'ke', 'nigeria': 'ng',
+  'egypt': 'eg', 'ethiopia': 'et', 'ghana': 'gh', 'tanzania': 'tz',
+  'uganda': 'ug', 'mozambique': 'mz', 'madagascar': 'mg',
+  'ivory-coast': 'ci', 'cameroon': 'cm', 'senegal': 'sn',
+  'tunisia': 'tn', 'algeria': 'dz', 'libya': 'ly', 'sudan': 'sd',
+  'angola': 'ao', 'zambia': 'zm', 'zimbabwe': 'zw',
+  'rwanda': 'rw', 'namibia': 'na', 'botswana': 'bw',
+  // Oceania
+  'australia': 'au', 'new-zealand': 'nz', 'fiji': 'fj',
+  'papua-new-guinea': 'pg',
 }
 
 function Flag({ countrySlug }: { countrySlug: string }) {
-  const code = COUNTRY_FLAGS[countrySlug]
+  if (!countrySlug) return null
+  const code = COUNTRY_FLAGS[countrySlug] ?? COUNTRY_FLAGS[countrySlug.toLowerCase()]
   if (!code) return null
-  return <img src={`https://flagcdn.com/20x15/${code}.png`} alt={countrySlug} width={20} height={15} style={{ borderRadius: '2px', objectFit: 'cover', flexShrink: 0 }} />
+  return <img src={`https://flagcdn.com/${code}.svg`} alt="" style={{ width: '20px', height: '14px', borderRadius: '2px', objectFit: 'cover', flexShrink: 0, display: 'inline-block' }} />
 }
 
 type Tab = 'airports' | 'cities' | 'countries'
@@ -91,10 +125,11 @@ export function MegaMenu({ type, onClose }: { type: Tab; onClose: () => void }) 
 
   const itemStyle = (hovered: boolean): React.CSSProperties => ({
     display: 'flex', alignItems: 'center', gap: '0.5rem',
-    padding: '0.35rem 0.5rem', cursor: 'pointer', borderRadius: '4px',
-    background: hovered ? '#f8faf0' : 'transparent',
-    borderLeft: hovered ? '2px solid #8BAA1D' : '2px solid transparent',
-    transition: 'all 0.1s',
+    padding: '0.35rem 0.6rem',
+    cursor: 'pointer',
+    transform: 'skewX(-8deg)',
+    background: hovered ? '#8BAA1D' : 'transparent',
+    transition: 'background 0.12s',
   })
 
   return (
@@ -120,7 +155,7 @@ export function MegaMenu({ type, onClose }: { type: Tab; onClose: () => void }) 
                         {a.iataCode}
                       </span>
                     )}
-                    <span style={{ fontSize: '0.85rem', color: '#242426' }}>{a.title}</span>
+                    <span style={{ fontSize: '0.85rem', color: 'inherit' }}>{a.title}</span>
                   </HoverItem>
                 ))}
               </div>
@@ -144,7 +179,7 @@ export function MegaMenu({ type, onClose }: { type: Tab; onClose: () => void }) 
                 </div>
                 {items.map(c => (
                   <HoverItem key={c._id} style={itemStyle} onClick={() => go(es ? `/ciudad/${slug(c)}/` : `/city/${slug(c)}/`)}>
-                    <span style={{ fontSize: '0.85rem', color: '#242426' }}>{c.title}</span>
+                    <span style={{ fontSize: '0.85rem', color: 'inherit' }}>{c.title}</span>
                   </HoverItem>
                 ))}
               </div>
@@ -164,7 +199,7 @@ export function MegaMenu({ type, onClose }: { type: Tab; onClose: () => void }) 
               <HoverItem key={c._id} style={itemStyle} onClick={() => go(es ? `/pais/${slug(c)}/` : `/country/${slug(c)}/`)}>
                 <Flag countrySlug={c.slug} />
                 <div>
-                  <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#242426' }}>{c.title}</div>
+                  <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'inherit' }}>{c.title}</div>
                   {(c.airportCount || c.cityCount) ? (
                     <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>
                       {c.airportCount ? `${c.airportCount} ${es ? 'aeropuertos' : 'airports'}` : ''}
@@ -188,7 +223,9 @@ function HoverItem({ children, style, onClick }: { children: React.ReactNode; st
   const [hovered, setHovered] = useState(false)
   return (
     <div style={style(hovered)} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onClick={onClick}>
-      {children}
+      <div style={{ transform: 'skewX(8deg)', display: 'flex', alignItems: 'center', gap: '0.5rem', color: hovered ? '#ffffff' : 'inherit' }}>
+        {children}
+      </div>
     </div>
   )
 }

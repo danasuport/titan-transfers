@@ -31,6 +31,22 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <div className="bg-white py-10">
         <div className="site-container">
           <BookingForm />
+          <div style={{ display: 'flex', gap: '2rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
+            {[
+              { icon: '★', label: '4.8/5 Rating', sub: 'Based on 2,500+ reviews' },
+              { icon: '◈', label: 'Fixed price', sub: 'No hidden charges' },
+              { icon: '◷', label: '24/7 Support', sub: 'Always here to help' },
+              { icon: '✓', label: 'Free cancellation', sub: 'Up to 24h before' },
+            ].map(({ icon, label, sub }) => (
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <span style={{ color: '#8BAA1D', fontSize: '1rem', lineHeight: 1 }}>{icon}</span>
+                <div>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#242426' }}>{label}</div>
+                  <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>{sub}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <WhyChooseUs />

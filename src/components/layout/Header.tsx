@@ -27,11 +27,12 @@ export function Header() {
 
   function openMenu(key: MenuType) {
     if (closeTimer.current) clearTimeout(closeTimer.current)
+    closeTimer.current = null
     setActiveMenu(key)
   }
 
   function scheduleClose() {
-    closeTimer.current = setTimeout(() => setActiveMenu(null), 150)
+    closeTimer.current = setTimeout(() => setActiveMenu(null), 300)
   }
 
   return (

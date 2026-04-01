@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react'
 import { useLocale } from 'next-intl'
 import { Link } from '@/lib/i18n/navigation'
 import { getAirportUrl, getCityUrl, getRegionUrl, getTranslatedTitle } from '@/lib/utils/slugHelpers'
@@ -9,43 +12,77 @@ interface CountryOverviewProps {
   regions?: Array<{ _id: string; title: string; slug: { current: string }; translations?: Record<string, { title?: string; slug?: { current: string } }> }>
 }
 
+function SkewCard({ href, children }: { href: string; children: React.ReactNode }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <Link href={href as any} style={{ textDecoration: 'none' }}>
+      <div
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem',
+          background: hovered ? '#8BAA1D' : '#ffffff',
+          border: '1.5px solid', borderColor: hovered ? '#8BAA1D' : '#e5e7eb',
+          padding: '0.75rem 1rem 0.75rem 1.25rem',
+          transform: 'skewX(-8deg)',
+          transition: 'background 0.15s, border-color 0.15s',
+          cursor: 'pointer',
+        }}
+      >
+        <div style={{ transform: 'skewX(8deg)', display: 'flex', alignItems: 'center', gap: '0.6rem', minWidth: 0, flex: 1 }}>
+          {children}
+        </div>
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={hovered ? '#ffffff' : '#94a3b8'} style={{ transform: 'skewX(8deg)', flexShrink: 0, transition: 'stroke 0.15s' }}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+        </svg>
+      </div>
+    </Link>
+  )
+}
+
 export function CountryOverview({ airports, cities, regions }: CountryOverviewProps) {
   const locale = useLocale() as Locale
 
   return (
-    <div className="space-y-8">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
       {airports && airports.length > 0 && (
-        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-          {airports.map((a) => {
-            return (
-              <Link key={a._id} href={getAirportUrl(a, locale) as any} className="group flex items-center gap-3 rounded-lg bg-white/[0.03] p-3 ring-1 ring-white/[0.06] hover:ring-brand-500/30">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-brand-500/15 text-xs font-bold text-brand-400">{a.iataCode || <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>}</span>
-                <span className="text-sm font-medium text-white group-hover:text-brand-400">{getTranslatedTitle(a, locale)}</span>
-              </Link>
-            )
-          })}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem' }}>
+          {airports.map((a) => (
+            <SkewCard key={a._id} href={getAirportUrl(a, locale)}>
+              {a.iataCode && (
+                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#8BAA1D', background: '#f0f4e3', padding: '1px 5px', flexShrink: 0 }}>
+                  {a.iataCode}
+                </span>
+              )}
+              <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#242426', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {getTranslatedTitle(a, locale)}
+              </span>
+            </SkewCard>
+          ))}
         </div>
       )}
+
       {cities && cities.length > 0 && (
-        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-          {cities.map((c) => {
-            return (
-              <Link key={c._id} href={getCityUrl(c, locale) as any} className="rounded-lg bg-white/[0.03] p-3 text-sm font-medium text-white ring-1 ring-white/[0.06] hover:ring-brand-500/30 hover:text-brand-400">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem' }}>
+          {cities.map((c) => (
+            <SkewCard key={c._id} href={getCityUrl(c, locale)}>
+              <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#242426', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {getTranslatedTitle(c, locale)}
-              </Link>
-            )
-          })}
+              </span>
+            </SkewCard>
+          ))}
         </div>
       )}
+
       {regions && regions.length > 0 && (
-        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-          {regions.map((r) => {
-            return (
-              <Link key={r._id} href={getRegionUrl(r, locale) as any} className="rounded-lg bg-white/[0.03] p-3 text-sm font-medium text-white ring-1 ring-white/[0.06] hover:ring-brand-500/30 hover:text-brand-400">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem' }}>
+          {regions.map((r) => (
+            <SkewCard key={r._id} href={getRegionUrl(r, locale)}>
+              <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#242426', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {getTranslatedTitle(r, locale)}
-              </Link>
-            )
-          })}
+              </span>
+            </SkewCard>
+          ))}
         </div>
       )}
     </div>

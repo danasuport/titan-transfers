@@ -8,13 +8,16 @@ import { generatePageMetadata, generateCountryMetadata } from '@/lib/seo/generat
 import { SchemaOrg } from '@/components/seo/SchemaOrg'
 import { generateTaxiServiceSchema } from '@/lib/seo/schemaOrg'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
-import { InlineBooking } from '@/components/sections/InlineBooking'
+import { BookingForm } from '@/components/ui/BookingForm'
 import { CountryOverview } from '@/components/sections/CountryOverview'
 import { FAQ } from '@/components/sections/FAQ'
-import { LatestNews } from '@/components/sections/LatestNews'
-import { TrustNumbers } from '@/components/sections/TrustNumbers'
+import { FleetShowcase } from '@/components/sections/FleetShowcase'
+import { HowItWorks } from '@/components/sections/HowItWorks'
+import { Testimonials } from '@/components/sections/Testimonials'
+import { CtaSection } from '@/components/sections/CtaSection'
 import { PortableText } from '@portabletext/react'
 import type { Locale } from '@/lib/i18n/config'
+import { russoOne } from '@/lib/fonts'
 
 export async function generateStaticParams() {
   const countries = await sanityClient.fetch(allCountriesQuery)
@@ -35,9 +38,12 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
   if (!country) notFound()
 
   const t = await getTranslations({ locale, namespace: 'country' })
+  const tc = await getTranslations({ locale, namespace: 'trust' })
+  const es = locale === 'es'
+
   const countryTitle = (locale !== 'en' && country.translations?.[locale]?.title) || country.title
   const description = (locale !== 'en' && country.translations?.[locale]?.description) || country.description
-  const imgUrl = urlFor(country.featuredImage)?.width(1920).height(600).quality(80).url()
+  const heroImg = urlFor(country.featuredImage)?.width(1920).height(900).quality(90).url()
 
   const airportCount = country.airports?.length || 0
   const cityCount = country.cities?.length || 0
@@ -49,141 +55,156 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
     { question: `How much does an airport transfer cost in ${countryTitle}?`, answer: `Prices vary by route and vehicle type. Use our booking system for instant quotes with fixed prices and no hidden charges.` },
   ]
 
+  const trustBadges = [
+    { icon: '★', label: tc('rating'), desc: tc('ratingDesc') },
+    { icon: '◈', label: tc('fixedPrice'), desc: tc('fixedPriceDesc') },
+    { icon: '◷', label: tc('support'), desc: tc('supportDesc') },
+    { icon: '✓', label: tc('freeCancel'), desc: tc('freeCancelDesc') },
+  ]
+
   return (
     <>
       <SchemaOrg data={generateTaxiServiceSchema({ name: `Private Transfers in ${countryTitle}`, description: `Book transfers across ${countryTitle}`, url: `/country/${slug}/`, areaServed: countryTitle, rating: 4.8 })} />
 
-      {/* Hero */}
-      <section className="hero-always-dark relative overflow-hidden bg-dark">
-        {imgUrl ? (
-          <Image
-            src={imgUrl}
-            alt={`Private transfers in ${countryTitle}`}
-            fill
-            className="object-cover opacity-30"
-            sizes="100vw"
-            priority
-          />
-        ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-dark via-dark to-brand-900/20" />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/60 to-dark/40" />
-        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+      {/* ─── HERO ─────────────────────────────────────────────────────────── */}
+      <section style={{ background: '#F8FAF0', display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '520px' }}>
+        {/* Left: content */}
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '6vw', paddingRight: '4vw', paddingTop: '4rem', paddingBottom: '4rem' }}>
+          <Breadcrumbs items={[{ label: countryTitle }]} variant="light" />
 
-        <div className="relative w-full px-4 pb-16 pt-32 sm:px-6 lg:px-8">
-          <Breadcrumbs items={[{ label: countryTitle }]} />
-          <h1 className="mb-4 mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
-            {t('transfers', { country: countryTitle })}
-          </h1>
-          <p className="mb-8 max-w-2xl text-lg text-gray-400">
-            {t('privateTaxi', { country: countryTitle })}
-          </p>
-          {/* Stats badges */}
-          <div className="flex flex-wrap gap-3">
+          {/* Stats */}
+          <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
             {airportCount > 0 && (
-              <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
-                <svg className="h-4 w-4 text-brand-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>
-                {airportCount} {t('airports', { country: '' }).trim()}
+              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#8BAA1D', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
+                {airportCount} {es ? 'aeropuertos' : 'airports'}
               </span>
             )}
             {cityCount > 0 && (
-              <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
-                <svg className="h-4 w-4 text-brand-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" /></svg>
-                {cityCount} {t('popularCities', { country: '' }).trim()}
+              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#8BAA1D', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
+                {cityCount} {es ? 'ciudades' : 'cities'}
               </span>
             )}
           </div>
+
+          <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1.25rem' }}>
+            {t('transfers', { country: countryTitle })}
+          </h1>
+
+          <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '480px' }}>
+            {t('privateTaxi', { country: countryTitle })}
+          </p>
+        </div>
+
+        {/* Right: image with diagonal clip */}
+        <div style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
+          {heroImg ? (
+            <Image src={heroImg} alt={`${t('transfers')} ${countryTitle}`} fill priority style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="50vw" />
+          ) : (
+            <div style={{ position: 'absolute', inset: 0, background: '#242426' }} />
+          )}
         </div>
       </section>
 
-      {/* Trust Numbers compact */}
-      <TrustNumbers compact />
+      {/* ─── BOOKING FORM ─────────────────────────────────────────────────── */}
+      <section style={{ background: '#ffffff', paddingTop: '2.5rem', paddingBottom: '2.5rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
+        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#8BAA1D', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
+          {es ? `Reserva tu transfer — ${countryTitle}` : `Book your transfer — ${countryTitle}`}
+        </p>
+        <BookingForm />
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 0, marginTop: '1.25rem', borderTop: '1px solid #e5e7eb', paddingTop: '1.25rem' }}>
+          {trustBadges.map((b, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0 1.5rem 0 0', marginRight: '1.5rem', borderRight: i < trustBadges.length - 1 ? '1px solid #e5e7eb' : 'none' }}>
+              <span style={{ color: '#8BAA1D', fontSize: '1rem', flexShrink: 0 }}>{b.icon}</span>
+              <div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#242426', lineHeight: 1.2 }}>{b.label}</div>
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8', lineHeight: 1.3 }}>{b.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
-      {/* Description */}
+      {/* ─── DESCRIPTION ──────────────────────────────────────────────────── */}
       {description && (
-        <section className="bg-dark py-16">
-          <div className="site-container">
-            <div className="prose prose-lg mx-auto max-w-none prose-headings:font-normal prose-headings:text-heading prose-p:leading-relaxed prose-p:text-body">
-              <PortableText value={description} />
-            </div>
+        <section style={{ background: '#ffffff', padding: '5rem 6vw' }}>
+          <div style={{ maxWidth: '800px', margin: '0 auto' }} className="prose prose-lg prose-headings:font-normal prose-headings:text-[#242426] prose-p:text-[#475569] prose-p:leading-relaxed prose-a:text-[#8BAA1D] prose-a:no-underline">
+            <PortableText value={description} />
           </div>
         </section>
       )}
 
-      {/* Airports */}
+      {/* ─── AIRPORTS ─────────────────────────────────────────────────────── */}
       {country.airports?.length > 0 && (
-        <section className="bg-dark-light py-16">
-          <div className="site-container">
-            <div className="mb-8">
-              <div className="mb-4 h-1 w-16 rounded-full bg-brand-500" />
-              <h2 className="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl">
-                {t('airports', { country: countryTitle })}
-              </h2>
-            </div>
-            <CountryOverview airports={country.airports} />
-          </div>
+        <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
+          <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
+          <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', color: '#242426', marginBottom: '2rem' }}>
+            {t('airports', { country: countryTitle })}
+          </h2>
+          <CountryOverview airports={country.airports} />
         </section>
       )}
 
-      {/* Cities */}
+      {/* ─── CITIES ───────────────────────────────────────────────────────── */}
       {country.cities?.length > 0 && (
-        <section className="bg-surface-100 py-16">
-          <div className="site-container">
-            <div className="mb-8">
-              <div className="mb-4 h-1 w-16 rounded-full bg-brand-500" />
-              <h2 className="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl">
-                {t('popularCities', { country: countryTitle })}
-              </h2>
-            </div>
-            <CountryOverview cities={country.cities} />
-          </div>
+        <section style={{ background: '#ffffff', padding: '5rem 6vw' }}>
+          <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
+          <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', color: '#242426', marginBottom: '2rem' }}>
+            {t('popularCities', { country: countryTitle })}
+          </h2>
+          <CountryOverview cities={country.cities} />
         </section>
       )}
 
-      {/* Regions */}
+      {/* ─── REGIONS ──────────────────────────────────────────────────────── */}
       {country.regions?.length > 0 && (
-        <section className="bg-dark-light py-16">
-          <div className="site-container">
-            <div className="mb-8">
-              <div className="mb-4 h-1 w-16 rounded-full bg-brand-500" />
-              <h2 className="text-2xl font-extrabold tracking-tight text-heading sm:text-3xl">
-                {t('regions', { country: countryTitle })}
-              </h2>
-            </div>
-            <CountryOverview regions={country.regions} />
-          </div>
+        <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
+          <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
+          <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', color: '#242426', marginBottom: '2rem' }}>
+            {t('regions', { country: countryTitle })}
+          </h2>
+          <CountryOverview regions={country.regions} />
         </section>
       )}
 
-      {/* Inline Booking */}
-      <InlineBooking title={t('bookTransfer', { country: countryTitle })} />
+      {/* ─── FLEET ────────────────────────────────────────────────────────── */}
+      <FleetShowcase />
 
-      {/* FAQ */}
-      <section className="bg-dark py-16">
-        <div className="site-container">
+      {/* ─── HOW IT WORKS ─────────────────────────────────────────────────── */}
+      <HowItWorks />
+
+      {/* ─── TESTIMONIALS ─────────────────────────────────────────────────── */}
+      <Testimonials />
+
+      {/* ─── FAQ ──────────────────────────────────────────────────────────── */}
+      <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto' }}>
           <FAQ items={faqItems} title={t('faq')} />
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="relative overflow-hidden bg-dark py-20">
-        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-        <div className="relative site-container px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="mb-6 text-3xl font-extrabold tracking-tight text-heading sm:text-4xl">
-            {t('bookTransfer', { country: countryTitle })}
-          </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-lg text-body">
-            {t('privateTaxi', { country: countryTitle })}
-          </p>
+      {/* ─── CTA BANNER ───────────────────────────────────────────────────── */}
+      <section style={{ background: '#8BAA1D', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '380px' }}>
+          <div style={{ position: 'relative', clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }}>
+            <Image src="/services/city-to-city.png" alt="" fill style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="50vw" />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '4rem 6vw 4rem 5vw' }}>
+            <div style={{ width: '48px', height: '3px', background: '#ffffff', marginBottom: '1.25rem' }} />
+            <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', color: '#ffffff', marginBottom: '1rem' }}>
+              {es ? `¿Eres conductor profesional en ${countryTitle}?` : `Are you a professional driver in ${countryTitle}?`}
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, marginBottom: '2rem', maxWidth: '440px' }}>
+              {es ? 'Únete a nuestra red de conductores y recibe reservas directas sin comisiones abusivas.' : 'Join our driver network and receive direct bookings with no excessive commissions.'}
+            </p>
+            <a href="/contact/" style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
+              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{es ? 'Contactar →' : 'Get in touch →'}</span>
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* Latest News */}
-      <section className="bg-dark-light py-16">
-        <div className="site-container">
-          <LatestNews type="country" id={country._id} title={t('latestNews', { country: countryTitle })} limit={6} />
-        </div>
-      </section>
+      {/* ─── CTA ──────────────────────────────────────────────────────────── */}
+      <CtaSection />
     </>
   )
 }

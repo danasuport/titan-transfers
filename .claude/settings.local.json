@@ -95,7 +95,8 @@
       "Bash(cmd /c \"del /F C:\\\\Users\\\\Usuario\\\\Documents\\\\titan-transfers-main\\\\titan-transfers-main\\\\.next\\\\dev\\\\lock 2>&1\")",
       "Bash(cmd /c \"powershell -Command \"\"Get-Process node | Stop-Process -Force\"\"\")",
       "Bash(cmd /c \"powershell -Command \"\"Get-Process node | Stop-Process -Force; Start-Sleep 2; Remove-Item ''C:\\\\Users\\\\Usuario\\\\Documents\\\\titan-transfers-main\\\\titan-transfers-main\\\\.next\\\\dev\\\\lock'' -Force -ErrorAction SilentlyContinue\"\"\")",
-      "Bash(cmd /c \"powershell -Command \"\"Get-Process | Where-Object {$_Name -like ''*node*'' -or $_Name -like ''*next*''} | Select-Object Id, Name, CPU\"\"\")"
+      "Bash(cmd /c \"powershell -Command \"\"Get-Process | Where-Object {$_Name -like ''*node*'' -or $_Name -like ''*next*''} | Select-Object Id, Name, CPU\"\"\")",
+      "Bash(start http://localhost:3000)"
     ],
     "additionalDirectories": [
       "C:\\Users\\Usuario\\Downloads",

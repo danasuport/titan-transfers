@@ -4,24 +4,11 @@ import Image from 'next/image'
 import { useTranslations, useLocale } from 'next-intl'
 import { russoOne } from '@/lib/fonts'
 
-function IconCheck() {
-  return (
-    <svg className="h-4 w-4 flex-shrink-0" style={{ color: '#8BAA1D' }} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-    </svg>
-  )
-}
 
 export function WhyChooseUs() {
   const t = useTranslations('home')
   const tTrust = useTranslations('trust')
   const locale = useLocale()
-
-  const features = [
-    tTrust('fixedPrice'),
-    tTrust('freeCancel'),
-    tTrust('meetGreet'),
-  ]
 
   const stats = [
     { value: '+120', label: tTrust('airports'), icon: '/icon-airplane.svg' },
@@ -47,23 +34,13 @@ export function WhyChooseUs() {
               {t('whyChooseSubtitle')}
             </p>
 
-            {/* Feature list */}
-            <ul style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem 2.5rem', marginBottom: '2rem' }}>
-              {features.map((f) => (
-                <li key={f} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', fontWeight: 600, color: '#374151' }}>
-                  <IconCheck />
-                  {f}
-                </li>
-              ))}
-            </ul>
-
             {/* Stats */}
             <div style={{ marginTop: '2rem', display: 'flex', flexWrap: 'wrap', gap: '3rem' }}>
               {stats.map((s) => (
-                <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: '0.875rem' }}>
-                  <Image src={s.icon} alt="" width={64} height={64} style={{ flexShrink: 0 }} />
+                <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <Image src={s.icon} alt="" width={56} height={56} style={{ flexShrink: 0 }} />
                   <div>
-                    <div className={russoOne.className} style={{ fontSize: '2.5rem', color: '#8BAA1D', lineHeight: 1 }}>
+                    <div className={russoOne.className} style={{ fontSize: '2.75rem', color: '#8BAA1D', lineHeight: 1 }}>
                       {s.value}
                     </div>
                     <div style={{ marginTop: '0.25rem', fontSize: '1rem', color: '#6b7280' }}>
