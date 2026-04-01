@@ -92,7 +92,7 @@ export function FleetShowcase() {
         </div>
 
         {/* Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.25rem', marginTop: '2.5rem' }}>
+        <div className="mob-2col" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.25rem', marginTop: '2.5rem' }}>
           {visible.map((v) => (
             <div key={v.key} style={{ border: '1px solid #e2e8f0', overflow: 'hidden' }}>
               <div style={{ position: 'relative', aspectRatio: '16/10', overflow: 'hidden' }}>

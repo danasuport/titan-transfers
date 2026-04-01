@@ -19,7 +19,7 @@ export function WhyChooseUs() {
   return (
     <section className="bg-white py-16 lg:py-24">
       <div className="site-container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
+        <div className="mob-stack" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
 
           {/* ── Left: Text ── */}
           <div>

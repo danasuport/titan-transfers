@@ -35,7 +35,7 @@ export function BrowseCategories() {
         </div>
 
         {/* Categories row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }}>
+        <div className="mob-2col" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }}>
           {categories.map((cat, i) => {
             const isHovered = hovered === i
             return (

@@ -293,69 +293,75 @@ footer .text-gray-500 { color: #6b7280 !important; }
   flex-shrink: 0;
 }
 
-@media (max-width: 1024px) {
-  .booking-form-row {
-    grid-template-columns: 1fr 1fr;
-  }
-}
+/* ═══════════════════════════════════════════════════════════════════
+   MOBILE — !important para sobreescribir inline styles
+   Sin ningún efecto en desktop
+   ═══════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
 
-  /* Booking form → 2 rows */
-  .booking-form-row {
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
+  /* 2-col grids → columna única */
+  .mob-stack {
+    grid-template-columns: 1fr !important;
+    min-height: unset !important;
   }
-  .booking-form-row .field-pickup { grid-column: 1 / -1; }
-  .booking-form-row .field-dest   { grid-column: 1 / -1; }
-  .booking-form-row .field-submit { grid-column: 1 / -1; }
 
-  /* Services listing → stack */
-  .services-listing-grid {
-    grid-template-columns: 1fr;
-  }
-  .services-listing-grid .service-image {
-    min-height: 220px;
+  /* Paneles de imagen en heroes apilados */
+  .mob-img-panel {
+    min-height: 260px !important;
     clip-path: none !important;
   }
 
-  /* Stats row → wrap */
-  .stats-skew-row {
-    flex-wrap: wrap;
+  /* 4-col → 2-col */
+  .mob-2col {
+    grid-template-columns: repeat(2, 1fr) !important;
   }
+
+  /* Booking form: wrap en varias filas */
+  .mob-form-row {
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+  }
+  .mob-form-row > div:nth-child(1) { flex: 0 0 100% !important; }
+  .mob-form-row > div:nth-child(2) { flex: 0 0 100% !important; }
+  .mob-form-row > div:nth-child(3) { flex: 1 1 100% !important; }
+  .mob-form-row > div:nth-child(4),
+  .mob-form-row > div:nth-child(5) { flex: 1 1 calc(50% - 0.25rem) !important; }
+  .mob-form-row > button           { flex: 0 0 100% !important; min-height: 48px !important; padding: 0 !important; }
 
   /* Trust badges → 2 cols */
   .trust-badges-row > div {
     border-right: none !important;
     padding-right: 0 !important;
     margin-right: 0 !important;
-    flex: 0 0 calc(50% - 0.5rem);
+    flex: 0 0 calc(50% - 0.5rem) !important;
   }
 
-  /* Site container tighter */
-  .site-container {
-    padding-left: 4vw;
-    padding-right: 4vw;
-  }
+  /* Stats → wrap */
+  .stats-skew-row { flex-wrap: wrap !important; }
 
-  /* Font size clamp adjustments */
+  /* Services listing → stack */
+  .services-listing-grid { grid-template-columns: 1fr !important; }
+  .services-listing-grid .service-image { min-height: 220px !important; clip-path: none !important; }
+
+  /* Espaciado */
+  .site-container { padding-left: 4vw; padding-right: 4vw; }
   h1 { word-break: break-word; }
 }
 
 @media (max-width: 480px) {
-  .booking-form-row {
-    grid-template-columns: 1fr;
-  }
-  .booking-form-row .field-pickup,
-  .booking-form-row .field-dest,
-  .booking-form-row .field-datetime,
-  .booking-form-row .field-pax,
-  .booking-form-row .field-lug,
-  .booking-form-row .field-submit {
-    grid-column: 1 / -1;
-  }
+  /* 2-col → 1-col */
+  .mob-2col { grid-template-columns: 1fr !important; }
 
-  .stats-skew-row {
-    display: none;
-  }
+  /* Todos los campos del form a ancho completo */
+  .mob-form-row > div,
+  .mob-form-row > button { flex: 0 0 100% !important; }
+
+  /* Ocultar stats decorativas */
+  .stats-skew-row { display: none !important; }
+
+  /* CtaSection: padding reducido en móvil */
+  .mob-cta-section { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+  /* Ocultar mockup en móvil (no aporta en pantalla pequeña) */
+  .mob-cta-img { display: none !important; }
 }

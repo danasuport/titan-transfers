@@ -124,7 +124,7 @@ export function BookingForm() {
       <form onSubmit={handleSubmit} style={{ background: '#8BAA1D', border: '2px solid #8BAA1D', transform: 'skewX(-8deg)', padding: '1.25rem 1.75rem' }}>
 
         {/* Single row */}
-        <div style={{ transform: 'skewX(8deg)', display: 'flex', gap: '0.6rem', alignItems: 'stretch' }}>
+        <div className="mob-form-row" style={{ transform: 'skewX(8deg)', display: 'flex', gap: '0.6rem', alignItems: 'stretch' }}>
 
           {/* Pickup */}
           <div style={{ ...skewWrap, flex: 3 }}>

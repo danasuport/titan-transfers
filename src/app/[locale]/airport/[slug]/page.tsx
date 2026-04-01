@@ -166,7 +166,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
       <SchemaOrg data={generateTaxiServiceSchema({ name: `${airportTitle} ${t('transfers')}`, description: t('transferBestPriceDesc', { airport: airportTitle }), url: `/airport/${slug}/`, areaServed: cityName, rating: 4.8, reviewCount: 2500 })} />
 
       {/* ─── HERO ───────────────────────────────────────────────────────── */}
-      <section style={{ background: '#F8FAF0', display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '520px' }}>
+      <section className="mob-stack" style={{ background: '#F8FAF0', display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '520px' }}>
 
         {/* Left: content */}
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '6vw', paddingRight: '4vw', paddingTop: '4rem', paddingBottom: '4rem' }}>
@@ -182,7 +182,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
         </div>
 
         {/* Right: image with diagonal left mask */}
-        <div style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
+        <div className="mob-img-panel" style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
           {heroImg ? (
             <Image
               src={heroImg}
@@ -207,7 +207,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
         <BookingForm />
 
         {/* Trust badges inline below form */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0', marginTop: '1.25rem', borderTop: '1px solid #e5e7eb', paddingTop: '1.25rem' }}>
+        <div className="trust-badges-row" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0', marginTop: '1.25rem', borderTop: '1px solid #e5e7eb', paddingTop: '1.25rem' }}>
           {trustBadges.map((b, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0 1.5rem 0 0', marginRight: '1.5rem', borderRight: i < trustBadges.length - 1 ? '1px solid #e5e7eb' : 'none' }}>
               <span style={{ color: '#8BAA1D', flexShrink: 0 }}>{b.icon}</span>
@@ -255,7 +255,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
 
       {/* ─── WHY CHOOSE US — prices & features ─────────────────────────── */}
       <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
-        <div style={{ display: 'grid', gap: '4rem', gridTemplateColumns: '1fr 1fr', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
+        <div className="mob-stack" style={{ display: 'grid', gap: '4rem', gridTemplateColumns: '1fr 1fr', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
           <div>
             <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
             <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)', color: '#242426', marginBottom: '1rem', textTransform: 'none' }}>
@@ -348,9 +348,9 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
 
       {/* ─── CTA BANNER ────────────────────────────────────────────────── */}
       <section style={{ background: '#8BAA1D', overflow: 'hidden' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '380px' }}>
+        <div className="mob-stack" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '380px' }}>
           {/* Left: image with diagonal clip */}
-          <div style={{ position: 'relative', clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }}>
+          <div className="mob-img-panel" style={{ position: 'relative', clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }}>
             <Image
               src="/services/city-to-city.png"
               alt={es ? `Conductor profesional ${airportTitle}` : `Professional driver ${airportTitle}`}

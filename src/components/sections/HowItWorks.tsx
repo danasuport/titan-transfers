@@ -39,7 +39,7 @@ export function HowItWorks() {
         </div>
 
         {/* Grid: image left, steps right */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'center' }}>
+        <div className="mob-stack" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'center' }}>
 
           {/* ── Left: image with 3-strip mask (same as WhyChooseUs) ── */}
           <div style={{ position: 'relative', height: '480px' }}>

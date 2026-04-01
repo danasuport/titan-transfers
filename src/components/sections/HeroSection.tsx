@@ -38,7 +38,7 @@ export function HeroSection() {
   const t = useTranslations('home')
 
   return (
-    <section style={{ background: '#F8FAF0', display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '580px' }}>
+    <section className="mob-stack" style={{ background: '#F8FAF0', display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '580px' }}>
 
       {/* Left: text */}
       <div
@@ -84,6 +84,7 @@ export function HeroSection() {
 
       {/* Right: image with diagonal left mask */}
       <div
+        className="mob-img-panel"
         style={{
           position: 'relative',
           clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)',
