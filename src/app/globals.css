@@ -390,9 +390,16 @@ footer .text-gray-500 { color: #6b7280 !important; }
   .site-container { padding-left: 4vw; padding-right: 4vw; }
   h1 { word-break: break-word; }
 
-  /* Hero font sizes reducidos en mobile */
+  /* Hero font sizes */
   .resp-hero-grid h1 { font-size: 2.5rem !important; line-height: 1.1 !important; }
   .resp-hero-grid p  { font-size: 1rem !important; }
+  /* Estrellas hero más pequeñas */
+  .resp-hero-stars svg { width: 36px !important; height: 36px !important; }
+
+  /* H2 de secciones: de ~3rem → 1.6rem en mobile */
+  h2 { font-size: 1.6rem !important; }
+  /* H3 proporcional */
+  h3 { font-size: 1.2rem !important; }
 
   /* Routes: 6-col → 3-col */
   .resp-routes-grid { grid-template-columns: repeat(3, 1fr) !important; }

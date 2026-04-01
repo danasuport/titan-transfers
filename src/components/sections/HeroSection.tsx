@@ -57,7 +57,7 @@ export function HeroSection() {
         </p>
 
         <div className="mb-10">
-          <div className="flex gap-3 mb-4">
+          <div className="flex gap-3 mb-4 resp-hero-stars">
             {Array.from({ length: 4 }).map((_, i) => <StarFull key={i} size={64} />)}
             <StarPartial size={64} />
           </div>
