@@ -23,7 +23,7 @@ interface Props {
 export function ServicesClient({ items, locale }: Props) {
   return (
     <section style={{ background: '#ffffff', padding: '3rem 6vw 5rem' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(480px, 1fr))', gap: '1.5rem' }}>
+      <div className="resp-services-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(480px, 1fr))', gap: '1.5rem' }}>
         {items.map(item => (
           <ServiceCard key={item.slug} item={item} locale={locale} />
         ))}

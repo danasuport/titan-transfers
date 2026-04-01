@@ -45,7 +45,7 @@ export function RegionOverview({ airports, cities }: RegionOverviewProps) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
       {airports && airports.length > 0 && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem' }}>
+        <div className="resp-3col-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem' }}>
           {airports.map((a) => (
             <SkewCard key={a._id} href={getAirportUrl(a, locale)}>
               {a.iataCode && (
@@ -62,7 +62,7 @@ export function RegionOverview({ airports, cities }: RegionOverviewProps) {
       )}
 
       {cities && cities.length > 0 && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem' }}>
+        <div className="resp-4col-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem' }}>
           {cities.map((c) => (
             <SkewCard key={c._id} href={getCityUrl(c, locale)}>
               <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#242426', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>

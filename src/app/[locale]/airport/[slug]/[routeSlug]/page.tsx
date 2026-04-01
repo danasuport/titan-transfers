@@ -236,7 +236,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
             const large = allImgs[0]
             const smalls = allImgs.slice(1, 4)
             return (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridTemplateRows: 'repeat(2, 220px)', gap: '12px', marginBottom: '3.5rem' }}>
+              <div className="resp-photo-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridTemplateRows: 'repeat(2, 220px)', gap: '12px', marginBottom: '3.5rem' }}>
                 {/* Large image — spans 2 cols × 2 rows */}
                 <div style={{ gridColumn: '1 / 3', gridRow: '1 / 3', position: 'relative', overflow: 'hidden', borderRadius: '4px' }}>
                   <Image src={large.url} alt={large.alt} fill style={{ objectFit: 'cover' }} sizes="50vw" />

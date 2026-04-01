@@ -98,7 +98,7 @@ export function FAQ({ items, title, images }: { items: FAQItem[]; title?: string
         </h2>
       )}
 
-      <div style={{ display: 'grid', gridTemplateColumns: hasImages ? '1fr 380px' : '1fr', gap: '2.5rem', alignItems: 'start' }}>
+      <div className="resp-faq-grid" style={{ display: 'grid', gridTemplateColumns: hasImages ? '1fr 380px' : '1fr', gap: '2.5rem', alignItems: 'start' }}>
 
         {/* FAQ list */}
         <div style={{ maxWidth: hasImages ? 'none' : '860px' }}>

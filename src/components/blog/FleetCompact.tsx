@@ -46,7 +46,7 @@ export function FleetCompact() {
       </div>
 
       {/* Vehicle grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', background: '#e5e7eb' }}>
+      <div className="resp-3col-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', background: '#e5e7eb' }}>
         {vehicles.map((v) => (
           <div key={v.key} style={{ background: '#ffffff', display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem' }}>
             {/* Thumbnail */}

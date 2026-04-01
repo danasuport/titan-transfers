@@ -157,7 +157,7 @@ export function RoutesList({
       </div>
 
       {/* Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '0.5rem' }}>
+      <div className="resp-routes-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '0.5rem' }}>
         {filtered.map((route) => (
           <RouteCard key={route._id} route={route} airportSlug={airportSlug} locale={locale} />
         ))}

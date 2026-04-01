@@ -226,7 +226,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
         <section style={{ background: '#ffffff', padding: '5rem 6vw' }}>
           {/* Gallery mosaic */}
           {gallery.length > 0 && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridTemplateRows: 'repeat(2, 220px)', gap: '12px', marginBottom: '3.5rem' }}>
+            <div className="resp-photo-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridTemplateRows: 'repeat(2, 220px)', gap: '12px', marginBottom: '3.5rem' }}>
               {/* Large hero image */}
               <div style={{ gridColumn: '1 / 3', gridRow: '1 / 3', position: 'relative', overflow: 'hidden', borderRadius: '4px' }}>
                 <Image src={gallery[0].url} alt={gallery[0].alt} title={gallery[0].title} fill style={{ objectFit: 'cover' }} />
@@ -311,7 +311,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
             {t('additionalServices', { airport: airportTitle })}
           </h2>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem', maxWidth: '1200px', margin: '0 auto' }}>
+        <div className="resp-3col-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem', maxWidth: '1200px', margin: '0 auto' }}>
           {services.map((s, i) => (
             <div key={i} style={{ background: '#F8FAF0', border: '1.5px solid #e5e7eb', padding: '1.75rem', borderRadius: '4px', transition: 'border-color 0.15s' }}>
               <div style={{ display: 'inline-flex', background: '#8BAA1D', color: '#ffffff', padding: '10px', marginBottom: '1rem', transform: 'skewX(-8deg)' }}>

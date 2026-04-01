@@ -393,6 +393,21 @@ footer .text-gray-500 { color: #6b7280 !important; }
   /* Hero font sizes reducidos en mobile */
   .resp-hero-grid h1 { font-size: 2.5rem !important; line-height: 1.1 !important; }
   .resp-hero-grid p  { font-size: 1rem !important; }
+
+  /* Routes: 6-col → 3-col */
+  .resp-routes-grid { grid-template-columns: repeat(3, 1fr) !important; }
+  /* Testimonials: 4-col → 2-col */
+  .resp-testimonials-grid { grid-template-columns: repeat(2, 1fr) !important; min-height: unset !important; }
+  /* 4-col small grids → 2-col */
+  .resp-4col-sm { grid-template-columns: repeat(2, 1fr) !important; }
+  /* 3-col small grids → 1-col */
+  .resp-3col-sm { grid-template-columns: 1fr !important; }
+  /* Services grid: minmax 480px → full width */
+  .resp-services-grid { grid-template-columns: 1fr !important; }
+  /* Photo grid: 4-col → 2-col, fixed rows → auto */
+  .resp-photo-grid { grid-template-columns: repeat(2, 1fr) !important; grid-template-rows: auto !important; }
+  /* FAQ: remove fixed 380px column */
+  .resp-faq-grid { grid-template-columns: 1fr !important; }
 }
 
 @media (max-width: 480px) {
@@ -403,4 +418,8 @@ footer .text-gray-500 { color: #6b7280 !important; }
   .resp-form-row > button { flex: 0 0 100%; }
   .stats-skew-row { display: none; }
   .resp-hero-grid h1 { font-size: 2rem !important; }
+  .resp-routes-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .resp-testimonials-grid { grid-template-columns: 1fr !important; }
+  .resp-4col-sm { grid-template-columns: 1fr !important; }
+  .resp-photo-grid { grid-template-columns: 1fr !important; }
 }

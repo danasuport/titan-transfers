@@ -138,7 +138,7 @@ export function Testimonials() {
         </div>
 
         {/* Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.25rem', marginBottom: '1.75rem', minHeight: '260px' }}>
+        <div className="resp-testimonials-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.25rem', marginBottom: '1.75rem', minHeight: '260px' }}>
           {visible.map((item, i) => (
             <div
               key={`${page}-${i}`}
