@@ -317,7 +317,8 @@
     "addReturn": "Add return trip",
     "returnDate": "Return date",
     "returnTime": "Return time",
-    "getQuote": "Get Instant Quote"
+    "getQuote": "Get Instant Quote",
+    "bookYourTransfer": "预订您的接送"
   },
   "breadcrumb": {
     "home": "Home"

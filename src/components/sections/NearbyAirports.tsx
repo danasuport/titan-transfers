@@ -188,7 +188,7 @@ function AirportCard({ airport, locale }: { airport: Airport; locale: Locale }) 
           display: 'block',
           fontSize: '0.875rem', fontWeight: 600,
           color: hovered ? '#8BAA1D' : '#242426',
-          whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+          whiteSpace: 'normal', lineHeight: 1.35,
           transition: 'color 0.15s',
         }}>
           {getTranslatedTitle(airport, locale)}

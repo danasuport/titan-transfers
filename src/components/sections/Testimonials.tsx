@@ -15,11 +15,27 @@ const starPaths = [
 function Stars({ count = 5, size = 18 }: { count?: number; size?: number }) {
   return (
     <div style={{ display: 'flex', gap: '3px' }}>
-      {Array.from({ length: 5 }).map((_, i) => (
-        <svg key={i} width={size} height={size} viewBox="0 0 79 76" fill="none">
-          {starPaths.map((d, j) => <path key={j} d={d} fill={i < count ? '#8BAA1D' : '#d1d5db'} />)}
-        </svg>
-      ))}
+      {Array.from({ length: 5 }).map((_, i) => {
+        const full = i < Math.floor(count)
+        const partial = !full && i < count
+        const pct = partial ? Math.round((count - Math.floor(count)) * 100) : 0
+        const id = `sp-${size}-${i}`
+        return (
+          <svg key={i} width={size} height={size} viewBox="0 0 79 76" fill="none">
+            {partial && (
+              <defs>
+                <linearGradient id={id} x1="0" y1="0" x2="79" y2="0" gradientUnits="userSpaceOnUse">
+                  <stop offset={`${pct}%`} stopColor="#8BAA1D" />
+                  <stop offset={`${pct}%`} stopColor="#d1d5db" />
+                </linearGradient>
+              </defs>
+            )}
+            {starPaths.map((d, j) => (
+              <path key={j} d={d} fill={full ? '#8BAA1D' : partial ? `url(#${id})` : '#d1d5db'} />
+            ))}
+          </svg>
+        )
+      })}
     </div>
   )
 }

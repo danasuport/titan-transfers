@@ -195,3 +195,167 @@ footer .text-gray-500 { color: #6b7280 !important; }
   animation: marquee 40s linear infinite;
   will-change: transform;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile first
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Split hero (1fr 1fr → stack, image first on desktop, hidden on mobile) ── */
+.hero-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 480px;
+}
+.hero-split-image {
+  position: relative;
+  min-height: 260px;
+}
+.hero-split-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 6vw;
+}
+
+/* ── Booking form ── */
+.booking-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto auto auto auto;
+  gap: 0.6rem;
+  align-items: stretch;
+}
+
+/* ── 2-col section grid ── */
+.section-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+/* ── 4-col category grid ── */
+.category-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* ── CTA section (image + text) ── */
+.cta-grid {
+  display: grid;
+  grid-template-columns: 45fr 55fr;
+  min-height: 500px;
+}
+
+/* ── HowItWorks / WhyChooseUs 2-col ── */
+.how-it-works-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+/* ── Trust badges row ── */
+.trust-badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+}
+
+/* ── Contact hero ── */
+.contact-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 480px;
+}
+.contact-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5vw;
+  max-width: 1100px;
+  align-items: start;
+}
+
+/* ── Services listing cards ── */
+.services-listing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 340px;
+  overflow: hidden;
+  border: 1.5px solid #e5e7eb;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* ── Stats row ── */
+.stats-skew-row {
+  display: flex;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1024px) {
+  .booking-form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+
+  /* Booking form → 2 rows */
+  .booking-form-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .booking-form-row .field-pickup { grid-column: 1 / -1; }
+  .booking-form-row .field-dest   { grid-column: 1 / -1; }
+  .booking-form-row .field-submit { grid-column: 1 / -1; }
+
+  /* Services listing → stack */
+  .services-listing-grid {
+    grid-template-columns: 1fr;
+  }
+  .services-listing-grid .service-image {
+    min-height: 220px;
+    clip-path: none !important;
+  }
+
+  /* Stats row → wrap */
+  .stats-skew-row {
+    flex-wrap: wrap;
+  }
+
+  /* Trust badges → 2 cols */
+  .trust-badges-row > div {
+    border-right: none !important;
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+    flex: 0 0 calc(50% - 0.5rem);
+  }
+
+  /* Site container tighter */
+  .site-container {
+    padding-left: 4vw;
+    padding-right: 4vw;
+  }
+
+  /* Font size clamp adjustments */
+  h1 { word-break: break-word; }
+}
+
+@media (max-width: 480px) {
+  .booking-form-row {
+    grid-template-columns: 1fr;
+  }
+  .booking-form-row .field-pickup,
+  .booking-form-row .field-dest,
+  .booking-form-row .field-datetime,
+  .booking-form-row .field-pax,
+  .booking-form-row .field-lug,
+  .booking-form-row .field-submit {
+    grid-column: 1 / -1;
+  }
+
+  .stats-skew-row {
+    display: none;
+  }
+}

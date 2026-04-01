@@ -58,9 +58,15 @@ export const routeBySlugQuery = groq`*[_type == "route" && (slug.current == $rou
   distance, estimatedDuration,
   description,
   seoTitle, seoDescription,
-  featuredImage,
+  featuredImage{ asset->{ url }, alt },
+  contentSections[]{ title, body, imagePosition, imageAlt, image{ asset->{ url } } },
   etoFromLocation, etoToLocation, etoFromCategory, etoToCategory,
-  translations
+  translations{
+    es{
+      title, slug, description, seoTitle, seoDescription,
+      contentSections[]{ title, body, imagePosition, imageAlt, image{ asset->{ url } } }
+    }
+  }
 }`
 
 // City queries
@@ -174,7 +180,7 @@ export const serviceBySlugQuery = groq`*[_type == "servicePage" && (slug.current
 // Blog queries
 export const allBlogPostsQuery = groq`*[_type == "blogPost"] | order(publishDate desc) {
   _id, title, slug, category, excerpt, publishDate,
-  featuredImage,
+  featuredImage { asset->{ url } },
   seoTitle, seoDescription,
   relatedCities[]->{ _id, title, slug },
   translations
@@ -182,7 +188,7 @@ export const allBlogPostsQuery = groq`*[_type == "blogPost"] | order(publishDate
 
 export const blogPostBySlugQuery = groq`*[_type == "blogPost" && (slug.current == $slug || translations.es.slug.current == $slug)][0] {
   _id, title, slug, category, content, excerpt, publishDate,
-  featuredImage,
+  featuredImage { asset->{ url } },
   seoTitle, seoDescription,
   relatedCities[]->{ _id, title, slug, country->{ title, slug }, translations },
   relatedAirports[]->{ _id, title, slug, iataCode, translations },

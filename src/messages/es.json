@@ -317,7 +317,8 @@
     "addReturn": "Añadir viaje de vuelta",
     "returnDate": "Fecha vuelta",
     "returnTime": "Hora vuelta",
-    "getQuote": "Ver Precio"
+    "getQuote": "Ver Precio",
+    "bookYourTransfer": "Reserva tu traslado"
   },
   "breadcrumb": {
     "home": "Inicio"

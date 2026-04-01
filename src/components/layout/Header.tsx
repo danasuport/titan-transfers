@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import React from 'react'
 import Image from 'next/image'
 import { useTranslations, useLocale } from 'next-intl'
@@ -17,7 +17,13 @@ export function Header() {
   const locale = useLocale()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeMenu, setActiveMenu] = useState<MenuType>(null)
+  const [isScrolled, setIsScrolled] = useState(false)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const handleMenuScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+    const el = e.currentTarget
+    setIsScrolled(el.scrollTop > 20)
+  }, [])
 
   const navItems: { key: MenuType; href: string; label: string }[] = [
     { key: 'airports', href: '/airports/', label: t('airports') },
@@ -28,6 +34,7 @@ export function Header() {
   function openMenu(key: MenuType) {
     if (closeTimer.current) clearTimeout(closeTimer.current)
     closeTimer.current = null
+    if (key !== activeMenu) setIsScrolled(false)
     setActiveMenu(key)
   }
 
@@ -117,8 +124,35 @@ export function Header() {
           }}
         >
           <style>{`@keyframes megaFadeIn { from { opacity:0; transform:translateY(-6px) } to { opacity:1; transform:translateY(0) } }`}</style>
-          <div style={{ paddingLeft: '6vw', paddingRight: '6vw', maxHeight: '70vh', overflowY: 'auto' }}>
-            <MegaMenu type={activeMenu} onClose={() => setActiveMenu(null)} />
+          <div style={{ position: 'relative' }}>
+            <div
+              onScroll={handleMenuScroll}
+              style={{ paddingLeft: '6vw', paddingRight: '6vw', maxHeight: '70vh', overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: '#8BAA1D #f1f5e8' }}
+            >
+              <MegaMenu type={activeMenu} onClose={() => setActiveMenu(null)} />
+            </div>
+            {/* Scroll hint — fade + bouncing arrow */}
+            {!isScrolled && (
+              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, pointerEvents: 'none', zIndex: 10 }}>
+                <div style={{ height: '60px', background: 'linear-gradient(to top, rgba(255,255,255,0.98) 0%, transparent 100%)' }} />
+                <div style={{ background: '#ffffff', display: 'flex', justifyContent: 'center', paddingBottom: '8px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', animation: 'scrollBounce 1.2s ease-in-out infinite' }}>
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#8BAA1D">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#8BAA1D" style={{ opacity: 0.4 }}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            )}
+            <style>{`
+              @keyframes scrollBounce {
+                0%, 100% { transform: translateY(0); opacity: 1; }
+                50% { transform: translateY(4px); opacity: 0.7; }
+              }
+            `}</style>
           </div>
           {/* Close on click outside overlay */}
           <div

@@ -9,6 +9,9 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { PortableText } from '@portabletext/react'
 import { BookingCTABlock } from '@/components/blog/BookingCTABlock'
 import { BookingForm } from '@/components/ui/BookingForm'
+import { BlogBookingForm } from '@/components/blog/BlogBookingForm'
+import { FleetCompact } from '@/components/blog/FleetCompact'
+import { RouteInlineBlock } from '@/components/blog/RouteCard'
 import { formatDate } from '@/lib/utils/formatters'
 import Image from 'next/image'
 import { Link } from '@/lib/i18n/navigation'
@@ -29,17 +32,49 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return generatePageMetadata({ title, description, path: `/blog/${slug}/`, locale: locale as Locale, type: 'article', publishedTime: post.publishDate, alternates: [{ locale: 'en' as Locale, path: `/blog/${slug}/` }, { locale: 'es' as Locale, path: `/es/blog/${post.translations?.es?.slug?.current || slug}/` }] })
 }
 
+function InlineBookingBlock({ locale }: { locale: string }) {
+  const es = locale === 'es'
+  return (
+    <div style={{ margin: '2.5rem 0' }}>
+      <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#8BAA1D', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
+        {es ? 'Reserva tu transfer' : 'Book your transfer'}
+      </p>
+      <BlogBookingForm />
+    </div>
+  )
+}
+
 const portableTextComponents = {
-  types: {
-    bookingCTA: ({ value }: { value: any }) => (
-      <BookingCTABlock
-        type={value.type}
-        ctaText={value.ctaText}
-        linkedAirport={value.linkedAirport}
-        linkedCity={value.linkedCity}
-        linkedRoute={value.linkedRoute}
-      />
+  block: {
+    h2: ({ children }: any) => <h2 style={{ fontWeight: 400 }}>{children}</h2>,
+    h3: ({ children }: any) => <h3 style={{ fontWeight: 400 }}>{children}</h3>,
+    h4: ({ children }: any) => <h4 style={{ fontWeight: 400 }}>{children}</h4>,
+  },
+  list: {
+    bullet: ({ children }: any) => <ul style={{ listStyle: 'none', padding: 0, margin: '1rem 0' }}>{children}</ul>,
+    number: ({ children }: any) => <ol style={{ listStyle: 'none', padding: 0, margin: '1rem 0', counterReset: 'blog-counter' }}>{children}</ol>,
+  },
+  listItem: {
+    bullet: ({ children }: any) => (
+      <li style={{ display: 'flex', alignItems: 'baseline', gap: '0.65rem', marginBottom: '0.5rem' }}>
+        <span style={{ display: 'inline-block', width: '18px', height: '10px', background: '#8BAA1D', transform: 'skewX(-8deg)', flexShrink: 0, marginTop: '2px' }} />
+        <span>{children}</span>
+      </li>
     ),
+    number: ({ children, index }: any) => (
+      <li style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '0.65rem' }}>
+        <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '26px', height: '22px', background: '#242426', color: '#8BAA1D', fontSize: '0.72rem', fontWeight: 700, transform: 'skewX(-8deg)', flexShrink: 0 }}>
+          <span style={{ transform: 'skewX(8deg)', display: 'inline-block' }}>{(index ?? 0) + 1}</span>
+        </span>
+        <span>{children}</span>
+      </li>
+    ),
+  },
+  marks: {
+    strong: ({ children }: any) => <span style={{ fontWeight: 400 }}>{children}</span>,
+  },
+  types: {
+    bookingCTA: () => null,
     image: ({ value }: { value: any }) => (
       <figure style={{ margin: '2rem 0' }}>
         {value.asset?.url && (
@@ -79,98 +114,88 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
     <>
       <SchemaOrg data={generateBlogPostingSchema({ title: postTitle, description: post.excerpt || postTitle, url: `/blog/${slug}/`, image: post.featuredImage?.asset?.url, publishDate: post.publishDate })} />
 
-      {/* ─── HERO ─────────────────────────────────────────────────────────── */}
-      <section style={{ background: '#F8FAF0', padding: '4rem 6vw 3rem' }}>
-        <Breadcrumbs items={[{ label: 'Blog', href: '/blog/' }, { label: postTitle }]} variant="light" />
+      {/* ─── HERO — split grid like airport pages ─────────────────────────── */}
+      <section style={{ background: '#F8FAF0', display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '480px' }}>
 
-        <div style={{ maxWidth: '800px', marginTop: '1.5rem' }}>
-          {/* Meta */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+        {/* Left: content */}
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '6vw', paddingRight: '4vw', paddingTop: '4rem', paddingBottom: '4rem' }}>
+          <Breadcrumbs items={[{ label: 'Blog', href: '/blog/' }, { label: postTitle }]} variant="light" />
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '1.25rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
             {post.category && (
-              <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#8BAA1D', background: '#e8f0c4', padding: '3px 10px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#8BAA1D', background: '#e8f0c4', padding: '3px 10px', textTransform: 'uppercase', letterSpacing: '0.08em', transform: 'skewX(-6deg)', display: 'inline-block' }}>
                 {post.category}
               </span>
             )}
             {post.publishDate && (
               <time style={{ fontSize: '0.8rem', color: '#94a3b8' }}>{formatDate(post.publishDate, locale)}</time>
             )}
-            {post.readTime && (
-              <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>· {post.readTime} min read</span>
-            )}
           </div>
 
-          <h1 className={russoOne.className} style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.75rem)', color: '#242426', lineHeight: 1.15, marginBottom: '1.25rem' }}>
+          <h1 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', color: '#242426', lineHeight: 1.1, marginBottom: '1.25rem' }}>
             {postTitle}
           </h1>
 
           {post.excerpt && (
-            <p style={{ fontSize: '1.1rem', color: '#64748b', lineHeight: 1.75 }}>
+            <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '480px' }}>
               {post.excerpt}
             </p>
           )}
         </div>
-      </section>
 
-      {/* ─── FEATURED IMAGE ───────────────────────────────────────────────── */}
-      {post.featuredImage?.asset?.url && (
-        <div style={{ paddingLeft: '6vw', paddingRight: '6vw', background: '#ffffff', paddingTop: '3rem' }}>
-          <div style={{ position: 'relative', aspectRatio: '16/7', overflow: 'hidden', maxWidth: '900px', clipPath: 'polygon(0% 0%, 100% 0%, 97% 100%, 3% 100%)' }}>
+        {/* Right: featured image with diagonal clip */}
+        <div style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
+          {post.featuredImage?.asset?.url ? (
             <Image
               src={post.featuredImage.asset.url}
               alt={postTitle}
               fill
               priority
-              style={{ objectFit: 'cover' }}
-              sizes="(max-width: 1200px) 100vw, 900px"
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
+              sizes="50vw"
             />
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '3px', background: '#8BAA1D' }} />
-          </div>
+          ) : (
+            <div style={{ position: 'absolute', inset: 0, background: '#242426' }} />
+          )}
         </div>
-      )}
+
+      </section>
 
       {/* ─── CONTENT ──────────────────────────────────────────────────────── */}
       <section style={{ background: '#ffffff', padding: '4rem 6vw 5rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '5rem', alignItems: 'start', maxWidth: '1200px' }}>
+        <div style={{ maxWidth: '820px' }}>
 
-          {/* Article */}
-          <article className="prose prose-lg prose-headings:font-normal prose-headings:text-[#242426] prose-p:text-[#475569] prose-p:leading-relaxed prose-a:text-[#8BAA1D] prose-a:no-underline prose-strong:text-[#242426] prose-li:text-[#475569]">
-            {content && <PortableText value={content} components={portableTextComponents} />}
-          </article>
+          {/* Article + inline blocks */}
+          <div>
+            {(() => {
+              const blocks = content || []
+              const third = Math.floor(blocks.length / 3)
+              const mid   = Math.floor(blocks.length / 2)
+              const part1 = blocks.slice(0, third)
+              const part2 = blocks.slice(third, mid)
+              const part3 = blocks.slice(mid)
+              const hasRoutes = post.relatedRoutes?.length > 0
+              return (
+                <article className="prose prose-lg prose-headings:font-normal prose-h1:font-normal prose-h2:font-normal prose-h3:font-normal prose-headings:text-[#242426] prose-p:text-[#475569] prose-p:leading-relaxed prose-a:text-[#8BAA1D] prose-a:no-underline prose-strong:font-semibold prose-strong:text-[#242426] prose-li:text-[#475569]">
+                  {part1.length > 0 && <PortableText value={part1} components={portableTextComponents} />}
+                  {hasRoutes && (
+                    <div className="not-prose">
+                      <RouteInlineBlock routes={post.relatedRoutes} locale={locale as Locale} />
+                    </div>
+                  )}
+                  {part2.length > 0 && <PortableText value={part2} components={portableTextComponents} />}
+                  <div className="not-prose">
+                    <InlineBookingBlock locale={locale} />
+                  </div>
+                  {part3.length > 0 && <PortableText value={part3} components={portableTextComponents} />}
+                </article>
+              )
+            })()}
 
-          {/* Sidebar */}
-          <aside style={{ position: 'sticky', top: '100px' }}>
-            {/* Booking form */}
-            <div style={{ marginBottom: '2rem' }}>
-              <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#8BAA1D', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
-                {es ? 'Reserva tu transfer' : 'Book your transfer'}
-              </p>
-              <BookingForm />
-            </div>
+            {/* Fleet compact — always shown */}
+            <FleetCompact />
+          </div>
 
-            {/* Related links */}
-            {relatedLinks.length > 0 && (
-              <div style={{ border: '1.5px solid #e5e7eb', padding: '1.5rem' }}>
-                <div style={{ width: '32px', height: '3px', background: '#8BAA1D', marginBottom: '1rem' }} />
-                <h3 className={russoOne.className} style={{ fontSize: '0.95rem', color: '#242426', marginBottom: '1rem' }}>
-                  {es ? 'Traslados relacionados' : 'Related transfers'}
-                </h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                  {relatedLinks.map((link) => (
-                    <Link key={link.href} href={link.href as any} style={{ textDecoration: 'none' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', border: '1.5px solid #e5e7eb', transform: 'skewX(-6deg)', transition: 'border-color 0.15s' }}>
-                        {link.iata && (
-                          <span style={{ transform: 'skewX(6deg)', fontSize: '0.65rem', fontWeight: 700, color: '#8BAA1D', background: '#f0f4e3', padding: '1px 4px', flexShrink: 0 }}>
-                            {link.iata}
-                          </span>
-                        )}
-                        <span style={{ transform: 'skewX(6deg)', fontSize: '0.82rem', fontWeight: 600, color: '#242426' }}>{link.label}</span>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-          </aside>
         </div>
       </section>
     </>
