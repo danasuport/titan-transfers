@@ -83,6 +83,8 @@ export function Header() {
           <div className="hidden lg:flex flex-1 mx-6" style={{ maxWidth: '420px' }}>
             <GlobalSearch />
           </div>
+          {/* spacer mobile */}
+          <div className="flex-1 lg:hidden" />
 
           {/* Right side */}
           <div className="flex items-center gap-3">
