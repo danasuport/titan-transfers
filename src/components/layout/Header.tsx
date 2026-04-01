@@ -118,8 +118,9 @@ export function Header() {
             <div className="hidden lg:block">
               <SkewButton href={`/${locale}/contact/`} variant="primary" style={{ padding: '0.5rem 1.25rem', fontSize: '0.875rem' }}>{t('contact')}</SkewButton>
             </div>
+            {/* Desktop login — with text */}
             <Link href="/login/"
-              className="hidden sm:flex"
+              className="hidden lg:flex"
               style={{ alignItems: 'center', gap: '0.4rem', color: '#ffffff', textDecoration: 'none', background: '#242426', border: '2px solid #242426', transform: 'skewX(-12deg)', padding: '0.4rem 0.9rem', transition: 'background 0.2s, border-color 0.2s', fontSize: '0.875rem', fontWeight: 700 }}
               onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#8BAA1D'; e.currentTarget.style.borderColor = '#8BAA1D' }}
               onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#242426'; e.currentTarget.style.borderColor = '#242426' }}
@@ -128,6 +129,17 @@ export function Header() {
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
               </svg>
               <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{locale === 'es' ? 'Acceder' : 'Login'}</span>
+            </Link>
+            {/* Mobile login — icon only, skewed */}
+            <Link href="/login/"
+              className="flex lg:hidden"
+              style={{ alignItems: 'center', justifyContent: 'center', color: '#ffffff', textDecoration: 'none', width: '34px', height: '34px', background: '#242426', border: '2px solid #242426', transform: 'skewX(-12deg)', transition: 'background 0.2s, border-color 0.2s' }}
+              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#8BAA1D'; e.currentTarget.style.borderColor = '#8BAA1D' }}
+              onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#242426'; e.currentTarget.style.borderColor = '#242426' }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'skewX(12deg)' }}>
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
             </Link>
 
             {/* Mobile menu button */}
@@ -201,10 +213,10 @@ export function Header() {
       {/* Mobile drawer */}
       {mobileMenuOpen && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 300, display: 'flex', flexDirection: 'column', background: '#ffffff' }}>
-          {/* Drawer header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem 6vw', borderBottom: '1px solid #e5e7eb', flexShrink: 0 }}>
+          {/* Drawer header — same height as closed header */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem 6vw', minHeight: 'calc(80px + 2rem)', borderBottom: '1px solid #e5e7eb', flexShrink: 0 }}>
             <Link href="/" onClick={() => setMobileMenuOpen(false)}>
-              <img src="/Logo-titan-transfers-texto-negro.png" alt="Titan Transfers" style={{ height: '36px', width: 'auto' }} />
+              <img src="/Logo-titan-transfers-texto-negro.png" alt="Titan Transfers" style={{ height: 'auto', width: '144px' }} />
             </Link>
             <button onClick={() => setMobileMenuOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem' }}>
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#242426">
