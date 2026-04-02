@@ -239,10 +239,10 @@ export const searchQuery = groq`{
 }`
 
 // Sitemap queries
-export const sitemapAirportsQuery = groq`*[_type == "airport"] { slug, translations, _updatedAt }`
-export const sitemapRoutesQuery = groq`*[_type == "route"] { slug, origin->{ slug }, translations, _updatedAt }`
-export const sitemapCitiesQuery = groq`*[_type == "city"] { slug, translations, _updatedAt }`
-export const sitemapCountriesQuery = groq`*[_type == "country"] { slug, translations, _updatedAt }`
-export const sitemapRegionsQuery = groq`*[_type == "region"] { slug, translations, _updatedAt }`
-export const sitemapServicesQuery = groq`*[_type == "servicePage"] { slug, translations, _updatedAt }`
-export const sitemapBlogPostsQuery = groq`*[_type == "blogPost"] { slug, translations, _updatedAt }`
+export const sitemapAirportsQuery = groq`*[_type == "airport"] | order(title asc) { _id, title, slug, translations, _updatedAt }`
+export const sitemapRoutesQuery = groq`*[_type == "route"] | order(title asc) { _id, title, slug, origin->{ _id, title, slug, translations }, translations, _updatedAt }`
+export const sitemapCitiesQuery = groq`*[_type == "city"] | order(title asc) { _id, title, slug, translations, _updatedAt }`
+export const sitemapCountriesQuery = groq`*[_type == "country"] | order(title asc) { _id, title, slug, translations, _updatedAt }`
+export const sitemapRegionsQuery = groq`*[_type == "region"] | order(title asc) { _id, title, slug, translations, _updatedAt }`
+export const sitemapServicesQuery = groq`*[_type == "servicePage"] | order(title asc) { _id, title, slug, translations, _updatedAt }`
+export const sitemapBlogPostsQuery = groq`*[_type == "blogPost"] | order(title asc) { _id, title, slug, translations, _updatedAt }`
