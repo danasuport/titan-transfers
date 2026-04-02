@@ -107,6 +107,12 @@ const nextConfig: NextConfig = {
 
       // ── Old landing pages ──
       { source: '/landing-aeropuertos-barcelona/', destination: '/airport-transfers-private-taxi/barcelona/', permanent: true },
+
+      // ── Old auth/booking URLs from WordPress ──
+      { source: '/es/booking/', destination: '/es/reserva/', permanent: true },
+      { source: '/es/iniciar-sesion/', destination: '/es/acceso/', permanent: true },
+      { source: '/contact-us/', destination: '/contact/', permanent: true },
+      { source: '/es/contacta-con-nosotros/', destination: '/es/contacto/', permanent: true },
     ]
 
     // Per-airport slug redirects: old slug (with -airport-transfers suffix) → clean slug
