@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const city = await sanityClient.fetch(cityBySlugQuery, { slug })
   if (!city) return {}
   const { title, description } = generateCityMetadata(city, locale as Locale)
-  return generatePageMetadata({ title, description, path: `/private-transfers/city/${slug}/`, locale: locale as Locale, alternates: [{ locale: 'en' as Locale, path: `/private-transfers/city/${slug}/` }, { locale: 'es' as Locale, path: `/es/traslados-privados-taxi/ciudad/${city.translations?.es?.slug?.current || slug}/` }] })
+  return generatePageMetadata({ title, description, path: `/private-transfers/${slug}/`, locale: locale as Locale, alternates: [{ locale: 'en' as Locale, path: `/private-transfers/${slug}/` }, { locale: 'es' as Locale, path: `/es/traslados-privados-taxi/${city.translations?.es?.slug?.current || slug}/` }] })
 }
 
 export default async function CityPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
@@ -47,11 +47,16 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
   const heroImg = urlFor(city.featuredImage)?.width(1920).height(900).quality(90).url()
 
   const breadcrumbs = [
-    { label: city.country?.title || '', href: es ? `/traslados-privados-taxi/pais/${city.country?.slug?.current}/` : `/private-transfers/country/${city.country?.slug?.current}/` },
+    { label: city.country?.title || '', href: es ? `/traslados-privados-taxi/${city.country?.slug?.current}/` : `/private-transfers/${city.country?.slug?.current}/` },
     { label: cityTitle },
   ]
 
-  const faqItems = [
+  const faqItems = es ? [
+    { question: `¿Cómo reservo un traslado privado en ${cityTitle}?`, answer: `Usa nuestro formulario de reserva para buscar y confirmar tu traslado al instante. Elige recogida y destino, selecciona tu vehículo y confirma a precio fijo.` },
+    { question: `¿Cuánto cuesta un taxi privado en ${cityTitle}?`, answer: `Nuestros traslados privados en ${cityTitle} tienen precio fijo cerrado antes de salir. Sin cargos ocultos ni sorpresas. Consulta tu precio al instante en el formulario.` },
+    { question: '¿Ofrecéis traslados de ida y vuelta?', answer: 'Sí, puedes reservar traslados de solo ida o ida y vuelta directamente desde nuestro sistema de reservas.' },
+    { question: `¿Qué zonas de ${cityTitle} cubrís?`, answer: `Cubrimos todas las zonas de ${cityTitle} y alrededores: aeropuertos, puertos, estaciones de tren y hoteles. Si tu destino no aparece, contáctanos para un presupuesto personalizado.` },
+  ] : [
     { question: `How do I book a private transfer in ${cityTitle}?`, answer: `Use our booking form to instantly search and book your private transfer. Select your pickup and drop-off locations, choose your vehicle, and confirm at a fixed price.` },
     { question: `How do I book a private taxi in ${cityTitle}?`, answer: `Booking a private taxi in ${cityTitle} is easy. Enter your pickup and destination, choose from our vehicle options, and book at a fixed price with no surprises.` },
     { question: 'Do you offer round-trip transfers?', answer: 'Yes, you can book both one-way and round-trip transfers through our booking system.' },
@@ -69,7 +74,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
 
   return (
     <>
-      <SchemaOrg data={generateTaxiServiceSchema({ name: `Private Transfers in ${cityTitle}`, description: `Book private transfers in ${cityTitle}`, url: `/private-transfers/city/${slug}/`, areaServed: cityTitle, rating: 4.8 })} />
+      <SchemaOrg data={generateTaxiServiceSchema({ name: `Private Transfers in ${cityTitle}`, description: `Book private transfers in ${cityTitle}`, url: `/private-transfers/${slug}/`, areaServed: cityTitle, rating: 4.8 })} />
 
       {/* ─── HERO ─────────────────────────────────────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '520px' }}>

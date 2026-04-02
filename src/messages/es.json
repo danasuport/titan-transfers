@@ -208,10 +208,10 @@
     "faq": "Preguntas Frecuentes"
   },
   "city": {
-    "transfers": "Transfers Privados en {city}",
-    "bookTransfer": "Reserva Tu Transfer en {city}",
-    "airportTransfers": "Transfers de Aeropuerto a {city}",
-    "privateTaxi": "Servicio de Taxi Privado en {city}",
+    "transfers": "Traslados privados en {city} — taxi aeropuerto y ciudad",
+    "bookTransfer": "Reserva tu traslado en {city}",
+    "airportTransfers": "Traslado aeropuerto a {city}",
+    "privateTaxi": "Taxi privado en {city} — precio fijo",
     "portTransfers": "Transfers de Puerto en {city}",
     "trainTransfers": "Transfers de Estación de Tren en {city}",
     "cityToCity": "Transfers Ciudad a Ciudad desde {city}",
@@ -221,8 +221,8 @@
     "faq": "Preguntas Frecuentes"
   },
   "country": {
-    "transfers": "Transfers Privados en {country}",
-    "bookTransfer": "Reserva Tu Transfer en {country}",
+    "transfers": "Traslados privados en {country} — transfers aeropuerto taxi",
+    "bookTransfer": "Reserva tu traslado en {country}",
     "airports": "Aeropuertos Que Cubrimos en {country}",
     "mainAirports": "Aeropuertos Internacionales Principales",
     "regionalAirports": "Aeropuertos Regionales",
@@ -235,8 +235,8 @@
     "faq": "Preguntas Frecuentes"
   },
   "region": {
-    "transfers": "Transfers Privados en {region}",
-    "bookTransfer": "Reserva Tu Transfer en {region}",
+    "transfers": "Traslados privados en {region} — taxi aeropuerto precio fijo",
+    "bookTransfer": "Reserva tu traslado en {region}",
     "airports": "Aeropuertos Que Sirven {region}",
     "destinations": "Destinos Populares en {region}",
     "privateTaxi": "Taxi Privado en {region}",

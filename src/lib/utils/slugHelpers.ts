@@ -40,23 +40,20 @@ export function getRouteUrl(airportSlugOrItem: string | WithSlugAndTranslations,
 
 export function getCityUrl(slugOrItem: string | WithSlugAndTranslations, locale: Locale): string {
   const prefix = getLocalizedPath('private-transfers', locale)
-  const segment = getLocalizedPath('city', locale)
   const slug = resolveSlug(slugOrItem, locale)
-  return `/${prefix}/${segment}/${slug}/`
+  return `/${prefix}/${slug}/`
 }
 
 export function getCountryUrl(slugOrItem: string | WithSlugAndTranslations, locale: Locale): string {
   const prefix = getLocalizedPath('private-transfers', locale)
-  const segment = getLocalizedPath('country', locale)
   const slug = resolveSlug(slugOrItem, locale)
-  return `/${prefix}/${segment}/${slug}/`
+  return `/${prefix}/${slug}/`
 }
 
 export function getRegionUrl(slugOrItem: string | WithSlugAndTranslations, locale: Locale): string {
   const prefix = getLocalizedPath('private-transfers', locale)
-  const segment = getLocalizedPath('region', locale)
   const slug = resolveSlug(slugOrItem, locale)
-  return `/${prefix}/${segment}/${slug}/`
+  return `/${prefix}/${slug}/`
 }
 
 export function getServiceUrl(slugOrItem: string | WithSlugAndTranslations, locale: Locale): string {

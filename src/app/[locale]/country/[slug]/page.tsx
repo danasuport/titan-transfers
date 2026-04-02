@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const country = await sanityClient.fetch(countryBySlugQuery, { slug })
   if (!country) return {}
   const { title, description } = generateCountryMetadata(country, locale as Locale)
-  return generatePageMetadata({ title, description, path: `/private-transfers/country/${slug}/`, locale: locale as Locale, alternates: [{ locale: 'en' as Locale, path: `/private-transfers/country/${slug}/` }, { locale: 'es' as Locale, path: `/es/traslados-privados-taxi/pais/${country.translations?.es?.slug?.current || slug}/` }] })
+  return generatePageMetadata({ title, description, path: `/private-transfers/${slug}/`, locale: locale as Locale, alternates: [{ locale: 'en' as Locale, path: `/private-transfers/${slug}/` }, { locale: 'es' as Locale, path: `/es/traslados-privados-taxi/${country.translations?.es?.slug?.current || slug}/` }] })
 }
 
 export default async function CountryPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
@@ -48,7 +48,12 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
   const airportCount = country.airports?.length || 0
   const cityCount = country.cities?.length || 0
 
-  const faqItems = [
+  const faqItems = es ? [
+    { question: `¿Cómo reservo un traslado privado en ${countryTitle}?`, answer: `Usa nuestro formulario de reserva para buscar traslados en ${countryTitle}. Introduce el punto de recogida y destino para obtener un precio fijo al instante.` },
+    { question: `¿Qué aeropuertos de ${countryTitle} cubrís?`, answer: `Cubrimos ${airportCount > 0 ? airportCount : 'los principales'} aeropuertos de ${countryTitle}, tanto internacionales como regionales. Consulta la lista completa arriba.` },
+    { question: `¿Hay taxi privado disponible en todas las ciudades de ${countryTitle}?`, answer: `Ofrecemos servicio de taxi privado en las principales ciudades y destinos turísticos de ${countryTitle}, con recogida puerta a puerta.` },
+    { question: `¿Cuánto cuesta un traslado al aeropuerto en ${countryTitle}?`, answer: `El precio varía según la ruta y el tipo de vehículo. Consulta precios fijos al instante en nuestro formulario de reserva. Sin cargos ocultos.` },
+  ] : [
     { question: `How do I book a private transfer in ${countryTitle}?`, answer: `Use our booking form to search for transfers across ${countryTitle}. Enter your pickup and destination to get an instant quote with fixed prices.` },
     { question: `Which airports in ${countryTitle} do you cover?`, answer: `We cover ${airportCount > 0 ? airportCount : 'all major'} airports in ${countryTitle}, including both international and regional airports. Browse the full list above.` },
     { question: `Is a private taxi available in all cities in ${countryTitle}?`, answer: `We offer private taxi services in the main cities and tourist destinations across ${countryTitle}, with door-to-door service.` },
@@ -64,7 +69,7 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
 
   return (
     <>
-      <SchemaOrg data={generateTaxiServiceSchema({ name: `Private Transfers in ${countryTitle}`, description: `Book transfers across ${countryTitle}`, url: `/private-transfers/country/${slug}/`, areaServed: countryTitle, rating: 4.8 })} />
+      <SchemaOrg data={generateTaxiServiceSchema({ name: `Private Transfers in ${countryTitle}`, description: `Book transfers across ${countryTitle}`, url: `/private-transfers/${slug}/`, areaServed: countryTitle, rating: 4.8 })} />
 
       {/* ─── HERO ─────────────────────────────────────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '520px' }}>

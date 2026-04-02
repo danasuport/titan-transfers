@@ -94,14 +94,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const city of cities) {
     const esSlug = city.translations?.es?.slug?.current || city.slug.current
     entries.push({
-      url: `${SITE_URL}/private-transfers/city/${city.slug.current}/`,
+      url: `${SITE_URL}/private-transfers/${city.slug.current}/`,
       lastModified: city._updatedAt,
       changeFrequency: 'weekly',
       priority: 0.8,
       alternates: {
         languages: {
-          en: `${SITE_URL}/private-transfers/city/${city.slug.current}/`,
-          es: `${SITE_URL}/es/traslados-privados-taxi/ciudad/${esSlug}/`,
+          en: `${SITE_URL}/private-transfers/${city.slug.current}/`,
+          es: `${SITE_URL}/es/traslados-privados-taxi/${esSlug}/`,
         },
       },
     })
@@ -111,14 +111,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const country of countries) {
     const esSlug = country.translations?.es?.slug?.current || country.slug.current
     entries.push({
-      url: `${SITE_URL}/private-transfers/country/${country.slug.current}/`,
+      url: `${SITE_URL}/private-transfers/${country.slug.current}/`,
       lastModified: country._updatedAt,
       changeFrequency: 'monthly',
       priority: 0.7,
       alternates: {
         languages: {
-          en: `${SITE_URL}/private-transfers/country/${country.slug.current}/`,
-          es: `${SITE_URL}/es/traslados-privados-taxi/pais/${esSlug}/`,
+          en: `${SITE_URL}/private-transfers/${country.slug.current}/`,
+          es: `${SITE_URL}/es/traslados-privados-taxi/${esSlug}/`,
         },
       },
     })
@@ -128,14 +128,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const region of regions) {
     const esSlug = region.translations?.es?.slug?.current || region.slug.current
     entries.push({
-      url: `${SITE_URL}/private-transfers/region/${region.slug.current}/`,
+      url: `${SITE_URL}/private-transfers/${region.slug.current}/`,
       lastModified: region._updatedAt,
       changeFrequency: 'monthly',
       priority: 0.7,
       alternates: {
         languages: {
-          en: `${SITE_URL}/private-transfers/region/${region.slug.current}/`,
-          es: `${SITE_URL}/es/traslados-privados-taxi/region/${esSlug}/`,
+          en: `${SITE_URL}/private-transfers/${region.slug.current}/`,
+          es: `${SITE_URL}/es/traslados-privados-taxi/${esSlug}/`,
         },
       },
     })

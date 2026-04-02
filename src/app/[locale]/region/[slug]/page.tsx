@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const region = await sanityClient.fetch(regionBySlugQuery, { slug })
   if (!region) return {}
   const { title, description } = generateRegionMetadata(region, locale as Locale)
-  return generatePageMetadata({ title, description, path: `/private-transfers/region/${slug}/`, locale: locale as Locale, alternates: [{ locale: 'en' as Locale, path: `/private-transfers/region/${slug}/` }, { locale: 'es' as Locale, path: `/es/traslados-privados-taxi/region/${region.translations?.es?.slug?.current || slug}/` }] })
+  return generatePageMetadata({ title, description, path: `/private-transfers/${slug}/`, locale: locale as Locale, alternates: [{ locale: 'en' as Locale, path: `/private-transfers/${slug}/` }, { locale: 'es' as Locale, path: `/es/traslados-privados-taxi/${region.translations?.es?.slug?.current || slug}/` }] })
 }
 
 export default async function RegionPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
@@ -46,14 +46,20 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
   const heroImg = urlFor(region.featuredImage)?.width(1920).height(900).quality(90).url()
 
   const breadcrumbs = [
-    { label: region.country?.title || '', href: es ? `/traslados-privados-taxi/pais/${region.country?.slug?.current}/` : `/private-transfers/country/${region.country?.slug?.current}/` },
+    { label: region.country?.title || '', href: es ? `/traslados-privados-taxi/${region.country?.slug?.current}/` : `/private-transfers/${region.country?.slug?.current}/` },
     { label: regionTitle },
   ]
 
-  const faqItems = [
+  const faqItems = es ? [
+    { question: `¿Cómo llego a ${regionTitle} desde el aeropuerto?`, answer: `Ofrecemos traslados privados desde todos los aeropuertos que dan servicio a ${regionTitle}. Usa nuestro formulario de reserva para encontrar las rutas disponibles.` },
+    { question: `¿Hay servicio de taxi privado en ${regionTitle}?`, answer: `Sí, ofrecemos servicio de taxi privado en toda la zona de ${regionTitle} con precios fijos y conductores profesionales.` },
+    { question: `¿Cuál es el aeropuerto más cercano a ${regionTitle}?`, answer: `Consulta la sección de aeropuertos más arriba para ver los aeropuertos más cercanos con servicio a ${regionTitle}.` },
+    { question: `¿Cuánto cuesta un traslado privado en ${regionTitle}?`, answer: `El precio depende de la ruta y el vehículo elegido. Consulta precios fijos al instante en nuestro formulario. Sin cargos ocultos ni sorpresas.` },
+  ] : [
     { question: `How do I get to ${regionTitle} from the nearest airport?`, answer: `We offer private transfers from all airports serving ${regionTitle}. Use our booking form to find available routes.` },
     { question: `Is there a private taxi service in ${regionTitle}?`, answer: `Yes, we offer private taxi services across ${regionTitle} with fixed prices and professional drivers.` },
     { question: `Which airport is closest to ${regionTitle}?`, answer: `Check the airports section above for the nearest airports serving ${regionTitle}.` },
+    { question: `How much does a private transfer in ${regionTitle} cost?`, answer: `Prices depend on the route and vehicle selected. Get an instant fixed-price quote in our booking form. No hidden charges.` },
   ]
 
   const trustBadges = [
@@ -65,7 +71,7 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
 
   return (
     <>
-      <SchemaOrg data={generateTaxiServiceSchema({ name: `${regionTitle} Transfers`, description: `Private transfers in ${regionTitle}`, url: `/private-transfers/region/${slug}/`, areaServed: regionTitle, rating: 4.8 })} />
+      <SchemaOrg data={generateTaxiServiceSchema({ name: `${regionTitle} Transfers`, description: `Private transfers in ${regionTitle}`, url: `/private-transfers/${slug}/`, areaServed: regionTitle, rating: 4.8 })} />
 
       {/* ─── HERO ─────────────────────────────────────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '520px' }}>

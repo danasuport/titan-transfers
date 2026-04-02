@@ -47,7 +47,7 @@ export function BookingCTABlock({
       linkHref = `/airport-transfers-private-taxi/${linkedAirport.slug.current}/`
     } else if (linkedCity) {
       toLocation = linkedCity.title
-      linkHref = `/private-transfers/city/${linkedCity.slug.current}/`
+      linkHref = `/private-transfers/${linkedCity.slug.current}/`
     }
   } else {
     if (autoAirport) fromLocation = autoAirport

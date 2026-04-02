@@ -39,12 +39,19 @@ const nextConfig: NextConfig = {
       { source: '/es/traslados-aeropuerto-privados-taxi/traslados-aeropuerto-ciudad-de-mexico/', destination: '/es/traslados-aeropuerto-privados-taxi/ciudad-de-mexico/', permanent: true },
       { source: '/es/traslados-aeropuerto-privados-taxi/aeropuerto-reus/', destination: '/es/traslados-aeropuerto-privados-taxi/reus/', permanent: true },
       { source: '/es/traslados-aeropuerto-privados-taxi/tanger/', destination: '/es/traslados-aeropuerto-privados-taxi/tangier/', permanent: true },
-      { source: '/city/:slug/', destination: '/private-transfers/city/:slug/', permanent: true },
-      { source: '/es/ciudad/:slug/', destination: '/es/traslados-privados-taxi/ciudad/:slug/', permanent: true },
-      { source: '/country/:slug/', destination: '/private-transfers/country/:slug/', permanent: true },
-      { source: '/es/pais/:slug/', destination: '/es/traslados-privados-taxi/pais/:slug/', permanent: true },
-      { source: '/region/:slug/', destination: '/private-transfers/region/:slug/', permanent: true },
-      { source: '/es/region/:slug/', destination: '/es/traslados-privados-taxi/region/:slug/', permanent: true },
+      { source: '/city/:slug/', destination: '/private-transfers/:slug/', permanent: true },
+      { source: '/es/ciudad/:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
+      { source: '/country/:slug/', destination: '/private-transfers/:slug/', permanent: true },
+      { source: '/es/pais/:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
+      { source: '/region/:slug/', destination: '/private-transfers/:slug/', permanent: true },
+      { source: '/es/region/:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
+      // Remove type segment from private-transfers URLs
+      { source: '/private-transfers/city/:slug/', destination: '/private-transfers/:slug/', permanent: true },
+      { source: '/private-transfers/country/:slug/', destination: '/private-transfers/:slug/', permanent: true },
+      { source: '/private-transfers/region/:slug/', destination: '/private-transfers/:slug/', permanent: true },
+      { source: '/es/traslados-privados-taxi/ciudad/:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
+      { source: '/es/traslados-privados-taxi/pais/:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
+      { source: '/es/traslados-privados-taxi/region/:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
     ]
 
     // Per-airport slug redirects: old slug (with -airport-transfers suffix) → clean slug

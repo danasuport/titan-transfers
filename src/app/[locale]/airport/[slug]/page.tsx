@@ -45,14 +45,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale, slug } = await params
   const airport = await sanityClient.fetch(airportBySlugQuery, { slug })
   if (!airport) return {}
-  const MULTI = new Set(['Beijing', 'Chicago', 'Dubai', 'Houston', 'Istanbul', 'London', 'Milan', 'New York', 'Panama City', 'Paris', 'Rome', 'Shanghai', 'Washington D.C.'])
   const cityTitle = airport.city?.title || ''
-  const airportTitleMeta = (locale !== 'en' && airport.translations?.[locale]?.title) || airport.title
   const cityTitleMeta = (locale !== 'en' && airport.city?.translations?.[locale]?.title) || cityTitle
-  const isMulti = MULTI.has(cityTitle)
-  const seoKeyword = isMulti ? `${airportTitleMeta} transfers` : `${cityTitleMeta} airport transfers`
-  const { description } = generateAirportMetadata(airport, locale as Locale)
-  const title = airport.seoTitle || `${seoKeyword} | Private Transfers | Titan Transfers`
+  const { title, description } = generateAirportMetadata(airport, locale as Locale, cityTitleMeta)
   return generatePageMetadata({
     title,
     description,
@@ -127,7 +122,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
   })).filter((g: { url: string | null }) => g.url)
 
   const breadcrumbs = [
-    { label: airport.country?.title || '', href: es ? `/traslados-privados-taxi/pais/${airport.country?.slug?.current}/` : `/private-transfers/country/${airport.country?.slug?.current}/` },
+    { label: airport.country?.title || '', href: es ? `/traslados-privados-taxi/${airport.country?.slug?.current}/` : `/private-transfers/${airport.country?.slug?.current}/` },
     { label: airportTitle },
   ]
 
