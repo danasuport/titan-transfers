@@ -182,6 +182,7 @@ export function Footer() {
           </div>
           <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
             {[
+              { href: '/legal/', label: t('legal') },
               { href: '/privacy/', label: t('privacy') },
               { href: '/terms/', label: t('terms') },
               { href: '/cookies/', label: t('cookies') },
