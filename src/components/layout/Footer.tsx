@@ -185,6 +185,7 @@ export function Footer() {
               { href: '/privacy/', label: t('privacy') },
               { href: '/terms/', label: t('terms') },
               { href: '/cookies/', label: t('cookies') },
+              { href: '/sitemap-page/', label: locale === 'es' ? 'Mapa del sitio' : 'Sitemap' },
             ].map(item => (
               <Link key={item.href} href={item.href as any} style={{ ...linkStyle, fontSize: '0.8rem', color: '#94a3b8' }}
                 onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = '#8BAA1D')}
