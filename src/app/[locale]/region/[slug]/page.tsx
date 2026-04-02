@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const region = await sanityClient.fetch(regionBySlugQuery, { slug })
   if (!region) return {}
   const { title, description } = generateRegionMetadata(region, locale as Locale)
-  return generatePageMetadata({ title, description, path: `/region/${slug}/`, locale: locale as Locale, alternates: [{ locale: 'en' as Locale, path: `/region/${slug}/` }, { locale: 'es' as Locale, path: `/es/region/${region.translations?.es?.slug?.current || slug}/` }] })
+  return generatePageMetadata({ title, description, path: `/private-transfers/region/${slug}/`, locale: locale as Locale, alternates: [{ locale: 'en' as Locale, path: `/private-transfers/region/${slug}/` }, { locale: 'es' as Locale, path: `/es/traslados-privados-taxi/region/${region.translations?.es?.slug?.current || slug}/` }] })
 }
 
 export default async function RegionPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
@@ -46,7 +46,7 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
   const heroImg = urlFor(region.featuredImage)?.width(1920).height(900).quality(90).url()
 
   const breadcrumbs = [
-    { label: region.country?.title || '', href: `/country/${region.country?.slug?.current}/` },
+    { label: region.country?.title || '', href: es ? `/traslados-privados-taxi/pais/${region.country?.slug?.current}/` : `/private-transfers/country/${region.country?.slug?.current}/` },
     { label: regionTitle },
   ]
 
@@ -65,7 +65,7 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
 
   return (
     <>
-      <SchemaOrg data={generateTaxiServiceSchema({ name: `${regionTitle} Transfers`, description: `Private transfers in ${regionTitle}`, url: `/region/${slug}/`, areaServed: regionTitle, rating: 4.8 })} />
+      <SchemaOrg data={generateTaxiServiceSchema({ name: `${regionTitle} Transfers`, description: `Private transfers in ${regionTitle}`, url: `/private-transfers/region/${slug}/`, areaServed: regionTitle, rating: 4.8 })} />
 
       {/* ─── HERO ─────────────────────────────────────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '520px' }}>

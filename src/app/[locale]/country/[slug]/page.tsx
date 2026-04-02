@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const country = await sanityClient.fetch(countryBySlugQuery, { slug })
   if (!country) return {}
   const { title, description } = generateCountryMetadata(country, locale as Locale)
-  return generatePageMetadata({ title, description, path: `/country/${slug}/`, locale: locale as Locale, alternates: [{ locale: 'en' as Locale, path: `/country/${slug}/` }, { locale: 'es' as Locale, path: `/es/pais/${country.translations?.es?.slug?.current || slug}/` }] })
+  return generatePageMetadata({ title, description, path: `/private-transfers/country/${slug}/`, locale: locale as Locale, alternates: [{ locale: 'en' as Locale, path: `/private-transfers/country/${slug}/` }, { locale: 'es' as Locale, path: `/es/traslados-privados-taxi/pais/${country.translations?.es?.slug?.current || slug}/` }] })
 }
 
 export default async function CountryPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
@@ -64,7 +64,7 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
 
   return (
     <>
-      <SchemaOrg data={generateTaxiServiceSchema({ name: `Private Transfers in ${countryTitle}`, description: `Book transfers across ${countryTitle}`, url: `/country/${slug}/`, areaServed: countryTitle, rating: 4.8 })} />
+      <SchemaOrg data={generateTaxiServiceSchema({ name: `Private Transfers in ${countryTitle}`, description: `Book transfers across ${countryTitle}`, url: `/private-transfers/country/${slug}/`, areaServed: countryTitle, rating: 4.8 })} />
 
       {/* ─── HERO ─────────────────────────────────────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '520px' }}>

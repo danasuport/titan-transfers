@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const city = await sanityClient.fetch(cityBySlugQuery, { slug })
   if (!city) return {}
   const { title, description } = generateCityMetadata(city, locale as Locale)
-  return generatePageMetadata({ title, description, path: `/city/${slug}/`, locale: locale as Locale, alternates: [{ locale: 'en' as Locale, path: `/city/${slug}/` }, { locale: 'es' as Locale, path: `/es/ciudad/${city.translations?.es?.slug?.current || slug}/` }] })
+  return generatePageMetadata({ title, description, path: `/private-transfers/city/${slug}/`, locale: locale as Locale, alternates: [{ locale: 'en' as Locale, path: `/private-transfers/city/${slug}/` }, { locale: 'es' as Locale, path: `/es/traslados-privados-taxi/ciudad/${city.translations?.es?.slug?.current || slug}/` }] })
 }
 
 export default async function CityPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
@@ -47,7 +47,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
   const heroImg = urlFor(city.featuredImage)?.width(1920).height(900).quality(90).url()
 
   const breadcrumbs = [
-    { label: city.country?.title || '', href: `/country/${city.country?.slug?.current}/` },
+    { label: city.country?.title || '', href: es ? `/traslados-privados-taxi/pais/${city.country?.slug?.current}/` : `/private-transfers/country/${city.country?.slug?.current}/` },
     { label: cityTitle },
   ]
 
@@ -69,7 +69,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
 
   return (
     <>
-      <SchemaOrg data={generateTaxiServiceSchema({ name: `Private Transfers in ${cityTitle}`, description: `Book private transfers in ${cityTitle}`, url: `/city/${slug}/`, areaServed: cityTitle, rating: 4.8 })} />
+      <SchemaOrg data={generateTaxiServiceSchema({ name: `Private Transfers in ${cityTitle}`, description: `Book private transfers in ${cityTitle}`, url: `/private-transfers/city/${slug}/`, areaServed: cityTitle, rating: 4.8 })} />
 
       {/* ─── HERO ─────────────────────────────────────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '520px' }}>

@@ -56,7 +56,7 @@ export async function PopularDestinations({ locale = 'en' }: { locale?: string }
         country: undefined,
         localTitle: (locale !== 'en' && country.translations?.[locale]?.title) || country.title,
         localSlug: (locale !== 'en' && country.translations?.[locale]?.slug?.current) || country.slug.current,
-        linkPrefix: '/country/',
+        linkPrefix: locale === 'es' ? '/traslados-privados-taxi/pais/' : '/private-transfers/country/',
       }))
     : STATIC_FALLBACK.map(c => ({
         _id: c.slug,
@@ -66,7 +66,7 @@ export async function PopularDestinations({ locale = 'en' }: { locale?: string }
         country: undefined,
         localTitle: c.title,
         localSlug: c.slug,
-        linkPrefix: '/country/',
+        linkPrefix: locale === 'es' ? '/traslados-privados-taxi/pais/' : '/private-transfers/country/',
       }))
 
   return (

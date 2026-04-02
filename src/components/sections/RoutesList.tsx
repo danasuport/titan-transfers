@@ -24,7 +24,7 @@ function RouteCard({ route, airportSlug, locale }: { route: Route; airportSlug: 
   const destTitle = route.destination ? getTranslatedTitle(route.destination, locale) : getTranslatedTitle(route, locale)
 
   return (
-    <Link href={`/airport/${airportSlug}/${routeSlug}/` as any} style={{ textDecoration: 'none' }}>
+    <Link href={`/airport-transfers/${airportSlug}/${routeSlug}/` as any} style={{ textDecoration: 'none' }}>
       <div
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}

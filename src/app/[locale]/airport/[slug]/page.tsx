@@ -56,11 +56,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return generatePageMetadata({
     title,
     description,
-    path: `/airport/${slug}/`,
+    path: `/airport-transfers/${slug}/`,
     locale: locale as Locale,
     alternates: [
-      { locale: 'en' as Locale, path: `/airport/${slug}/` },
-      { locale: 'es' as Locale, path: `/es/aeropuerto/${airport.translations?.es?.slug?.current ?? slug}/` },
+      { locale: 'en' as Locale, path: `/airport-transfers/${slug}/` },
+      { locale: 'es' as Locale, path: `/es/traslado-aeropuerto/${airport.translations?.es?.slug?.current ?? slug}/` },
     ],
   })
 }
@@ -127,7 +127,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
   })).filter((g: { url: string | null }) => g.url)
 
   const breadcrumbs = [
-    { label: airport.country?.title || '', href: `/country/${airport.country?.slug?.current}/` },
+    { label: airport.country?.title || '', href: es ? `/traslados-privados-taxi/pais/${airport.country?.slug?.current}/` : `/private-transfers/country/${airport.country?.slug?.current}/` },
     { label: airportTitle },
   ]
 
@@ -163,7 +163,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
 
   return (
     <>
-      <SchemaOrg data={generateTaxiServiceSchema({ name: `${airportTitle} ${t('transfers')}`, description: t('transferBestPriceDesc', { airport: airportTitle }), url: `/airport/${slug}/`, areaServed: cityName, rating: 4.8, reviewCount: 2500 })} />
+      <SchemaOrg data={generateTaxiServiceSchema({ name: `${airportTitle} ${t('transfers')}`, description: t('transferBestPriceDesc', { airport: airportTitle }), url: `/airport-transfers/${slug}/`, areaServed: cityName, rating: 4.8, reviewCount: 2500 })} />
 
       {/* ─── HERO ───────────────────────────────────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '520px' }}>

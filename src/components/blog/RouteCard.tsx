@@ -46,7 +46,7 @@ export function RouteInlineBlock({ routes, locale }: RouteCardProps) {
           return (
             <Link
               key={route._id}
-              href={originSlug ? `/airport/${originSlug}/${routeSlug}/` as any : `/` as any}
+              href={originSlug ? `/airport-transfers/${originSlug}/${routeSlug}/` as any : `/` as any}
               style={{ textDecoration: 'none' }}
             >
               <div

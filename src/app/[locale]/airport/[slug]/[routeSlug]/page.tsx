@@ -54,11 +54,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return generatePageMetadata({
     title,
     description,
-    path: `/airport/${slug}/${routeSlug}/`,
+    path: `/airport-transfers/${slug}/${routeSlug}/`,
     locale: locale as Locale,
     alternates: [
-      { locale: 'en' as Locale, path: `/airport/${slug}/${routeSlug}/` },
-      { locale: 'es' as Locale, path: `/es/aeropuerto/${slug}/${route.translations?.es?.slug?.current || routeSlug}/` },
+      { locale: 'en' as Locale, path: `/airport-transfers/${slug}/${routeSlug}/` },
+      { locale: 'es' as Locale, path: `/es/traslado-aeropuerto/${slug}/${route.translations?.es?.slug?.current || routeSlug}/` },
     ],
   })
 }
@@ -84,8 +84,8 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
     ((locale !== 'en' && route.translations?.[locale]?.contentSections) || route.contentSections || []).slice(0, 3)
 
   const breadcrumbs = [
-    { label: route.country?.title || '', href: `/country/${route.country?.slug?.current}/` },
-    { label: originTitle, href: `/airport/${route.origin?.slug?.current}/` },
+    { label: route.country?.title || '', href: es ? `/traslados-privados-taxi/pais/${route.country?.slug?.current}/` : `/private-transfers/country/${route.country?.slug?.current}/` },
+    { label: originTitle, href: es ? `/traslado-aeropuerto/${route.origin?.slug?.current}/` : `/airport-transfers/${route.origin?.slug?.current}/` },
     { label: destTitle },
   ]
 
@@ -135,7 +135,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
       <SchemaOrg data={generateTaxiServiceSchema({
         name: `${originTitle} to ${destTitle} Transfer`,
         description: `Private transfer from ${originTitle} to ${destTitle}`,
-        url: `/airport/${slug}/${routeSlug}/`,
+        url: `/airport-transfers/${slug}/${routeSlug}/`,
         areaServed: destTitle,
         rating: 4.8,
       })} />
@@ -379,7 +379,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
             {route.origin?.slug?.current && (
-              <Link href={`/airport/${route.origin.slug.current}/` as any} style={{ textDecoration: 'none' }}>
+              <Link href={(es ? `/traslado-aeropuerto/${route.origin.slug.current}/` : `/airport-transfers/${route.origin.slug.current}/`) as any} style={{ textDecoration: 'none' }}>
                 <div style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', transform: 'skewX(-8deg)', overflow: 'hidden', transition: 'border-color 0.15s' }}>
                   <div style={{ transform: 'skewX(8deg)', padding: '0.6rem 1.25rem' }}>
                     <div style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>
@@ -394,7 +394,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               </Link>
             )}
             {route.destination?.slug?.current && (
-              <Link href={`/city/${route.destination.slug.current}/` as any} style={{ textDecoration: 'none' }}>
+              <Link href={(es ? `/traslados-privados-taxi/ciudad/${route.destination.slug.current}/` : `/private-transfers/city/${route.destination.slug.current}/`) as any} style={{ textDecoration: 'none' }}>
                 <div style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', transform: 'skewX(-8deg)', overflow: 'hidden', transition: 'border-color 0.15s' }}>
                   <div style={{ transform: 'skewX(8deg)', padding: '0.6rem 1.25rem' }}>
                     <div style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>
@@ -409,7 +409,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               </Link>
             )}
             {route.country?.slug?.current && (
-              <Link href={`/country/${route.country.slug.current}/` as any} style={{ textDecoration: 'none' }}>
+              <Link href={(es ? `/traslados-privados-taxi/pais/${route.country.slug.current}/` : `/private-transfers/country/${route.country.slug.current}/`) as any} style={{ textDecoration: 'none' }}>
                 <div style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', transform: 'skewX(-8deg)', overflow: 'hidden' }}>
                   <div style={{ transform: 'skewX(8deg)', padding: '0.6rem 1.25rem' }}>
                     <div style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>

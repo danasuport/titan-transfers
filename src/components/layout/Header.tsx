@@ -175,7 +175,7 @@ export function Header() {
           <div style={{ position: 'relative' }}>
             <div
               onScroll={handleMenuScroll}
-              style={{ paddingLeft: '6vw', paddingRight: '6vw', maxHeight: '70vh', overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: '#8BAA1D #f1f5e8' }}
+              style={{ paddingLeft: '6vw', paddingRight: '6vw', maxHeight: '70vh', overflowY: 'auto', overflowX: 'hidden', scrollbarWidth: 'thin', scrollbarColor: '#8BAA1D #f1f5e8' }}
             >
               <MegaMenu type={activeMenu} onClose={() => setActiveMenu(null)} />
             </div>

@@ -66,9 +66,9 @@ export function GlobalSearch() {
   function navigate(type: 'airport' | 'city' | 'country', item: Result) {
     const slug = getSlug(item)
     const paths = {
-      airport: locale === 'es' ? `/aeropuerto/${slug}/` : `/airport/${slug}/`,
-      city: locale === 'es' ? `/ciudad/${slug}/` : `/city/${slug}/`,
-      country: locale === 'es' ? `/pais/${slug}/` : `/country/${slug}/`,
+      airport: locale === 'es' ? `/traslado-aeropuerto/${slug}/` : `/airport-transfers/${slug}/`,
+      city: locale === 'es' ? `/traslados-privados-taxi/ciudad/${slug}/` : `/private-transfers/city/${slug}/`,
+      country: locale === 'es' ? `/traslados-privados-taxi/pais/${slug}/` : `/private-transfers/country/${slug}/`,
     }
     router.push(paths[type] as any)
     setOpen(false)

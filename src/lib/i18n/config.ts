@@ -18,13 +18,14 @@ export const localeNames: Record<Locale, string> = {
 
 export const pathTranslations: Record<string, Record<Locale, string>> = {
   airports: { en: 'airports', es: 'aeropuertos' },
-  airport: { en: 'airport', es: 'aeropuerto' },
+  airport: { en: 'airport-transfers', es: 'traslado-aeropuerto' },
   cities: { en: 'cities', es: 'ciudades' },
   city: { en: 'city', es: 'ciudad' },
   countries: { en: 'countries', es: 'paises' },
   country: { en: 'country', es: 'pais' },
   regions: { en: 'regions', es: 'regiones' },
   region: { en: 'region', es: 'region' },
+  'private-transfers': { en: 'private-transfers', es: 'traslados-privados-taxi' },
   services: { en: 'services', es: 'servicios' },
   blog: { en: 'blog', es: 'blog' },
   contact: { en: 'contact', es: 'contacto' },

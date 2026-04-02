@@ -152,12 +152,12 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
           <div style={{ columns: '4', columnGap: '2rem' }}>
             {Object.entries(airportsByCountry).map(([country, items]) => (
               <div key={country} style={{ breakInside: 'avoid', marginBottom: '1.25rem' }}>
-                <div className={russoOne.className} onClick={() => go(es ? `/pais/${items[0]?.countrySlug}/` : `/country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#8BAA1D', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-taxi/pais/${items[0]?.countrySlug}/` : `/private-transfers/country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#8BAA1D', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
                   <Flag countrySlug={items[0]?.countrySlug ?? ''} /> {country}
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </div>
                 {items.map(a => (
-                  <HoverItem key={a._id} style={itemStyle} onClick={() => go(es ? `/aeropuerto/${slug(a)}/` : `/airport/${slug(a)}/`)}>
+                  <HoverItem key={a._id} style={itemStyle} onClick={() => go(es ? `/traslado-aeropuerto/${slug(a)}/` : `/airport-transfers/${slug(a)}/`)}>
                     {a.iataCode && (
                       <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#8BAA1D', background: '#f0f4e3', padding: '1px 5px', borderRadius: '3px', flexShrink: 0 }}>
                         {a.iataCode}
@@ -181,12 +181,12 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
           <div style={{ columns: '4', columnGap: '2rem' }}>
             {Object.entries(citiesByCountry).map(([country, items]) => (
               <div key={country} style={{ breakInside: 'avoid', marginBottom: '1.25rem' }}>
-                <div className={russoOne.className} onClick={() => go(es ? `/pais/${items[0]?.countrySlug}/` : `/country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#8BAA1D', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-taxi/pais/${items[0]?.countrySlug}/` : `/private-transfers/country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#8BAA1D', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
                   <Flag countrySlug={items[0]?.countrySlug ?? ''} /> {country}
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </div>
                 {items.map(c => (
-                  <HoverItem key={c._id} style={itemStyle} onClick={() => go(es ? `/ciudad/${slug(c)}/` : `/city/${slug(c)}/`)}>
+                  <HoverItem key={c._id} style={itemStyle} onClick={() => go(es ? `/traslados-privados-taxi/ciudad/${slug(c)}/` : `/private-transfers/city/${slug(c)}/`)}>
                     <span style={{ fontSize: '0.85rem', color: 'inherit' }}>{c.title}</span>
                   </HoverItem>
                 ))}
@@ -202,14 +202,14 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
         <div>
           {!data && <Skeleton />}
           {data && countries.length === 0 && <Empty es={es} />}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.5rem', marginBottom: '1.25rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.5rem', marginBottom: '1.25rem' }}>
             {countries.map(c => (
-              <HoverItem key={c._id} style={itemStyle} onClick={() => go(es ? `/pais/${slug(c)}/` : `/country/${slug(c)}/`)}>
+              <HoverItem key={c._id} style={itemStyle} onClick={() => go(es ? `/traslados-privados-taxi/pais/${slug(c)}/` : `/private-transfers/country/${slug(c)}/`)}>
                 <Flag countrySlug={c.slug} />
                 <div>
                   <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'inherit' }}>{c.title}</div>
                   {(c.airportCount || c.cityCount) ? (
-                    <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>
+                    <div style={{ fontSize: '0.7rem', color: 'inherit', opacity: 0.7 }}>
                       {c.airportCount ? `${c.airportCount} ${es ? 'aeropuertos' : 'airports'}` : ''}
                       {c.airportCount && c.cityCount ? ' · ' : ''}
                       {c.cityCount ? `${c.cityCount} ${es ? 'ciudades' : 'cities'}` : ''}
@@ -263,13 +263,13 @@ function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, 
               {openCountry === country && (
                 <div style={{ paddingBottom: '0.5rem' }}>
                   {type === 'airports' && (items as Airport[]).map(a => (
-                    <div key={a._id} style={itemRowStyle} onClick={() => go(es ? `/aeropuerto/${slug(a)}/` : `/airport/${slug(a)}/`)}>
+                    <div key={a._id} style={itemRowStyle} onClick={() => go(es ? `/traslado-aeropuerto/${slug(a)}/` : `/airport-transfers/${slug(a)}/`)}>
                       {a.iataCode && <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#8BAA1D', background: '#f0f4e3', padding: '1px 5px', flexShrink: 0 }}>{a.iataCode}</span>}
                       <span style={{ fontSize: '0.875rem', color: '#242426' }}>{a.title}</span>
                     </div>
                   ))}
                   {type === 'cities' && (items as City[]).map(c => (
-                    <div key={c._id} style={itemRowStyle} onClick={() => go(es ? `/ciudad/${slug(c)}/` : `/city/${slug(c)}/`)}>
+                    <div key={c._id} style={itemRowStyle} onClick={() => go(es ? `/traslados-privados-taxi/ciudad/${slug(c)}/` : `/private-transfers/city/${slug(c)}/`)}>
                       <span style={{ fontSize: '0.875rem', color: '#242426' }}>{c.title}</span>
                     </div>
                   ))}
@@ -291,7 +291,7 @@ function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, 
         <>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.4rem', marginBottom: '1rem' }}>
             {countries.map(c => (
-              <div key={c._id} onClick={() => go(es ? `/pais/${slug(c)}/` : `/country/${slug(c)}/`)}
+              <div key={c._id} onClick={() => go(es ? `/traslados-privados-taxi/pais/${slug(c)}/` : `/private-transfers/country/${slug(c)}/`)}
                 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', cursor: 'pointer', background: '#f8fafc', borderRadius: '4px' }}>
                 <Flag countrySlug={c.slug} />
                 <div>

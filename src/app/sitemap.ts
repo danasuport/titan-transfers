@@ -59,14 +59,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const airport of airports) {
     const esSlug = airport.translations?.es?.slug?.current || airport.slug.current
     entries.push({
-      url: `${SITE_URL}/airport/${airport.slug.current}/`,
+      url: `${SITE_URL}/airport-transfers/${airport.slug.current}/`,
       lastModified: airport._updatedAt,
       changeFrequency: 'weekly',
       priority: 0.9,
       alternates: {
         languages: {
-          en: `${SITE_URL}/airport/${airport.slug.current}/`,
-          es: `${SITE_URL}/es/aeropuerto/${esSlug}/`,
+          en: `${SITE_URL}/airport-transfers/${airport.slug.current}/`,
+          es: `${SITE_URL}/es/traslado-aeropuerto/${esSlug}/`,
         },
       },
     })
@@ -77,14 +77,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (!route.origin?.slug?.current) continue
     const esSlug = route.translations?.es?.slug?.current || route.slug.current
     entries.push({
-      url: `${SITE_URL}/airport/${route.origin.slug.current}/${route.slug.current}/`,
+      url: `${SITE_URL}/airport-transfers/${route.origin.slug.current}/${route.slug.current}/`,
       lastModified: route._updatedAt,
       changeFrequency: 'weekly',
       priority: 0.8,
       alternates: {
         languages: {
-          en: `${SITE_URL}/airport/${route.origin.slug.current}/${route.slug.current}/`,
-          es: `${SITE_URL}/es/aeropuerto/${route.origin.slug.current}/${esSlug}/`,
+          en: `${SITE_URL}/airport-transfers/${route.origin.slug.current}/${route.slug.current}/`,
+          es: `${SITE_URL}/es/traslado-aeropuerto/${route.origin.slug.current}/${esSlug}/`,
         },
       },
     })
@@ -94,14 +94,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const city of cities) {
     const esSlug = city.translations?.es?.slug?.current || city.slug.current
     entries.push({
-      url: `${SITE_URL}/city/${city.slug.current}/`,
+      url: `${SITE_URL}/private-transfers/city/${city.slug.current}/`,
       lastModified: city._updatedAt,
       changeFrequency: 'weekly',
       priority: 0.8,
       alternates: {
         languages: {
-          en: `${SITE_URL}/city/${city.slug.current}/`,
-          es: `${SITE_URL}/es/ciudad/${esSlug}/`,
+          en: `${SITE_URL}/private-transfers/city/${city.slug.current}/`,
+          es: `${SITE_URL}/es/traslados-privados-taxi/ciudad/${esSlug}/`,
         },
       },
     })
@@ -111,14 +111,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const country of countries) {
     const esSlug = country.translations?.es?.slug?.current || country.slug.current
     entries.push({
-      url: `${SITE_URL}/country/${country.slug.current}/`,
+      url: `${SITE_URL}/private-transfers/country/${country.slug.current}/`,
       lastModified: country._updatedAt,
       changeFrequency: 'monthly',
       priority: 0.7,
       alternates: {
         languages: {
-          en: `${SITE_URL}/country/${country.slug.current}/`,
-          es: `${SITE_URL}/es/pais/${esSlug}/`,
+          en: `${SITE_URL}/private-transfers/country/${country.slug.current}/`,
+          es: `${SITE_URL}/es/traslados-privados-taxi/pais/${esSlug}/`,
         },
       },
     })
@@ -128,14 +128,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const region of regions) {
     const esSlug = region.translations?.es?.slug?.current || region.slug.current
     entries.push({
-      url: `${SITE_URL}/region/${region.slug.current}/`,
+      url: `${SITE_URL}/private-transfers/region/${region.slug.current}/`,
       lastModified: region._updatedAt,
       changeFrequency: 'monthly',
       priority: 0.7,
       alternates: {
         languages: {
-          en: `${SITE_URL}/region/${region.slug.current}/`,
-          es: `${SITE_URL}/es/region/${esSlug}/`,
+          en: `${SITE_URL}/private-transfers/region/${region.slug.current}/`,
+          es: `${SITE_URL}/es/traslados-privados-taxi/region/${esSlug}/`,
         },
       },
     })

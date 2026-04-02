@@ -26,34 +26,37 @@ function resolveSlug(slugOrItem: string | WithSlugAndTranslations, locale: Local
 }
 
 export function getAirportUrl(slugOrItem: string | WithSlugAndTranslations, locale: Locale): string {
-  const segment = getLocalizedPath('airport', locale)
+  const prefix = getLocalizedPath('airport', locale)
   const slug = resolveSlug(slugOrItem, locale)
-  return `/${segment}/${slug}/`
+  return `/${prefix}/${slug}/`
 }
 
 export function getRouteUrl(airportSlugOrItem: string | WithSlugAndTranslations, routeSlugOrItem: string | WithSlugAndTranslations, locale: Locale): string {
-  const segment = getLocalizedPath('airport', locale)
+  const prefix = getLocalizedPath('airport', locale)
   const airportSlug = resolveSlug(airportSlugOrItem, locale)
   const routeSlug = resolveSlug(routeSlugOrItem, locale)
-  return `/${segment}/${airportSlug}/${routeSlug}/`
+  return `/${prefix}/${airportSlug}/${routeSlug}/`
 }
 
 export function getCityUrl(slugOrItem: string | WithSlugAndTranslations, locale: Locale): string {
+  const prefix = getLocalizedPath('private-transfers', locale)
   const segment = getLocalizedPath('city', locale)
   const slug = resolveSlug(slugOrItem, locale)
-  return `/${segment}/${slug}/`
+  return `/${prefix}/${segment}/${slug}/`
 }
 
 export function getCountryUrl(slugOrItem: string | WithSlugAndTranslations, locale: Locale): string {
+  const prefix = getLocalizedPath('private-transfers', locale)
   const segment = getLocalizedPath('country', locale)
   const slug = resolveSlug(slugOrItem, locale)
-  return `/${segment}/${slug}/`
+  return `/${prefix}/${segment}/${slug}/`
 }
 
 export function getRegionUrl(slugOrItem: string | WithSlugAndTranslations, locale: Locale): string {
+  const prefix = getLocalizedPath('private-transfers', locale)
   const segment = getLocalizedPath('region', locale)
   const slug = resolveSlug(slugOrItem, locale)
-  return `/${segment}/${slug}/`
+  return `/${prefix}/${segment}/${slug}/`
 }
 
 export function getServiceUrl(slugOrItem: string | WithSlugAndTranslations, locale: Locale): string {
