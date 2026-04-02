@@ -4,7 +4,18 @@ import { useEffect, useRef, useState } from 'react'
 import { useLocale } from 'next-intl'
 import { buildETOUrl, LOCALE_TO_ETO_LANG } from '@/lib/eto/config'
 
-export function ETOBookingIframe() {
+interface Props {
+  pickup?: string
+  pickupPid?: string
+  dest?: string
+  destPid?: string
+  date?: string
+  time?: string
+  pax?: string
+  lug?: string
+}
+
+export function ETOBookingIframe({ pickup, pickupPid, dest, destPid, date, time, pax, lug }: Props) {
   const locale = useLocale()
   const [isVisible, setIsVisible] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -15,6 +26,12 @@ export function ETOBookingIframe() {
 
   const iframeUrl = buildETOUrl('booking', {
     lang: LOCALE_TO_ETO_LANG[locale] || LOCALE_TO_ETO_LANG.en,
+    ...(pickup && { fromLocation: pickup }),
+    ...(pickupPid && { fromCategory: pickupPid }),
+    ...(dest && { toLocation: dest }),
+    ...(destPid && { toCategory: destPid }),
+    ...(date && { date }),
+    ...(pax && { bookingType: pax }),
   })
 
   return (
