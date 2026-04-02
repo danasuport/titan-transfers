@@ -164,6 +164,8 @@ Language: ${isES ? 'Spanish (Spain, formal tone)' : 'English (British, professio
 
 Output a JSON object with this exact structure:
 {
+  "seoTitle": "...",
+  "seoDescription": "...",
   "featuredImage": {
     "imageQuery": "best Wikimedia Commons search query for a wide establishing shot of ${destName} (landmark, skyline, beach, old town...)",
     "imageAlt": "SEO alt text: 'Private transfer from ${originName} to ${destName} — [specific place shown in photo]'"
@@ -199,6 +201,15 @@ Output a JSON object with this exact structure:
     }
   ]
 }
+
+Requirements for "seoTitle":
+- ${isES ? 'Spanish' : 'English'}, include keyword "${isES ? `traslado privado ${originName} a ${destName}` : `private transfer ${originName} to ${destName}`}"
+- Max 60 chars, end with "| Titan Transfers"
+
+Requirements for "seoDescription":
+- ${isES ? 'Spanish' : 'English'}, 140-155 chars
+- Include: ${isES ? `precio fijo, conductor profesional, ${durationStr ? 'trayecto de ' + durationStr : 'servicio puerta a puerta'}` : `fixed price, professional driver, ${durationStr ? durationStr + ' journey' : 'door-to-door service'}`}
+- No Title Case in Spanish (only first word capitalised)
 
 Requirements for "featuredImage":
 - imageQuery: specific enough to find a real, high-quality Wikimedia photo of ${destName} (e.g. "${destName} seafront", "${destName} old town panorama", "${destName} beach aerial")
@@ -265,6 +276,8 @@ async function processRoute(route) {
   if (doEN) {
     const data = await generateForRoute(route, 'en')
     if (data) {
+      if (data.seoTitle) patch.seoTitle = data.seoTitle
+      if (data.seoDescription) patch.seoDescription = data.seoDescription
       patch.description = structureToPortableText(data.description)
       patch.contentSections = await buildContentSections(data.contentSections, route.title, 'en')
       // Featured image — only set if not already present
@@ -278,6 +291,8 @@ async function processRoute(route) {
   if (doES) {
     const data = await generateForRoute(route, 'es')
     if (data) {
+      if (data.seoTitle) patch['translations.es.seoTitle'] = data.seoTitle
+      if (data.seoDescription) patch['translations.es.seoDescription'] = data.seoDescription
       patch['translations.es.description'] = structureToPortableText(data.description)
       patch['translations.es.contentSections'] = await buildContentSections(data.contentSections, route.title, 'es')
     }
