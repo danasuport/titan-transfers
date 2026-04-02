@@ -59,14 +59,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const airport of airports) {
     const esSlug = airport.translations?.es?.slug?.current || airport.slug.current
     entries.push({
-      url: `${SITE_URL}/airport-transfers/${airport.slug.current}/`,
+      url: `${SITE_URL}/airport-transfers-private-taxi/${airport.slug.current}/`,
       lastModified: airport._updatedAt,
       changeFrequency: 'weekly',
       priority: 0.9,
       alternates: {
         languages: {
-          en: `${SITE_URL}/airport-transfers/${airport.slug.current}/`,
-          es: `${SITE_URL}/es/traslado-aeropuerto/${esSlug}/`,
+          en: `${SITE_URL}/airport-transfers-private-taxi/${airport.slug.current}/`,
+          es: `${SITE_URL}/es/traslados-aeropuerto-privados-taxi/${esSlug}/`,
         },
       },
     })
@@ -77,14 +77,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (!route.origin?.slug?.current) continue
     const esSlug = route.translations?.es?.slug?.current || route.slug.current
     entries.push({
-      url: `${SITE_URL}/airport-transfers/${route.origin.slug.current}/${route.slug.current}/`,
+      url: `${SITE_URL}/airport-transfers-private-taxi/${route.origin.slug.current}/${route.slug.current}/`,
       lastModified: route._updatedAt,
       changeFrequency: 'weekly',
       priority: 0.8,
       alternates: {
         languages: {
-          en: `${SITE_URL}/airport-transfers/${route.origin.slug.current}/${route.slug.current}/`,
-          es: `${SITE_URL}/es/traslado-aeropuerto/${route.origin.slug.current}/${esSlug}/`,
+          en: `${SITE_URL}/airport-transfers-private-taxi/${route.origin.slug.current}/${route.slug.current}/`,
+          es: `${SITE_URL}/es/traslados-aeropuerto-privados-taxi/${route.origin.slug.current}/${esSlug}/`,
         },
       },
     })

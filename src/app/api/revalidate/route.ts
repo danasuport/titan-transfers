@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     const { _type, slug } = body
 
     const pathMap: Record<string, string> = {
-      airport: `/airport-transfers/${slug?.current}/`,
+      airport: `/airport-transfers-private-taxi/${slug?.current}/`,
       route: '/', // Routes need origin slug, revalidate broader
       city: `/private-transfers/city/${slug?.current}/`,
       country: `/private-transfers/country/${slug?.current}/`,

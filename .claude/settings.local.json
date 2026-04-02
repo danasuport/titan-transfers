@@ -153,7 +153,9 @@
       "Read(//c/Users/Usuario/.config/**)",
       "Read(//c/Users/Usuario/**)",
       "Bash(SANITY_API_TOKEN=skmWDKQXdcXvnol84xNcATcTKmqdT2fZ0WG2Z0gCxtIqRap81jO46TOwPk6Qgd5XUocXZIIgDwJB9UVrdtz8izbU2eR3MSEmBL6DLLuCiuwNo0Yv8z2Tae1GL3Gsgfrt8xCRqHC7kqKaS9xxdmbhmJV7iklxcO3ZC3OwMQZNi1rjWPEZBYJi node scripts/clean-airport-slugs.mjs)",
-      "Bash(SANITY_API_TOKEN=skmWDKQXdcXvnol84xNcATcTKmqdT2fZ0WG2Z0gCxtIqRap81jO46TOwPk6Qgd5XUocXZIIgDwJB9UVrdtz8izbU2eR3MSEmBL6DLLuCiuwNo0Yv8z2Tae1GL3Gsgfrt8xCRqHC7kqKaS9xxdmbhmJV7iklxcO3ZC3OwMQZNi1rjWPEZBYJi node scripts/clean-airport-slugs.mjs --dry-run)"
+      "Bash(SANITY_API_TOKEN=skmWDKQXdcXvnol84xNcATcTKmqdT2fZ0WG2Z0gCxtIqRap81jO46TOwPk6Qgd5XUocXZIIgDwJB9UVrdtz8izbU2eR3MSEmBL6DLLuCiuwNo0Yv8z2Tae1GL3Gsgfrt8xCRqHC7kqKaS9xxdmbhmJV7iklxcO3ZC3OwMQZNi1rjWPEZBYJi node scripts/clean-airport-slugs.mjs --dry-run)",
+      "Bash(SANITY_API_TOKEN=skmWDKQXdcXvnol84xNcATcTKmqdT2fZ0WG2Z0gCxtIqRap81jO46TOwPk6Qgd5XUocXZIIgDwJB9UVrdtz8izbU2eR3MSEmBL6DLLuCiuwNo0Yv8z2Tae1GL3Gsgfrt8xCRqHC7kqKaS9xxdmbhmJV7iklxcO3ZC3OwMQZNi1rjWPEZBYJi node scripts/clean-airport-slugs-city.mjs --dry-run)",
+      "Bash(SANITY_API_TOKEN=skmWDKQXdcXvnol84xNcATcTKmqdT2fZ0WG2Z0gCxtIqRap81jO46TOwPk6Qgd5XUocXZIIgDwJB9UVrdtz8izbU2eR3MSEmBL6DLLuCiuwNo0Yv8z2Tae1GL3Gsgfrt8xCRqHC7kqKaS9xxdmbhmJV7iklxcO3ZC3OwMQZNi1rjWPEZBYJi node scripts/clean-airport-slugs-city.mjs)"
     ],
     "additionalDirectories": [
       "C:\\Users\\Usuario\\Downloads",

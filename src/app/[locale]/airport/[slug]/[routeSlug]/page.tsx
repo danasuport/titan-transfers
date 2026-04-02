@@ -54,11 +54,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return generatePageMetadata({
     title,
     description,
-    path: `/airport-transfers/${slug}/${routeSlug}/`,
+    path: `/airport-transfers-private-taxi/${slug}/${routeSlug}/`,
     locale: locale as Locale,
     alternates: [
-      { locale: 'en' as Locale, path: `/airport-transfers/${slug}/${routeSlug}/` },
-      { locale: 'es' as Locale, path: `/es/traslado-aeropuerto/${slug}/${route.translations?.es?.slug?.current || routeSlug}/` },
+      { locale: 'en' as Locale, path: `/airport-transfers-private-taxi/${slug}/${routeSlug}/` },
+      { locale: 'es' as Locale, path: `/es/traslados-aeropuerto-privados-taxi/${slug}/${route.translations?.es?.slug?.current || routeSlug}/` },
     ],
   })
 }
@@ -85,7 +85,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
 
   const breadcrumbs = [
     { label: route.country?.title || '', href: es ? `/traslados-privados-taxi/pais/${route.country?.slug?.current}/` : `/private-transfers/country/${route.country?.slug?.current}/` },
-    { label: originTitle, href: es ? `/traslado-aeropuerto/${route.origin?.slug?.current}/` : `/airport-transfers/${route.origin?.slug?.current}/` },
+    { label: originTitle, href: es ? `/traslados-aeropuerto-privados-taxi/${route.origin?.slug?.current}/` : `/airport-transfers-private-taxi/${route.origin?.slug?.current}/` },
     { label: destTitle },
   ]
 
@@ -135,7 +135,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
       <SchemaOrg data={generateTaxiServiceSchema({
         name: `${originTitle} to ${destTitle} Transfer`,
         description: `Private transfer from ${originTitle} to ${destTitle}`,
-        url: `/airport-transfers/${slug}/${routeSlug}/`,
+        url: `/airport-transfers-private-taxi/${slug}/${routeSlug}/`,
         areaServed: destTitle,
         rating: 4.8,
       })} />
@@ -379,7 +379,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
             {route.origin?.slug?.current && (
-              <Link href={(es ? `/traslado-aeropuerto/${route.origin.slug.current}/` : `/airport-transfers/${route.origin.slug.current}/`) as any} style={{ textDecoration: 'none' }}>
+              <Link href={(es ? `/traslados-aeropuerto-privados-taxi/${route.origin.slug.current}/` : `/airport-transfers-private-taxi/${route.origin.slug.current}/`) as any} style={{ textDecoration: 'none' }}>
                 <div style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', transform: 'skewX(-8deg)', overflow: 'hidden', transition: 'border-color 0.15s' }}>
                   <div style={{ transform: 'skewX(8deg)', padding: '0.6rem 1.25rem' }}>
                     <div style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>

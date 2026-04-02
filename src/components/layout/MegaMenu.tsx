@@ -157,7 +157,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </div>
                 {items.map(a => (
-                  <HoverItem key={a._id} style={itemStyle} onClick={() => go(es ? `/traslado-aeropuerto/${slug(a)}/` : `/airport-transfers/${slug(a)}/`)}>
+                  <HoverItem key={a._id} style={itemStyle} onClick={() => go(es ? `/traslados-aeropuerto-privados-taxi/${slug(a)}/` : `/airport-transfers-private-taxi/${slug(a)}/`)}>
                     {a.iataCode && (
                       <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#8BAA1D', background: '#f0f4e3', padding: '1px 5px', borderRadius: '3px', flexShrink: 0 }}>
                         {a.iataCode}
@@ -263,7 +263,7 @@ function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, 
               {openCountry === country && (
                 <div style={{ paddingBottom: '0.5rem' }}>
                   {type === 'airports' && (items as Airport[]).map(a => (
-                    <div key={a._id} style={itemRowStyle} onClick={() => go(es ? `/traslado-aeropuerto/${slug(a)}/` : `/airport-transfers/${slug(a)}/`)}>
+                    <div key={a._id} style={itemRowStyle} onClick={() => go(es ? `/traslados-aeropuerto-privados-taxi/${slug(a)}/` : `/airport-transfers-private-taxi/${slug(a)}/`)}>
                       {a.iataCode && <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#8BAA1D', background: '#f0f4e3', padding: '1px 5px', flexShrink: 0 }}>{a.iataCode}</span>}
                       <span style={{ fontSize: '0.875rem', color: '#242426' }}>{a.title}</span>
                     </div>

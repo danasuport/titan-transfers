@@ -18,10 +18,27 @@ const nextConfig: NextConfig = {
   async redirects() {
     // Old URL structure → new keyword-rich URLs (wildcard)
     const urlUpgradeRedirects = [
-      { source: '/airport/:slug/:routeSlug/', destination: '/airport-transfers/:slug/:routeSlug/', permanent: true },
-      { source: '/airport/:slug/', destination: '/airport-transfers/:slug/', permanent: true },
-      { source: '/es/aeropuerto/:slug/:routeSlug/', destination: '/es/traslado-aeropuerto/:slug/:routeSlug/', permanent: true },
-      { source: '/es/aeropuerto/:slug/', destination: '/es/traslado-aeropuerto/:slug/', permanent: true },
+      { source: '/airport/:slug/:routeSlug/', destination: '/airport-transfers-private-taxi/:slug/:routeSlug/', permanent: true },
+      { source: '/airport/:slug/', destination: '/airport-transfers-private-taxi/:slug/', permanent: true },
+      { source: '/airport-transfers/:slug/:routeSlug/', destination: '/airport-transfers-private-taxi/:slug/:routeSlug/', permanent: true },
+      { source: '/airport-transfers/:slug/', destination: '/airport-transfers-private-taxi/:slug/', permanent: true },
+      { source: '/es/aeropuerto/:slug/:routeSlug/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/:routeSlug/', permanent: true },
+      { source: '/es/aeropuerto/:slug/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/', permanent: true },
+      { source: '/es/traslado-aeropuerto/:slug/:routeSlug/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/:routeSlug/', permanent: true },
+      { source: '/es/traslado-aeropuerto/:slug/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/', permanent: true },
+      // Specific slug cleanup redirects
+      { source: '/airport-transfers-private-taxi/barcelona-el-prat/', destination: '/airport-transfers-private-taxi/barcelona/', permanent: true },
+      { source: '/airport-transfers-private-taxi/dallas-fort-worth/', destination: '/airport-transfers-private-taxi/dallas/', permanent: true },
+      { source: '/airport-transfers-private-taxi/girona-costa-brava/', destination: '/airport-transfers-private-taxi/girona/', permanent: true },
+      { source: '/airport-transfers-private-taxi/los-angeles-lax/', destination: '/airport-transfers-private-taxi/los-angeles/', permanent: true },
+      { source: '/airport-transfers-private-taxi/marrakesh/', destination: '/airport-transfers-private-taxi/marrakech/', permanent: true },
+      { source: '/airport-transfers-private-taxi/prague-airport-prg/', destination: '/airport-transfers-private-taxi/prague/', permanent: true },
+      { source: '/es/traslados-aeropuerto-privados-taxi/abu-dabi/', destination: '/es/traslados-aeropuerto-privados-taxi/abu-dhabi/', permanent: true },
+      { source: '/es/traslados-aeropuerto-privados-taxi/traslados-aeropuerto-barcelona-transfer-privado-taxi/', destination: '/es/traslados-aeropuerto-privados-taxi/barcelona/', permanent: true },
+      { source: '/es/traslados-aeropuerto-privados-taxi/aeropuerto-girona-costa-brava/', destination: '/es/traslados-aeropuerto-privados-taxi/girona/', permanent: true },
+      { source: '/es/traslados-aeropuerto-privados-taxi/traslados-aeropuerto-ciudad-de-mexico/', destination: '/es/traslados-aeropuerto-privados-taxi/ciudad-de-mexico/', permanent: true },
+      { source: '/es/traslados-aeropuerto-privados-taxi/aeropuerto-reus/', destination: '/es/traslados-aeropuerto-privados-taxi/reus/', permanent: true },
+      { source: '/es/traslados-aeropuerto-privados-taxi/tanger/', destination: '/es/traslados-aeropuerto-privados-taxi/tangier/', permanent: true },
       { source: '/city/:slug/', destination: '/private-transfers/city/:slug/', permanent: true },
       { source: '/es/ciudad/:slug/', destination: '/es/traslados-privados-taxi/ciudad/:slug/', permanent: true },
       { source: '/country/:slug/', destination: '/private-transfers/country/:slug/', permanent: true },
@@ -42,12 +59,12 @@ const nextConfig: NextConfig = {
         const entries: { source: string; destination: string; permanent: boolean }[] = []
         if (slug) {
           // old slug had -airport-transfers or -airport suffix
-          entries.push({ source: `/airport-transfers/${slug}-airport-transfers/`, destination: `/airport-transfers/${slug}/`, permanent: true })
-          entries.push({ source: `/airport-transfers/${slug}-airport/`, destination: `/airport-transfers/${slug}/`, permanent: true })
+          entries.push({ source: `/airport-transfers-private-taxi/${slug}-airport-transfers/`, destination: `/airport-transfers-private-taxi/${slug}/`, permanent: true })
+          entries.push({ source: `/airport-transfers-private-taxi/${slug}-airport/`, destination: `/airport-transfers-private-taxi/${slug}/`, permanent: true })
         }
         if (esSlug) {
-          entries.push({ source: `/es/traslado-aeropuerto/${esSlug}-traslados-al-aeropuerto/`, destination: `/es/traslado-aeropuerto/${esSlug}/`, permanent: true })
-          entries.push({ source: `/es/traslado-aeropuerto/${esSlug}-aeropuerto/`, destination: `/es/traslado-aeropuerto/${esSlug}/`, permanent: true })
+          entries.push({ source: `/es/traslados-aeropuerto-privados-taxi/${esSlug}-traslados-al-aeropuerto/`, destination: `/es/traslados-aeropuerto-privados-taxi/${esSlug}/`, permanent: true })
+          entries.push({ source: `/es/traslados-aeropuerto-privados-taxi/${esSlug}-aeropuerto/`, destination: `/es/traslados-aeropuerto-privados-taxi/${esSlug}/`, permanent: true })
         }
         return entries
       })

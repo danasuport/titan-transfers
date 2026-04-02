@@ -18,7 +18,7 @@ export const localeNames: Record<Locale, string> = {
 
 export const pathTranslations: Record<string, Record<Locale, string>> = {
   airports: { en: 'airports', es: 'aeropuertos' },
-  airport: { en: 'airport-transfers', es: 'traslado-aeropuerto' },
+  airport: { en: 'airport-transfers-private-taxi', es: 'traslados-aeropuerto-privados-taxi' },
   cities: { en: 'cities', es: 'ciudades' },
   city: { en: 'city', es: 'ciudad' },
   countries: { en: 'countries', es: 'paises' },

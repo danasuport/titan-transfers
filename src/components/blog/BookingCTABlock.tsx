@@ -41,10 +41,10 @@ export function BookingCTABlock({
     if (linkedRoute) {
       fromLocation = linkedRoute.etoFromLocation
       toLocation = linkedRoute.etoToLocation
-      linkHref = `/airport-transfers/${linkedRoute.origin?.slug?.current}/${linkedRoute.slug.current}/`
+      linkHref = `/airport-transfers-private-taxi/${linkedRoute.origin?.slug?.current}/${linkedRoute.slug.current}/`
     } else if (linkedAirport) {
       fromLocation = linkedAirport.title
-      linkHref = `/airport-transfers/${linkedAirport.slug.current}/`
+      linkHref = `/airport-transfers-private-taxi/${linkedAirport.slug.current}/`
     } else if (linkedCity) {
       toLocation = linkedCity.title
       linkHref = `/private-transfers/city/${linkedCity.slug.current}/`
