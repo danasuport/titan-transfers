@@ -64,7 +64,7 @@ export default async function SitemapPage({ params }: { params: Promise<{ locale
 
   return (
     <>
-      <style>{`.sm-link { color: #475569; text-decoration: none; font-size: 0.88rem; line-height: 1.6; } .sm-link:hover { color: #8BAA1D; }`}</style>
+      <style dangerouslySetInnerHTML={{ __html: `.sm-link { color: #475569 !important; text-decoration: none; font-size: 0.88rem; line-height: 1.6; } .sm-link:hover { color: #8BAA1D !important; }` }} />
       <div style={{ background: '#F8FAF0', minHeight: '100vh' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '4rem 6vw' }}>
 
