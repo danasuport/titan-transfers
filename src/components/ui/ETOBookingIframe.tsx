@@ -4,36 +4,45 @@ import { useEffect, useRef, useState } from 'react'
 import { useLocale } from 'next-intl'
 import { LOCALE_TO_ETO_LANG, ETO_CONFIG } from '@/lib/eto/config'
 
-interface Props {
-  searchParams?: Record<string, string>
-}
-
-export function ETOBookingIframe({ searchParams = {} }: Props) {
+export function ETOBookingIframe() {
   const locale = useLocale()
-  const [isVisible, setIsVisible] = useState(false)
+  const [iframeUrl, setIframeUrl] = useState<string | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setIsVisible(true)
-  }, [])
+    const sp = new URLSearchParams(window.location.search)
+    const pickup = sp.get('pickup')
 
-  // Load titantransfers.com/booking/ directly with the original form params —
-  // ETO reads pickup/dest/step=2 from that page's URL (full-page embed, not iframe)
-  const hasParams = Object.keys(searchParams).length > 0
-  const base = 'https://titantransfers.com/booking/'
-  const iframeUrl = hasParams
-    ? `${base}?${new URLSearchParams(searchParams).toString()}`
-    : (() => {
-        const u = new URL(ETO_CONFIG.baseUrl.replace(/\/+$/, '') + '/booking')
-        u.searchParams.set('lang', LOCALE_TO_ETO_LANG[locale] || LOCALE_TO_ETO_LANG.en)
-        return u.toString()
-      })()
+    if (pickup) {
+      // Params present — translate to ETO iframe params and go to step 2
+      const base = ETO_CONFIG.baseUrl.replace(/\/+$/, '') + '/booking'
+      const params = new URLSearchParams()
+      params.set('lang', LOCALE_TO_ETO_LANG[locale] || LOCALE_TO_ETO_LANG.en)
+      params.set('step', '2')
+      if (pickup)                params.set('r1ls', pickup)
+      if (sp.get('pickup_pid')) params.set('r1cs', sp.get('pickup_pid')!)
+      if (sp.get('dest'))       params.set('r1le', sp.get('dest')!)
+      if (sp.get('dest_pid'))   params.set('r1ce', sp.get('dest_pid')!)
+      if (sp.get('date'))       params.set('r1d', sp.get('date')!)
+      if (sp.get('time'))       params.set('r1t', sp.get('time')!)
+      if (sp.get('pax'))        params.set('pax', sp.get('pax')!)
+      if (sp.get('lug'))        params.set('lug', sp.get('lug')!)
+      setIframeUrl(`${base}?${params.toString()}`)
+    } else {
+      // No params — show blank booking widget
+      const u = new URL(ETO_CONFIG.baseUrl.replace(/\/+$/, '') + '/booking')
+      u.searchParams.set('lang', LOCALE_TO_ETO_LANG[locale] || LOCALE_TO_ETO_LANG.en)
+      setIframeUrl(u.toString())
+    }
+  }, [locale])
+
+  const iframeUrlFinal = iframeUrl
 
   return (
     <div ref={containerRef}>
-      {isVisible ? (
+      {iframeUrlFinal ? (
         <iframe
-          src={iframeUrl}
+          src={iframeUrlFinal}
           width="100%"
           style={{ height: '800px', border: 'none', display: 'block' }}
           title="Booking"

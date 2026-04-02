@@ -13,15 +13,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   }
 }
 
-export default async function BookingPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ locale: string }>
-  searchParams: Promise<Record<string, string>>
-}) {
+export default async function BookingPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const sp = await searchParams
   const es = locale === 'es'
 
   return (
@@ -31,7 +24,7 @@ export default async function BookingPage({
         <h1 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', color: '#242426', fontWeight: 700, margin: '1rem 0 1.5rem' }}>
           {es ? 'Reserva tu traslado privado' : 'Book your private transfer'}
         </h1>
-        <ETOBookingIframe searchParams={sp} />
+        <ETOBookingIframe />
       </div>
     </div>
   )
