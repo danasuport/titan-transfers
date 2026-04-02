@@ -2,20 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useLocale } from 'next-intl'
-import { buildETOUrl, LOCALE_TO_ETO_LANG } from '@/lib/eto/config'
+import { LOCALE_TO_ETO_LANG, ETO_CONFIG } from '@/lib/eto/config'
 
 interface Props {
-  pickup?: string
-  pickupPid?: string
-  dest?: string
-  destPid?: string
-  date?: string
-  time?: string
-  pax?: string
-  lug?: string
+  searchParams?: Record<string, string>
 }
 
-export function ETOBookingIframe({ pickup, pickupPid, dest, destPid, date, time, pax, lug }: Props) {
+export function ETOBookingIframe({ searchParams = {} }: Props) {
   const locale = useLocale()
   const [isVisible, setIsVisible] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -24,15 +17,12 @@ export function ETOBookingIframe({ pickup, pickupPid, dest, destPid, date, time,
     setIsVisible(true)
   }, [])
 
-  const iframeUrl = buildETOUrl('booking', {
+  const base = ETO_CONFIG.baseUrl.replace(/\/+$/, '') + '/booking'
+  const params = new URLSearchParams({
     lang: LOCALE_TO_ETO_LANG[locale] || LOCALE_TO_ETO_LANG.en,
-    ...(pickup && { fromLocation: pickup }),
-    ...(pickupPid && { fromCategory: pickupPid }),
-    ...(dest && { toLocation: dest }),
-    ...(destPid && { toCategory: destPid }),
-    ...(date && { date }),
-    ...(pax && { bookingType: pax }),
+    ...searchParams,
   })
+  const iframeUrl = `${base}?${params.toString()}`
 
   return (
     <div ref={containerRef}>

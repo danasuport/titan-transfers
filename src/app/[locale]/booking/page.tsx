@@ -31,16 +31,7 @@ export default async function BookingPage({
         <h1 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', color: '#242426', fontWeight: 700, margin: '1rem 0 1.5rem' }}>
           {es ? 'Reserva tu traslado privado' : 'Book your private transfer'}
         </h1>
-        <ETOBookingIframe
-          pickup={sp.pickup}
-          pickupPid={sp.pickup_pid}
-          dest={sp.dest}
-          destPid={sp.dest_pid}
-          date={sp.date}
-          time={sp.time}
-          pax={sp.pax}
-          lug={sp.lug}
-        />
+        <ETOBookingIframe searchParams={sp} />
       </div>
     </div>
   )
