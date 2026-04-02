@@ -52,6 +52,61 @@ const nextConfig: NextConfig = {
       { source: '/es/traslados-privados-taxi/ciudad/:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
       { source: '/es/traslados-privados-taxi/pais/:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
       { source: '/es/traslados-privados-taxi/region/:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
+
+      // ── Old WordPress/Yoast city URLs (/cities/private-transfers-[slug]/) ──
+      // Specific overrides first (edge cases where prefix removal gives wrong slug)
+      { source: '/cities/private-transfers-in-faro-the-algarve/', destination: '/private-transfers/faro/', permanent: true },
+      { source: '/cities/private-transfers-in-cancun-and-the-riviera-maya/', destination: '/private-transfers/cancun/', permanent: true },
+      { source: '/es/ciudades/traslados-privados-faro-y-algarve/', destination: '/es/traslados-privados-taxi/faro/', permanent: true },
+      { source: '/es/ciudades/traslados-privados-cancun-and-the-riviera-maya/', destination: '/es/traslados-privados-taxi/cancun/', permanent: true },
+      { source: '/es/ciudades/traslados-privados-atenas/', destination: '/es/traslados-privados-taxi/athens/', permanent: true },
+      { source: '/es/ciudades/traslados-privados-lisboa/', destination: '/es/traslados-privados-taxi/lisbon/', permanent: true },
+      { source: '/es/ciudades/traslados-privados-londres/', destination: '/es/traslados-privados-taxi/london/', permanent: true },
+      { source: '/es/ciudades/traslados-privados-roma/', destination: '/es/traslados-privados-taxi/rome/', permanent: true },
+      { source: '/es/ciudades/traslados-privados-paris/', destination: '/es/traslados-privados-taxi/paris/', permanent: true },
+      { source: '/es/ciudades/traslados-privados-nueva-york/', destination: '/es/traslados-privados-taxi/new-york/', permanent: true },
+      { source: '/es/ciudades/traslados-privados-las-vegas/', destination: '/es/traslados-privados-taxi/las-vegas/', permanent: true },
+      // Wildcard fallback — strips "private-transfers-" prefix (works for most slugs)
+      { source: '/cities/private-transfers-:slug/', destination: '/private-transfers/:slug/', permanent: true },
+      { source: '/es/ciudades/traslados-privados-:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
+
+      // ── Old WordPress/Yoast country URLs (/countries/private-transfers-[slug]/) ──
+      { source: '/es/paises/traslados-privados-en-espana/', destination: '/es/traslados-privados-taxi/spain/', permanent: true },
+      { source: '/es/paises/traslados-privados-en-francia/', destination: '/es/traslados-privados-taxi/france/', permanent: true },
+      { source: '/es/paises/traslados-privados-en-paises-bajos/', destination: '/es/traslados-privados-taxi/netherlands/', permanent: true },
+      { source: '/es/paises/traslados-privados-italia/', destination: '/es/traslados-privados-taxi/italy/', permanent: true },
+      { source: '/es/paises/traslados-privados-estados-unidos/', destination: '/es/traslados-privados-taxi/united-states/', permanent: true },
+      { source: '/es/paises/traslados-privados-reino-unido/', destination: '/es/traslados-privados-taxi/united-kingdom/', permanent: true },
+      { source: '/es/paises/traslados-privados-turquia/', destination: '/es/traslados-privados-taxi/turkey/', permanent: true },
+      { source: '/es/paises/traslados-privados-portugal/', destination: '/es/traslados-privados-taxi/portugal/', permanent: true },
+      { source: '/es/paises/traslados-privados-mexico/', destination: '/es/traslados-privados-taxi/mexico/', permanent: true },
+      { source: '/es/paises/traslados-privados-emirates-arabes-unidos/', destination: '/es/traslados-privados-taxi/united-arab-emirates/', permanent: true },
+      { source: '/countries/private-transfers-:slug/', destination: '/private-transfers/:slug/', permanent: true },
+      { source: '/es/paises/', destination: '/es/traslados-privados-taxi/', permanent: true },
+      { source: '/countries/', destination: '/private-transfers/', permanent: true },
+
+      // ── Old WordPress listing pages ──
+      { source: '/cities/', destination: '/private-transfers/', permanent: true },
+      { source: '/es/ciudades/', destination: '/es/traslados-privados-taxi/', permanent: true },
+      { source: '/airports/', destination: '/airport-transfers-private-taxi/', permanent: true },
+      { source: '/es/aeropuertos/', destination: '/es/traslados-aeropuerto-privados-taxi/', permanent: true },
+      { source: '/es/traslados-aeropuerto-america/', destination: '/es/traslados-aeropuerto-privados-taxi/', permanent: true },
+
+      // ── Old WordPress airport detail pages (/airports/[slug]/) ──
+      { source: '/airports/:slug/', destination: '/airport-transfers-private-taxi/:slug/', permanent: true },
+
+      // ── Old WordPress category airport pages ──
+      { source: '/es/aeropuertos/:slug/:routeSlug/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/:routeSlug/', permanent: true },
+      { source: '/es/aeropuertos/:slug/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/', permanent: true },
+
+      // ── Old route pages (/rutas/[slug]/) → airport listing (can't map without slug lookup) ──
+      { source: '/rutas/:slug/', destination: '/airport-transfers-private-taxi/', permanent: true },
+      { source: '/es/rutas/:slug/', destination: '/es/traslados-aeropuerto-privados-taxi/', permanent: true },
+      { source: '/rutas/', destination: '/airport-transfers-private-taxi/', permanent: true },
+      { source: '/es/rutas/', destination: '/es/traslados-aeropuerto-privados-taxi/', permanent: true },
+
+      // ── Old landing pages ──
+      { source: '/landing-aeropuertos-barcelona/', destination: '/airport-transfers-private-taxi/barcelona/', permanent: true },
     ]
 
     // Per-airport slug redirects: old slug (with -airport-transfers suffix) → clean slug
