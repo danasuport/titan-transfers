@@ -122,13 +122,13 @@ export async function GET(req: Request, { params }: { params: Promise<{ type: st
     body = xml(countries.map((c: any) => {
       const esSlug = c.translations?.es?.slug?.current || c.slug.current
       return {
-        loc: `${SITE_URL}/private-transfers/${c.slug.current}/`,
+        loc: `${SITE_URL}/private-transfers-country/${c.slug.current}/`,
         lastmod: c._updatedAt,
         changefreq: 'monthly',
         priority: '0.7',
         alternates: {
-          en: `${SITE_URL}/private-transfers/${c.slug.current}/`,
-          es: `${SITE_URL}/es/traslados-privados-taxi/${esSlug}/`,
+          en: `${SITE_URL}/private-transfers-country/${c.slug.current}/`,
+          es: `${SITE_URL}/es/traslados-privados-pais/${esSlug}/`,
         },
       }
     }))
@@ -139,13 +139,13 @@ export async function GET(req: Request, { params }: { params: Promise<{ type: st
     body = xml(regions.map((r: any) => {
       const esSlug = r.translations?.es?.slug?.current || r.slug.current
       return {
-        loc: `${SITE_URL}/private-transfers/${r.slug.current}/`,
+        loc: `${SITE_URL}/private-transfers-region/${r.slug.current}/`,
         lastmod: r._updatedAt,
         changefreq: 'monthly',
         priority: '0.7',
         alternates: {
-          en: `${SITE_URL}/private-transfers/${r.slug.current}/`,
-          es: `${SITE_URL}/es/traslados-privados-taxi/${esSlug}/`,
+          en: `${SITE_URL}/private-transfers-region/${r.slug.current}/`,
+          es: `${SITE_URL}/es/traslados-privados-region/${esSlug}/`,
         },
       }
     }))

@@ -61,6 +61,8 @@ export default async function SitemapPage({ params }: { params: Promise<{ locale
 
   const airportPrefix = es ? '/traslados-aeropuerto-privados-taxi' : '/airport-transfers-private-taxi'
   const privatePrefix = es ? '/traslados-privados-taxi' : '/private-transfers'
+  const countryPrefix = es ? '/traslados-privados-pais' : '/private-transfers-country'
+  const regionPrefix = es ? '/traslados-privados-region' : '/private-transfers-region'
 
   return (
     <>
@@ -146,7 +148,7 @@ export default async function SitemapPage({ params }: { params: Promise<{ locale
               {countries.map((c: any) => {
                 const slug = es ? (c.translations?.es?.slug?.current || c.slug.current) : c.slug.current
                 const title = (es && c.translations?.es?.title) || c.title
-                return <Link key={c._id} href={`${privatePrefix}/${slug}/` as any} className="sm-link">→ {title}</Link>
+                return <Link key={c._id} href={`${countryPrefix}/${slug}/` as any} className="sm-link">→ {title}</Link>
               })}
             </div>
           </Section>
@@ -156,7 +158,7 @@ export default async function SitemapPage({ params }: { params: Promise<{ locale
               {regions.map((r: any) => {
                 const slug = es ? (r.translations?.es?.slug?.current || r.slug.current) : r.slug.current
                 const title = (es && r.translations?.es?.title) || r.title
-                return <Link key={r._id} href={`${privatePrefix}/${slug}/` as any} className="sm-link">→ {title}</Link>
+                return <Link key={r._id} href={`${regionPrefix}/${slug}/` as any} className="sm-link">→ {title}</Link>
               })}
             </div>
           </Section>

@@ -152,7 +152,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
           <div style={{ columns: '4', columnGap: '2rem' }}>
             {Object.entries(airportsByCountry).map(([country, items]) => (
               <div key={country} style={{ breakInside: 'avoid', marginBottom: '1.25rem' }}>
-                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-taxi/${items[0]?.countrySlug}/` : `/private-transfers/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#8BAA1D', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-pais/${items[0]?.countrySlug}/` : `/private-transfers-country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#8BAA1D', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
                   <Flag countrySlug={items[0]?.countrySlug ?? ''} /> {country}
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </div>
@@ -181,7 +181,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
           <div style={{ columns: '4', columnGap: '2rem' }}>
             {Object.entries(citiesByCountry).map(([country, items]) => (
               <div key={country} style={{ breakInside: 'avoid', marginBottom: '1.25rem' }}>
-                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-taxi/${items[0]?.countrySlug}/` : `/private-transfers/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#8BAA1D', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-pais/${items[0]?.countrySlug}/` : `/private-transfers-country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#8BAA1D', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
                   <Flag countrySlug={items[0]?.countrySlug ?? ''} /> {country}
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </div>
@@ -204,7 +204,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
           {data && countries.length === 0 && <Empty es={es} />}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.5rem', marginBottom: '1.25rem' }}>
             {countries.map(c => (
-              <HoverItem key={c._id} style={itemStyle} onClick={() => go(es ? `/traslados-privados-taxi/${slug(c)}/` : `/private-transfers/${slug(c)}/`)}>
+              <HoverItem key={c._id} style={itemStyle} onClick={() => go(es ? `/traslados-privados-pais/${slug(c)}/` : `/private-transfers-country/${slug(c)}/`)}>
                 <Flag countrySlug={c.slug} />
                 <div>
                   <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'inherit' }}>{c.title}</div>
@@ -291,7 +291,7 @@ function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, 
         <>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.4rem', marginBottom: '1rem' }}>
             {countries.map(c => (
-              <div key={c._id} onClick={() => go(es ? `/traslados-privados-taxi/${slug(c)}/` : `/private-transfers/${slug(c)}/`)}
+              <div key={c._id} onClick={() => go(es ? `/traslados-privados-pais/${slug(c)}/` : `/private-transfers-country/${slug(c)}/`)}
                 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', cursor: 'pointer', background: '#f8fafc', borderRadius: '4px' }}>
                 <Flag countrySlug={c.slug} />
                 <div>

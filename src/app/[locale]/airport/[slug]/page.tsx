@@ -122,7 +122,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
   })).filter((g: { url: string | null }) => g.url)
 
   const breadcrumbs = [
-    { label: airport.country?.title || '', href: es ? `/traslados-privados-taxi/${airport.country?.slug?.current}/` : `/private-transfers/${airport.country?.slug?.current}/` },
+    { label: airport.country?.title || '', href: es ? `/traslados-privados-pais/${airport.country?.slug?.current}/` : `/private-transfers-country/${airport.country?.slug?.current}/` },
     { label: airportTitle },
   ]
 

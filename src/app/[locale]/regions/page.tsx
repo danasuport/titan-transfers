@@ -100,7 +100,7 @@ export default async function RegionsPage({ params }: { params: Promise<{ locale
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                   {countrySlug ? (
-                    <Link href={(locale === 'es' ? `/traslados-privados-taxi/${countrySlug}/` : `/private-transfers/${countrySlug}/`) as any} style={{ textDecoration: 'none' }}>
+                    <Link href={(locale === 'es' ? `/traslados-privados-pais/${countrySlug}/` : `/private-transfers-country/${countrySlug}/`) as any} style={{ textDecoration: 'none' }}>
                       <span className={russoOne.className} style={{ fontSize: '1.1rem', color: '#8BAA1D', cursor: 'pointer' }}>
                         {country}
                       </span>

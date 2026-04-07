@@ -15,8 +15,8 @@ export async function POST(request: NextRequest) {
       airport: `/airport-transfers-private-taxi/${slug?.current}/`,
       route: '/', // Routes need origin slug, revalidate broader
       city: `/private-transfers/${slug?.current}/`,
-      country: `/private-transfers/${slug?.current}/`,
-      region: `/private-transfers/${slug?.current}/`,
+      country: `/private-transfers-country/${slug?.current}/`,
+      region: `/private-transfers-region/${slug?.current}/`,
       servicePage: `/services/${slug?.current}/`,
       blogPost: `/blog/${slug?.current}/`,
       page: `/${slug?.current}/`,

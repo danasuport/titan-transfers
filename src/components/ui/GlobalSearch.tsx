@@ -68,7 +68,7 @@ export function GlobalSearch() {
     const paths = {
       airport: locale === 'es' ? `/traslados-aeropuerto-privados-taxi/${slug}/` : `/airport-transfers-private-taxi/${slug}/`,
       city: locale === 'es' ? `/traslados-privados-taxi/${slug}/` : `/private-transfers/${slug}/`,
-      country: locale === 'es' ? `/traslados-privados-taxi/${slug}/` : `/private-transfers/${slug}/`,
+      country: locale === 'es' ? `/traslados-privados-pais/${slug}/` : `/private-transfers-country/${slug}/`,
     }
     router.push(paths[type] as any)
     setOpen(false)

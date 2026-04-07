@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const country = await sanityClient.fetch(countryBySlugQuery, { slug })
   if (!country) return {}
   const { title, description } = generateCountryMetadata(country, locale as Locale)
-  return generatePageMetadata({ title, description, path: `/private-transfers/${slug}/`, locale: locale as Locale, alternates: [{ locale: 'en' as Locale, path: `/private-transfers/${slug}/` }, { locale: 'es' as Locale, path: `/es/traslados-privados-taxi/${country.translations?.es?.slug?.current || slug}/` }] })
+  return generatePageMetadata({ title, description, path: `/private-transfers-country/${slug}/`, locale: locale as Locale, alternates: [{ locale: 'en' as Locale, path: `/private-transfers-country/${slug}/` }, { locale: 'es' as Locale, path: `/es/traslados-privados-pais/${country.translations?.es?.slug?.current || slug}/` }] })
 }
 
 export default async function CountryPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {

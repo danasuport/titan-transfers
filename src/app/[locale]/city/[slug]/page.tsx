@@ -47,7 +47,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
   const heroImg = urlFor(city.featuredImage)?.width(1920).height(900).quality(90).url()
 
   const breadcrumbs = [
-    { label: city.country?.title || '', href: es ? `/traslados-privados-taxi/${city.country?.slug?.current}/` : `/private-transfers/${city.country?.slug?.current}/` },
+    { label: city.country?.title || '', href: es ? `/traslados-privados-pais/${city.country?.slug?.current}/` : `/private-transfers-country/${city.country?.slug?.current}/` },
     { label: cityTitle },
   ]
 

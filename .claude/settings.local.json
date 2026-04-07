@@ -155,11 +155,41 @@
       "Bash(SANITY_API_TOKEN=skmWDKQXdcXvnol84xNcATcTKmqdT2fZ0WG2Z0gCxtIqRap81jO46TOwPk6Qgd5XUocXZIIgDwJB9UVrdtz8izbU2eR3MSEmBL6DLLuCiuwNo0Yv8z2Tae1GL3Gsgfrt8xCRqHC7kqKaS9xxdmbhmJV7iklxcO3ZC3OwMQZNi1rjWPEZBYJi node scripts/clean-airport-slugs.mjs)",
       "Bash(SANITY_API_TOKEN=skmWDKQXdcXvnol84xNcATcTKmqdT2fZ0WG2Z0gCxtIqRap81jO46TOwPk6Qgd5XUocXZIIgDwJB9UVrdtz8izbU2eR3MSEmBL6DLLuCiuwNo0Yv8z2Tae1GL3Gsgfrt8xCRqHC7kqKaS9xxdmbhmJV7iklxcO3ZC3OwMQZNi1rjWPEZBYJi node scripts/clean-airport-slugs.mjs --dry-run)",
       "Bash(SANITY_API_TOKEN=skmWDKQXdcXvnol84xNcATcTKmqdT2fZ0WG2Z0gCxtIqRap81jO46TOwPk6Qgd5XUocXZIIgDwJB9UVrdtz8izbU2eR3MSEmBL6DLLuCiuwNo0Yv8z2Tae1GL3Gsgfrt8xCRqHC7kqKaS9xxdmbhmJV7iklxcO3ZC3OwMQZNi1rjWPEZBYJi node scripts/clean-airport-slugs-city.mjs --dry-run)",
-      "Bash(SANITY_API_TOKEN=skmWDKQXdcXvnol84xNcATcTKmqdT2fZ0WG2Z0gCxtIqRap81jO46TOwPk6Qgd5XUocXZIIgDwJB9UVrdtz8izbU2eR3MSEmBL6DLLuCiuwNo0Yv8z2Tae1GL3Gsgfrt8xCRqHC7kqKaS9xxdmbhmJV7iklxcO3ZC3OwMQZNi1rjWPEZBYJi node scripts/clean-airport-slugs-city.mjs)"
+      "Bash(SANITY_API_TOKEN=skmWDKQXdcXvnol84xNcATcTKmqdT2fZ0WG2Z0gCxtIqRap81jO46TOwPk6Qgd5XUocXZIIgDwJB9UVrdtz8izbU2eR3MSEmBL6DLLuCiuwNo0Yv8z2Tae1GL3Gsgfrt8xCRqHC7kqKaS9xxdmbhmJV7iklxcO3ZC3OwMQZNi1rjWPEZBYJi node scripts/clean-airport-slugs-city.mjs)",
+      "Bash(curl -s \"https://6iu2za90.api.sanity.io/v2024-01-01/data/query/production?query=*[_type=='route'][0..2]{_id,title,slug,origin->{_id,title,slug},destination->{_id,title,slug},distance,estimatedDuration,seoTitle,seoDescription}\")",
+      "Bash(python -m json.tool)",
+      "Bash(curl -s \"https://6iu2za90.api.sanity.io/v2024-01-01/data/query/production?query=*[_type=='route']{_id,title,slug,origin->{_id,title,slug},destination->{_id,title,slug},distance,estimatedDuration}\")",
+      "Bash(node -e \"const d=require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\); const r=JSON.parse\\(d\\).result; console.log\\('Total routes:', r.length\\); r.slice\\(0,5\\).forEach\\(x=>console.log\\(x.title, '|', x.slug?.current\\)\\)\")",
+      "Bash(curl -s \"https://6iu2za90.api.sanity.io/v2024-01-01/data/query/production?query=*[_type=='route']{_id,title,slug,origin->{_id,title,slug},destination->{_id,title,slug}}\" -o \"C:/temp/routes.json\")",
+      "Bash(node -e \"const r=require\\('C:/temp/routes.json'\\).result; console.log\\('Total routes:', r.length\\); r.slice\\(0,8\\).forEach\\(x=>console.log\\(x.slug?.current\\)\\)\")",
+      "Bash(curl -s \"https://6iu2za90.api.sanity.io/v2024-01-01/data/query/production?query=count\\(*[_type=='route']\\)\")",
+      "Bash(node scripts/generate-rutas-redirects.mjs)",
+      "Read(//tmp/**)",
+      "Bash(sed -i 's/\"privacy\": \"Privacy Policy\",/\"legal\": \"Legal Notice\",\\\\n    \"privacy\": \"Privacy Policy\",/' \"c:\\\\Users\\\\Usuario\\\\Documents\\\\titan-transfers-main\\\\titan-transfers-main\\\\src\\\\messages\\\\en.json\")",
+      "Bash(sed -i 's/\"privacy\": \"Política de privacidad\",/\"legal\": \"Aviso legal\",\\\\n    \"privacy\": \"Política de privacidad\",/' \"c:\\\\Users\\\\Usuario\\\\Documents\\\\titan-transfers-main\\\\titan-transfers-main\\\\src\\\\messages\\\\es.json\")",
+      "Bash(curl -s http://localhost:3000/ -o /dev/null -w \"%{http_code}\")",
+      "Bash(curl -s http://localhost:3000/)",
+      "Bash(curl -s http://localhost:3000/en/)",
+      "Bash(curl -s \"http://localhost:3000/sitemap.xml\" -o /dev/null -w \"%{http_code}\")",
+      "Bash(curl -s http://localhost:3010/ -o /dev/null -w \"%{http_code}\")",
+      "Bash(curl -s http://localhost:3001/ -o /dev/null -w \"%{http_code}\")",
+      "Bash(curl -s http://localhost:3001/)",
+      "Bash(curl -v http://localhost:3000/en/)",
+      "Bash(node -e \"require\\('./next.config.ts'\\)\")",
+      "Bash(cmd /c \"taskkill /PID 33912 /F\")",
+      "Bash(cmd /c \"wmic process where ProcessId=33912 get CommandLine\")",
+      "Bash(cmd /c \"netstat -ano | findstr LISTEN | findstr :3000\")",
+      "Bash(rm -rf \"c:\\\\Users\\\\Usuario\\\\Documents\\\\titan-transfers-main\\\\titan-transfers-main\\\\.next\\\\dev\")",
+      "Bash(curl -s http://localhost:3003/ -o /dev/null -w \"%{http_code}\")",
+      "Bash(curl -s http://localhost:3004/ -o /dev/null -w \"%{http_code}\")",
+      "Bash(curl -s http://localhost:3004/en/ -o /dev/null -w \" %{http_code}\")"
     ],
     "additionalDirectories": [
       "C:\\Users\\Usuario\\Downloads",
-      "C:\\Users\\Usuario\\Desktop"
+      "C:\\Users\\Usuario\\Desktop",
+      "c:\\Users\\Universidad\\Documents\\titan-transfers-main\\titan-transfers-main\\src\\components\\ui",
+      "c:\\Users\\Usuario\\Documents\\titan-transfers-main\\titan-transfers-main\\src\\app\\sitemaps",
+      "c:\\Users\\Usuario\\Documents\\titan-transfers-main\\titan-transfers-main\\src\\app\\sitemap\\[type]"
     ]
   }
 }
