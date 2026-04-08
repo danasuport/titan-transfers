@@ -6,13 +6,16 @@ import { serviceBySlugQuery, allServicesQuery } from '@/lib/sanity/queries'
 import { generateTaxiServiceSchema } from '@/lib/seo/schemaOrg'
 import { SchemaOrg } from '@/components/seo/SchemaOrg'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
-import { TrustNumbers } from '@/components/sections/TrustNumbers'
-import { InlineBooking } from '@/components/sections/InlineBooking'
+import { BookingForm } from '@/components/ui/BookingForm'
+import { FleetShowcase } from '@/components/sections/FleetShowcase'
+import { HowItWorks } from '@/components/sections/HowItWorks'
+import { Testimonials } from '@/components/sections/Testimonials'
 import { FAQ } from '@/components/sections/FAQ'
-import { LatestNews } from '@/components/sections/LatestNews'
+import { CtaSection } from '@/components/sections/CtaSection'
 import { PortableText } from '@portabletext/react'
 import { Link } from '@/lib/i18n/navigation'
 import type { Locale } from '@/lib/i18n/config'
+import { russoOne } from '@/lib/fonts'
 
 const serviceImages: Record<string, string> = {
   airport: '/services/airport-transfers.jpg',
@@ -23,9 +26,28 @@ const serviceImages: Record<string, string> = {
 
 const serviceIcons: Record<string, string> = {
   airport: 'M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5',
-  port: 'M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z',
+  port: 'M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21',
   trainStation: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 00-.879-2.121l-1.431-1.431A2.999 2.999 0 0017.466 9.5H15.75m-6 0V6.375m0 0a2.625 2.625 0 115.25 0M9.75 6.375v3.125',
-  cityToCity: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 00-.879-2.121L16.5 10.5M6 6.5h10.5',
+  cityToCity: 'M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21',
+}
+
+function IconTag() {
+  return <svg width="20" height="20" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" /><path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z" /></svg>
+}
+function IconShield() {
+  return <svg width="20" height="20" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+}
+function IconClock() {
+  return <svg width="20" height="20" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+}
+function IconStar() {
+  return <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
+}
+function IconCheck() {
+  return <svg width="16" height="16" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#8BAA1D"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+}
+function IconPlane() {
+  return <svg width="16" height="16" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>
 }
 
 export async function generateStaticParams() {
@@ -48,28 +70,38 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
   if (!service) notFound()
 
   const t = await getTranslations({ locale, namespace: 'nav' })
+  const tc = await getTranslations({ locale, namespace: 'trust' })
+  const es = locale === 'es'
+
   const serviceTitle = (locale !== 'en' && service.translations?.[locale]?.title) || service.title
   const description = (locale !== 'en' && service.translations?.[locale]?.description) || service.description
   const heroImg = serviceImages[service.serviceType] || '/services/airport-transfers.jpg'
   const icon = serviceIcons[service.serviceType] || serviceIcons.airport
 
-  const benefits = locale === 'es' ? [
-    { title: 'Precios Fijos', desc: 'Sin sorpresas ni cargos ocultos. El precio que ves es el que pagas.', icon: 'M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z' },
-    { title: 'Conductores Profesionales', desc: 'Conductores con licencia, experimentados y con revisión de antecedentes.', icon: 'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z' },
-    { title: 'Cancelación Gratuita', desc: 'Cancela hasta 24 horas antes sin coste alguno.', icon: 'M6 18L18 6M6 6l12 12' },
-    { title: 'Soporte 24/7', desc: 'Nuestro equipo está disponible las 24 horas, los 7 días de la semana.', icon: 'M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z' },
-    { title: 'Vehículos Premium', desc: 'Flota moderna con aire acondicionado, Wi-Fi y espacio para equipaje.', icon: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 00-.879-2.121l-1.431-1.431' },
-    { title: 'Reserva Fácil', desc: 'Reserva online en minutos. Confirmación instantánea por email.', icon: 'M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3' },
-  ] : [
-    { title: 'Fixed Prices', desc: 'No surprises or hidden charges. The price you see is the price you pay.', icon: 'M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z' },
-    { title: 'Professional Drivers', desc: 'Licensed, experienced and background-checked professional drivers.', icon: 'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z' },
-    { title: 'Free Cancellation', desc: 'Cancel up to 24 hours before your trip at no extra cost.', icon: 'M6 18L18 6M6 6l12 12' },
-    { title: '24/7 Support', desc: 'Our team is available around the clock, 7 days a week.', icon: 'M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z' },
-    { title: 'Premium Vehicles', desc: 'Modern fleet with A/C, Wi-Fi and luggage space for every need.', icon: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 00-.879-2.121l-1.431-1.431' },
-    { title: 'Easy Booking', desc: 'Book online in minutes. Instant email confirmation.', icon: 'M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3' },
+  const trustBadges = [
+    { icon: <IconStar />, label: tc('rating'), desc: tc('ratingDesc') },
+    { icon: <IconTag />, label: tc('fixedPrice'), desc: tc('fixedPriceDesc') },
+    { icon: <IconClock />, label: tc('support'), desc: tc('supportDesc') },
+    { icon: <IconShield />, label: tc('freeCancel'), desc: tc('freeCancelDesc') },
   ]
 
-  const faqItems = locale === 'es' ? [
+  const benefits = es ? [
+    { icon: <IconTag />, title: 'Precios fijos', desc: 'Sin sorpresas ni cargos ocultos. El precio que ves es el que pagas.' },
+    { icon: <IconShield />, title: 'Cancelación gratuita', desc: 'Cancela hasta 24 horas antes sin coste alguno.' },
+    { icon: <IconStar />, title: 'Meet & greet', desc: 'Tu conductor te espera con un cartel con tu nombre.' },
+    { icon: <IconClock />, title: 'Soporte 24/7', desc: 'Nuestro equipo está disponible las 24 horas.' },
+    { icon: <IconCheck />, title: 'Conductores profesionales', desc: 'Licenciados, con experiencia y revisión de antecedentes.' },
+    { icon: <IconPlane />, title: 'Reserva fácil', desc: 'Reserva online en minutos. Confirmación instantánea.' },
+  ] : [
+    { icon: <IconTag />, title: 'Fixed prices', desc: 'No surprises or hidden charges. The price you see is the price you pay.' },
+    { icon: <IconShield />, title: 'Free cancellation', desc: 'Cancel up to 24 hours before your trip at no cost.' },
+    { icon: <IconStar />, title: 'Meet & greet', desc: 'Your driver waits with a name sign at arrivals.' },
+    { icon: <IconClock />, title: '24/7 support', desc: 'Our team is available around the clock.' },
+    { icon: <IconCheck />, title: 'Professional drivers', desc: 'Licensed, experienced and background-checked.' },
+    { icon: <IconPlane />, title: 'Easy booking', desc: 'Book online in minutes. Instant email confirmation.' },
+  ]
+
+  const faqItems = es ? [
     { question: `¿Cómo reservo un ${serviceTitle.toLowerCase()}?`, answer: 'Usa nuestro buscador para encontrar tu ruta, selecciona tu vehículo y confirma tu reserva. Recibirás confirmación instantánea por email.' },
     { question: '¿Cuál es la diferencia con un taxi?', answer: 'Un traslado privado ofrece precios fijos, un conductor profesional esperándote con un cartel, y un vehículo cómodo pre-reservado. Sin colas ni taxímetros.' },
     { question: '¿Puedo cancelar mi reserva?', answer: 'Sí, ofrecemos cancelación gratuita hasta 24 horas antes de tu viaje.' },
@@ -85,114 +117,155 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
     <>
       <SchemaOrg data={generateTaxiServiceSchema({ name: `Private ${service.title}`, description: service.seoDescription || `Book private ${service.title.toLowerCase()}`, url: `/services/${slug}/`, rating: 4.8 })} />
 
-      {/* Hero with image */}
-      <section className="hero-always-dark relative overflow-hidden bg-dark pb-20 pt-32">
-        {/* Background image */}
-        <Image
-          src={heroImg}
-          alt=""
-          fill
-          className="object-cover opacity-30"
-          sizes="100vw"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e13] via-[#0a0e13]/80 to-[#0a0e13]/60" />
-        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+      {/* ─── HERO ───────────────────────────────────────────────────────── */}
+      <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '520px' }}>
+        <div className="resp-img-panel" style={{ position: 'relative', clipPath: 'polygon(0% 0%, 100% 0%, 92% 100%, 0% 100%)' }}>
+          <Image src={heroImg} alt={serviceTitle} fill priority style={{ objectFit: 'cover', objectPosition: 'center right' }} sizes="50vw" />
+        </div>
 
-        <div className="relative w-full">
-          <Breadcrumbs items={[{ label: t('services'), href: '/services/' }, { label: serviceTitle }]} />
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '4vw', paddingRight: '6vw', paddingTop: '4rem', paddingBottom: '4rem' }}>
+          <Breadcrumbs items={[{ label: t('services'), href: '/services/' }, { label: serviceTitle }]} variant="light" />
 
-          <div className="mt-8 max-w-3xl">
-            <div className="mb-6 flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-500/10 text-brand-400 ring-1 ring-brand-500/20">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d={icon} />
-                </svg>
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-brand-500/10 px-4 py-1.5 text-sm font-medium text-brand-400 ring-1 ring-brand-500/20">
-                {locale === 'es' ? 'Servicio premium' : 'Premium service'}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '1.5rem', marginBottom: '1rem' }}>
+            <div style={{ display: 'inline-flex', background: '#8BAA1D', color: '#ffffff', padding: '10px', transform: 'skewX(-8deg)' }}>
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="#ffffff" style={{ transform: 'skewX(8deg)', display: 'block' }}>
+                <path strokeLinecap="round" strokeLinejoin="round" d={icon} />
+              </svg>
+            </div>
+            <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#8BAA1D', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
+              {es ? 'Servicio premium' : 'Premium service'}
+            </span>
+          </div>
+
+          <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1.25rem', textTransform: 'none' }}>
+            {serviceTitle}
+          </h1>
+
+          <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '480px' }}>
+            {(es && service.translations?.es?.seoDescription) || service.seoDescription || `Book private ${serviceTitle.toLowerCase()} with fixed prices and professional drivers.`}
+          </p>
+        </div>
+
+      </section>
+
+      {/* ─── BOOKING FORM ──────────────────────────────────────────────── */}
+      <section style={{ background: '#ffffff', paddingTop: '2.5rem', paddingBottom: '2.5rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
+        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#8BAA1D', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
+          {es ? `Reserva tu ${serviceTitle.toLowerCase()}` : `Book your ${serviceTitle.toLowerCase()}`}
+        </p>
+        <BookingForm />
+        <div style={{ display: 'flex', gap: '2rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
+          {trustBadges.map((b, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ color: '#8BAA1D', fontSize: '1rem', lineHeight: 1, flexShrink: 0 }}>{b.icon}</span>
+              <div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#242426' }}>{b.label}</div>
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>{b.desc}</div>
               </div>
             </div>
-
-            <h1 className="mb-4 text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
-              {serviceTitle}
-            </h1>
-            <p className="max-w-xl text-lg text-gray-400">
-              {(locale === 'es' && service.translations?.es?.seoDescription) || service.seoDescription || `Book private ${serviceTitle.toLowerCase()} with fixed prices and professional drivers.`}
-            </p>
-          </div>
+          ))}
         </div>
       </section>
 
-      <TrustNumbers compact />
-
-      {/* Inline Booking */}
-      <InlineBooking />
-
-      {/* Description */}
+      {/* ─── DESCRIPTION ──────────────────────────────────────────────── */}
       {description && (
-        <section className="bg-dark-light py-20">
-          <div className="prose prose-headings:text-heading prose-p:text-body site-container">
+        <section style={{ background: '#ffffff', padding: '5rem 6vw' }}>
+          <div style={{ maxWidth: '800px', margin: '0 auto' }} className="prose prose-lg prose-headings:font-normal prose-headings:text-[#242426] prose-p:text-[#475569] prose-p:leading-relaxed prose-a:text-[#8BAA1D] prose-a:no-underline">
             <PortableText value={description} />
           </div>
         </section>
       )}
 
-      {/* Benefits */}
-      <section className="bg-dark py-20">
-        <div className="site-container">
-          <div className="mx-auto mb-14 max-w-3xl text-center">
-            <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-heading sm:text-4xl">
-              {locale === 'es' ? `¿Por qué elegir nuestro servicio de ${serviceTitle.toLowerCase()}?` : `Why choose our ${serviceTitle.toLowerCase()} service?`}
+      {/* ─── WHY CHOOSE US ────────────────────────────────────────────── */}
+      <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
+        <div className="resp-2col" style={{ display: 'grid', gap: '4rem', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
+          <div>
+            <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
+            <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)', color: '#242426', marginBottom: '1rem', textTransform: 'none' }}>
+              {es ? `¿Por qué elegir nuestro servicio de ${serviceTitle.toLowerCase()}?` : `Why choose our ${serviceTitle.toLowerCase()} service?`}
             </h2>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {benefits.map((b) => (
-              <div key={b.title} className="group rounded-2xl bg-glass-bg p-6 ring-1 ring-glass-ring transition-all duration-500 hover:-translate-y-1 hover:ring-brand-500/30 hover:shadow-xl hover:shadow-brand-500/5">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-500/10 text-brand-400 ring-1 ring-brand-500/20 transition-all duration-300 group-hover:bg-brand-500/20">
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d={b.icon} />
-                  </svg>
+            <p style={{ color: '#475569', lineHeight: 1.75, marginBottom: '2rem' }}>
+              {es ? 'Todos nuestros servicios incluyen precio fijo, conductor profesional y cancelación gratuita.' : 'All our services include fixed prices, professional drivers and free cancellation.'}
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
+              {benefits.map((item, i) => (
+                <div key={i} style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1rem', transform: 'skewX(-6deg)' }}>
+                  <div style={{ transform: 'skewX(6deg)' }}>
+                    <span style={{ color: '#8BAA1D', display: 'block', marginBottom: '0.4rem' }}>{item.icon}</span>
+                    <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#242426', lineHeight: 1.3 }}>{item.title}</div>
+                    <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '2px', lineHeight: 1.4 }}>{item.desc}</div>
+                  </div>
                 </div>
-                <h3 className="mb-2 text-lg font-bold text-heading">{b.title}</h3>
-                <p className="text-sm leading-relaxed text-body">{b.desc}</p>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Image src="/mockup.png" alt="" aria-hidden="true" width={555} height={605} style={{ objectFit: 'contain', maxHeight: '535px', width: 'auto', marginTop: '2rem' }} />
           </div>
         </div>
       </section>
 
-      {/* Internal links */}
-      <section className="bg-dark-light py-16">
-        <div className="site-container">
-          <h2 className="mb-8 text-2xl font-extrabold tracking-tight text-heading">
-            {locale === 'es' ? 'Explora más' : 'Explore more'}
-          </h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <Link href="/airports/" className="group rounded-xl bg-glass-bg p-5 ring-1 ring-glass-ring transition-all duration-300 hover:ring-brand-500/30">
-              <div className="mb-2 text-sm font-bold text-heading group-hover:text-brand-400">120+ {locale === 'es' ? 'Aeropuertos' : 'Airports'}</div>
-              <p className="text-xs text-muted">{locale === 'es' ? 'Ver todos los aeropuertos' : 'Browse all airports'}</p>
+      {/* ─── FLEET ────────────────────────────────────────────────────── */}
+      <FleetShowcase />
+
+      {/* ─── HOW IT WORKS ─────────────────────────────────────────────── */}
+      <HowItWorks />
+
+      {/* ─── TESTIMONIALS ─────────────────────────────────────────────── */}
+      <Testimonials />
+
+      {/* ─── FAQ ──────────────────────────────────────────────────────── */}
+      <section style={{ background: '#ffffff', padding: '5rem 6vw' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto' }}>
+          <FAQ items={faqItems} title={es ? 'Preguntas frecuentes' : 'Frequently asked questions'} />
+        </div>
+      </section>
+
+      {/* ─── EXPLORE MORE ─────────────────────────────────────────────── */}
+      <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
+        <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
+        <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', color: '#242426', marginBottom: '2rem' }}>
+          {es ? 'Explora más' : 'Explore more'}
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
+          {[
+            { href: '/airports/', n: '120+', label: es ? 'Aeropuertos' : 'Airports', desc: es ? 'Ver todos los aeropuertos' : 'Browse all airports' },
+            { href: '/cities/', n: '145+', label: es ? 'Ciudades' : 'Cities', desc: es ? 'Ver todas las ciudades' : 'Browse all cities' },
+            { href: '/countries/', n: '30+', label: es ? 'Países' : 'Countries', desc: es ? 'Ver todos los países' : 'Browse all countries' },
+            { href: '/services/', n: '4', label: es ? 'Servicios' : 'Services', desc: es ? 'Ver todos los servicios' : 'Browse all services' },
+          ].map(item => (
+            <Link key={item.href} href={item.href as any} style={{ textDecoration: 'none', background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1.25rem', display: 'block', transition: 'border-color 0.15s' }}>
+              <div className={russoOne.className} style={{ fontSize: '1.5rem', color: '#8BAA1D', lineHeight: 1 }}>{item.n}</div>
+              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#242426', marginTop: '0.25rem' }}>{item.label}</div>
+              <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '2px' }}>{item.desc}</div>
             </Link>
-            <Link href="/cities/" className="group rounded-xl bg-glass-bg p-5 ring-1 ring-glass-ring transition-all duration-300 hover:ring-brand-500/30">
-              <div className="mb-2 text-sm font-bold text-heading group-hover:text-brand-400">145+ {locale === 'es' ? 'Ciudades' : 'Cities'}</div>
-              <p className="text-xs text-muted">{locale === 'es' ? 'Ver todas las ciudades' : 'Browse all cities'}</p>
-            </Link>
-            <Link href="/countries/" className="group rounded-xl bg-glass-bg p-5 ring-1 ring-glass-ring transition-all duration-300 hover:ring-brand-500/30">
-              <div className="mb-2 text-sm font-bold text-heading group-hover:text-brand-400">30+ {locale === 'es' ? 'Países' : 'Countries'}</div>
-              <p className="text-xs text-muted">{locale === 'es' ? 'Ver todos los países' : 'Browse all countries'}</p>
-            </Link>
-            <Link href="/services/" className="group rounded-xl bg-glass-bg p-5 ring-1 ring-glass-ring transition-all duration-300 hover:ring-brand-500/30">
-              <div className="mb-2 text-sm font-bold text-heading group-hover:text-brand-400">4 {locale === 'es' ? 'Servicios' : 'Services'}</div>
-              <p className="text-xs text-muted">{locale === 'es' ? 'Ver todos los servicios' : 'Browse all services'}</p>
-            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ─── CTA BANNER ────────────────────────────────────────────────── */}
+      <section style={{ background: '#8BAA1D', overflow: 'hidden' }}>
+        <div className="resp-2col" style={{ display: 'grid', minHeight: '380px' }}>
+          <div className="resp-img-panel" style={{ position: 'relative', clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }}>
+            <Image src="/services/city-to-city.png" alt="" fill style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="50vw" />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '4rem 6vw 4rem 5vw' }}>
+            <div style={{ width: '48px', height: '3px', background: '#ffffff', marginBottom: '1.25rem' }} />
+            <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', color: '#ffffff', marginBottom: '1rem' }}>
+              {es ? '¿Eres conductor profesional?' : 'Are you a professional driver?'}
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, marginBottom: '2rem', maxWidth: '440px' }}>
+              {es ? 'Únete a nuestra red de conductores y recibe reservas directas sin comisiones abusivas.' : 'Join our driver network and receive direct bookings with no excessive commissions.'}
+            </p>
+            <a href="/contact/" style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
+              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{es ? 'Contactar →' : 'Get in touch →'}</span>
+            </a>
           </div>
         </div>
       </section>
 
-      <FAQ items={faqItems} title={locale === 'es' ? 'Preguntas frecuentes' : 'Frequently asked questions'} />
-
-      <LatestNews type="service" id="" serviceType={service.serviceType} title={locale === 'es' ? `Noticias sobre ${serviceTitle.toLowerCase()}` : `Latest ${serviceTitle.toLowerCase()} news`} />
+      {/* ─── CTA ──────────────────────────────────────────────────────── */}
+      <CtaSection />
     </>
   )
 }

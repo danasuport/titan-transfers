@@ -82,15 +82,9 @@ const nextConfig: NextConfig = {
       { source: '/es/paises/traslados-privados-mexico/', destination: '/es/traslados-privados-pais/mexico/', permanent: true },
       { source: '/es/paises/traslados-privados-emirates-arabes-unidos/', destination: '/es/traslados-privados-pais/united-arab-emirates/', permanent: true },
       { source: '/countries/private-transfers-:slug/', destination: '/private-transfers-country/:slug/', permanent: true },
-      { source: '/es/paises/', destination: '/es/paises/', permanent: true },
-      { source: '/countries/', destination: '/countries/', permanent: true },
 
-      // ── Old WordPress listing pages ──
-      { source: '/cities/', destination: '/private-transfers/', permanent: true },
-      { source: '/es/ciudades/', destination: '/es/traslados-privados-taxi/', permanent: true },
-      { source: '/airports/', destination: '/airport-transfers-private-taxi/', permanent: true },
-      { source: '/es/aeropuertos/', destination: '/es/traslados-aeropuerto-privados-taxi/', permanent: true },
-      { source: '/es/traslados-aeropuerto-america/', destination: '/es/traslados-aeropuerto-privados-taxi/', permanent: true },
+      // ── Old WordPress listing pages (only redirects that don't conflict with current listing pages) ──
+      { source: '/es/traslados-aeropuerto-america/', destination: '/es/aeropuertos/', permanent: true },
 
       // ── Old WordPress airport detail pages (/airports/[slug]/) ──
       { source: '/airports/:slug/', destination: '/airport-transfers-private-taxi/:slug/', permanent: true },

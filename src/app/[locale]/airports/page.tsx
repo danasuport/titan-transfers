@@ -47,30 +47,28 @@ export default async function AirportsPage({ params }: { params: Promise<{ local
       <section style={{ background: '#F8FAF0', padding: '5rem 6vw 4rem' }}>
         <Breadcrumbs items={[{ label: es ? 'Aeropuertos' : 'Airports' }]} variant="light" />
 
-        <div className="resp-listing-hero" style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'flex-end', gap: '3rem', marginTop: '1.5rem' }}>
-          <div>
-            <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
-            <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1rem' }}>
-              {es ? 'Aeropuertos' : 'Airports'}
-            </h1>
-            <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '520px' }}>
-              {es
-                ? 'Traslados privados desde los principales aeropuertos del mundo. Conductor profesional, precio fijo y seguimiento de vuelo incluido.'
-                : 'Private transfers from major airports worldwide. Professional driver, fixed price and flight monitoring included.'}
-            </p>
-          </div>
+        <div style={{ marginTop: '1.5rem' }}>
+          <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
+          <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1rem' }}>
+            {es ? 'Aeropuertos' : 'Airports'}
+          </h1>
+          <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '620px' }}>
+            {es
+              ? 'Traslados privados desde los principales aeropuertos del mundo. Conductor profesional, precio fijo y seguimiento de vuelo incluido.'
+              : 'Private transfers from major airports worldwide. Professional driver, fixed price and flight monitoring included.'}
+          </p>
 
           {/* Stats */}
-          <div className="listing-stats-row" style={{ display: 'flex', gap: '1rem', flexShrink: 0 }}>
+          <div className="listing-stats-row" style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
             {[
               { n: '124', label: es ? 'aeropuertos' : 'airports' },
               { n: '30', label: es ? 'países' : 'countries' },
               { n: '24/7', label: es ? 'soporte' : 'support' },
             ].map(s => (
-              <div key={s.label} style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1rem 1.25rem', transform: 'skewX(-6deg)', textAlign: 'center', minWidth: '80px' }}>
+              <div key={s.label} style={{ flex: 1, background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1.5rem 1.75rem', transform: 'skewX(-6deg)', textAlign: 'center' }}>
                 <div style={{ transform: 'skewX(6deg)' }}>
-                  <div className={russoOne.className} style={{ fontSize: '1.5rem', color: '#8BAA1D', lineHeight: 1 }}>{s.n}</div>
-                  <div style={{ fontSize: '0.7rem', color: '#94a3b8', marginTop: '3px' }}>{s.label}</div>
+                  <div className={russoOne.className} style={{ fontSize: '2.25rem', color: '#8BAA1D', lineHeight: 1 }}>{s.n}</div>
+                  <div style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: '6px', fontWeight: 600 }}>{s.label}</div>
                 </div>
               </div>
             ))}

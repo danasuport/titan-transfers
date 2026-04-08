@@ -169,7 +169,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
               </div>
             ))}
           </div>
-          <Footer href={es ? '/aeropuertos/' : '/airports/'} label={es ? 'Ver todos los aeropuertos' : 'Browse all airports'} />
+          <Footer href="/airports/" label={es ? 'Ver todos los aeropuertos' : 'Browse all airports'} />
         </div>
       )}
 
@@ -193,7 +193,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
               </div>
             ))}
           </div>
-          <Footer href={es ? '/ciudades/' : '/cities/'} label={es ? 'Ver todas las ciudades' : 'Browse all cities'} />
+          <Footer href="/cities/" label={es ? 'Ver todas las ciudades' : 'Browse all cities'} />
         </div>
       )}
 
@@ -219,7 +219,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
               </HoverItem>
             ))}
           </div>
-          <Footer href={es ? '/paises/' : '/countries/'} label={es ? 'Ver todos los países' : 'Browse all countries'} />
+          <Footer href="/countries/" label={es ? 'Ver todos los países' : 'Browse all countries'} />
         </div>
       )}
 
@@ -278,7 +278,7 @@ function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, 
             </div>
           ))}
           <div style={{ paddingTop: '1rem' }}>
-            <button onClick={() => go(type === 'airports' ? (es ? '/aeropuertos/' : '/airports/') : (es ? '/ciudades/' : '/cities/'))}
+            <button onClick={() => go(type === 'airports' ? '/airports/' : '/cities/')}
               style={{ background: '#242426', color: '#ffffff', border: 'none', padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', fontFamily: 'inherit', width: '100%' }}>
               {type === 'airports' ? (es ? 'Ver todos los aeropuertos →' : 'Browse all airports →') : (es ? 'Ver todas las ciudades →' : 'Browse all cities →')}
             </button>
@@ -305,7 +305,7 @@ function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, 
               </div>
             ))}
           </div>
-          <button onClick={() => go(es ? '/paises/' : '/countries/')}
+          <button onClick={() => go('/countries/')}
             style={{ background: '#242426', color: '#ffffff', border: 'none', padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', fontFamily: 'inherit', width: '100%' }}>
             {es ? 'Ver todos los países →' : 'Browse all countries →'}
           </button>

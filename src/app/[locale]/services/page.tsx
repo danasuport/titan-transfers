@@ -1,8 +1,13 @@
+import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
+import { BookingForm } from '@/components/ui/BookingForm'
 import { sanityClient } from '@/lib/sanity/client'
 import { allServicesQuery } from '@/lib/sanity/queries'
 import { ServicesClient } from '@/components/listings/ServicesClient'
+import { FleetShowcase } from '@/components/sections/FleetShowcase'
+import { HowItWorks } from '@/components/sections/HowItWorks'
+import { Testimonials } from '@/components/sections/Testimonials'
 import { CtaSection } from '@/components/sections/CtaSection'
 import { russoOne } from '@/lib/fonts'
 import type { Locale } from '@/lib/i18n/config'
@@ -69,8 +74,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params
   return {
     title: locale === 'es'
-      ? 'Servicios de Traslados Privados | Titan Transfers'
-      : 'Private Transfer Services | Titan Transfers',
+      ? 'Servicios de traslados privados | Titan Transfers'
+      : 'Private transfer services | Titan Transfers',
     description: locale === 'es'
       ? 'Aeropuerto, puerto, estación de tren y ciudad a ciudad. Precios fijos, conductores profesionales y soporte 24/7.'
       : 'Airport, port, train station and city-to-city private transfers. Fixed prices, professional drivers and 24/7 support.',
@@ -101,43 +106,59 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
   return (
     <>
       {/* ─── HERO ─────────────────────────────────────────────────────── */}
-      <section style={{ background: '#F8FAF0', padding: '5rem 6vw 4rem' }}>
-        <Breadcrumbs items={[{ label: t('services') }]} variant="light" />
+      <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '520px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '6vw', paddingRight: '4vw', paddingTop: '4rem', paddingBottom: '4rem' }}>
+          <Breadcrumbs items={[{ label: t('services') }]} variant="light" />
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'flex-end', gap: '3rem', marginTop: '1.5rem' }}>
-          <div>
-            <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
-            <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1rem' }}>
-              {es ? 'Nuestros Servicios' : 'Our Services'}
-            </h1>
-            <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '520px' }}>
-              {es
-                ? 'Traslados privados para cada necesidad. Precios fijos, conductores profesionales y soporte 24/7 en todos nuestros servicios.'
-                : 'Private transfers for every need. Fixed prices, professional drivers and 24/7 support across all our services.'}
-            </p>
-          </div>
-
-          {/* Stats */}
-          <div style={{ display: 'flex', gap: '1rem', flexShrink: 0 }}>
+          <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
             {[
               { n: '4', label: es ? 'servicios' : 'services' },
               { n: '100+', label: es ? 'destinos' : 'destinations' },
               { n: '24/7', label: es ? 'soporte' : 'support' },
             ].map(s => (
-              <div key={s.label} style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1rem 1.25rem', transform: 'skewX(-6deg)', textAlign: 'center', minWidth: '80px' }}>
-                <div style={{ transform: 'skewX(6deg)' }}>
-                  <div className={russoOne.className} style={{ fontSize: '1.5rem', color: '#8BAA1D', lineHeight: 1 }}>{s.n}</div>
-                  <div style={{ fontSize: '0.7rem', color: '#94a3b8', marginTop: '3px' }}>{s.label}</div>
-                </div>
-              </div>
+              <span key={s.label} style={{ fontSize: '0.78rem', fontWeight: 700, color: '#8BAA1D', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
+                {s.n} {s.label}
+              </span>
             ))}
           </div>
+
+          <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1.25rem', textTransform: 'none' }}>
+            {es ? 'Nuestros servicios' : 'Our services'}
+          </h1>
+
+          <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '480px' }}>
+            {es
+              ? 'Traslados privados para cada necesidad. Precios fijos, conductores profesionales y soporte 24/7 en todos nuestros servicios.'
+              : 'Private transfers for every need. Fixed prices, professional drivers and 24/7 support across all our services.'}
+          </p>
         </div>
+
+        <div className="resp-img-panel" style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
+          <Image src="/services/airport-transfers.jpg" alt={es ? 'Servicios de traslados privados' : 'Private transfer services'} fill priority style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="50vw" />
+        </div>
+      </section>
+
+      {/* ─── BOOKING FORM ──────────────────────────────────────────────── */}
+      <section style={{ background: '#ffffff', paddingTop: '2.5rem', paddingBottom: '2.5rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
+        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#8BAA1D', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
+          {es ? 'Reserva tu traslado privado' : 'Book your private transfer'}
+        </p>
+        <BookingForm />
       </section>
 
       {/* ─── LISTING ──────────────────────────────────────────────────── */}
       <ServicesClient items={items} locale={locale as Locale} />
 
+      {/* ─── FLEET ────────────────────────────────────────────────────── */}
+      <FleetShowcase />
+
+      {/* ─── HOW IT WORKS ─────────────────────────────────────────────── */}
+      <HowItWorks />
+
+      {/* ─── TESTIMONIALS ─────────────────────────────────────────────── */}
+      <Testimonials />
+
+      {/* ─── CTA ──────────────────────────────────────────────────────── */}
       <CtaSection />
     </>
   )

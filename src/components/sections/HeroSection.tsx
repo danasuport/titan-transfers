@@ -73,10 +73,10 @@ export function HeroSection() {
         </div>
 
         <div className="hidden sm:flex flex-wrap gap-3">
-          <a href="#" className="transition-opacity hover:opacity-80">
+          <a href="https://apps.apple.com/es/app/titan-transfers-luxury-ride/id6759010305" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-80">
             <Image src="/app-store-btn.png" alt="Download on the App Store" width={160} height={48} className="h-12 w-auto" />
           </a>
-          <a href="#" className="transition-opacity hover:opacity-80">
+          <a href="https://play.google.com/store/apps/details?id=com.titantransfers.app&hl=es" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-80">
             <Image src="/play-store-btn.png" alt="Get it on Google Play" width={160} height={48} className="h-12 w-auto" />
           </a>
         </div>

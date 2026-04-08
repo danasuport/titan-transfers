@@ -68,10 +68,10 @@ export function CtaSection() {
               {es ? 'Descarga la app y reserva tu transfer ahora' : 'Download the app and book your transfer now'}
             </h3>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-              <a href="#" style={{ display: 'inline-block' }}>
+              <a href="https://apps.apple.com/es/app/titan-transfers-luxury-ride/id6759010305" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block' }}>
                 <Image src="/app-store-btn.png" alt="Download on the App Store" width={148} height={44} style={{ height: '44px', width: 'auto' }} />
               </a>
-              <a href="#" style={{ display: 'inline-block' }}>
+              <a href="https://play.google.com/store/apps/details?id=com.titantransfers.app&hl=es" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block' }}>
                 <Image src="/play-store-btn.png" alt="Get it on Google Play" width={148} height={44} style={{ height: '44px', width: 'auto' }} />
               </a>
             </div>
