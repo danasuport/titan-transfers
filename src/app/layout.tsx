@@ -4,6 +4,7 @@ import Script from 'next/script'
 import { russoOne, archivo } from '@/lib/fonts'
 import '@/app/globals.css'
 
+const GA4_ID = 'G-MNJCJ137ZL'
 const GAds_ID = 'AW-17350153035'
 
 export const metadata: Metadata = {
@@ -20,11 +21,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html className={`${russoOne.variable} ${archivo.variable}`}>
       <head>
-        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GAds_ID}`} strategy="afterInteractive" />
-        <Script id="google-ads" strategy="afterInteractive">{`
+        {/* Google tag (gtag.js) — loads once, configures GA4 + Google Ads */}
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} strategy="afterInteractive" />
+        <Script id="gtag-init" strategy="afterInteractive">{`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
+          gtag('config', '${GA4_ID}');
           gtag('config', '${GAds_ID}');
         `}</Script>
       </head>

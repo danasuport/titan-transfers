@@ -51,14 +51,21 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const route = await sanityClient.fetch(routeBySlugQuery, { originSlug: slug, routeSlug })
   if (!route) return {}
   const { title, description } = generateRouteMetadata(route, locale as Locale)
+  const enOriginSlug = route.origin?.slug?.current || slug
+  const enRouteSlug = route.slug?.current || routeSlug
+  const esOriginSlug = route.origin?.translations?.es?.slug?.current || enOriginSlug
+  const esRouteSlug = route.translations?.es?.slug?.current || enRouteSlug
+  const currentPath = locale === 'es'
+    ? `/es/traslados-aeropuerto-privados-taxi/${esOriginSlug}/${esRouteSlug}/`
+    : `/airport-transfers-private-taxi/${enOriginSlug}/${enRouteSlug}/`
   return generatePageMetadata({
     title,
     description,
-    path: `/airport-transfers-private-taxi/${slug}/${routeSlug}/`,
+    path: currentPath,
     locale: locale as Locale,
     alternates: [
-      { locale: 'en' as Locale, path: `/airport-transfers-private-taxi/${slug}/${routeSlug}/` },
-      { locale: 'es' as Locale, path: `/es/traslados-aeropuerto-privados-taxi/${slug}/${route.translations?.es?.slug?.current || routeSlug}/` },
+      { locale: 'en' as Locale, path: `/airport-transfers-private-taxi/${enOriginSlug}/${enRouteSlug}/` },
+      { locale: 'es' as Locale, path: `/es/traslados-aeropuerto-privados-taxi/${esOriginSlug}/${esRouteSlug}/` },
     ],
   })
 }

@@ -1,0 +1,1782 @@
+[
+  {
+    "source": "/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-sitges/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-sitges/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-sitges/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-sitges/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-barcelona/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-barcelona/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-badalona/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-badalona/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-castelldefels/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-castelldefels/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-castelldefels/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-castelldefels/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-lhospitalet-de-llobregat/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-lhospitalet-de-llobregat/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-montcada-i-reixac/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-montcada-i-reixac/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-ripollet/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-ripollet/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-ripollet/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-ripollet/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-sant-cugat-del-valles/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-sant-cugat-del-valles/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-barcelona/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-barcelona/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-sant-cugat-del-valles/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-sant-cugat-del-valles/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-montcada-i-reixac/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-montcada-i-reixac/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-santa-coloma-de-gramenet/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-santa-coloma-de-gramenet/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-vallmoll/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-vallmoll/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-vallmoll/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-vallmoll/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-lloret-de-mar/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-lloret-de-mar/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-lloret-de-mar/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-lloret-de-mar/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-tossa-de-mar/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-tossa-de-mar/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-tossa-de-mar/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-tossa-de-mar/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-platja-daro/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-platja-daro/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-platja-daro/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-platja-daro/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-altafulla/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-altafulla/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-altafulla/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-altafulla/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-tarragona/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-tarragona/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-la-pineda/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-la-pineda/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-la-pineda/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-la-pineda/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-castellar-del-valles/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-castellar-del-valles/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-castellar-del-valles/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-castellar-del-valles/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-salou/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-salou/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/transbordos-desde-el-aeropuerto-de-barcelona-a-salou/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/transbordos-desde-el-aeropuerto-de-barcelona-a-salou/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-cambrils/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-cambrils/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/transbordos-desde-el-aeropuerto-de-barcelona-a-cambrils/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/transbordos-desde-el-aeropuerto-de-barcelona-a-cambrils/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-escaladei/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-escaladei/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-escaladei/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-escaladei/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-girona/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-girona/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-girona/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-girona/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-banyoles/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-banyoles/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-banyoles/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-banyoles/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-cadaques/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-cadaques/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-cadaques/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-cadaques/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-andorra/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-andorra/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-andorra/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-andorra/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-castellon/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-castellon/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-castellon/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-castellon/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-santa-coloma-de-gramenet/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-santa-coloma-de-gramenet/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-tordera/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-tordera/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-tordera/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-tordera/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-malgrat-de-mar/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-malgrat-de-mar/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-malgrat-de-mar/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-malgrat-de-mar/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-santa-susanna/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-santa-susanna/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-santa-susanna/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-santa-susanna/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-pineda-de-mar/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-pineda-de-mar/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-pineda-de-mar/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-pineda-de-mar/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-calella/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-calella/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-calella/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-calella/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-manresa/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-manresa/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-manresa/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-manresa/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-calafell/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-calafell/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-calafell/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-calafell/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-cubelles/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-cubelles/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-cubelles/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-cubelles/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-vilanova-i-la-geltru/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-vilanova-i-la-geltru/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-vilanova-y-la-geltru/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-vilanova-y-la-geltru/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-mataro/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-mataro/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-granollers/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-granollers/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-cabrils/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-cabrils/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-cabrils/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-cabrils/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfers-from-barcelona-airport-to-palau-solita-i-plegamans/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-palau-solita-i-plegamans/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-palau-solita-i-plegamans/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-palau-solita-i-plegamans/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-granollers/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-granollers/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-mataro/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-mataro/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-tarragona/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-tarragona/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-badalona/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-badalona/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-barcelona-a-lhospitalet-de-llobregat/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-lhospitalet-de-llobregat/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-dubai-dxb-a-dubai/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/dubai/traslados-desde-el-aeropuerto-internacional-de-dubai-dxb-a-dubai/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-dubai-international-airport-dxb-to-dubai/",
+    "destination": "/airport-transfers-private-taxi/dubai/transfer-dubai-international-airport-dxb-to-dubai/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-dubai-international-airport-dxb-to-abu-dhabi/",
+    "destination": "/airport-transfers-private-taxi/dubai/transfer-dubai-international-airport-dxb-to-abu-dhabi/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-zayed-international-airport-auh-to-abu-dhabi/",
+    "destination": "/airport-transfers-private-taxi/abu-dhabi/transfer-zayed-international-airport-auh-to-abu-dhabi/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-abu-dabi/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/abu-dhabi/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-abu-dabi/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-zayed-international-airport-auh-to-abu-dhabi-2/",
+    "destination": "/airport-transfers-private-taxi/abu-dhabi/transfer-zayed-international-airport-auh-to-abu-dhabi-2/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-abu-dabi-2/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/abu-dhabi/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-abu-dabi-2/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-zayed-international-airport-auh-to-ajman/",
+    "destination": "/airport-transfers-private-taxi/abu-dhabi/transfer-zayed-international-airport-auh-to-ajman/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-ajman/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/abu-dhabi/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-ajman/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-zayed-international-airport-auh-to-dubai/",
+    "destination": "/airport-transfers-private-taxi/abu-dhabi/transfer-zayed-international-airport-auh-to-dubai/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-dubai/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/abu-dhabi/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-dubai/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-zayed-international-airport-auh-to-fujairah/",
+    "destination": "/airport-transfers-private-taxi/abu-dhabi/transfer-zayed-international-airport-auh-to-fujairah/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-fujairah/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/abu-dhabi/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-fujairah/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-zayed-international-airport-auh-to-jebel-ali-and-motiongate/",
+    "destination": "/airport-transfers-private-taxi/abu-dhabi/transfer-zayed-international-airport-auh-to-jebel-ali-and-motiongate/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-jebel-ali-y-motiongate/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/abu-dhabi/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-jebel-ali-y-motiongate/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-zayed-international-airport-auh-to-palm-jumeirah/",
+    "destination": "/airport-transfers-private-taxi/abu-dhabi/transfer-zayed-international-airport-auh-to-palm-jumeirah/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-palm-jumeirah/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/abu-dhabi/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-palm-jumeirah/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-al-maktoum-international-airport-dwc-to-abu-dhabi/",
+    "destination": "/airport-transfers-private-taxi/dubai-world-central/transfer-al-maktoum-international-airport-dwc-to-abu-dhabi/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-al-maktoum-dwc-a-abu-dabi/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/dubai-world-central/traslados-desde-el-aeropuerto-internacional-al-maktoum-dwc-a-abu-dabi/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-al-maktoum-international-airport-dwc-to-ajman/",
+    "destination": "/airport-transfers-private-taxi/dubai-world-central/transfer-al-maktoum-international-airport-dwc-to-ajman/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-al-maktoum-dwc-a-ajman/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/dubai-world-central/traslados-desde-el-aeropuerto-internacional-al-maktoum-dwc-a-ajman/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-al-maktoum-international-airport-dwc-to-dubai/",
+    "destination": "/airport-transfers-private-taxi/dubai-world-central/transfer-al-maktoum-international-airport-dwc-to-dubai/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-al-maktoum-dwc-a-dubai/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/dubai-world-central/traslados-desde-el-aeropuerto-internacional-al-maktoum-dwc-a-dubai/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-al-maktoum-international-airport-dwc-to-fujairah/",
+    "destination": "/airport-transfers-private-taxi/dubai-world-central/transfer-al-maktoum-international-airport-dwc-to-fujairah/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-al-maktoum-dwc-a-fujairah/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/dubai-world-central/traslados-desde-el-aeropuerto-internacional-al-maktoum-dwc-a-fujairah/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-al-maktoum-international-airport-dwc-to-jebel-ali-and-motiongate/",
+    "destination": "/airport-transfers-private-taxi/dubai-world-central/transfer-al-maktoum-international-airport-dwc-to-jebel-ali-and-motiongate/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-al-maktoum-dwc-a-jebel-ali-y-motiongate/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/dubai-world-central/traslados-desde-el-aeropuerto-internacional-al-maktoum-dwc-a-jebel-ali-y-motiongate/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-al-maktoum-international-airport-dwc-to-palm-jumeirah/",
+    "destination": "/airport-transfers-private-taxi/dubai-world-central/transfer-al-maktoum-international-airport-dwc-to-palm-jumeirah/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-al-maktoum-dwc-a-palm-jumeirah/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/dubai-world-central/traslados-desde-el-aeropuerto-internacional-al-maktoum-dwc-a-palm-jumeirah/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-dubai-international-airport-dxb-to-ajman/",
+    "destination": "/airport-transfers-private-taxi/dubai/transfer-dubai-international-airport-dxb-to-ajman/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-dubai-dxb-a-ajman/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/dubai/traslados-desde-el-aeropuerto-internacional-de-dubai-dxb-a-ajman/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-dubai-international-airport-dxb-to-fujairah/",
+    "destination": "/airport-transfers-private-taxi/dubai/transfer-dubai-international-airport-dxb-to-fujairah/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-dubai-dxb-a-fuyaira/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/dubai/traslados-desde-el-aeropuerto-internacional-de-dubai-dxb-a-fuyaira/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-dubai-international-airport-dxb-to-jebel-ali-and-motiongate/",
+    "destination": "/airport-transfers-private-taxi/dubai/transfer-dubai-international-airport-dxb-to-jebel-ali-and-motiongate/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-dubai-dxb-a-jebel-ali-motiongate/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/dubai/traslados-desde-el-aeropuerto-internacional-de-dubai-dxb-a-jebel-ali-motiongate/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-dubai-international-airport-dxb-to-palm-jumeirah/",
+    "destination": "/airport-transfers-private-taxi/dubai/transfer-dubai-international-airport-dxb-to-palm-jumeirah/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-dubai-dxb-a-palm-jumeirah/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/dubai/traslados-desde-el-aeropuerto-internacional-de-dubai-dxb-a-palm-jumeirah/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-ras-al-khaimah-international-airport-rkt-to-abu-dhabi/",
+    "destination": "/airport-transfers-private-taxi/ras-al-khaimah/transfer-ras-al-khaimah-international-airport-rkt-to-abu-dhabi/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-ras-al-khaimah-rkt-a-abu-dabi/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/ras-al-khaimah/traslados-desde-el-aeropuerto-internacional-de-ras-al-khaimah-rkt-a-abu-dabi/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-ras-al-khaimah-international-airport-rkt-to-dubai/",
+    "destination": "/airport-transfers-private-taxi/ras-al-khaimah/transfer-ras-al-khaimah-international-airport-rkt-to-dubai/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-ras-al-khaimah-rkt-a-dubai/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/ras-al-khaimah/traslados-desde-el-aeropuerto-internacional-de-ras-al-khaimah-rkt-a-dubai/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-ras-al-khaimah-international-airport-rkt-to-jebel-ali-and-motiongate/",
+    "destination": "/airport-transfers-private-taxi/ras-al-khaimah/transfer-ras-al-khaimah-international-airport-rkt-to-jebel-ali-and-motiongate/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-ras-al-khaimah-rkt-a-jebel-ali-y-motiongate/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/ras-al-khaimah/traslados-desde-el-aeropuerto-internacional-de-ras-al-khaimah-rkt-a-jebel-ali-y-motiongate/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-ras-al-khaimah-international-airport-rkt-to-palm-jumeirah/",
+    "destination": "/airport-transfers-private-taxi/ras-al-khaimah/transfer-ras-al-khaimah-international-airport-rkt-to-palm-jumeirah/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-ras-al-khaimah-rkt-a-palm-jumeirah/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/ras-al-khaimah/traslados-desde-el-aeropuerto-internacional-de-ras-al-khaimah-rkt-a-palm-jumeirah/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-sharjah-international-airport-shj-to-abu-dhabi/",
+    "destination": "/airport-transfers-private-taxi/sharjah/transfer-sharjah-international-airport-shj-to-abu-dhabi/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-sharjah-shj-a-abu-dabi/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/sharjah/traslados-desde-el-aeropuerto-internacional-de-sharjah-shj-a-abu-dabi/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-sharjah-international-airport-shj-to-ajman/",
+    "destination": "/airport-transfers-private-taxi/sharjah/transfer-sharjah-international-airport-shj-to-ajman/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-sharjah-shj-a-ajman/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/sharjah/traslados-desde-el-aeropuerto-internacional-de-sharjah-shj-a-ajman/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-sharjah-international-airport-shj-to-dubai/",
+    "destination": "/airport-transfers-private-taxi/sharjah/transfer-sharjah-international-airport-shj-to-dubai/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-sharjah-shj-a-dubai/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/sharjah/traslados-desde-el-aeropuerto-internacional-de-sharjah-shj-a-dubai/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-sharjah-international-airport-shj-to-fujairah/",
+    "destination": "/airport-transfers-private-taxi/sharjah/transfer-sharjah-international-airport-shj-to-fujairah/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-sharjah-shj-a-fujairah/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/sharjah/traslados-desde-el-aeropuerto-internacional-de-sharjah-shj-a-fujairah/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-sharjah-international-airport-shj-to-jebel-ali-and-motiongate/",
+    "destination": "/airport-transfers-private-taxi/sharjah/transfer-sharjah-international-airport-shj-to-jebel-ali-and-motiongate/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-sharjah-shj-a-jebel-ali-y-motiongate/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/sharjah/traslados-desde-el-aeropuerto-internacional-de-sharjah-shj-a-jebel-ali-y-motiongate/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-sharjah-international-airport-shj-to-palm-jumeirah/",
+    "destination": "/airport-transfers-private-taxi/sharjah/transfer-sharjah-international-airport-shj-to-palm-jumeirah/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-sharjah-shj-a-palm-jumeirah/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/sharjah/traslados-desde-el-aeropuerto-internacional-de-sharjah-shj-a-palm-jumeirah/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-sharjah-international-airport-shj-to-sharjah/",
+    "destination": "/airport-transfers-private-taxi/sharjah/transfer-sharjah-international-airport-shj-to-sharjah/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-sharjah-shj-a-sharjah/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/sharjah/traslado-aeropuerto-sharjah-a-sharjah/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cancun-international-airport-cun-to-akumal/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-akumal/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cancun-cun-a-akumal/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-akumal/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cancun-international-airport-cun-to-cancun/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-cancun/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cancun-cun-a-cancun/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-cancun/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cancun-international-airport-cun-to-chiquila/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-chiquila/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cancun-cun-a-chiquila/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-chiquila/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cancun-international-airport-cun-to-costa-mujeres/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-costa-mujeres/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cancun-cun-a-costa-mujeres/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-costa-mujeres/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cancun-international-airport-cun-to-playa-del-carmen/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-playa-del-carmen/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cancun-cun-a-playa-del-carmen/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-playa-del-carmen/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cancun-international-airport-cun-to-playa-mujeres/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-playa-mujeres/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cancun-cun-a-playa-mujeres/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-playa-mujeres/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cancun-international-airport-cun-to-playa-paraiso/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-playa-paraiso/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cancun-cun-a-playa-paraiso/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-playa-paraiso/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cancun-international-airport-cun-to-playacar/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-playacar/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cancun-cun-a-playacar/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-playacar/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cancun-international-airport-cun-to-puerto-aventuras/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-puerto-aventuras/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cancun-cun-a-puerto-aventuras/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-puerto-aventuras/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cancun-international-airport-cun-to-puerto-juarez/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-puerto-juarez/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cancun-cun-a-puerto-juarez/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-puerto-juarez/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cancun-international-airport-cun-to-puerto-morelos/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-puerto-morelos/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cancun-cun-a-puerto-morelos/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-puerto-morelos/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cancun-international-airport-cun-to-tulum/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-tulum/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cancun-cun-a-tulum/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-tulum/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cancun-international-airport-cun-to-xcaret/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-xcaret/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cancun-cun-a-xcaret/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-xcaret/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cancun-international-airport-cun-to-x-puha/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-x-puha/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cancun-cun-a-x-puha/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-x-puha/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cozumel-international-airport-czm-to-zona-1-casa-mexicana/",
+    "destination": "/airport-transfers-private-taxi/cozumel/transfer-cozumel-international-airport-czm-to-zona-1-casa-mexicana/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cozumel-czm-a-la-zona-1-casa-mexicana/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cozumel/traslado-aeropuerto-cozumel-a-zona-1-casa-mexicana/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-cozumel-international-airport-czm-to-zona-2-secrets-aura-cozumel/",
+    "destination": "/airport-transfers-private-taxi/cozumel/transfer-cozumel-international-airport-czm-to-zona-2-secrets-aura-cozumel/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-cozumel-czm-a-la-zona-2-secrets-aura-cozumel/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cozumel/traslado-aeropuerto-cozumel-a-zona-2-secrets-aura-cozumel/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-mexico-city-international-airport-mex-to-mexico-city/",
+    "destination": "/airport-transfers-private-taxi/mexico-city/transfer-mexico-city-international-airport-mex-to-mexico-city/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-ciudad-de-mexico-mex-a-ciudad-de-mexico/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/mexico-city/transfer-mexico-city-international-airport-mex-to-mexico-city/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-tulum-international-airport-tqo-to-akumal/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-akumal/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-tulum-tqo-a-akumal/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-akumal/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-tulum-international-airport-tqo-to-cancun/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-cancun/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-tulum-tqo-a-cancun/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-cancun/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-tulum-international-airport-tqo-to-costa-mujeres/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-costa-mujeres/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-tulum-tqo-a-costa-mujeres/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-costa-mujeres/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-tulum-international-airport-tqo-to-playa-del-carmen/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-playa-del-carmen/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-tulum-tqo-a-playa-del-carmen/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-playa-del-carmen/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-tulum-international-airport-tqo-to-playa-mujeres/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-playa-mujeres/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-tulum-tqo-a-playa-mujeres/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-playa-mujeres/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-tulum-international-airport-tqo-to-playa-paraiso/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-playa-paraiso/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-tulum-tqo-a-playa-paraiso/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-playa-paraiso/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-tulum-international-airport-tqo-to-playacar/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-playacar/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-tulum-tqo-a-playacar/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-playacar/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-tulum-international-airport-tqo-to-puerto-aventuras/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-puerto-aventuras/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-tulum-tqo-a-puerto-aventuras/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-puerto-aventuras/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-tulum-international-airport-tqo-to-puerto-juarez/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-puerto-juarez/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-tulum-tqo-a-puerto-juarez/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-puerto-juarez/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-tulum-international-airport-tqo-to-puerto-morelos/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-puerto-morelos/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-tulum-tqo-a-puerto-morelos/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-puerto-morelos/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-tulum-international-airport-tqo-to-tulum/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-tulum/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-tulum-tqo-a-tulum/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-tulum/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-tulum-international-airport-tqo-to-xcaret/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-xcaret/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-tulum-tqo-a-xcaret/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-xcaret/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-tulum-international-airport-tqo-to-x-puha/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-x-puha/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-tulum-tqo-a-x-puha/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-x-puha/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-hartsfield-jackson-atlanta-international-airport-atl-to-atlanta/",
+    "destination": "/airport-transfers-private-taxi/atlanta/transfer-hartsfield-jackson-atlanta-international-airport-atl-to-atlanta/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-hartsfield-jackson-de-atlanta-atl-a-atlanta/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/atlanta/traslado-aeropuerto-atlanta-a-atlanta/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-austin-bergstrom-international-airport-aus-to-austin/",
+    "destination": "/airport-transfers-private-taxi/austin/transfer-austin-bergstrom-international-airport-aus-to-austin/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-austin-bergstrom-aus-a-austin/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/austin/traslado-aeropuerto-austin-a-austin/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-boston-logan-international-airport-bos-to-boston/",
+    "destination": "/airport-transfers-private-taxi/boston/transfer-boston-logan-international-airport-bos-to-boston/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-logan-de-boston-bos-a-boston/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/boston/traslado-aeropuerto-boston-a-boston/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-buffalo-niagara-international-airport-buf-to-buffalo/",
+    "destination": "/airport-transfers-private-taxi/buffalo/transfer-buffalo-niagara-international-airport-buf-to-buffalo/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-buffalo-niagara-buf-a-buffalo/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/buffalo/traslado-aeropuerto-buffalo-a-buffalo/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-buffalo-niagara-international-airport-buf-to-niagara-falls-canada/",
+    "destination": "/airport-transfers-private-taxi/buffalo/transfer-buffalo-niagara-international-airport-buf-to-niagara-falls-canada/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-buffalo-niagara-buf-a-niagara-falls-canada/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/buffalo/traslado-aeropuerto-buffalo-a-cataratas-niagara-canada/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-buffalo-niagara-international-airport-buf-to-niagara-falls-usa/",
+    "destination": "/airport-transfers-private-taxi/buffalo/transfer-buffalo-niagara-international-airport-buf-to-niagara-falls-usa/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-buffalo-niagara-buf-a-niagara-falls-usa/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/buffalo/traslado-aeropuerto-buffalo-a-cataratas-niagara-usa/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-baltimore-washington-international-airport-bwi-to-baltimore/",
+    "destination": "/airport-transfers-private-taxi/baltimore/transfer-baltimore-washington-international-airport-bwi-to-baltimore/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-baltimore-washington-bwi-a-baltimore/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/baltimore/traslado-aeropuerto-baltimore-a-baltimore/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-baltimore-washington-international-airport-bwi-to-washington-dc/",
+    "destination": "/airport-transfers-private-taxi/baltimore/transfer-baltimore-washington-international-airport-bwi-to-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-baltimore-washington-bwi-a-washington-dc/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/baltimore/traslado-aeropuerto-baltimore-a-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-charleston-international-airport-chs-to-charleston/",
+    "destination": "/airport-transfers-private-taxi/charleston/transfer-charleston-international-airport-chs-to-charleston/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-charleston-chs-a-charleston/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/charleston/traslado-aeropuerto-charleston-a-charleston/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-charlotte-douglas-international-airport-clt-to-charlotte/",
+    "destination": "/airport-transfers-private-taxi/charlotte/transfer-charlotte-douglas-international-airport-clt-to-charlotte/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-charlotte-douglas-clt-a-charlotte/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/charlotte/traslado-aeropuerto-charlotte-a-charlotte/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-ronald-reagan-washington-national-airport-dca-to-washington-dc/",
+    "destination": "/airport-transfers-private-taxi/washington-ronald-reagan/transfer-ronald-reagan-washington-national-airport-dca-to-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-nacional-ronald-reagan-de-washington-dca-a-washington-dc/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/washington-reagan/traslado-aeropuerto-reagan-a-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-denver-international-airport-den-to-denver/",
+    "destination": "/airport-transfers-private-taxi/denver/transfer-denver-international-airport-den-to-denver/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-denver-den-a-denver/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/denver/traslado-aeropuerto-denver-a-denver/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-dallas-fort-worth-international-airport-dfw-to-dallas/",
+    "destination": "/airport-transfers-private-taxi/dallas/transfer-dallas-fort-worth-international-airport-dfw-to-dallas/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-dallas-fort-worth-dfw-a-dallas/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/dallas/traslado-aeropuerto-dallas-a-dallas/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-dallas-fort-worth-international-airport-dfw-to-fort-worth/",
+    "destination": "/airport-transfers-private-taxi/dallas/transfer-dallas-fort-worth-international-airport-dfw-to-fort-worth/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-dallas-fort-worth-dfw-a-fort-worth/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/dallas/traslado-aeropuerto-dallas-a-fort-worth/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-detroit-metropolitan-wayne-county-airport-dtw-to-detroit/",
+    "destination": "/airport-transfers-private-taxi/detroit/transfer-detroit-metropolitan-wayne-county-airport-dtw-to-detroit/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-metropolitano-del-condado-de-wayne-de-detroit-dtw-a-detroit/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/detroit/traslado-aeropuerto-detroit-a-detroit/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-newark-liberty-international-airport-ewr-to-manhattan/",
+    "destination": "/airport-transfers-private-taxi/newark/transfer-newark-liberty-international-airport-ewr-to-manhattan/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-newark-liberty-ewr-a-manhattan/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/newark/traslado-aeropuerto-newark-a-manhattan/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-fort-lauderdale-hollywood-international-airport-fll-to-fort-lauderdale/",
+    "destination": "/airport-transfers-private-taxi/fort-lauderdale/transfer-fort-lauderdale-hollywood-international-airport-fll-to-fort-lauderdale/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-fort-lauderdale-hollywood-fll-a-fort-lauderdale/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/fort-lauderdale/traslado-aeropuerto-fort-lauderdale-a-fort-lauderdale/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-fort-lauderdale-hollywood-international-airport-fll-to-miami/",
+    "destination": "/airport-transfers-private-taxi/fort-lauderdale/transfer-fort-lauderdale-hollywood-international-airport-fll-to-miami/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-fort-lauderdale-hollywood-fll-a-miami/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/fort-lauderdale/traslado-aeropuerto-fort-lauderdale-a-miami/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-fort-lauderdale-hollywood-international-airport-fll-to-miami-beach/",
+    "destination": "/airport-transfers-private-taxi/fort-lauderdale/transfer-fort-lauderdale-hollywood-international-airport-fll-to-miami-beach/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-fort-lauderdale-hollywood-fll-a-miami-beach/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/fort-lauderdale/traslado-aeropuerto-fort-lauderdale-a-miami-beach/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-fort-lauderdale-hollywood-international-airport-fll-to-miami-lake/",
+    "destination": "/airport-transfers-private-taxi/fort-lauderdale/transfer-fort-lauderdale-hollywood-international-airport-fll-to-miami-lake/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-fort-lauderdale-hollywood-fll-a-miami-lake/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/fort-lauderdale/traslado-aeropuerto-fort-lauderdale-a-miami-lakes/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-honolulu-daniel-k-inouye-international-airport-hnl-to-honolulu/",
+    "destination": "/airport-transfers-private-taxi/honolulu/transfer-honolulu-daniel-k-inouye-international-airport-hnl-to-honolulu/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-daniel-k-inouye-de-honolulu-hnl-a-honolulu/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/honolulu/traslado-aeropuerto-honolulu-a-honolulu/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-william-p-hobby-airport-hou-to-houston/",
+    "destination": "/airport-transfers-private-taxi/houston-hobby/transfer-william-p-hobby-airport-hou-to-houston/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-william-p-hobby-hou-a-houston/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/houston-hobby/traslado-aeropuerto-houston-hobby-a-houston/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-dulles-international-airport-iad-to-washington-dc/",
+    "destination": "/airport-transfers-private-taxi/washington-dulles/transfer-dulles-international-airport-iad-to-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-dulles-iad-a-washington-dc/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/washington-dulles/traslado-aeropuerto-dulles-a-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-george-bush-intercontinental-airport-iah-to-houston/",
+    "destination": "/airport-transfers-private-taxi/houston/transfer-george-bush-intercontinental-airport-iah-to-houston/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-intercontinental-george-bush-iah-a-houston/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/houston/traslado-aeropuerto-houston-iah-a-houston/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-john-f-kennedy-international-airport-jfk-to-manhattan/",
+    "destination": "/airport-transfers-private-taxi/new-york-jfk/transfer-john-f-kennedy-international-airport-jfk-to-manhattan/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-john-f-kennedy-jfk-a-manhattan/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/nueva-york-jfk/traslado-aeropuerto-jfk-a-manhattan/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-harry-reid-international-airport-las-to-las-vegas/",
+    "destination": "/airport-transfers-private-taxi/las-vegas/transfer-harry-reid-international-airport-las-to-las-vegas/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-harry-reid-las-a-las-vegas/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/las-vegas/traslado-aeropuerto-las-vegas-a-las-vegas/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-los-angeles-international-airport-lax-to-anaheim/",
+    "destination": "/airport-transfers-private-taxi/los-angeles/transfer-los-angeles-international-airport-lax-to-anaheim/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-los-angeles-lax-a-anaheim/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/los-angeles/traslado-aeropuerto-los-angeles-a-anaheim/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-los-angeles-international-airport-lax-to-los-angeles/",
+    "destination": "/airport-transfers-private-taxi/los-angeles/transfer-los-angeles-international-airport-lax-to-los-angeles/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-los-angeles-lax-a-los-angeles/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/los-angeles/traslado-aeropuerto-los-angeles-a-los-angeles/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-laguardia-airport-lga-to-manhattan/",
+    "destination": "/airport-transfers-private-taxi/new-york-la-guardia/transfer-laguardia-airport-lga-to-manhattan/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-laguardia-lga-a-manhattan/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/nueva-york-laguardia/traslado-aeropuerto-laguardia-a-manhattan/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-kansas-city-international-airport-mci-to-kansas-city/",
+    "destination": "/airport-transfers-private-taxi/kansas-city/transfer-kansas-city-international-airport-mci-to-kansas-city/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-kansas-city-mci-a-kansas-city/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/kansas-city/traslado-aeropuerto-kansas-city-a-kansas-city/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-orlando-international-airport-mco-to-orlando/",
+    "destination": "/airport-transfers-private-taxi/orlando/transfer-orlando-international-airport-mco-to-orlando/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-orlando-mco-a-orlando/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/orlando/traslado-aeropuerto-orlando-a-orlando/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-chicago-midway-international-airport-mdw-to-chicago/",
+    "destination": "/airport-transfers-private-taxi/chicago-midway/transfer-chicago-midway-international-airport-mdw-to-chicago/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-chicago-midway-mdw-a-chicago/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/chicago-midway/traslado-aeropuerto-chicago-midway-a-chicago/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-miami-international-airport-mia-to-miami/",
+    "destination": "/airport-transfers-private-taxi/miami/transfer-miami-international-airport-mia-to-miami/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-miami-mia-a-miami/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/miami/traslado-aeropuerto-miami-a-miami/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-miami-international-airport-mia-to-miami-beach/",
+    "destination": "/airport-transfers-private-taxi/miami/transfer-miami-international-airport-mia-to-miami-beach/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-miami-mia-a-miami-beach/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/miami/traslado-aeropuerto-miami-a-miami-beach/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-miami-international-airport-mia-to-miami-lake/",
+    "destination": "/airport-transfers-private-taxi/miami/transfer-miami-international-airport-mia-to-miami-lake/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-miami-mia-a-miami-lake/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/miami/traslado-aeropuerto-miami-a-miami-lakes/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-minneapolis-saint-paul-international-airport-msp-to-minneapolis/",
+    "destination": "/airport-transfers-private-taxi/minneapolis/transfer-minneapolis-saint-paul-international-airport-msp-to-minneapolis/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-minneapolis-saint-paul-msp-a-minneapolis/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/minneapolis/traslado-aeropuerto-minneapolis-a-minneapolis/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-louis-armstrong-new-orleans-international-airport-msy-to-new-orleans/",
+    "destination": "/airport-transfers-private-taxi/new-orleans/transfer-louis-armstrong-new-orleans-international-airport-msy-to-new-orleans/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-louis-armstrong-de-nueva-orleans-msy-a-nueva-orleans/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/nueva-orleans/traslado-aeropuerto-nueva-orleans-a-new-orleans/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-ohare-international-airport-ord-to-chicago/",
+    "destination": "/airport-transfers-private-taxi/chicago-ohare/transfer-ohare-international-airport-ord-to-chicago/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-ohare-ord-a-chicago/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/chicago-ohare/traslado-aeropuerto-chicago-ohare-a-chicago/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-philadelphia-international-airport-phl-to-philadelphia/",
+    "destination": "/airport-transfers-private-taxi/philadelphia/transfer-philadelphia-international-airport-phl-to-philadelphia/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-filadelfia-phl-a-filadelfia/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/filadelfia/traslado-aeropuerto-filadelfia-a-philadelphia/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-phoenix-sky-harbor-international-airport-phx-to-phoenix/",
+    "destination": "/airport-transfers-private-taxi/phoenix/transfer-phoenix-sky-harbor-international-airport-phx-to-phoenix/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-phoenix-sky-harbor-phx-a-phoenix/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/phoenix/traslado-aeropuerto-phoenix-a-phoenix/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-pittsburgh-international-airport-pit-to-pittsburgh/",
+    "destination": "/airport-transfers-private-taxi/pittsburgh/transfer-pittsburgh-international-airport-pit-to-pittsburgh/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-pittsburgh-pit-a-pittsburgh/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/pittsburgh/traslado-aeropuerto-pittsburgh-a-pittsburgh/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-raleigh-durham-international-airport-rdu-to-durham/",
+    "destination": "/airport-transfers-private-taxi/raleigh/transfer-raleigh-durham-international-airport-rdu-to-durham/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-raleigh-durham-rdu-a-durham/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/raleigh/traslado-aeropuerto-raleigh-durham-a-durham/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-raleigh-durham-international-airport-rdu-to-raleigh/",
+    "destination": "/airport-transfers-private-taxi/raleigh/transfer-raleigh-durham-international-airport-rdu-to-raleigh/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-raleigh-durham-rdu-a-raleigh/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/raleigh/traslado-aeropuerto-raleigh-durham-a-raleigh/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-richmond-international-airport-ric-to-richmond/",
+    "destination": "/airport-transfers-private-taxi/richmond/transfer-richmond-international-airport-ric-to-richmond/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-richmond-ric-a-richmond/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/richmond/traslado-aeropuerto-richmond-a-richmond/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-san-diego-international-airport-san-to-san-diego/",
+    "destination": "/airport-transfers-private-taxi/san-diego/transfer-san-diego-international-airport-san-to-san-diego/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-san-diego-san-a-san-diego/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/san-diego/traslado-aeropuerto-san-diego-a-san-diego/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-san-antonio-international-airport-sat-to-san-antonio/",
+    "destination": "/airport-transfers-private-taxi/san-antonio/transfer-san-antonio-international-airport-sat-to-san-antonio/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-san-antonio-sat-a-san-antonio/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/san-antonio/transfer-san-antonio-international-airport-sat-to-san-antonio/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-seattle-tacoma-international-airport-sea-to-seattle/",
+    "destination": "/airport-transfers-private-taxi/seattle/transfer-seattle-tacoma-international-airport-sea-to-seattle/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-seattle-tacoma-sea-a-seattle/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/seattle/traslado-aeropuerto-seattle-a-seattle/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-san-francisco-international-airport-sfo-to-san-francisco/",
+    "destination": "/airport-transfers-private-taxi/san-francisco/transfer-san-francisco-international-airport-sfo-to-san-francisco/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-san-francisco-sfo-a-san-francisco/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/san-francisco/transfer-san-francisco-international-airport-sfo-to-san-francisco/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-luis-munoz-marin-international-airport-sju-to-san-juan/",
+    "destination": "/airport-transfers-private-taxi/san-juan/transfer-luis-munoz-marin-international-airport-sju-to-san-juan/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-luis-munoz-marin-sju-a-san-juan/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/san-juan/traslado-aeropuerto-san-juan-a-san-juan/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-salt-lake-city-international-airport-slc-to-salt-lake-city/",
+    "destination": "/airport-transfers-private-taxi/salt-lake-city/transfer-salt-lake-city-international-airport-slc-to-salt-lake-city/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-salt-lake-city-slc-a-salt-lake-city/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/salt-lake-city/traslado-aeropuerto-salt-lake-city-a-salt-lake-city/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-tampa-international-airport-tpa-to-tampa/",
+    "destination": "/airport-transfers-private-taxi/tampa/transfer-tampa-international-airport-tpa-to-tampa/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-tampa-tpa-a-tampa/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tampa/traslado-aeropuerto-tampa-a-tampa/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-antalya-airport-ayt-to-beldibi/",
+    "destination": "/airport-transfers-private-taxi/antalya/transfer-antalya-airport-ayt-to-beldibi/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-antalya-ayt-a-beldibi/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/antalya/traslado-aeropuerto-antalya-a-beldibi/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-antalya-airport-ayt-to-belek-serik/",
+    "destination": "/airport-transfers-private-taxi/antalya/transfer-antalya-airport-ayt-to-belek-serik/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-antalya-ayt-a-belek-serik/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/antalya/traslado-aeropuerto-antalya-a-belek/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-antalya-airport-ayt-to-camyuva/",
+    "destination": "/airport-transfers-private-taxi/antalya/transfer-antalya-airport-ayt-to-camyuva/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-antalya-ayt-a-camyuva/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/antalya/traslado-aeropuerto-antalya-a-camyuva/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-antalya-airport-ayt-to-city-center/",
+    "destination": "/airport-transfers-private-taxi/antalya/transfer-antalya-airport-ayt-to-city-center/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-antalya-ayt-al-centro-de-la-ciudad/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/antalya/transfer-antalya-airport-ayt-to-antalya/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-antalya-airport-ayt-to-gonyuk/",
+    "destination": "/airport-transfers-private-taxi/antalya/transfer-antalya-airport-ayt-to-gonyuk/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-antalya-ayt-a-gonyuk/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/antalya/traslado-aeropuerto-antalya-a-gonyuk/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-antalya-airport-ayt-to-kemer/",
+    "destination": "/airport-transfers-private-taxi/antalya/transfer-antalya-airport-ayt-to-kemer/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-antalya-ayt-a-kemer/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/antalya/traslado-aeropuerto-antalya-a-kemer/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-antalya-airport-ayt-to-kiris/",
+    "destination": "/airport-transfers-private-taxi/antalya/transfer-antalya-airport-ayt-to-kiris/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-antalya-ayt-a-kiris/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/antalya/traslado-aeropuerto-antalya-a-kiris/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-antalya-airport-ayt-to-kumkoy/",
+    "destination": "/airport-transfers-private-taxi/antalya/transfer-antalya-airport-ayt-to-kumkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-antalya-ayt-a-kumkoy/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/antalya/traslado-aeropuerto-antalya-a-kumkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-antalya-airport-ayt-to-tekirova/",
+    "destination": "/airport-transfers-private-taxi/antalya/transfer-antalya-airport-ayt-to-tekirova/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-antalya-ayt-a-tekirova/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/antalya/traslado-aeropuerto-antalya-a-tekirova/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-airport-ist-to-arnavutkoy/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-arnavutkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-estambul-ist-a-arnavutkoy/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-arnavutkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-airport-ist-to-bakirkoy/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-bakirkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-estambul-ist-a-bakirkoy/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-bakirkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-airport-ist-to-bebek/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-bebek/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-estambul-ist-a-bebek/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-bebek/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-airport-ist-to-besiktas/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-besiktas/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-estambul-ist-a-besiktas/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-besiktas/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-airport-ist-to-eyup/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-eyup/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-estambul-ist-a-eyup/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-eyup/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-airport-ist-to-fatih/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-fatih/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-estambul-ist-a-fatih/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-fatih/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-airport-ist-to-halkali/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-halkali/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/traslados-desde-el-aeropuerto-de-estambul-ist-hasta-halkali/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-halkali/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-estambul-ist-hasta-halkali/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-halkali/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-airport-ist-to-kadikoy/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-kadikoy/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-estambul-ist-a-kadikoy/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-kadikoy/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-airport-ist-to-umraniye/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-umraniye/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-estambul-ist-hasta-umraniye/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-umraniye/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-airport-ist-to-pendik/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-pendik/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-de-estambul-ist-a-pendik/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-pendik/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-arnavutkoy/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-arnavutkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-sabiha-gokcen-de-estambul-saw-a-arnavutkoy/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-arnavutkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-bakirkoy/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-bakirkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-sabiha-gokcen-de-estambul-saw-a-bakirkoy/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-bakirkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-bebek/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-bebek/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-estambul-sabiha-gokcen-saw-a-bebek/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-bebek/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-besiktas/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-besiktas/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-sabiha-gokcen-de-estambul-saw-a-besiktas/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-besiktas/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-eyup/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-eyup/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-estambul-sabiha-gokcen-saw-a-eyup/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-eyup/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-fatih/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-fatih/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-estambul-sabiha-gokcen-saw-a-fatih/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-fatih/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-halkali/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-halkali/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-sabiha-gokcen-de-estambul-saw-hasta-halkali/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-halkali/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-kadikoy/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-kadikoy/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-de-estambul-sabiha-gokcen-saw-a-kadikoy/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-kadikoy/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-pendik/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-pendik/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-sabiha-gokcen-de-estambul-saw-a-pendik/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-pendik/",
+    "permanent": true
+  },
+  {
+    "source": "/rutas/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-umraniye/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-umraniye/",
+    "permanent": true
+  },
+  {
+    "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-sabiha-gokcen-de-estambul-saw-a-umraniye/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-umraniye/",
+    "permanent": true
+  }
+]

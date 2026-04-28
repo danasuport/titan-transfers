@@ -48,14 +48,19 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const cityTitle = airport.city?.title || ''
   const cityTitleMeta = (locale !== 'en' && airport.city?.translations?.[locale]?.title) || cityTitle
   const { title, description } = generateAirportMetadata(airport, locale as Locale, cityTitleMeta)
+  const enSlug = airport.slug?.current || slug
+  const esSlug = airport.translations?.es?.slug?.current || enSlug
+  const currentPath = locale === 'es'
+    ? `/es/traslados-aeropuerto-privados-taxi/${esSlug}/`
+    : `/airport-transfers-private-taxi/${enSlug}/`
   return generatePageMetadata({
     title,
     description,
-    path: `/airport-transfers-private-taxi/${slug}/`,
+    path: currentPath,
     locale: locale as Locale,
     alternates: [
-      { locale: 'en' as Locale, path: `/airport-transfers-private-taxi/${slug}/` },
-      { locale: 'es' as Locale, path: `/es/traslados-aeropuerto-privados-taxi/${airport.translations?.es?.slug?.current ?? slug}/` },
+      { locale: 'en' as Locale, path: `/airport-transfers-private-taxi/${enSlug}/` },
+      { locale: 'es' as Locale, path: `/es/traslados-aeropuerto-privados-taxi/${esSlug}/` },
     ],
   })
 }

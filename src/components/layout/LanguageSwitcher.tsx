@@ -8,15 +8,25 @@ import { locales, type Locale } from '@/lib/i18n/config'
 const flags: Record<Locale, string> = {
   en: 'https://flagcdn.com/gb.svg',
   es: 'https://flagcdn.com/es.svg',
-  de: 'https://flagcdn.com/de.svg',
-  fr: 'https://flagcdn.com/fr.svg',
-  nl: 'https://flagcdn.com/nl.svg',
-  it: 'https://flagcdn.com/it.svg',
-  zh: 'https://flagcdn.com/cn.svg',
-  no: 'https://flagcdn.com/no.svg',
-  sv: 'https://flagcdn.com/se.svg',
-  ga: 'https://flagcdn.com/ie.svg',
-  da: 'https://flagcdn.com/dk.svg',
+}
+
+/**
+ * Reads the <link rel="alternate" hreflang="..."> tag injected by metadata.alternates
+ * so that pages with translated slugs (routes, cities, countries, etc.) jump to the exact
+ * equivalent URL instead of the same slug under a wrong prefix.
+ */
+function getAlternateUrl(targetLocale: Locale): string | null {
+  if (typeof window === 'undefined') return null
+  const link = document.querySelector<HTMLLinkElement>(
+    `link[rel="alternate"][hreflang="${targetLocale}"]`
+  )
+  if (!link?.href) return null
+  try {
+    const url = new URL(link.href)
+    return url.pathname + url.search + url.hash
+  } catch {
+    return null
+  }
 }
 
 export function LanguageSwitcher() {
@@ -26,13 +36,19 @@ export function LanguageSwitcher() {
   const [open, setOpen] = useState(false)
 
   function handleChange(newLocale: Locale) {
-    router.replace(pathname, { locale: newLocale })
+    const alt = getAlternateUrl(newLocale)
+    if (alt) {
+      // Navigate directly to the translated URL declared by the page's metadata
+      window.location.href = alt
+    } else {
+      // Fallback to next-intl auto-translation by pathname pattern
+      router.replace(pathname, { locale: newLocale })
+    }
     setOpen(false)
   }
 
   return (
     <div style={{ position: 'relative', display: 'inline-block' }}>
-      {/* Trigger */}
       <button
         onClick={() => setOpen(o => !o)}
         style={{
@@ -62,7 +78,6 @@ export function LanguageSwitcher() {
         </svg>
       </button>
 
-      {/* Dropdown */}
       {open && (
         <div style={{
           position: 'absolute',

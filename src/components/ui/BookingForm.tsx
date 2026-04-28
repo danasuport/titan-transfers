@@ -6,17 +6,22 @@ import { useLocale } from 'next-intl'
 const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || ''
 const ETO_BASE = '/booking/'
 const GADS_ID = 'AW-17350153035'
-const CONVERSION_LABEL = 'qeFlCP6D9aobEMummdFA'
+const CONVERSION_LABEL = 'qeFICP6D9aobEMummdFA'
 
-function fireConversion() {
+function fireConversion(callback?: () => void) {
   try {
     const w = window as any
     if (typeof w.gtag === 'function') {
       w.gtag('event', 'conversion', {
         send_to: `${GADS_ID}/${CONVERSION_LABEL}`,
+        event_callback: callback,
       })
+      // Safety net: redirect anyway if Google never fires the callback
+      if (callback) setTimeout(callback, 1500)
+      return
     }
   } catch {}
+  if (callback) callback()
 }
 
 declare global {
@@ -113,7 +118,14 @@ export function BookingForm() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    window.location.href = buildUrl()
+    const url = buildUrl()
+    let redirected = false
+    const go = () => {
+      if (redirected) return
+      redirected = true
+      window.location.href = url
+    }
+    fireConversion(go)
   }
 
   const skewWrap: React.CSSProperties = { transform: 'skewX(-8deg)', display: 'flex', alignItems: 'center', gap: '0.5rem', border: '2px solid #e5e7eb', background: '#ffffff', padding: '0.6rem 0.85rem' }

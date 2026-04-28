@@ -61,7 +61,21 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   if (!service) return {}
   const seoTitle = (locale === 'es' && service.translations?.es?.seoTitle) || service.seoTitle || `Private ${service.title} Worldwide | Titan Transfers`
   const seoDesc = (locale === 'es' && service.translations?.es?.seoDescription) || service.seoDescription || `Book private ${service.title.toLowerCase()} with fixed prices and 24/7 support.`
-  return { title: seoTitle, description: seoDesc }
+  const esSlug = service.translations?.es?.slug?.current || slug
+  const enSlug = service.slug?.current || slug
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://titantransfers.com'
+  return {
+    title: seoTitle,
+    description: seoDesc,
+    alternates: {
+      canonical: locale === 'es' ? `${SITE_URL}/es/servicios/${esSlug}/` : `${SITE_URL}/services/${enSlug}/`,
+      languages: {
+        en: `${SITE_URL}/services/${enSlug}/`,
+        es: `${SITE_URL}/es/servicios/${esSlug}/`,
+        'x-default': `${SITE_URL}/services/${enSlug}/`,
+      },
+    },
+  }
 }
 
 export default async function ServicePage({ params }: { params: Promise<{ locale: string; slug: string }> }) {

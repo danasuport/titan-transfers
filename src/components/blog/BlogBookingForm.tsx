@@ -6,7 +6,7 @@ import { useLocale } from 'next-intl'
 const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || ''
 const ETO_BASE = 'https://titantransfers.com/booking/'
 const GADS_ID = 'AW-17350153035'
-const CONVERSION_LABEL = 'qeFlCP6D9aobEMummdFA'
+const CONVERSION_LABEL = 'qeFICP6D9aobEMummdFA'
 
 function fireConversion() {
   try {

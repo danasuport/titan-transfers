@@ -29,7 +29,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const post = await sanityClient.fetch(blogPostBySlugQuery, { slug })
   if (!post) return {}
   const { title, description } = generateBlogMetadata(post, locale as Locale)
-  return generatePageMetadata({ title, description, path: `/blog/${slug}/`, locale: locale as Locale, type: 'article', publishedTime: post.publishDate, alternates: [{ locale: 'en' as Locale, path: `/blog/${slug}/` }, { locale: 'es' as Locale, path: `/es/blog/${post.translations?.es?.slug?.current || slug}/` }] })
+  const enSlug = post.slug?.current || slug
+  const esSlug = post.translations?.es?.slug?.current || enSlug
+  const currentPath = locale === 'es' ? `/es/blog/${esSlug}/` : `/blog/${enSlug}/`
+  return generatePageMetadata({ title, description, path: currentPath, locale: locale as Locale, type: 'article', publishedTime: post.publishDate, alternates: [{ locale: 'en' as Locale, path: `/blog/${enSlug}/` }, { locale: 'es' as Locale, path: `/es/blog/${esSlug}/` }] })
 }
 
 function InlineBookingBlock({ locale }: { locale: string }) {
