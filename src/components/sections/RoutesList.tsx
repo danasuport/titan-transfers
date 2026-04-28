@@ -14,6 +14,7 @@ interface Route {
   slug: { current: string }
   distance?: number
   estimatedDuration?: number
+  origin?: { _id: string; title: string; slug: { current: string }; translations?: Record<string, { title?: string; slug?: { current: string } }> }
   destination?: { _id: string; title: string; slug: { current: string }; translations?: Record<string, { title?: string; slug?: { current: string } }> }
   translations?: Record<string, { title?: string; slug?: { current: string } }>
 }
@@ -22,9 +23,12 @@ function RouteCard({ route, airportSlug, locale }: { route: Route; airportSlug: 
   const [hovered, setHovered] = useState(false)
   const routeSlug = getTranslatedSlug(route, locale)
   const destTitle = route.destination ? getTranslatedTitle(route.destination, locale) : getTranslatedTitle(route, locale)
+  // Each route uses its own origin when available; fall back to the parent airportSlug
+  // (this matters on city pages where routes come from many different airports).
+  const originSlug = route.origin?.slug?.current || airportSlug
 
   return (
-    <Link href={`/airport-transfers-private-taxi/${airportSlug}/${routeSlug}/` as any} style={{ textDecoration: 'none' }}>
+    <Link href={`/airport-transfers-private-taxi/${originSlug}/${routeSlug}/` as any} style={{ textDecoration: 'none' }}>
       <div
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}

@@ -73,7 +73,11 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
     { icon: '✓', label: tc('freeCancel'), desc: tc('freeCancelDesc') },
   ]
 
-  const allRoutes = [...(city.routesTo || []), ...(city.routesFrom || [])]
+  // Only include routes that have a real origin airport/port — otherwise we'd
+  // produce URLs like /airport-transfers-private-taxi/<city>/... which 404.
+  const allRoutes = [
+    ...(city.routesTo || []).filter((r: { origin?: { slug?: { current?: string } } }) => r.origin?.slug?.current),
+  ]
 
   return (
     <>
