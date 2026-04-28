@@ -49,7 +49,7 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
   const heroImg = urlFor(region.featuredImage)?.width(1920).height(900).quality(90).url()
 
   const breadcrumbs = [
-    { label: region.country?.title || '', href: es ? `/traslados-privados-taxi/${region.country?.slug?.current}/` : `/private-transfers/${region.country?.slug?.current}/` },
+    { label: region.country?.title || '', href: es ? `/traslados-privados-pais/${region.country?.slug?.current}/` : `/private-transfers-country/${region.country?.slug?.current}/` },
     { label: regionTitle },
   ]
 

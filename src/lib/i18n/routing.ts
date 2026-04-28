@@ -7,6 +7,9 @@ export const routing = defineRouting({
   localePrefix: {
     mode: 'as-needed',
   },
+  // Never auto-redirect based on Accept-Language. Visitors land in the default
+  // locale (English) and we show a popup suggesting Spanish if their browser is in ES.
+  localeDetection: false,
   pathnames: {
     '/': '/',
     '/airports/': {

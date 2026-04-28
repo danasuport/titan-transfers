@@ -45,13 +45,13 @@ export function getCityUrl(slugOrItem: string | WithSlugAndTranslations, locale:
 }
 
 export function getCountryUrl(slugOrItem: string | WithSlugAndTranslations, locale: Locale): string {
-  const prefix = getLocalizedPath('private-transfers', locale)
+  const prefix = getLocalizedPath('private-transfers-country', locale)
   const slug = resolveSlug(slugOrItem, locale)
   return `/${prefix}/${slug}/`
 }
 
 export function getRegionUrl(slugOrItem: string | WithSlugAndTranslations, locale: Locale): string {
-  const prefix = getLocalizedPath('private-transfers', locale)
+  const prefix = getLocalizedPath('private-transfers-region', locale)
   const slug = resolveSlug(slugOrItem, locale)
   return `/${prefix}/${slug}/`
 }

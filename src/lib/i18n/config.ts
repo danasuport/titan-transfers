@@ -17,6 +17,8 @@ export const pathTranslations: Record<string, Record<Locale, string>> = {
   regions: { en: 'regions', es: 'regiones' },
   region: { en: 'region', es: 'region' },
   'private-transfers': { en: 'private-transfers', es: 'traslados-privados-taxi' },
+  'private-transfers-country': { en: 'private-transfers-country', es: 'traslados-privados-pais' },
+  'private-transfers-region': { en: 'private-transfers-region', es: 'traslados-privados-region' },
   services: { en: 'services', es: 'servicios' },
   blog: { en: 'blog', es: 'blog' },
   contact: { en: 'contact', es: 'contacto' },
