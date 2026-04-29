@@ -1,49 +1,42 @@
-// Server component: fetches the rendered booking widget HTML from the
-// WordPress install (where the Taxi Booking Plugin lives) and embeds it
-// inline. AJAX URLs are rewritten so the widget calls the Next.js proxy
-// instead of admin-ajax.php directly. Strings, custom fields, currency
-// list and pricing logic stay in the WP plugin so the client can keep
-// editing them in their familiar admin.
-//
-// The plugin runs the full three-step flow on a single URL ("/booking/")
-// and uses query string params (?step=2, ?step=3, plus pickup/dest/etc)
-// to drive the wizard. Whatever query params arrive at the Next.js page
-// are forwarded to the WP fetch so the upstream renders the right step.
-import { cookies } from 'next/headers'
+'use client'
 
-const WP_ORIGIN = (process.env.NEXT_PUBLIC_WP_BOOKING_URL || 'https://titantransfers.com').replace(/\/+$/, '')
+import { useEffect, useRef, useState } from 'react'
+
+// Client component: fetches the booking widget HTML through the
+// /api/taxi-booking-html proxy, which forwards cookies in both
+// directions. WP's PHPSESSID lands in the user's browser, so the
+// nonce shipped in the localised script stays valid against
+// check_ajax_referer in WP.
+//
+// Doing this server-side (Server Component) would lose the Set-Cookie
+// from WP because Server Components can't write cookies during render.
+// So all of this lives in the client.
 
 type Extracted = {
   widgetHtml: string
-  styleTags: string[]
-  inlineConfig: string | null
+  styleHtml: string
   ajaxObject: Record<string, unknown> | null
 }
 
-// Brand palette injected into the widget's inlined CSS variables. The WP
-// plugin ships defaults that the client never customised in admin, so the
-// embedded HTML carries `--taxi-primary-color: #667eea` (purple) etc.
-// We rewrite those defaults so the plugin's own selectors (which read
-// var(--taxi-...)) pick up the Titan green automatically.
-const BRAND_COLOR_REWRITES: Array<[RegExp, string]> = [
+const BRAND_REWRITES: Array<[RegExp, string]> = [
   [/--taxi-primary-color:\s*#?[0-9a-f]{3,8};?/gi, '--taxi-primary-color: #8BAA1D;'],
   [/--taxi-primary-rgb:\s*[\d,\s]+;?/gi, '--taxi-primary-rgb: 139, 170, 29;'],
   [/--taxi-secondary-color:\s*#?[0-9a-f]{3,8};?/gi, '--taxi-secondary-color: #6B8313;'],
   [/--taxi-secondary-rgb:\s*[\d,\s]+;?/gi, '--taxi-secondary-rgb: 107, 131, 19;'],
 ]
 
-function rebrandStyle(style: string): string {
-  let out = style
-  for (const [re, replacement] of BRAND_COLOR_REWRITES) out = out.replace(re, replacement)
+function rebrand(s: string): string {
+  let out = s
+  for (const [re, rep] of BRAND_REWRITES) out = out.replace(re, rep)
   return out
 }
 
-function extractWidget(html: string): Extracted {
-  const styleTags: string[] = []
+function extract(html: string): Extracted {
+  let styleHtml = ''
   const styleRe = /<style[^>]*>[\s\S]*?<\/style>/gi
   for (const m of html.matchAll(styleRe)) {
     if (m[0].includes('taxi-booking-widget') || m[0].includes('--taxi-')) {
-      styleTags.push(rebrandStyle(m[0]))
+      styleHtml += rebrand(m[0])
     }
   }
 
@@ -74,11 +67,9 @@ function extractWidget(html: string): Extracted {
     }
   }
 
-  let inlineConfig: string | null = null
   let ajaxObject: Record<string, unknown> | null = null
   const cfgMatch = html.match(/var\s+taxi_booking_ajax\s*=\s*(\{[\s\S]*?\});/)
   if (cfgMatch) {
-    inlineConfig = cfgMatch[1]
     try {
       ajaxObject = JSON.parse(cfgMatch[1]) as Record<string, unknown>
     } catch {
@@ -86,60 +77,75 @@ function extractWidget(html: string): Extracted {
     }
   }
 
-  return { widgetHtml, styleTags, inlineConfig, ajaxObject }
+  return { widgetHtml, styleHtml, ajaxObject }
 }
 
-export async function TaxiBookingWidget({
-  locale = 'en',
-  searchParams = {},
-}: {
-  locale?: string
-  searchParams?: Record<string, string | string[] | undefined>
-}) {
-  // Build the upstream URL with the same query string the user hit. The
-  // plugin reads ?step= / ?bid= / ?pickup= etc to render the appropriate
-  // step. Drop empty/array values; WP expects flat strings.
-  const upstreamParams = new URLSearchParams()
-  for (const [key, value] of Object.entries(searchParams)) {
-    if (value === undefined) continue
-    if (Array.isArray(value)) {
-      for (const v of value) upstreamParams.append(key, v)
-    } else {
-      upstreamParams.set(key, value)
+// Append a <script> and resolve when it loads.
+function loadScript(src: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script')
+    s.src = src
+    s.onload = () => resolve()
+    s.onerror = () => reject(new Error(`failed to load ${src}`))
+    document.body.appendChild(s)
+  })
+}
+
+// Wait until a global is available on window, polling at most `maxMs`.
+function waitFor(check: () => boolean, maxMs = 5000): Promise<boolean> {
+  return new Promise(resolve => {
+    const start = Date.now()
+    const tick = () => {
+      if (check()) return resolve(true)
+      if (Date.now() - start > maxMs) return resolve(false)
+      setTimeout(tick, 50)
     }
-  }
-  if (locale === 'es' && !upstreamParams.has('lang')) upstreamParams.set('lang', 'es')
-  const qs = upstreamParams.toString()
-  const wpUrl = `${WP_ORIGIN}/booking/${qs ? `?${qs}` : ''}`
+    tick()
+  })
+}
 
-  // Forward the user's cookies so WP keeps the same PHP session state
-  // (booking id, logged-in user, currency choice, etc.) across step
-  // navigation triggered by window.location.href in the plugin JS.
-  const cookieJar = await cookies()
-  const cookieHeader = cookieJar
-    .getAll()
-    .map(c => `${c.name}=${c.value}`)
-    .join('; ')
+export function TaxiBookingWidget() {
+  const [content, setContent] = useState<Extracted | null>(null)
+  const [error, setError] = useState(false)
+  const bootstrappedRef = useRef(false)
 
-  let extracted: Extracted = { widgetHtml: '', styleTags: [], inlineConfig: null, ajaxObject: null }
-  try {
-    const res = await fetch(wpUrl, {
-      headers: {
-        'user-agent': 'titan-next-ssr/1',
-        accept: 'text/html',
-        ...(cookieHeader ? { cookie: cookieHeader } : {}),
-      },
-      cache: 'no-store',
-    })
-    if (res.ok) {
-      const html = await res.text()
-      extracted = extractWidget(html)
-    }
-  } catch {
-    // Render fallback below
-  }
+  useEffect(() => {
+    const search = window.location.search
+    fetch(`/api/taxi-booking-html${search}`, { credentials: 'include' })
+      .then(r => r.ok ? r.text() : Promise.reject(new Error(String(r.status))))
+      .then(html => {
+        const data = extract(html)
+        if (!data.widgetHtml) throw new Error('widget not found')
+        const finalAjax = {
+          ...(data.ajaxObject || {}),
+          ajax_url: '/api/taxi-booking-ajax',
+        }
+        ;(window as { taxi_booking_ajax?: unknown }).taxi_booking_ajax = finalAjax
+        setContent(data)
+      })
+      .catch(() => setError(true))
+  }, [])
 
-  if (!extracted.widgetHtml) {
+  useEffect(() => {
+    if (!content || bootstrappedRef.current) return
+    bootstrappedRef.current = true
+
+    // Wait for jQuery (loaded by the page shell) before booting the
+    // plugin JS — taxi-booking.js is jQuery-based and assumes $ is ready.
+    ;(async () => {
+      await waitFor(() => Boolean((window as { jQuery?: unknown }).jQuery))
+      try {
+        await loadScript('/taxi-booking/js/taxi-booking.js')
+        await loadScript('/taxi-booking/js/taxi-booking-auth.js').catch(() => undefined)
+        await loadScript('/taxi-booking/js/titan-prefill.js').catch(() => undefined)
+      } catch {
+        // Ignore — page already showed the widget shell. Worst case the
+        // user sees an unresponsive form which a refresh will fix.
+      }
+    })()
+  }, [content])
+
+  if (error) {
     return (
       <div style={{ padding: '2rem', textAlign: 'center', color: '#64748b' }}>
         <p>Booking system temporarily unavailable. Please refresh the page.</p>
@@ -147,25 +153,19 @@ export async function TaxiBookingWidget({
     )
   }
 
-  // Only override the AJAX target — the plugin's JS does its step navigation
-  // with TBKParams.buildUrl('/booking', ...) so the step2_url / step3_url
-  // fields in the localized config aren't actually consulted. Leave them.
-  const finalAjax = {
-    ...(extracted.ajaxObject || {}),
-    ajax_url: '/api/taxi-booking-ajax',
+  if (!content) {
+    return (
+      <div style={{ padding: '4rem 2rem', textAlign: 'center', color: '#64748b' }}>
+        <div className="taxi-spinner" style={{ display: 'inline-block', width: 32, height: 32, border: '3px solid #e2e8f0', borderTop: '3px solid #8BAA1D', borderRadius: '50%', animation: 'taxiSpin 0.8s linear infinite' }} />
+        <style>{`@keyframes taxiSpin { to { transform: rotate(360deg); } }`}</style>
+      </div>
+    )
   }
 
   return (
     <>
-      {extracted.styleTags.map((s, i) => (
-        <div key={i} dangerouslySetInnerHTML={{ __html: s }} />
-      ))}
-      <div dangerouslySetInnerHTML={{ __html: extracted.widgetHtml }} />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `var taxi_booking_ajax = ${JSON.stringify(finalAjax)};`,
-        }}
-      />
+      <div dangerouslySetInnerHTML={{ __html: content.styleHtml }} />
+      <div dangerouslySetInnerHTML={{ __html: content.widgetHtml }} />
     </>
   )
 }
