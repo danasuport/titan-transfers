@@ -34,14 +34,30 @@
   // ours, there's nothing to prefill.
   if (!params.pickup && !params.dest && !params.date) return
 
-  function setVal(selector, value, fireChange) {
+  function setVal(selector, value, fireMode) {
     var el = document.querySelector(selector)
     if (!el || value == null) return
     el.value = value
-    if (fireChange) {
+    // 'silent'  : just write the value, don't notify (avoids triggering
+    //             the plugin's address autocomplete on already-validated
+    //             addresses we filled programmatically)
+    // 'change'  : dispatch change only (Flatpickr/intl-tel listeners read it)
+    // 'all'     : input + change (legacy)
+    if (fireMode === 'all') {
       el.dispatchEvent(new Event('input', { bubbles: true }))
       el.dispatchEvent(new Event('change', { bubbles: true }))
+    } else if (fireMode === 'change') {
+      el.dispatchEvent(new Event('change', { bubbles: true }))
     }
+  }
+
+  // Hide the address-suggestions dropdown that the plugin opens on input.
+  function closeSuggestions() {
+    var s = document.querySelectorAll('#pickup-suggestions, #destination-suggestions, .location-suggestions')
+    s.forEach(function (el) {
+      el.style.display = 'none'
+      el.innerHTML = ''
+    })
   }
 
   function setNumber(targetName, value) {
@@ -63,23 +79,28 @@
   }
 
   function applyPrefill() {
-    // Pickup / destination addresses + lat/lng (the plugin uses lat/lng to
-    // mark the address as "validated" so calculatePrice will accept it).
+    // Pickup / destination addresses are written silently (no input event)
+    // so the plugin's own autocomplete doesn't kick off a fresh search and
+    // re-open the suggestions dropdown. The hidden lat/lng is what
+    // calculatePrice() actually uses to validate the address.
     if (params.pickup) {
-      setVal('#pickup-address', params.pickup, true)
-      setVal('#pickup-lat', params.pickup_lat || '', false)
-      setVal('#pickup-lng', params.pickup_lng || '', false)
+      setVal('#pickup-address', params.pickup, 'silent')
+      setVal('#pickup-lat', params.pickup_lat || '', 'silent')
+      setVal('#pickup-lng', params.pickup_lng || '', 'silent')
     }
     if (params.dest) {
-      setVal('#destination-address', params.dest, true)
-      setVal('#destination-lat', params.dest_lat || '', false)
-      setVal('#destination-lng', params.dest_lng || '', false)
+      setVal('#destination-address', params.dest, 'silent')
+      setVal('#destination-lat', params.dest_lat || '', 'silent')
+      setVal('#destination-lng', params.dest_lng || '', 'silent')
     }
+    // Belt-and-braces: in case the plugin already opened a dropdown before
+    // we got here, force-close them.
+    closeSuggestions()
 
     // Date / time. The plugin uses Flatpickr; setting the input value and
     // dispatching change is enough for calculatePrice() to read it.
-    if (params.date) setVal('#pickup-date', params.date, true)
-    if (params.time) setVal('#pickup-time', params.time, true)
+    if (params.date) setVal('#pickup-date', params.date, 'change')
+    if (params.time) setVal('#pickup-time', params.time, 'change')
 
     // Passengers / luggage are number-stepper widgets (hidden + display).
     if (params.pax) setNumber('passengers', params.pax)
