@@ -1,0 +1,199 @@
+<?php
+/**
+ * Plugin Name: Titan Booking Embed
+ * Description: Renders /booking/ as a chrome-less embed when ?embed=1 is
+ *              present, plus loads iframe-resizer's contentWindow script
+ *              so the parent (Next.js on titantransfers.com) can auto-fit
+ *              the iframe height. Drop this file into wp-content/mu-plugins/.
+ * Author:      KM Adisseny
+ * Version:     1.0.0
+ */
+
+if (!defined('ABSPATH')) exit;
+
+/**
+ * True when the current request is the embed flavour of /booking/.
+ */
+function titan_booking_is_embed() {
+    return isset($_GET['embed']) && $_GET['embed'] === '1';
+}
+
+/**
+ * Strip the WordPress admin bar from the embedded view.
+ */
+add_action('init', function () {
+    if (titan_booking_is_embed()) {
+        add_filter('show_admin_bar', '__return_false');
+    }
+}, 1);
+
+/**
+ * Load a custom, minimal page template when ?embed=1 is on. The template
+ * lives inside this MU-plugin so we don't need to touch the active theme.
+ */
+add_filter('template_include', function ($template) {
+    if (titan_booking_is_embed() && is_page()) {
+        $custom = __DIR__ . '/templates/embed-page.php';
+        if (file_exists($custom)) {
+            return $custom;
+        }
+    }
+    return $template;
+});
+
+/**
+ * Inject iframe-resizer's contentWindow script in the embed view so the
+ * parent can resize the iframe to fit the booking widget's actual height.
+ * Also a tiny CSS reset to nuke any inherited spacing from the theme.
+ */
+add_action('wp_head', function () {
+    if (!titan_booking_is_embed()) return;
+    ?>
+    <style id="titan-embed-reset">
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #ffffff !important;
+            min-height: 0 !important;
+        }
+        body.titan-embed { background: #ffffff !important; }
+        body.titan-embed #wpadminbar,
+        body.titan-embed header,
+        body.titan-embed footer,
+        body.titan-embed .site-header,
+        body.titan-embed .site-footer,
+        body.titan-embed nav.main-navigation,
+        body.titan-embed .breadcrumbs,
+        body.titan-embed aside,
+        body.titan-embed .sidebar,
+        body.titan-embed .widget-area { display: none !important; }
+        body.titan-embed { padding: 0 !important; }
+        body.titan-embed .taxi-booking-widget { margin: 0 auto !important; box-shadow: none !important; border: none !important; }
+        body.titan-embed .taxi-booking-header { background: #8BAA1D !important; }
+        body.titan-embed .taxi-booking-header h2,
+        body.titan-embed .taxi-booking-header * { color: #ffffff !important; }
+        body.titan-embed .taxi-btn-primary,
+        body.titan-embed .taxi-btn-success,
+        body.titan-embed .booking-type-tab.active { background: #8BAA1D !important; border-color: #8BAA1D !important; color: #ffffff !important; }
+        body.titan-embed .taxi-btn-primary:hover:not(:disabled),
+        body.titan-embed .taxi-btn-success:hover:not(:disabled) { background: #6B8313 !important; border-color: #6B8313 !important; }
+        body.titan-embed .taxi-form-control:focus { border-color: #8BAA1D !important; box-shadow: 0 0 0 3px rgba(139,170,29,0.15) !important; }
+        body.titan-embed .location-icon,
+        body.titan-embed .date-icon,
+        body.titan-embed .time-icon,
+        body.titan-embed .input-icon { color: #6B8313 !important; }
+    </style>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@5.2.6/index.umd.js"
+        async
+    ></script>
+    <?php
+});
+
+/**
+ * Mark the body so our CSS scope is tight.
+ */
+add_filter('body_class', function ($classes) {
+    if (titan_booking_is_embed()) {
+        $classes[] = 'titan-embed';
+    }
+    return $classes;
+});
+
+/**
+ * Prefill the booking widget's step-1 inputs from the URL params posted by
+ * the Next.js home/blog form. The plugin itself only consumes ?bid and
+ * ?pm, so we wait for it to render and then inject values + dispatch
+ * change events the plugin's own listeners pick up.
+ *
+ * Auto-clicks #calculate-price-btn when every required field is present
+ * so the user lands directly on step 2 (matching the previous ETO embed UX).
+ */
+add_action('wp_footer', function () {
+    if (!titan_booking_is_embed()) return;
+    ?>
+    <script>
+    (function () {
+        function getParams() {
+            var sp = new URLSearchParams(window.location.search);
+            var keys = ['pickup','dest','pickup_lat','pickup_lng','dest_lat','dest_lng','date','time','pax','lug'];
+            var out = {};
+            keys.forEach(function (k) { var v = sp.get(k); if (v) out[k] = v; });
+            return out;
+        }
+        var params = getParams();
+        if (!params.pickup && !params.dest && !params.date) return;
+
+        function setVal(sel, val, fire) {
+            var el = document.querySelector(sel);
+            if (!el || val == null) return;
+            el.value = val;
+            if (fire) {
+                el.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        }
+        function setNumber(name, val) {
+            var n = parseInt(val, 10); if (isNaN(n)) return;
+            var hidden = document.querySelector('#' + name);
+            var display = document.querySelector('#' + name + '-display');
+            if (hidden) { hidden.value = String(n); hidden.dispatchEvent(new Event('change', { bubbles: true })); }
+            if (display) {
+                var label = name === 'passengers'
+                    ? (n === 1 ? 'Passenger' : 'Passengers')
+                    : (n === 1 ? 'Bag' : 'Bag(s)');
+                display.value = n + ' ' + label;
+            }
+        }
+        function applyAndAdvance() {
+            // Silent prefill on visible address inputs to avoid the plugin's
+            // own autocomplete kicking in. Only the hidden lat/lng need to
+            // exist for calculatePrice() to consider the address validated.
+            if (params.pickup) {
+                setVal('#pickup-address', params.pickup, false);
+                setVal('#pickup-lat', params.pickup_lat || '', false);
+                setVal('#pickup-lng', params.pickup_lng || '', false);
+            }
+            if (params.dest) {
+                setVal('#destination-address', params.dest, false);
+                setVal('#destination-lat', params.dest_lat || '', false);
+                setVal('#destination-lng', params.dest_lng || '', false);
+            }
+            // Force-close any suggestion dropdown the plugin might have opened.
+            document.querySelectorAll('#pickup-suggestions, #destination-suggestions, .location-suggestions').forEach(function (el) {
+                el.style.display = 'none';
+                el.innerHTML = '';
+            });
+            if (params.date) setVal('#pickup-date', params.date, true);
+            if (params.time) setVal('#pickup-time', params.time, true);
+            if (params.pax) setNumber('passengers', params.pax);
+            if (params.lug) setNumber('luggage', params.lug);
+
+            var ready = params.pickup && params.dest
+                && params.pickup_lat && params.pickup_lng
+                && params.dest_lat && params.dest_lng
+                && params.date && params.time;
+            if (ready && !window.__titanAutoCalc) {
+                window.__titanAutoCalc = true;
+                setTimeout(function () {
+                    var btn = document.querySelector('#calculate-price-btn');
+                    if (btn && !btn.disabled) btn.click();
+                }, 350);
+            }
+        }
+        function tick(attempts) {
+            if (document.querySelector('#pickup-address') && window.jQuery) {
+                applyAndAdvance();
+                return;
+            }
+            if (attempts > 60) return;
+            setTimeout(function () { tick(attempts + 1); }, 100);
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () { tick(0); });
+        } else {
+            tick(0);
+        }
+    })();
+    </script>
+    <?php
+});

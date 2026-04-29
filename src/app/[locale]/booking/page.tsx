@@ -1,5 +1,5 @@
 import { BookingPageShell } from '@/components/booking/BookingPageShell'
-import { TaxiBookingWidget } from '@/components/booking/TaxiBookingWidget'
+import { TaxiBookingIframe } from '@/components/booking/TaxiBookingIframe'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -19,11 +19,10 @@ export default async function BookingPage({ params }: { params: Promise<{ locale
 
   return (
     <BookingPageShell
-      locale={locale}
       breadcrumbLabel={es ? 'Reservar' : 'Book'}
       heading={es ? 'Reserva tu traslado privado' : 'Book your private transfer'}
     >
-      <TaxiBookingWidget />
+      <TaxiBookingIframe />
     </BookingPageShell>
   )
 }
