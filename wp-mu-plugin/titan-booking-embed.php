@@ -138,10 +138,50 @@ add_action('wp_head', function () {
         body.titan-embed .time-icon,
         body.titan-embed .input-icon { color: #6B8313 !important; }
     </style>
-    <script
-        src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@5.2.6/index.umd.js"
-        async
-    ></script>
+    <script>
+    /* Notify the parent (Next.js on titantransfers.com) of our document
+       height, so it can resize the iframe to fit the content with no
+       inner scrollbars. Sent on initial load + on every DOM/size change. */
+    (function () {
+        function send() {
+            var doc = document.documentElement;
+            var body = document.body;
+            var h = Math.max(
+                body ? body.scrollHeight : 0,
+                body ? body.offsetHeight : 0,
+                doc.scrollHeight,
+                doc.offsetHeight,
+                doc.clientHeight
+            );
+            try { parent.postMessage({ type: 'titanBookingHeight', height: h }, '*'); } catch (e) {}
+        }
+        var t;
+        function debounce() { clearTimeout(t); t = setTimeout(send, 60); }
+        function start() {
+            send();
+            window.addEventListener('resize', debounce);
+            window.addEventListener('load', debounce);
+            // Watch any layout shift (step changes, expand/collapse, etc.)
+            if (window.ResizeObserver) {
+                try { new ResizeObserver(debounce).observe(document.body); } catch (e) {}
+            }
+            if (window.MutationObserver) {
+                try {
+                    new MutationObserver(debounce).observe(document.body, {
+                        childList: true, subtree: true, attributes: true, characterData: true
+                    });
+                } catch (e) {}
+            }
+            // Belt + braces: poll every 500ms in case observers miss a change.
+            setInterval(send, 500);
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', start);
+        } else {
+            start();
+        }
+    })();
+    </script>
     <?php
 });
 

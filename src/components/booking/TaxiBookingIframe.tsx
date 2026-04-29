@@ -4,72 +4,39 @@ import { useEffect, useRef, useState } from 'react'
 
 // Embeds the WP Taxi Booking Plugin via iframe pointing at
 // /booking/?embed=1 on the WP origin. The matching MU-plugin on WP
-// (titan-booking-embed.php) hides the theme chrome (header, footer,
-// admin bar, sidebar) and only renders the [taxi_booking] shortcode
-// plus iframe-resizer's contentWindow script, so this iframe can
-// auto-fit height without scrollbars.
-//
-// The plugin runs in its native WP environment — same nonce, same
-// PHP session, same user context — so check_ajax_referer succeeds
-// and every step (calculate, book, login, etc.) just works.
+// (titan-booking-embed.php) hides the theme chrome and posts the
+// document height back to us on every layout change, so the iframe
+// grows to fit content without inner scrollbars.
 
 const WP_ORIGIN = (process.env.NEXT_PUBLIC_WP_BOOKING_URL || 'https://titantransfers.com').replace(/\/+$/, '')
-
-declare global {
-  interface Window {
-    iFrameResize?: (opts: object, target: string | HTMLIFrameElement) => void
-  }
-}
+const WP_ORIGIN_HOST = (() => { try { return new URL(WP_ORIGIN).origin } catch { return '' } })()
 
 export function TaxiBookingIframe() {
   const [iframeUrl, setIframeUrl] = useState<string | null>(null)
+  const [height, setHeight] = useState<number>(720)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  // Build the upstream URL once on mount, propagating the user's query
-  // string (pickup, dest, lat/lng, date, time, pax, lug) so the WP plugin
-  // can prefill step 1 — the matching helper inside the MU-plugin reads
-  // those params and writes them into the form before render.
   useEffect(() => {
     const sp = new URLSearchParams(window.location.search)
     sp.set('embed', '1')
     setIframeUrl(`${WP_ORIGIN}/booking/?${sp.toString()}`)
   }, [])
 
-  // Initialise iframe-resizer on the parent side once the iframe has
-  // loaded — the matching contentWindow script lives inside the WP MU-
-  // plugin output. Loaded as a CDN script tag below.
+  // Listen for height messages posted by the MU-plugin's child snippet.
   useEffect(() => {
-    if (!iframeUrl || !iframeRef.current) return
-    const tryInit = () => {
-      if (typeof window.iFrameResize === 'function' && iframeRef.current) {
-        window.iFrameResize(
-          {
-            log: false,
-            checkOrigin: false,
-            heightCalculationMethod: 'lowestElement',
-          },
-          iframeRef.current,
-        )
-        return true
-      }
-      return false
+    function onMessage(e: MessageEvent) {
+      if (WP_ORIGIN_HOST && e.origin !== WP_ORIGIN_HOST) return
+      const data = e.data
+      if (!data || typeof data !== 'object' || data.type !== 'titanBookingHeight') return
+      const h = Number(data.height)
+      if (Number.isFinite(h) && h > 0) setHeight(h)
     }
-    if (!tryInit()) {
-      const id = window.setInterval(() => {
-        if (tryInit()) window.clearInterval(id)
-      }, 100)
-      return () => window.clearInterval(id)
-    }
-  }, [iframeUrl])
+    window.addEventListener('message', onMessage)
+    return () => window.removeEventListener('message', onMessage)
+  }, [])
 
   return (
     <>
-      {/* iframe-resizer parent — the contentWindow counterpart is injected
-          server-side by the WP MU-plugin so messages are bidirectional. */}
-      <script
-        src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent@5.2.6/index.umd.min.js"
-        async
-      />
       {iframeUrl ? (
         <iframe
           ref={iframeRef}
@@ -78,12 +45,10 @@ export function TaxiBookingIframe() {
           allow="payment; geolocation"
           style={{
             width: '100%',
+            height: `${height}px`,
             border: 'none',
             display: 'block',
             background: '#ffffff',
-            // Initial min-height so the user sees something before
-            // iframe-resizer reports the actual content height.
-            minHeight: '720px',
           }}
         />
       ) : (
