@@ -1,4 +1,3 @@
-import Script from 'next/script'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { TaxiBookingWidget } from '@/components/booking/TaxiBookingWidget'
 
@@ -22,8 +21,9 @@ export default async function BookingPage({ params }: { params: Promise<{ locale
 
   return (
     <div style={{ minHeight: '80vh', background: '#F8FAF0' }}>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.5/css/all.min.css" />
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/airbnb.css" />
+      {/* CSS — load before HTML so the widget renders styled */}
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/themes/airbnb.css" />
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.11.2/build/css/intlTelInput.css" />
       <link rel="stylesheet" href="/taxi-booking/css/taxi-booking.min.css" />
 
@@ -36,18 +36,20 @@ export default async function BookingPage({ params }: { params: Promise<{ locale
         {await TaxiBookingWidget({ locale })}
       </div>
 
-      {/* jQuery — the plugin's JS is jQuery-based */}
-      <Script src="https://code.jquery.com/jquery-3.7.1.min.js" strategy="beforeInteractive" />
-      <Script src="https://cdn.jsdelivr.net/npm/flatpickr" strategy="afterInteractive" />
-      <Script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.11.2/build/js/intlTelInput.min.js" strategy="afterInteractive" />
+      {/*
+        Plain <script> tags — keeping them sequential and synchronous matters
+        because taxi-booking.js depends on jQuery being on `window` already.
+        Next.js's <Script> with afterInteractive does not guarantee order
+        across separate Script components, so we drop them as inline HTML.
+      */}
+      <script src="https://code.jquery.com/jquery-3.7.1.min.js" />
+      <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js" />
+      <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.11.2/build/js/intlTelInput.min.js" />
       {GOOGLE_MAPS_KEY && (
-        <Script
-          src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_KEY}&libraries=places&language=${locale}`}
-          strategy="afterInteractive"
-        />
+        <script src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_KEY}&libraries=places&language=${locale}`} async />
       )}
-      <Script src="/taxi-booking/js/taxi-booking.js" strategy="afterInteractive" />
-      <Script src="/taxi-booking/js/taxi-booking-auth.js" strategy="afterInteractive" />
+      <script src="/taxi-booking/js/taxi-booking.js" />
+      <script src="/taxi-booking/js/taxi-booking-auth.js" />
     </div>
   )
 }
