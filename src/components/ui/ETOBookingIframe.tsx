@@ -1,6 +1,11 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+
+// Real ETO booking server. Must NOT be this Next.js app's /booking/
+// because the iframe would just load itself (infinite recursion).
+const ETO_URL = (process.env.NEXT_PUBLIC_ETO_URL || 'https://www.titantransfers.es/eto/').replace(/\/+$/, '')
+
 export function ETOBookingIframe() {
   const [iframeUrl, setIframeUrl] = useState<string | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -8,9 +13,7 @@ export function ETOBookingIframe() {
   useEffect(() => {
     const sp = new URLSearchParams(window.location.search)
     const qs = sp.toString()
-    const url = qs
-      ? `https://titantransfers.com/booking/?${qs}`
-      : `https://titantransfers.com/booking/`
+    const url = qs ? `${ETO_URL}/?${qs}` : `${ETO_URL}/`
     setIframeUrl(url)
   }, [])
 
