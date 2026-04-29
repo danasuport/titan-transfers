@@ -84,6 +84,24 @@
     // Passengers / luggage are number-stepper widgets (hidden + display).
     if (params.pax) setNumber('passengers', params.pax)
     if (params.lug) setNumber('luggage', params.lug)
+
+    // If the URL carries everything the plugin needs to price (origin +
+    // destination with coords + date + time), auto-advance to step 2 so
+    // the user lands directly on the vehicle list. Mirrors the behaviour
+    // of the previous ETO embed.
+    var hasFullState = params.pickup && params.dest
+      && params.pickup_lat && params.pickup_lng
+      && params.dest_lat && params.dest_lng
+      && params.date && params.time
+    if (hasFullState && !window.__titanAutoCalcFired) {
+      window.__titanAutoCalcFired = true
+      // Wait a tick so the plugin has bound its click handler on
+      // #calculate-price-btn before we click it programmatically.
+      setTimeout(function () {
+        var btn = document.querySelector('#calculate-price-btn')
+        if (btn && !btn.disabled) btn.click()
+      }, 350)
+    }
   }
 
   // The plugin boots inside jQuery's $(document).ready and creates its
