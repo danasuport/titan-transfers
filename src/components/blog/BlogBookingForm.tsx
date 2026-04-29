@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useLocale } from 'next-intl'
 
-const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || ''
+const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || ''
 // Submit lands on this Next.js app's /booking/ page; the iframe inside
 // then loads the real ETO server (see ETOBookingIframe.tsx).
 const ETO_BASE = '/booking/'
