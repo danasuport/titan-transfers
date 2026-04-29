@@ -4,6 +4,7 @@
 // instead of admin-ajax.php directly. Strings, custom fields, currency
 // list and pricing logic stay in the WP plugin so the client can keep
 // editing them in their familiar admin.
+import { cookies } from 'next/headers'
 
 const WP_ORIGIN = (process.env.NEXT_PUBLIC_WP_BOOKING_URL || 'https://titantransfers.com').replace(/\/+$/, '')
 
@@ -89,9 +90,23 @@ export async function TaxiBookingWidget({
   const wpUrl = `${WP_ORIGIN}${wpPath}${langSuffix}`
   let extracted: Extracted = { widgetHtml: '', styleTags: [], inlineConfig: null, ajaxObject: null }
 
+  // Forward the user's WP-specific cookies to the upstream fetch so the
+  // plugin renders the widget in the correct session state (booking ID,
+  // logged-in user, currency choice, etc.). Without this, WP would render
+  // a fresh empty step-1 widget and the JS would rebound the user to /booking/.
+  const cookieJar = await cookies()
+  const cookieHeader = cookieJar
+    .getAll()
+    .map(c => `${c.name}=${c.value}`)
+    .join('; ')
+
   try {
     const res = await fetch(wpUrl, {
-      headers: { 'user-agent': 'titan-next-ssr/1', accept: 'text/html' },
+      headers: {
+        'user-agent': 'titan-next-ssr/1',
+        accept: 'text/html',
+        ...(cookieHeader ? { cookie: cookieHeader } : {}),
+      },
       cache: 'no-store',
     })
     if (res.ok) {
