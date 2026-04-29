@@ -24,7 +24,7 @@ const slides = [
     stat: '30+ puertos',
     titleKey: 'portTransfers' as const,
     descKey: 'portTransfersDesc' as const,
-    img: '/services/port-transfers-v2.png',
+    img: '/services/port-transfers.png',
   },
   {
     slugEn: 'train-station-transfers',
