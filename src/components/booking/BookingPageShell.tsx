@@ -46,6 +46,7 @@ export function BookingPageShell({
       )}
       <script src="/taxi-booking/js/taxi-booking.js" />
       <script src="/taxi-booking/js/taxi-booking-auth.js" />
+      <script src="/taxi-booking/js/titan-prefill.js" />
     </div>
   )
 }

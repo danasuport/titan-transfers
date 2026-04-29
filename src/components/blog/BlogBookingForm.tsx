@@ -40,7 +40,7 @@ function loadGooglePlaces(): Promise<void> {
 function PlaceInput({ placeholder, ariaLabel, onSelect, value, onChange }: {
   placeholder: string
   ariaLabel: string
-  onSelect: (address: string, placeId: string) => void
+  onSelect: (address: string, placeId: string, lat: number, lng: number) => void
   value: string
   onChange: (v: string) => void
 }) {
@@ -53,8 +53,10 @@ function PlaceInput({ placeholder, ariaLabel, onSelect, value, onChange }: {
       autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, { types: ['geocode', 'establishment'] })
       autocompleteRef.current.addListener('place_changed', () => {
         const place = autocompleteRef.current.getPlace()
-        if (place?.formatted_address && place?.place_id) {
-          onSelect(place.formatted_address, place.place_id)
+        if (place?.formatted_address && place?.place_id && place?.geometry?.location) {
+          const lat = typeof place.geometry.location.lat === 'function' ? place.geometry.location.lat() : place.geometry.location.lat
+          const lng = typeof place.geometry.location.lng === 'function' ? place.geometry.location.lng() : place.geometry.location.lng
+          onSelect(place.formatted_address, place.place_id, lat, lng)
         }
       })
     })
@@ -78,9 +80,11 @@ export function BlogBookingForm() {
   const es = locale === 'es'
 
   const [pickup, setPickup] = useState('')
-  const [pickupPid, setPickupPid] = useState('')
+  const [pickupLat, setPickupLat] = useState<number | null>(null)
+  const [pickupLng, setPickupLng] = useState<number | null>(null)
   const [dest, setDest] = useState('')
-  const [destPid, setDestPid] = useState('')
+  const [destLat, setDestLat] = useState<number | null>(null)
+  const [destLng, setDestLng] = useState<number | null>(null)
   const [datetime, setDatetime] = useState('')
   const [pax, setPax] = useState(1)
   const [lug, setLug] = useState(0)
@@ -90,15 +94,24 @@ export function BlogBookingForm() {
   const skewInner: React.CSSProperties = { transform: 'skewX(8deg)', display: 'flex', alignItems: 'center', gap: '0.5rem', width: '100%' }
 
   function buildUrl() {
-    // ETO param names (from the original WP plugin)
+    // Custom params consumed by /public/taxi-booking/js/titan-prefill.js,
+    // which fills the WP plugin's step-1 inputs after it boots.
     const [datePart, timePart] = datetime ? datetime.split('T') : ['', '12:00']
-    const r1d = datePart ? `${datePart} ${timePart || '12:00'}` : ''
     const params = new URLSearchParams()
-    if (pickup) params.set('r1ls', pickup)
-    if (dest) params.set('r1le', dest)
-    if (r1d) params.set('r1d', r1d)
-    if (pax > 1) params.set('pax', String(pax))
-    if (lug > 0) params.set('lug', String(lug))
+    if (pickup) params.set('pickup', pickup)
+    if (dest) params.set('dest', dest)
+    if (pickupLat != null && pickupLng != null) {
+      params.set('pickup_lat', String(pickupLat))
+      params.set('pickup_lng', String(pickupLng))
+    }
+    if (destLat != null && destLng != null) {
+      params.set('dest_lat', String(destLat))
+      params.set('dest_lng', String(destLng))
+    }
+    if (datePart) params.set('date', datePart)
+    if (timePart) params.set('time', timePart || '12:00')
+    if (pax >= 1) params.set('pax', String(pax))
+    if (lug >= 0) params.set('lug', String(lug))
     return `${ETO_BASE}?${params.toString()}`
   }
 
@@ -124,7 +137,7 @@ export function BlogBookingForm() {
                 ariaLabel={es ? 'Lugar de origen' : 'Pickup location'}
                 value={pickup}
                 onChange={setPickup}
-                onSelect={(addr, pid) => { setPickup(addr); setPickupPid(pid) }}
+                onSelect={(addr, _pid, lat, lng) => { setPickup(addr); setPickupLat(lat); setPickupLng(lng) }}
               />
             </div>
           </div>
@@ -139,7 +152,7 @@ export function BlogBookingForm() {
                 ariaLabel={es ? 'Lugar de destino' : 'Drop-off location'}
                 value={dest}
                 onChange={setDest}
-                onSelect={(addr, pid) => { setDest(addr); setDestPid(pid) }}
+                onSelect={(addr, _pid, lat, lng) => { setDest(addr); setDestLat(lat); setDestLng(lng) }}
               />
             </div>
           </div>
