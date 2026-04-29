@@ -48,11 +48,11 @@ export function TaxiBookingIframe() {
             height: `${height}px`,
             border: 'none',
             display: 'block',
-            background: '#ffffff',
+            background: '#F8FAF0',
           }}
         />
       ) : (
-        <div style={{ height: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#ffffff' }}>
+        <div style={{ height: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#F8FAF0' }}>
           <div style={{ width: 32, height: 32, border: '3px solid #e2e8f0', borderTop: '3px solid #8BAA1D', borderRadius: '50%', animation: 'taxiSpin 0.8s linear infinite' }} />
           <style>{`@keyframes taxiSpin { to { transform: rotate(360deg); } }`}</style>
         </div>

@@ -61,10 +61,10 @@ add_action('wp_head', function () {
         html, body {
             margin: 0 !important;
             padding: 0 !important;
-            background: #ffffff !important;
+            background: #F8FAF0 !important;
             min-height: 0 !important;
         }
-        body.titan-embed { background: #ffffff !important; padding: 0 !important; }
+        body.titan-embed { background: #F8FAF0 !important; padding: 0 !important; }
 
         /* Theme chrome — broad selectors so step 2/3 of the plugin stay clean
            even if the navigation drops ?embed=1. The booking widget itself
