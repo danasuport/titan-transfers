@@ -136,7 +136,7 @@ export function FAQ({ items, title, images }: { items: FAQItem[]; title?: string
               <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '3px', background: '#8BAA1D', zIndex: 1 }} />
             </div>
             {/* Alt text visible as caption for SEO context */}
-            <p style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '0.6rem', paddingLeft: '6%', lineHeight: 1.4 }}>
+            <p style={{ fontSize: '0.72rem', color: '#64748b', marginTop: '0.6rem', paddingLeft: '6%', lineHeight: 1.4 }}>
               {activeImg.alt}
             </p>
           </div>

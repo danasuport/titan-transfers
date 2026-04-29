@@ -11,6 +11,7 @@ interface SkewButtonProps {
   children: React.ReactNode
   style?: React.CSSProperties
   className?: string
+  ariaLabel?: string
 }
 
 function getStyle(variant: Variant, hovered: boolean): React.CSSProperties {
@@ -31,7 +32,7 @@ function getStyle(variant: Variant, hovered: boolean): React.CSSProperties {
   return { ...base, background: hovered ? '#ffffff' : 'transparent', color: hovered ? '#242426' : '#ffffff', border: '2px solid #ffffff' }
 }
 
-export function SkewButton({ href, onClick, variant = 'primary', children, style, className }: SkewButtonProps) {
+export function SkewButton({ href, onClick, variant = 'primary', children, style, className, ariaLabel }: SkewButtonProps) {
   const [hovered, setHovered] = useState(false)
   const s = { ...getStyle(variant, hovered), ...style }
   const inner = <span style={{ display: 'inline-block', transform: 'skewX(12deg)' }}>{children}</span>
@@ -42,6 +43,7 @@ export function SkewButton({ href, onClick, variant = 'primary', children, style
         href={href}
         className={className}
         style={s}
+        aria-label={ariaLabel}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
@@ -53,6 +55,7 @@ export function SkewButton({ href, onClick, variant = 'primary', children, style
     <button
       className={className}
       style={s}
+      aria-label={ariaLabel}
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}

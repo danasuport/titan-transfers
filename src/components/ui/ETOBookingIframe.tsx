@@ -28,7 +28,7 @@ export function ETOBookingIframe() {
         />
       ) : (
         <div style={{ height: '800px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#ffffff', borderRadius: '8px' }}>
-          <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>Loading...</p>
+          <p style={{ color: '#64748b', fontSize: '0.9rem' }}>Loading...</p>
         </div>
       )}
     </div>

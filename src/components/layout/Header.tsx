@@ -22,7 +22,9 @@ function MobileAccordionSection({ label, href, menuKey, onClose }: { label: stri
           {label}
         </Link>
         <button onClick={() => setOpen(!open)}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem', color: '#94a3b8', flexShrink: 0 }}>
+          aria-label={`${open ? 'Collapse' : 'Expand'} ${label}`}
+          aria-expanded={open}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem', color: '#64748b', flexShrink: 0 }}>
           <svg style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', display: 'block' }}
             width="16" height="16" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -218,7 +220,7 @@ export function Header() {
             <Link href="/" onClick={() => setMobileMenuOpen(false)}>
               <img src="/Logo-titan-transfers-texto-negro.png" alt="Titan Transfers" style={{ height: 'auto', width: '144px' }} />
             </Link>
-            <button onClick={() => setMobileMenuOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem' }}>
+            <button onClick={() => setMobileMenuOpen(false)} aria-label="Close menu" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem' }}>
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#242426">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>

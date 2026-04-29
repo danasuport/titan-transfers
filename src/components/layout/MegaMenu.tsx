@@ -152,14 +152,14 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
           <div style={{ columns: '4', columnGap: '2rem' }}>
             {Object.entries(airportsByCountry).map(([country, items]) => (
               <div key={country} style={{ breakInside: 'avoid', marginBottom: '1.25rem' }}>
-                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-pais/${items[0]?.countrySlug}/` : `/private-transfers-country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#8BAA1D', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-pais/${items[0]?.countrySlug}/` : `/private-transfers-country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#7C9919', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
                   <Flag countrySlug={items[0]?.countrySlug ?? ''} /> {country}
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </div>
                 {items.map(a => (
                   <HoverItem key={a._id} style={itemStyle} onClick={() => go(es ? `/traslados-aeropuerto-privados-taxi/${slug(a)}/` : `/airport-transfers-private-taxi/${slug(a)}/`)}>
                     {a.iataCode && (
-                      <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#8BAA1D', background: '#f0f4e3', padding: '1px 5px', borderRadius: '3px', flexShrink: 0 }}>
+                      <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#7C9919', background: '#f0f4e3', padding: '1px 5px', borderRadius: '3px', flexShrink: 0 }}>
                         {a.iataCode}
                       </span>
                     )}
@@ -181,7 +181,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
           <div style={{ columns: '4', columnGap: '2rem' }}>
             {Object.entries(citiesByCountry).map(([country, items]) => (
               <div key={country} style={{ breakInside: 'avoid', marginBottom: '1.25rem' }}>
-                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-pais/${items[0]?.countrySlug}/` : `/private-transfers-country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#8BAA1D', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-pais/${items[0]?.countrySlug}/` : `/private-transfers-country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#7C9919', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
                   <Flag countrySlug={items[0]?.countrySlug ?? ''} /> {country}
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </div>
@@ -242,7 +242,7 @@ function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, 
 
   return (
     <div style={{ padding: '0.5rem 0' }}>
-      {!data && <div style={{ padding: '1rem 0', color: '#94a3b8', fontSize: '0.85rem' }}>Cargando...</div>}
+      {!data && <div style={{ padding: '1rem 0', color: '#64748b', fontSize: '0.85rem' }}>Cargando...</div>}
 
       {/* AIRPORTS & CITIES — grouped by country accordion */}
       {(type === 'airports' || type === 'cities') && data && (
@@ -253,7 +253,7 @@ function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <Flag countrySlug={(items[0] as any)?.countrySlug ?? ''} />
                   <span className={russoOne.className} style={{ fontSize: '0.8rem', color: '#242426' }}>{country}</span>
-                  <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>({items.length})</span>
+                  <span style={{ fontSize: '0.7rem', color: '#64748b' }}>({items.length})</span>
                 </div>
                 <svg style={{ flexShrink: 0, transition: 'transform 0.2s', transform: openCountry === country ? 'rotate(180deg)' : 'rotate(0deg)' }}
                   width="14" height="14" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#94a3b8">
@@ -264,7 +264,7 @@ function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, 
                 <div style={{ paddingBottom: '0.5rem' }}>
                   {type === 'airports' && (items as Airport[]).map(a => (
                     <div key={a._id} style={itemRowStyle} onClick={() => go(es ? `/traslados-aeropuerto-privados-taxi/${slug(a)}/` : `/airport-transfers-private-taxi/${slug(a)}/`)}>
-                      {a.iataCode && <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#8BAA1D', background: '#f0f4e3', padding: '1px 5px', flexShrink: 0 }}>{a.iataCode}</span>}
+                      {a.iataCode && <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#7C9919', background: '#f0f4e3', padding: '1px 5px', flexShrink: 0 }}>{a.iataCode}</span>}
                       <span style={{ fontSize: '0.875rem', color: '#242426' }}>{a.title}</span>
                     </div>
                   ))}
@@ -297,7 +297,7 @@ function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, 
                 <div>
                   <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#242426', lineHeight: 1.2 }}>{c.title}</div>
                   {(c.airportCount || c.cityCount) && (
-                    <div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>
+                    <div style={{ fontSize: '0.65rem', color: '#64748b' }}>
                       {[c.airportCount && `${c.airportCount} ${es ? 'aerop.' : 'airports'}`, c.cityCount && `${c.cityCount} ${es ? 'ciud.' : 'cities'}`].filter(Boolean).join(' · ')}
                     </div>
                   )}
@@ -355,5 +355,5 @@ function Skeleton() {
 }
 
 function Empty({ es }: { es: boolean }) {
-  return <p style={{ fontSize: '0.875rem', color: '#94a3b8', padding: '1rem 0' }}>{es ? 'Sin resultados' : 'No results'}</p>
+  return <p style={{ fontSize: '0.875rem', color: '#64748b', padding: '1rem 0' }}>{es ? 'Sin resultados' : 'No results'}</p>
 }

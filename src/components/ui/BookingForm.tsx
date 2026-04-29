@@ -45,8 +45,9 @@ function loadGooglePlaces(): Promise<void> {
   })
 }
 
-function PlaceInput({ placeholder, onSelect, value, onChange }: {
+function PlaceInput({ placeholder, ariaLabel, onSelect, value, onChange }: {
   placeholder: string
+  ariaLabel: string
   onSelect: (address: string, placeId: string) => void
   value: string
   onChange: (v: string) => void
@@ -74,6 +75,7 @@ function PlaceInput({ placeholder, onSelect, value, onChange }: {
       value={value}
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
+      aria-label={ariaLabel}
       style={{
         width: '100%', border: 'none', outline: 'none',
         background: 'transparent', fontSize: '0.9rem',
@@ -146,6 +148,7 @@ export function BookingForm() {
               </svg>
               <PlaceInput
                 placeholder={es ? 'Origen — aeropuerto, hotel...' : 'Pickup — airport, hotel...'}
+                ariaLabel={es ? 'Lugar de origen' : 'Pickup location'}
                 value={pickup}
                 onChange={setPickup}
                 onSelect={(addr, pid) => { setPickup(addr); setPickupPid(pid) }}
@@ -161,6 +164,7 @@ export function BookingForm() {
               </svg>
               <PlaceInput
                 placeholder={es ? 'Destino — hotel, aeropuerto...' : 'Drop-off — hotel, airport...'}
+                ariaLabel={es ? 'Lugar de destino' : 'Drop-off location'}
                 value={dest}
                 onChange={setDest}
                 onSelect={(addr, pid) => { setDest(addr); setDestPid(pid) }}
@@ -174,7 +178,7 @@ export function BookingForm() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={iconColor} strokeWidth="2" style={{ flexShrink: 0 }}>
                 <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
               </svg>
-              <input type="datetime-local" value={datetime} onChange={e => setDatetime(e.target.value)} style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: '0.875rem', color: datetime ? '#242426' : '#94a3b8', fontFamily: 'inherit', width: '100%' }} />
+              <input type="datetime-local" value={datetime} onChange={e => setDatetime(e.target.value)} aria-label={es ? 'Fecha y hora de recogida' : 'Pickup date and time'} style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: '0.875rem', color: datetime ? '#242426' : '#64748b', fontFamily: 'inherit', width: '100%' }} />
             </div>
           </div>
 
@@ -184,7 +188,7 @@ export function BookingForm() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={iconColor} strokeWidth="2" style={{ flexShrink: 0 }}>
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
               </svg>
-              <select value={pax} onChange={e => setPax(Number(e.target.value))} style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: '0.875rem', color: '#242426', fontFamily: 'inherit', cursor: 'pointer' }}>
+              <select value={pax} onChange={e => setPax(Number(e.target.value))} aria-label={es ? 'Número de pasajeros' : 'Number of passengers'} style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: '0.875rem', color: '#242426', fontFamily: 'inherit', cursor: 'pointer' }}>
                 {[...Array(16)].map((_, i) => <option key={i+1} value={i+1}>{i+1} pax</option>)}
               </select>
             </div>
@@ -196,14 +200,14 @@ export function BookingForm() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={iconColor} strokeWidth="2" style={{ flexShrink: 0 }}>
                 <rect x="6" y="4" width="12" height="16" rx="2"/><path d="M10 4V2h4v2M8 11h8"/>
               </svg>
-              <select value={lug} onChange={e => setLug(Number(e.target.value))} style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: '0.875rem', color: '#242426', fontFamily: 'inherit', cursor: 'pointer' }}>
+              <select value={lug} onChange={e => setLug(Number(e.target.value))} aria-label={es ? 'Número de maletas' : 'Number of bags'} style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: '0.875rem', color: '#242426', fontFamily: 'inherit', cursor: 'pointer' }}>
                 {[...Array(11)].map((_, i) => <option key={i} value={i}>{i} {es ? (i === 1 ? 'maleta' : 'maletas') : (i === 1 ? 'bag' : 'bags')}</option>)}
               </select>
             </div>
           </div>
 
           {/* Submit */}
-          <button type="submit" style={{ background: '#242426', border: 'none', cursor: 'pointer', padding: '0 1.5rem', transform: 'skewX(-8deg)', flexShrink: 0, display: 'flex', alignItems: 'center' }}>
+          <button type="submit" aria-label={es ? 'Calcular precio' : 'Get a price'} style={{ background: '#242426', border: 'none', cursor: 'pointer', padding: '0 1.5rem', transform: 'skewX(-8deg)', flexShrink: 0, display: 'flex', alignItems: 'center' }}>
             <span style={{ transform: 'skewX(8deg)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5">
                 <path d="M5 12h14M12 5l7 7-7 7"/>

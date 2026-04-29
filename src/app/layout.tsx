@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import type { Metadata } from 'next'
 import Script from 'next/script'
+import { getLocale } from 'next-intl/server'
 import { russoOne, archivo } from '@/lib/fonts'
 import '@/app/globals.css'
 
@@ -17,9 +18,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://titantransfers.com'),
 }
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const locale = await getLocale()
   return (
-    <html className={`${russoOne.variable} ${archivo.variable}`}>
+    <html lang={locale} className={`${russoOne.variable} ${archivo.variable}`}>
       <head>
         {/* Google tag (gtag.js) — loads once, configures GA4 + Google Ads */}
         <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} strategy="afterInteractive" />

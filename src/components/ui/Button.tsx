@@ -25,7 +25,7 @@ export function Button({ variant = 'primary', size = 'md', href, children, class
 
   if (href) {
     return (
-      <Link href={href} className={classes}>
+      <Link href={href} className={classes} aria-label={props['aria-label']}>
         {children}
       </Link>
     )

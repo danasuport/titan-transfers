@@ -32,7 +32,7 @@ function SkewCard({ href, children }: { href: string; children: React.ReactNode 
         <div style={{ transform: 'skewX(8deg)', display: 'flex', alignItems: 'center', gap: '0.6rem', minWidth: 0, flex: 1 }}>
           {children}
         </div>
-        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={hovered ? '#ffffff' : '#94a3b8'} style={{ transform: 'skewX(8deg)', flexShrink: 0, transition: 'stroke 0.15s' }}>
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={hovered ? '#ffffff' : '#64748b'} style={{ transform: 'skewX(8deg)', flexShrink: 0, transition: 'stroke 0.15s' }}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
       </div>
@@ -50,7 +50,7 @@ export function CountryOverview({ airports, cities, regions }: CountryOverviewPr
           {airports.map((a) => (
             <SkewCard key={a._id} href={getAirportUrl(a, locale)}>
               {a.iataCode && (
-                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#8BAA1D', background: '#f0f4e3', padding: '1px 5px', flexShrink: 0 }}>
+                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#7C9919', background: '#f0f4e3', padding: '1px 5px', flexShrink: 0 }}>
                   {a.iataCode}
                 </span>
               )}

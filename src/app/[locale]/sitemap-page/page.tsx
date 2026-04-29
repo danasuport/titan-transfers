@@ -117,7 +117,7 @@ export default async function SitemapPage({ params }: { params: Promise<{ locale
                 const airportUrl = `${airportPrefix}/${es ? (airport?.translations?.es?.slug?.current || airportSlug) : airportSlug}/`
                 return (
                   <div key={airportSlug}>
-                    <Link href={airportUrl as any} className="sm-link" style={{ fontWeight: 700, color: '#8BAA1D', fontSize: '0.9rem' }}>
+                    <Link href={airportUrl as any} className="sm-link" style={{ fontWeight: 700, color: '#7C9919', fontSize: '0.9rem' }}>
                       {airportTitle}
                     </Link>
                     <div style={{ ...grid, marginTop: '0.5rem' }}>

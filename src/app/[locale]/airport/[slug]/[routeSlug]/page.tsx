@@ -208,7 +208,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
 
       {/* ─── BOOKING FORM ──────────────────────────────────────────────── */}
       <section style={{ background: '#ffffff', paddingTop: '2.5rem', paddingBottom: '2.5rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
-        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#8BAA1D', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
+        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#7C9919', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
           {es ? `Reserva tu transfer — ${originTitle} → ${destTitle}` : `Book your transfer — ${originTitle} → ${destTitle}`}
         </p>
         <BookingForm />
@@ -217,10 +217,10 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         <div style={{ display: 'flex', gap: '2rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
           {trustBadges.map((b, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ color: '#8BAA1D', fontSize: '1rem', lineHeight: 1, flexShrink: 0 }}>{b.icon}</span>
+              <span style={{ color: '#7C9919', fontSize: '1rem', lineHeight: 1, flexShrink: 0 }}>{b.icon}</span>
               <div>
                 <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#242426' }}>{b.label}</div>
-                <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>{b.desc}</div>
+                <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{b.desc}</div>
               </div>
             </div>
           ))}
@@ -341,9 +341,9 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               {whyItems.map((item, i) => (
                 <div key={i} style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1rem', transform: 'skewX(-6deg)' }}>
                   <div style={{ transform: 'skewX(6deg)' }}>
-                    <span style={{ color: '#8BAA1D', display: 'block', marginBottom: '0.4rem' }}>{item.icon}</span>
+                    <span style={{ color: '#7C9919', display: 'block', marginBottom: '0.4rem' }}>{item.icon}</span>
                     <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#242426', lineHeight: 1.3 }}>{item.title}</div>
-                    <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '2px', lineHeight: 1.4 }}>{item.desc}</div>
+                    <div style={{ fontSize: '0.72rem', color: '#64748b', marginTop: '2px', lineHeight: 1.4 }}>{item.desc}</div>
                   </div>
                 </div>
               ))}
@@ -381,7 +381,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
       {/* ─── INTERNAL LINKS ────────────────────────────────────────────── */}
       <section style={{ background: '#F8FAF0', padding: '3rem 6vw' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <p style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1rem' }}>
+          <p style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748b', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1rem' }}>
             {es ? 'Explorar más' : 'Explore more'}
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
@@ -389,7 +389,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               <Link href={(es ? `/traslados-aeropuerto-privados-taxi/${route.origin.slug.current}/` : `/airport-transfers-private-taxi/${route.origin.slug.current}/`) as any} style={{ textDecoration: 'none' }}>
                 <div style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', transform: 'skewX(-8deg)', overflow: 'hidden', transition: 'border-color 0.15s' }}>
                   <div style={{ transform: 'skewX(8deg)', padding: '0.6rem 1.25rem' }}>
-                    <div style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>
+                    <div style={{ fontSize: '0.65rem', color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>
                       {es ? 'Aeropuerto' : 'Airport'}
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', color: '#242426' }}>
@@ -404,7 +404,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               <Link href={(es ? `/traslados-privados-taxi/${route.destination.slug.current}/` : `/private-transfers/${route.destination.slug.current}/`) as any /* city link */} style={{ textDecoration: 'none' }}>
                 <div style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', transform: 'skewX(-8deg)', overflow: 'hidden', transition: 'border-color 0.15s' }}>
                   <div style={{ transform: 'skewX(8deg)', padding: '0.6rem 1.25rem' }}>
-                    <div style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>
+                    <div style={{ fontSize: '0.65rem', color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>
                       {es ? 'Ciudad destino' : 'Destination'}
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', color: '#242426' }}>
@@ -419,7 +419,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               <Link href={(es ? `/traslados-privados-pais/${route.country.slug.current}/` : `/private-transfers-country/${route.country.slug.current}/`) as any} style={{ textDecoration: 'none' }}>
                 <div style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', transform: 'skewX(-8deg)', overflow: 'hidden' }}>
                   <div style={{ transform: 'skewX(8deg)', padding: '0.6rem 1.25rem' }}>
-                    <div style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>
+                    <div style={{ fontSize: '0.65rem', color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>
                       {es ? 'País' : 'Country'}
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', color: '#242426' }}>

@@ -23,7 +23,7 @@ export function RegionCard({ href, title }: { href: string; title: string }) {
         <span style={{ transform: 'skewX(8deg)', display: 'block', fontSize: '0.875rem', fontWeight: 600, color: hovered ? '#ffffff' : '#242426', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', transition: 'color 0.15s' }}>
           {title}
         </span>
-        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={hovered ? '#ffffff' : '#94a3b8'} style={{ transform: 'skewX(8deg)', flexShrink: 0, transition: 'stroke 0.15s' }}>
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={hovered ? '#ffffff' : '#64748b'} style={{ transform: 'skewX(8deg)', flexShrink: 0, transition: 'stroke 0.15s' }}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
       </div>

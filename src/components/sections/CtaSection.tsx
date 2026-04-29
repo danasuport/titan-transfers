@@ -64,7 +64,7 @@ export function CtaSection() {
 
           {/* Bottom: App download */}
           <div className="cta-app-block" style={{ padding: '2.5rem 4vw', border: '1px solid #e5e7eb', margin: '0 2vw 4rem -8vw', position: 'relative', zIndex: 2, background: '#ffffff' }}>
-            <h3 className={russoOne.className} style={{ fontSize: '2rem', color: '#8BAA1D', lineHeight: 1.2, marginBottom: '1.25rem' }}>
+            <h3 className={russoOne.className} style={{ fontSize: '2rem', color: '#7C9919', lineHeight: 1.2, marginBottom: '1.25rem' }}>
               {es ? 'Descarga la app y reserva tu transfer ahora' : 'Download the app and book your transfer now'}
             </h3>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>

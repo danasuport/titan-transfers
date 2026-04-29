@@ -47,11 +47,11 @@ export function CountriesClient({ items, locale }: Props) {
             style={{ transform: 'skewX(6deg)', border: 'none', outline: 'none', background: 'transparent', fontSize: '0.9rem', color: '#242426', fontFamily: 'inherit', width: '100%' }}
           />
           {search && (
-            <button onClick={() => setSearch('')} style={{ transform: 'skewX(6deg)', background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8', fontSize: '1rem', lineHeight: 1, padding: 0 }}>×</button>
+            <button onClick={() => setSearch('')} style={{ transform: 'skewX(6deg)', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', fontSize: '1rem', lineHeight: 1, padding: 0 }}>×</button>
           )}
         </div>
         {search && (
-          <p style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: '0.5rem', paddingLeft: '0.25rem' }}>
+          <p style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '0.5rem', paddingLeft: '0.25rem' }}>
             {filtered.length} {es ? 'resultados' : 'results'}
           </p>
         )}
@@ -65,7 +65,7 @@ export function CountriesClient({ items, locale }: Props) {
       </div>
 
       {filtered.length === 0 && (
-        <p style={{ color: '#94a3b8', fontSize: '0.9rem', textAlign: 'center', padding: '3rem 0' }}>
+        <p style={{ color: '#64748b', fontSize: '0.9rem', textAlign: 'center', padding: '3rem 0' }}>
           {es ? 'Sin resultados para' : 'No results for'} &ldquo;{search}&rdquo;
         </p>
       )}

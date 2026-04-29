@@ -50,12 +50,12 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '3rem 3rem 3rem 4rem', transform: 'skewX(4deg)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
               {post.category && (
-                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#8BAA1D', background: '#f0f4e3', padding: '2px 8px', textTransform: 'uppercase', letterSpacing: '0.08em', transform: 'skewX(-6deg)', display: 'inline-block' }}>
+                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#7C9919', background: '#f0f4e3', padding: '2px 8px', textTransform: 'uppercase', letterSpacing: '0.08em', transform: 'skewX(-6deg)', display: 'inline-block' }}>
                   {post.category}
                 </span>
               )}
               {post.publishDate && (
-                <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>{formatDate(post.publishDate, locale)}</span>
+                <span style={{ fontSize: '0.72rem', color: '#64748b' }}>{formatDate(post.publishDate, locale)}</span>
               )}
             </div>
 
@@ -107,12 +107,12 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
         <div style={{ padding: '1.25rem 1.5rem 1.5rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.75rem' }}>
             {post.category && (
-              <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#8BAA1D', background: '#f0f4e3', padding: '2px 7px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#7C9919', background: '#f0f4e3', padding: '2px 7px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 {post.category}
               </span>
             )}
             {post.publishDate && (
-              <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>{formatDate(post.publishDate, locale)}</span>
+              <span style={{ fontSize: '0.7rem', color: '#64748b' }}>{formatDate(post.publishDate, locale)}</span>
             )}
           </div>
 

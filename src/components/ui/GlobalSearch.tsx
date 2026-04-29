@@ -121,7 +121,7 @@ export function GlobalSearch() {
           }}
         />
         {query && (
-          <button onClick={() => { setQuery(''); setOpen(false) }} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#94a3b8', flexShrink: 0, transform: 'skewX(12deg)' }}>
+          <button onClick={() => { setQuery(''); setOpen(false) }} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#64748b', flexShrink: 0, transform: 'skewX(12deg)' }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M18 6L6 18M6 6l12 12"/>
             </svg>
@@ -144,7 +144,7 @@ export function GlobalSearch() {
           overflowY: 'auto',
         }}>
           {!hasResults ? (
-            <div style={{ padding: '1rem 1.25rem', fontSize: '0.875rem', color: '#94a3b8' }}>
+            <div style={{ padding: '1rem 1.25rem', fontSize: '0.875rem', color: '#64748b' }}>
               {locale === 'es' ? 'Sin resultados' : 'No results found'}
             </div>
           ) : (
@@ -196,7 +196,7 @@ export function GlobalSearch() {
 function Section({ label, icon, children }: { label: string; icon: string; children: React.ReactNode }) {
   return (
     <div>
-      <div style={{ padding: '0.5rem 1rem 0.25rem', fontSize: '0.7rem', fontWeight: 700, color: '#94a3b8', textTransform: 'none', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+      <div style={{ padding: '0.5rem 1rem 0.25rem', fontSize: '0.7rem', fontWeight: 700, color: '#64748b', textTransform: 'none', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
         <span>{icon}</span>{label}
       </div>
       {children}
@@ -226,7 +226,7 @@ function ResultRow({ title, subtitle, onClick }: { title: string; subtitle: stri
       }}
     >
       <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#242426' }}>{title}</span>
-      {subtitle && <span style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '1px' }}>{subtitle}</span>}
+      {subtitle && <span style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '1px' }}>{subtitle}</span>}
     </button>
   )
 }

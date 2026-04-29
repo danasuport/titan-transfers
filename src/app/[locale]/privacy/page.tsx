@@ -48,7 +48,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
               <h2>Sus derechos</h2>
               <p>Puede ejercer sus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad enviando un correo a <strong>info@titantransfers.com</strong>.</p>
               <h2>Cookies</h2>
-              <p>Utilizamos cookies propias y de terceros. Consulte nuestra <a href="/es/cookies/" style={{ color: '#8BAA1D' }}>política de cookies</a> para más información.</p>
+              <p>Utilizamos cookies propias y de terceros. Consulte nuestra <a href="/es/cookies/" style={{ color: '#7C9919' }}>política de cookies</a> para más información.</p>
               <h2>Transferencias internacionales</h2>
               <p>Al ser una empresa con sede en los Emiratos Árabes Unidos, sus datos pueden ser tratados fuera del Espacio Económico Europeo, aplicándose siempre las garantías adecuadas conforme al RGPD.</p>
             </>
@@ -77,7 +77,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
               <h2>Your Rights</h2>
               <p>You may exercise your rights of access, rectification, erasure, objection, restriction and portability by emailing <strong>info@titantransfers.com</strong>.</p>
               <h2>Cookies</h2>
-              <p>We use first-party and third-party cookies. See our <a href="/cookies/" style={{ color: '#8BAA1D' }}>cookie policy</a> for more information.</p>
+              <p>We use first-party and third-party cookies. See our <a href="/cookies/" style={{ color: '#7C9919' }}>cookie policy</a> for more information.</p>
               <h2>International Transfers</h2>
               <p>As a company based in the United Arab Emirates, your data may be processed outside the European Economic Area, with appropriate GDPR safeguards always applied.</p>
             </>

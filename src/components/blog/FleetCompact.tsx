@@ -38,7 +38,7 @@ export function FleetCompact() {
             { num: '500+', label: es ? 'ciudades' : 'cities' },
           ].map(({ num, label }) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', background: '#242426', transform: 'skewX(-8deg)', padding: '0.25rem 0.75rem' }}>
-              <span style={{ transform: 'skewX(8deg)', fontSize: '0.75rem', fontWeight: 700, color: '#8BAA1D' }}>{num}</span>
+              <span style={{ transform: 'skewX(8deg)', fontSize: '0.75rem', fontWeight: 700, color: '#7C9919' }}>{num}</span>
               <span style={{ transform: 'skewX(8deg)', fontSize: '0.72rem', color: '#ffffff' }}>{label}</span>
             </div>
           ))}

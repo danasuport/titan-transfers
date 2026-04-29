@@ -60,16 +60,16 @@ export function PopularDestinationsCarousel({ cities, heading, subheading }: {
           <p style={{ fontSize: '0.9rem', color: '#64748b', maxWidth: '700px', margin: '0 auto', lineHeight: 1.7 }}>
             {locale === 'es'
               ? <>Reserva tu transfer privado desde el aeropuerto en{' '}
-                  <Link href={'/traslados-privados-taxi/barcelona/' as any} style={{ color: '#8BAA1D', textDecoration: 'none', fontWeight: 500 }}>Barcelona</Link>,{' '}
-                  <Link href={'/traslados-privados-taxi/london/' as any} style={{ color: '#8BAA1D', textDecoration: 'none', fontWeight: 500 }}>Londres</Link>,{' '}
-                  <Link href={'/traslados-privados-taxi/paris/' as any} style={{ color: '#8BAA1D', textDecoration: 'none', fontWeight: 500 }}>París</Link>,{' '}
-                  <Link href={'/traslados-privados-taxi/dubai/' as any} style={{ color: '#8BAA1D', textDecoration: 'none', fontWeight: 500 }}>Dubái</Link>{' '}
+                  <Link href={'/traslados-privados-taxi/barcelona/' as any} style={{ color: '#7C9919', textDecoration: 'none', fontWeight: 500 }}>Barcelona</Link>,{' '}
+                  <Link href={'/traslados-privados-taxi/london/' as any} style={{ color: '#7C9919', textDecoration: 'none', fontWeight: 500 }}>Londres</Link>,{' '}
+                  <Link href={'/traslados-privados-taxi/paris/' as any} style={{ color: '#7C9919', textDecoration: 'none', fontWeight: 500 }}>París</Link>,{' '}
+                  <Link href={'/traslados-privados-taxi/dubai/' as any} style={{ color: '#7C9919', textDecoration: 'none', fontWeight: 500 }}>Dubái</Link>{' '}
                   y más de 100 destinos en todo el mundo. Precio fijo, conductor profesional y recogida personalizada.</>
               : <>Book your private airport transfer in{' '}
-                  <Link href={'/private-transfers/barcelona/' as any} style={{ color: '#8BAA1D', textDecoration: 'none', fontWeight: 500 }}>Barcelona</Link>,{' '}
-                  <Link href={'/private-transfers/london/' as any} style={{ color: '#8BAA1D', textDecoration: 'none', fontWeight: 500 }}>London</Link>,{' '}
-                  <Link href={'/private-transfers/paris/' as any} style={{ color: '#8BAA1D', textDecoration: 'none', fontWeight: 500 }}>Paris</Link>,{' '}
-                  <Link href={'/private-transfers/dubai/' as any} style={{ color: '#8BAA1D', textDecoration: 'none', fontWeight: 500 }}>Dubai</Link>{' '}
+                  <Link href={'/private-transfers/barcelona/' as any} style={{ color: '#7C9919', textDecoration: 'none', fontWeight: 500 }}>Barcelona</Link>,{' '}
+                  <Link href={'/private-transfers/london/' as any} style={{ color: '#7C9919', textDecoration: 'none', fontWeight: 500 }}>London</Link>,{' '}
+                  <Link href={'/private-transfers/paris/' as any} style={{ color: '#7C9919', textDecoration: 'none', fontWeight: 500 }}>Paris</Link>,{' '}
+                  <Link href={'/private-transfers/dubai/' as any} style={{ color: '#7C9919', textDecoration: 'none', fontWeight: 500 }}>Dubai</Link>{' '}
                   and 100+ destinations worldwide. Fixed price, professional driver, meet & greet included.</>
             }
           </p>

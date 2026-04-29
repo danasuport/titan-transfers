@@ -135,7 +135,7 @@ export function LanguageSuggestionPopup() {
           border: 'none',
           cursor: 'pointer',
           padding: '4px',
-          color: '#94a3b8',
+          color: '#64748b',
         }}
       >
         <svg width="16" height="16" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">

@@ -65,7 +65,7 @@ function RouteCard({ route, airportSlug, locale }: { route: Route; airportSlug: 
         {/* Distance + time */}
         <div style={{ transform: 'skewX(8deg)', display: 'flex', gap: '0.6rem', flexShrink: 0, alignItems: 'center' }}>
           {route.distance && (
-            <span style={{ fontSize: '0.7rem', color: hovered ? 'rgba(255,255,255,0.75)' : '#94a3b8', transition: 'color 0.15s', whiteSpace: 'nowrap' }}>
+            <span style={{ fontSize: '0.7rem', color: hovered ? 'rgba(255,255,255,0.75)' : '#64748b', transition: 'color 0.15s', whiteSpace: 'nowrap' }}>
               {formatDistance(route.distance)}
             </span>
           )}
@@ -73,12 +73,12 @@ function RouteCard({ route, airportSlug, locale }: { route: Route; airportSlug: 
             <span style={{ color: hovered ? 'rgba(255,255,255,0.35)' : '#d1d5db', fontSize: '0.65rem' }}>·</span>
           )}
           {route.estimatedDuration && (
-            <span style={{ fontSize: '0.7rem', color: hovered ? 'rgba(255,255,255,0.75)' : '#94a3b8', transition: 'color 0.15s', whiteSpace: 'nowrap' }}>
+            <span style={{ fontSize: '0.7rem', color: hovered ? 'rgba(255,255,255,0.75)' : '#64748b', transition: 'color 0.15s', whiteSpace: 'nowrap' }}>
               {formatDuration(route.estimatedDuration)}
             </span>
           )}
           <svg
-            width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={hovered ? '#ffffff' : '#94a3b8'}
+            width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={hovered ? '#ffffff' : '#64748b'}
             style={{ transition: 'stroke 0.15s', flexShrink: 0 }}
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -148,13 +148,13 @@ export function RoutesList({
             }}
           />
           {filter && (
-            <button onClick={() => setFilter('')} style={{ transform: 'skewX(8deg)', background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8', padding: 0, lineHeight: 1 }}>
+            <button onClick={() => setFilter('')} style={{ transform: 'skewX(8deg)', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', padding: 0, lineHeight: 1 }}>
               ×
             </button>
           )}
         </div>
         {filter && (
-          <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+          <span style={{ fontSize: '0.78rem', color: '#64748b' }}>
             {filtered.length} {es ? 'resultados' : 'results'}
           </span>
         )}
@@ -168,7 +168,7 @@ export function RoutesList({
       </div>
 
       {filtered.length === 0 && (
-        <p style={{ color: '#94a3b8', fontSize: '0.875rem', marginTop: '1rem' }}>
+        <p style={{ color: '#64748b', fontSize: '0.875rem', marginTop: '1rem' }}>
           {es ? 'Sin resultados' : 'No results'}
         </p>
       )}

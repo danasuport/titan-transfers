@@ -65,7 +65,7 @@ export function HeroSection() {
             {t('heroRating')}{' '}
             <span
               className={`${russoOne.className} underline`}
-              style={{ color: '#8BAA1D', fontSize: '24px' }}
+              style={{ color: '#7C9919', fontSize: '24px' }}
             >
               4.8
             </span>
@@ -95,9 +95,10 @@ export function HeroSection() {
           alt="Vehículo de traslado privado de lujo"
           fill
           priority
+          fetchPriority="high"
           className="object-cover object-center"
-          sizes="50vw"
-          quality={90}
+          sizes="(max-width: 768px) 100vw, 50vw"
+          quality={85}
         />
       </div>
 

@@ -60,16 +60,16 @@ export function RouteInlineBlock({ routes, locale }: RouteCardProps) {
                   <svg width="14" height="14" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#8BAA1D">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                   </svg>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 400, color: '#8BAA1D' }}>{destName}</span>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 400, color: '#7C9919' }}>{destName}</span>
                 </div>
 
                 {/* Meta */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', transform: 'skewX(4deg)' }}>
                   {route.distance && (
-                    <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{formatDistance(route.distance)}</span>
+                    <span style={{ fontSize: '0.75rem', color: '#64748b' }}>{formatDistance(route.distance)}</span>
                   )}
                   {route.estimatedDuration && (
-                    <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{formatDuration(route.estimatedDuration)}</span>
+                    <span style={{ fontSize: '0.75rem', color: '#64748b' }}>{formatDuration(route.estimatedDuration)}</span>
                   )}
                   <span style={{ display: 'inline-flex', alignItems: 'center', background: '#242426', color: '#ffffff', padding: '0.3rem 0.85rem', transform: 'skewX(-8deg)', fontSize: '0.72rem', fontWeight: 400 }}>
                     <span style={{ transform: 'skewX(8deg)', display: 'inline-block' }}>{es ? 'Ver →' : 'View →'}</span>

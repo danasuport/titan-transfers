@@ -195,7 +195,7 @@ function AirportCard({ airport, locale }: { airport: Airport; locale: Locale }) 
           {getTranslatedTitle(airport, locale)}
         </span>
         {airport.iataCode && (
-          <span style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '1px', display: 'block' }}>
+          <span style={{ fontSize: '0.72rem', color: '#64748b', marginTop: '1px', display: 'block' }}>
             {airport.iataCode}
           </span>
         )}
@@ -204,7 +204,7 @@ function AirportCard({ airport, locale }: { airport: Airport; locale: Locale }) 
       {/* Arrow */}
       <div style={{
         flexShrink: 0,
-        color: hovered ? '#8BAA1D' : '#94a3b8',
+        color: hovered ? '#8BAA1D' : '#64748b',
         transition: 'color 0.15s, transform 0.15s',
         transform: hovered ? 'translateX(2px)' : 'translateX(0)',
       }}>

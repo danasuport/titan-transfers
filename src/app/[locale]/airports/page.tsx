@@ -67,8 +67,8 @@ export default async function AirportsPage({ params }: { params: Promise<{ local
             ].map(s => (
               <div key={s.label} style={{ flex: 1, background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1.5rem 1.75rem', transform: 'skewX(-6deg)', textAlign: 'center' }}>
                 <div style={{ transform: 'skewX(6deg)' }}>
-                  <div className={russoOne.className} style={{ fontSize: '2.25rem', color: '#8BAA1D', lineHeight: 1 }}>{s.n}</div>
-                  <div style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: '6px', fontWeight: 600 }}>{s.label}</div>
+                  <div className={russoOne.className} style={{ fontSize: '2.25rem', color: '#7C9919', lineHeight: 1 }}>{s.n}</div>
+                  <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: '6px', fontWeight: 600 }}>{s.label}</div>
                 </div>
               </div>
             ))}

@@ -165,8 +165,8 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div style={{ paddingTop: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-          <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
-            &copy; {new Date().getFullYear()} {t('copyright')} · <a href="https://kmadisseny.es" target="_blank" rel="noopener noreferrer" style={{ color: '#94a3b8', textDecoration: 'none' }} onMouseEnter={e => (e.currentTarget.style.color = '#8BAA1D')} onMouseLeave={e => (e.currentTarget.style.color = '#94a3b8')}>Diseño web Barcelona</a>
+          <p style={{ fontSize: '0.8rem', color: '#64748b' }}>
+            &copy; {new Date().getFullYear()} {t('copyright')} · <a href="https://kmadisseny.es" target="_blank" rel="noopener noreferrer" style={{ color: '#64748b', textDecoration: 'none' }} onMouseEnter={e => (e.currentTarget.style.color = '#8BAA1D')} onMouseLeave={e => (e.currentTarget.style.color = '#64748b')}>Diseño web Barcelona</a>
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
             {[
@@ -188,9 +188,9 @@ export function Footer() {
               { href: '/cookies/', label: t('cookies') },
               { href: '/sitemap-page/', label: locale === 'es' ? 'Mapa del sitio' : 'Sitemap' },
             ].map(item => (
-              <Link key={item.href} href={item.href as any} style={{ ...linkStyle, fontSize: '0.8rem', color: '#94a3b8' }}
+              <Link key={item.href} href={item.href as any} style={{ ...linkStyle, fontSize: '0.8rem', color: '#64748b' }}
                 onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = '#8BAA1D')}
-                onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = '#94a3b8')}
+                onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = '#64748b')}
               >{item.label}</Link>
             ))}
           </div>

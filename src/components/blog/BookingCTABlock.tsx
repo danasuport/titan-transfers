@@ -64,7 +64,12 @@ export function BookingCTABlock({
       />
       {linkHref && (
         <div className="mt-4 text-center">
-          <Button href={linkHref} variant="outline" size="sm">
+          <Button
+            href={linkHref}
+            variant="outline"
+            size="sm"
+            aria-label={`${t('learnMore')}${title ? ' — ' + title : ''}`}
+          >
             {t('learnMore')}
           </Button>
         </div>
