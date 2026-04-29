@@ -106,15 +106,20 @@ export function BookingForm() {
   const iconColor = '#242426'
 
   function buildUrl() {
+    // ETO param names (from the original WP plugin):
+    //   r1ls = pickup location
+    //   r1le = drop-off location
+    //   r1d  = date "YYYY-MM-DD HH:MM"
+    //   pax / lug are passed through but ETO may ignore them at the URL level
+    //   (they're asked for inside the wizard).
     const [datePart, timePart] = datetime ? datetime.split('T') : ['', '12:00']
-    const d = datePart ? datePart.split('-').reverse().join('/') : ''
-    const params = new URLSearchParams({
-      type: 'transfer', step: '2',
-      pickup, pickup_pid: pickupPid,
-      dest, dest_pid: destPid,
-      date: d, time: timePart ?? '12:00',
-      pax: String(pax), lug: String(lug),
-    })
+    const r1d = datePart ? `${datePart} ${timePart || '12:00'}` : ''
+    const params = new URLSearchParams()
+    if (pickup) params.set('r1ls', pickup)
+    if (dest) params.set('r1le', dest)
+    if (r1d) params.set('r1d', r1d)
+    if (pax > 1) params.set('pax', String(pax))
+    if (lug > 0) params.set('lug', String(lug))
     return `${ETO_BASE}?${params.toString()}`
   }
 

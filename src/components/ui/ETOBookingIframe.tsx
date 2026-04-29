@@ -13,7 +13,8 @@ export function ETOBookingIframe() {
   useEffect(() => {
     const sp = new URLSearchParams(window.location.search)
     const qs = sp.toString()
-    const url = qs ? `${ETO_URL}/?${qs}` : `${ETO_URL}/`
+    // ETO booking page lives under /booking (matches the original WP plugin)
+    const url = qs ? `${ETO_URL}/booking?${qs}` : `${ETO_URL}/booking`
     setIframeUrl(url)
   }, [])
 
