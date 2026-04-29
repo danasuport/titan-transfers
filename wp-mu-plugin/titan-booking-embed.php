@@ -13,9 +13,17 @@ if (!defined('ABSPATH')) exit;
 
 /**
  * True when the current request is the embed flavour of /booking/.
+ *
+ * Two signals:
+ *  - ?embed=1 in the URL (the parent iframe always sets this on the first load).
+ *  - Sec-Fetch-Dest: iframe header (browsers send it on every iframe request,
+ *    so step 2 / step 3 navigations inside the plugin stay chrome-less even
+ *    if the plugin redirects with location.href and drops the query string).
  */
 function titan_booking_is_embed() {
-    return isset($_GET['embed']) && $_GET['embed'] === '1';
+    if (isset($_GET['embed']) && $_GET['embed'] === '1') return true;
+    if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'iframe') return true;
+    return false;
 }
 
 /**
@@ -56,18 +64,65 @@ add_action('wp_head', function () {
             background: #ffffff !important;
             min-height: 0 !important;
         }
-        body.titan-embed { background: #ffffff !important; }
+        body.titan-embed { background: #ffffff !important; padding: 0 !important; }
+
+        /* Theme chrome — broad selectors so step 2/3 of the plugin stay clean
+           even if the navigation drops ?embed=1. The booking widget itself
+           is rendered by the [taxi_booking] shortcode, never by the theme. */
         body.titan-embed #wpadminbar,
         body.titan-embed header,
         body.titan-embed footer,
         body.titan-embed .site-header,
         body.titan-embed .site-footer,
+        body.titan-embed .header,
+        body.titan-embed .footer,
+        body.titan-embed .main-header,
+        body.titan-embed .main-footer,
+        body.titan-embed #header,
+        body.titan-embed #footer,
+        body.titan-embed #masthead,
+        body.titan-embed #colophon,
+        body.titan-embed .top-bar,
+        body.titan-embed .navbar,
         body.titan-embed nav.main-navigation,
+        body.titan-embed .main-navigation,
         body.titan-embed .breadcrumbs,
+        body.titan-embed .breadcrumb,
         body.titan-embed aside,
         body.titan-embed .sidebar,
-        body.titan-embed .widget-area { display: none !important; }
-        body.titan-embed { padding: 0 !important; }
+        body.titan-embed #sidebar,
+        body.titan-embed .widget-area,
+        body.titan-embed .site-branding,
+        body.titan-embed .menu-toggle,
+        body.titan-embed .vc_row.top-bar,
+        body.titan-embed .menu-main-menu-container { display: none !important; }
+
+        /* Cookie banners — every common WP plugin we might bump into.
+           The Next.js parent already shows its own consent banner. */
+        body.titan-embed #cookie-notice,
+        body.titan-embed .cookie-notice-container,
+        body.titan-embed #cookie-law-info-bar,
+        body.titan-embed .cli-bar-container,
+        body.titan-embed .cli-modal,
+        body.titan-embed #catapult-cookie-bar,
+        body.titan-embed .moove-gdpr-info-bar-container,
+        body.titan-embed .moove-gdpr-cookie-modal,
+        body.titan-embed .gdpr-bar,
+        body.titan-embed .cc-window,
+        body.titan-embed .cc-banner,
+        body.titan-embed .cc-revoke,
+        body.titan-embed .cmplz-cookiebanner,
+        body.titan-embed #cmplz-cookiebanner-container,
+        body.titan-embed .borlabs-cookie-box,
+        body.titan-embed #BorlabsCookieBox,
+        body.titan-embed .iubenda-cs-container,
+        body.titan-embed [id^="CybotCookiebot"],
+        body.titan-embed .cookie-bar,
+        body.titan-embed .cookie-banner,
+        body.titan-embed [class*="cookie-consent"],
+        body.titan-embed [id*="cookie-consent"] { display: none !important; visibility: hidden !important; }
+
+        /* Booking widget polish */
         body.titan-embed .taxi-booking-widget { margin: 0 auto !important; box-shadow: none !important; border: none !important; }
         body.titan-embed .taxi-booking-header { background: #8BAA1D !important; }
         body.titan-embed .taxi-booking-header h2,
