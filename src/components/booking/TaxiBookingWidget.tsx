@@ -78,8 +78,15 @@ function rewriteUrls(widgetHtml: string): string {
   return widgetHtml
 }
 
-export async function TaxiBookingWidget({ locale = 'en' }: { locale?: string }) {
-  const wpUrl = `${WP_ORIGIN}/booking/${locale === 'es' ? '?lang=es' : ''}`
+export async function TaxiBookingWidget({
+  locale = 'en',
+  wpPath = '/booking/',
+}: {
+  locale?: string
+  wpPath?: '/booking/' | '/choose-vehicle/' | '/confirm-booking/'
+}) {
+  const langSuffix = locale === 'es' ? (wpPath.includes('?') ? '&lang=es' : '?lang=es') : ''
+  const wpUrl = `${WP_ORIGIN}${wpPath}${langSuffix}`
   let extracted: Extracted = { widgetHtml: '', styleTags: [], inlineConfig: null, ajaxObject: null }
 
   try {
@@ -105,11 +112,15 @@ export async function TaxiBookingWidget({ locale = 'en' }: { locale?: string }) 
 
   // Override the AJAX target so the browser hits the Next.js proxy instead of
   // talking to the WP origin directly (avoids CORS, keeps cookies on the
-  // primary domain). Other fields (nonce, api_url, language, strings) are
-  // preserved exactly as WP delivered them.
+  // primary domain). Also force step2_url / step3_url to relative paths so
+  // navigation stays inside the Next.js app — WP delivers these as absolute
+  // URLs against the WP host, which would bounce the user out of the new site.
+  const localePrefix = locale === 'es' ? '/es' : ''
   const finalAjax = {
     ...(extracted.ajaxObject || {}),
     ajax_url: '/api/taxi-booking-ajax',
+    step2_url: `${localePrefix}/choose-vehicle/`,
+    step3_url: `${localePrefix}/confirm-booking/`,
   }
 
   return (
