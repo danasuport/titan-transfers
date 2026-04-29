@@ -42,3 +42,10 @@ next-env.d.ts
 
 # Claude Code local config (may contain secrets)
 .claude/
+
+# md-to-pdf intermediate HTML output
+docs/*.html
+
+# Plugin source extracted for analysis (kept outside repo)
+taxi-booking-plugin.zip
+

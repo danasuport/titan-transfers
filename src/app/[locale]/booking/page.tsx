@@ -1,4 +1,4 @@
-import { ETOBookingIframe } from '@/components/ui/ETOBookingIframe'
+import { TaxiBookingIframe } from '@/components/ui/TaxiBookingIframe'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
@@ -24,7 +24,7 @@ export default async function BookingPage({ params }: { params: Promise<{ locale
         <h1 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', color: '#242426', fontWeight: 700, margin: '1rem 0 1.5rem' }}>
           {es ? 'Reserva tu traslado privado' : 'Book your private transfer'}
         </h1>
-        <ETOBookingIframe />
+        <TaxiBookingIframe />
       </div>
     </div>
   )
