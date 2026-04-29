@@ -109,20 +109,18 @@ export function BookingForm() {
 
   const iconColor = '#242426'
 
-  function buildUrl() {
-    // Custom params consumed by /public/taxi-booking/js/titan-prefill.js,
-    // which fills the WP plugin's step-1 inputs after it boots.
+  function buildUrl(coords: { pLat: number | null; pLng: number | null; dLat: number | null; dLng: number | null }) {
     const [datePart, timePart] = datetime ? datetime.split('T') : ['', '12:00']
     const params = new URLSearchParams()
     if (pickup) params.set('pickup', pickup)
     if (dest) params.set('dest', dest)
-    if (pickupLat != null && pickupLng != null) {
-      params.set('pickup_lat', String(pickupLat))
-      params.set('pickup_lng', String(pickupLng))
+    if (coords.pLat != null && coords.pLng != null) {
+      params.set('pickup_lat', String(coords.pLat))
+      params.set('pickup_lng', String(coords.pLng))
     }
-    if (destLat != null && destLng != null) {
-      params.set('dest_lat', String(destLat))
-      params.set('dest_lng', String(destLng))
+    if (coords.dLat != null && coords.dLng != null) {
+      params.set('dest_lat', String(coords.dLat))
+      params.set('dest_lng', String(coords.dLng))
     }
     if (datePart) params.set('date', datePart)
     if (timePart) params.set('time', timePart || '12:00')
@@ -131,9 +129,36 @@ export function BookingForm() {
     return `${ETO_BASE}?${params.toString()}`
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  // Resolve coords for an address that the user may have typed without
+  // clicking a Places suggestion — without lat/lng the WP plugin can't
+  // jump to step 2 automatically.
+  async function geocode(address: string): Promise<{ lat: number; lng: number } | null> {
+    await loadGooglePlaces()
+    const g = window.google?.maps
+    if (!g?.Geocoder) return null
+    return new Promise((resolve) => {
+      new g.Geocoder().geocode({ address }, (results: any[], status: string) => {
+        if (status === 'OK' && results?.[0]?.geometry?.location) {
+          const loc = results[0].geometry.location
+          resolve({
+            lat: typeof loc.lat === 'function' ? loc.lat() : loc.lat,
+            lng: typeof loc.lng === 'function' ? loc.lng() : loc.lng,
+          })
+        } else resolve(null)
+      })
+    })
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    const url = buildUrl()
+    let pLat = pickupLat, pLng = pickupLng, dLat = destLat, dLng = destLng
+    if (pickup && (pLat == null || pLng == null)) {
+      const r = await geocode(pickup); if (r) { pLat = r.lat; pLng = r.lng }
+    }
+    if (dest && (dLat == null || dLng == null)) {
+      const r = await geocode(dest); if (r) { dLat = r.lat; dLng = r.lng }
+    }
+    const url = buildUrl({ pLat, pLng, dLat, dLng })
     let redirected = false
     const go = () => {
       if (redirected) return
