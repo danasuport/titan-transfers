@@ -32,10 +32,9 @@ ${urlset}
 </urlset>`
 }
 
-export async function GET(req: Request, { params }: { params: Promise<{ type: string }> }) {
+export async function GET(_req: Request, { params }: { params: Promise<{ type: string }> }) {
   const { type } = await params
-  const origin = new URL(req.url).origin
-  const SITE_URL = origin
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://titantransfers.com'
 
   let body = ''
 

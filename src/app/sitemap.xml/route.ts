@@ -1,7 +1,7 @@
 export const revalidate = 3600
 
-export async function GET(req: Request) {
-  const origin = new URL(req.url).origin
+export async function GET() {
+  const origin = process.env.NEXT_PUBLIC_SITE_URL || 'https://titantransfers.com'
   const now = new Date().toISOString().slice(0, 10)
 
   const sitemaps = [
