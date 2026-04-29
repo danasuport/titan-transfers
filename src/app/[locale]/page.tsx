@@ -39,7 +39,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               { icon: '✓', label: 'Free cancellation', sub: 'Up to 24h before' },
             ].map(({ icon, label, sub }) => (
               <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <span style={{ color: '#7C9919', fontSize: '1rem', lineHeight: 1 }}>{icon}</span>
+                <span style={{ color: '#6B8313', fontSize: '1rem', lineHeight: 1 }}>{icon}</span>
                 <div>
                   <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#242426' }}>{label}</div>
                   <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{sub}</div>

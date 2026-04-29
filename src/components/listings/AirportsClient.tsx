@@ -136,7 +136,7 @@ function AirportCard({ airport }: { airport: AirportItem }) {
 
         {/* IATA badge */}
         {airport.iataCode && (
-          <div style={{ position: 'absolute', top: '12px', right: '12px', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', color: '#7C9919', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', padding: '3px 8px', border: '1px solid rgba(139,170,29,0.4)' }}>
+          <div style={{ position: 'absolute', top: '12px', right: '12px', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', color: '#6B8313', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', padding: '3px 8px', border: '1px solid rgba(139,170,29,0.4)' }}>
             {airport.iataCode}
           </div>
         )}

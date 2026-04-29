@@ -101,7 +101,7 @@ export function ServiceTypes() {
           {/* ── Right: Content ── */}
           <div className="service-carousel-content" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '3rem 3rem 3rem 4rem' }}>
             {/* Stat label */}
-            <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#7C9919', marginBottom: '0.75rem' }}>
+            <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#6B8313', marginBottom: '0.75rem' }}>
               {slide.stat}
             </div>
 
@@ -117,7 +117,7 @@ export function ServiceTypes() {
 
             {/* CTA Button */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-              <SkewButton href={`/${href.replace(/^\//, '')}`} variant="primary" ariaLabel={`${tCommon('learnMore')} — ${tNav(slide.titleKey)}`}>{tCommon('learnMore')}</SkewButton>
+              <SkewButton href={`/${href.replace(/^\//, '')}`} variant="primary">{tCommon('learnMore')} {tNav(slide.titleKey)}</SkewButton>
             </div>
           </div>
 

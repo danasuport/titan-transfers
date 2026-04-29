@@ -65,7 +65,7 @@ export function HeroSection() {
             {t('heroRating')}{' '}
             <span
               className={`${russoOne.className} underline`}
-              style={{ color: '#7C9919', fontSize: '24px' }}
+              style={{ color: '#6B8313', fontSize: '24px' }}
             >
               4.8
             </span>

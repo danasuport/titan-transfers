@@ -152,14 +152,14 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
           <div style={{ columns: '4', columnGap: '2rem' }}>
             {Object.entries(airportsByCountry).map(([country, items]) => (
               <div key={country} style={{ breakInside: 'avoid', marginBottom: '1.25rem' }}>
-                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-pais/${items[0]?.countrySlug}/` : `/private-transfers-country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#7C9919', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-pais/${items[0]?.countrySlug}/` : `/private-transfers-country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#6B8313', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
                   <Flag countrySlug={items[0]?.countrySlug ?? ''} /> {country}
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </div>
                 {items.map(a => (
                   <HoverItem key={a._id} style={itemStyle} onClick={() => go(es ? `/traslados-aeropuerto-privados-taxi/${slug(a)}/` : `/airport-transfers-private-taxi/${slug(a)}/`)}>
                     {a.iataCode && (
-                      <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#7C9919', background: '#f0f4e3', padding: '1px 5px', borderRadius: '3px', flexShrink: 0 }}>
+                      <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#6B8313', background: '#f0f4e3', padding: '1px 5px', borderRadius: '3px', flexShrink: 0 }}>
                         {a.iataCode}
                       </span>
                     )}
@@ -181,7 +181,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
           <div style={{ columns: '4', columnGap: '2rem' }}>
             {Object.entries(citiesByCountry).map(([country, items]) => (
               <div key={country} style={{ breakInside: 'avoid', marginBottom: '1.25rem' }}>
-                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-pais/${items[0]?.countrySlug}/` : `/private-transfers-country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#7C9919', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-pais/${items[0]?.countrySlug}/` : `/private-transfers-country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#6B8313', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
                   <Flag countrySlug={items[0]?.countrySlug ?? ''} /> {country}
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </div>
@@ -264,7 +264,7 @@ function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, 
                 <div style={{ paddingBottom: '0.5rem' }}>
                   {type === 'airports' && (items as Airport[]).map(a => (
                     <div key={a._id} style={itemRowStyle} onClick={() => go(es ? `/traslados-aeropuerto-privados-taxi/${slug(a)}/` : `/airport-transfers-private-taxi/${slug(a)}/`)}>
-                      {a.iataCode && <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#7C9919', background: '#f0f4e3', padding: '1px 5px', flexShrink: 0 }}>{a.iataCode}</span>}
+                      {a.iataCode && <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#6B8313', background: '#f0f4e3', padding: '1px 5px', flexShrink: 0 }}>{a.iataCode}</span>}
                       <span style={{ fontSize: '0.875rem', color: '#242426' }}>{a.title}</span>
                     </div>
                   ))}

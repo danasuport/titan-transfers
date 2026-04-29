@@ -116,7 +116,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
               { n: '100+', label: es ? 'destinos' : 'destinations' },
               { n: '24/7', label: es ? 'soporte' : 'support' },
             ].map(s => (
-              <span key={s.label} style={{ fontSize: '0.78rem', fontWeight: 700, color: '#7C9919', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
+              <span key={s.label} style={{ fontSize: '0.78rem', fontWeight: 700, color: '#6B8313', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
                 {s.n} {s.label}
               </span>
             ))}
@@ -140,7 +140,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
 
       {/* ─── BOOKING FORM ──────────────────────────────────────────────── */}
       <section style={{ background: '#ffffff', paddingTop: '2.5rem', paddingBottom: '2.5rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
-        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#7C9919', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
+        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#6B8313', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
           {es ? 'Reserva tu traslado privado' : 'Book your private transfer'}
         </p>
         <BookingForm />

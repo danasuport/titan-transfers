@@ -83,12 +83,12 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
           {/* Stats */}
           <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
             {airportCount > 0 && (
-              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#7C9919', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
+              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#6B8313', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
                 {airportCount} {es ? 'aeropuertos' : 'airports'}
               </span>
             )}
             {cityCount > 0 && (
-              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#7C9919', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
+              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#6B8313', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
                 {cityCount} {es ? 'ciudades' : 'cities'}
               </span>
             )}
@@ -115,14 +115,14 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
 
       {/* ─── BOOKING FORM ─────────────────────────────────────────────────── */}
       <section style={{ background: '#ffffff', paddingTop: '2.5rem', paddingBottom: '2.5rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
-        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#7C9919', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
+        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#6B8313', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
           {es ? `Reserva tu transfer — ${countryTitle}` : `Book your transfer — ${countryTitle}`}
         </p>
         <BookingForm />
         <div style={{ display: 'flex', gap: '2rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
           {trustBadges.map((b, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ color: '#7C9919', fontSize: '1rem', lineHeight: 1, flexShrink: 0 }}>{b.icon}</span>
+              <span style={{ color: '#6B8313', fontSize: '1rem', lineHeight: 1, flexShrink: 0 }}>{b.icon}</span>
               <div>
                 <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#242426' }}>{b.label}</div>
                 <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{b.desc}</div>

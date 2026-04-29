@@ -81,7 +81,7 @@ export default async function RegionsPage({ params }: { params: Promise<{ locale
             ].map((s) => (
               <div key={s.label} style={{ flex: 1, background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1.5rem 1.75rem', transform: 'skewX(-6deg)', textAlign: 'center' }}>
                 <div style={{ transform: 'skewX(6deg)' }}>
-                  <div className={russoOne.className} style={{ fontSize: '2.25rem', color: '#7C9919', lineHeight: 1 }}>{s.value}</div>
+                  <div className={russoOne.className} style={{ fontSize: '2.25rem', color: '#6B8313', lineHeight: 1 }}>{s.value}</div>
                   <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: '6px', fontWeight: 600 }}>{s.label}</div>
                 </div>
               </div>
@@ -100,12 +100,12 @@ export default async function RegionsPage({ params }: { params: Promise<{ locale
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                   {countrySlug ? (
                     <Link href={(locale === 'es' ? `/traslados-privados-pais/${countrySlug}/` : `/private-transfers-country/${countrySlug}/`) as any} style={{ textDecoration: 'none' }}>
-                      <span className={russoOne.className} style={{ fontSize: '1.1rem', color: '#7C9919', cursor: 'pointer' }}>
+                      <span className={russoOne.className} style={{ fontSize: '1.1rem', color: '#6B8313', cursor: 'pointer' }}>
                         {country}
                       </span>
                     </Link>
                   ) : (
-                    <span className={russoOne.className} style={{ fontSize: '1.1rem', color: '#7C9919' }}>{country}</span>
+                    <span className={russoOne.className} style={{ fontSize: '1.1rem', color: '#6B8313' }}>{country}</span>
                   )}
                   <span style={{ fontSize: '0.75rem', color: '#64748b' }}>
                     {countryRegions.length} {es ? 'regiones' : 'regions'}

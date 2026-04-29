@@ -50,7 +50,7 @@ export function CountryOverview({ airports, cities, regions }: CountryOverviewPr
           {airports.map((a) => (
             <SkewCard key={a._id} href={getAirportUrl(a, locale)}>
               {a.iataCode && (
-                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#7C9919', background: '#f0f4e3', padding: '1px 5px', flexShrink: 0 }}>
+                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#6B8313', background: '#f0f4e3', padding: '1px 5px', flexShrink: 0 }}>
                   {a.iataCode}
                 </span>
               )}

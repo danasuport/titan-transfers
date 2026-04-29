@@ -135,6 +135,7 @@ export function Header() {
             {/* Mobile login — icon only, skewed */}
             <Link href="/login/"
               className="flex lg:hidden"
+              aria-label={locale === 'es' ? 'Acceder' : 'Login'}
               style={{ alignItems: 'center', justifyContent: 'center', color: '#ffffff', textDecoration: 'none', width: '34px', height: '34px', background: '#242426', border: '2px solid #242426', transform: 'skewX(-12deg)', transition: 'background 0.2s, border-color 0.2s' }}
               onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#8BAA1D'; e.currentTarget.style.borderColor = '#8BAA1D' }}
               onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#242426'; e.currentTarget.style.borderColor = '#242426' }}

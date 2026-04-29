@@ -121,7 +121,7 @@ export function Testimonials() {
           {/* Rating + logos row */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ fontSize: '2rem', fontWeight: 800, color: '#7C9919', lineHeight: 1 }}>4.8</span>
+              <span style={{ fontSize: '2rem', fontWeight: 800, color: '#6B8313', lineHeight: 1 }}>4.8</span>
               <span style={{ fontSize: '1rem', color: '#6b7280' }}>/5</span>
               <Stars count={5} />
               <span style={{ fontSize: '0.875rem', color: '#6b7280', marginLeft: '0.25rem' }}>2,500+ reviews</span>

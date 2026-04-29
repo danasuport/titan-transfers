@@ -208,7 +208,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
 
       {/* ─── BOOKING FORM ──────────────────────────────────────────────── */}
       <section style={{ background: '#ffffff', paddingTop: '2.5rem', paddingBottom: '2.5rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
-        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#7C9919', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
+        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#6B8313', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
           {es ? `Reserva tu transfer — ${originTitle} → ${destTitle}` : `Book your transfer — ${originTitle} → ${destTitle}`}
         </p>
         <BookingForm />
@@ -217,7 +217,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         <div style={{ display: 'flex', gap: '2rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
           {trustBadges.map((b, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ color: '#7C9919', fontSize: '1rem', lineHeight: 1, flexShrink: 0 }}>{b.icon}</span>
+              <span style={{ color: '#6B8313', fontSize: '1rem', lineHeight: 1, flexShrink: 0 }}>{b.icon}</span>
               <div>
                 <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#242426' }}>{b.label}</div>
                 <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{b.desc}</div>
@@ -341,7 +341,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               {whyItems.map((item, i) => (
                 <div key={i} style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1rem', transform: 'skewX(-6deg)' }}>
                   <div style={{ transform: 'skewX(6deg)' }}>
-                    <span style={{ color: '#7C9919', display: 'block', marginBottom: '0.4rem' }}>{item.icon}</span>
+                    <span style={{ color: '#6B8313', display: 'block', marginBottom: '0.4rem' }}>{item.icon}</span>
                     <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#242426', lineHeight: 1.3 }}>{item.title}</div>
                     <div style={{ fontSize: '0.72rem', color: '#64748b', marginTop: '2px', lineHeight: 1.4 }}>{item.desc}</div>
                   </div>

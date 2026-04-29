@@ -59,7 +59,7 @@ export function BrowseCategories() {
 
                 {/* Text */}
                 <div style={{ flex: 1 }}>
-                  <div className={russoOne.className} style={{ fontSize: '2.75rem', color: '#7C9919', lineHeight: 1 }}>
+                  <div className={russoOne.className} style={{ fontSize: '2.75rem', color: '#6B8313', lineHeight: 1 }}>
                     {cat.count}
                   </div>
                   <div style={{ fontSize: '1rem', fontWeight: 600, color: '#242426', marginTop: '0.25rem' }}>

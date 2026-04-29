@@ -40,7 +40,7 @@ export function WhyChooseUs() {
                 <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                   <Image src={s.icon} alt="" width={56} height={56} style={{ flexShrink: 0 }} />
                   <div>
-                    <div className={russoOne.className} style={{ fontSize: '2.75rem', color: '#7C9919', lineHeight: 1 }}>
+                    <div className={russoOne.className} style={{ fontSize: '2.75rem', color: '#6B8313', lineHeight: 1 }}>
                       {s.value}
                     </div>
                     <div style={{ marginTop: '0.25rem', fontSize: '1rem', color: '#6b7280' }}>

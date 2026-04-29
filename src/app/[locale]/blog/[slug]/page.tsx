@@ -39,7 +39,7 @@ function InlineBookingBlock({ locale }: { locale: string }) {
   const es = locale === 'es'
   return (
     <div style={{ margin: '2.5rem 0' }}>
-      <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#7C9919', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
+      <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#6B8313', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
         {es ? 'Reserva tu transfer' : 'Book your transfer'}
       </p>
       <BlogBookingForm />
@@ -66,7 +66,7 @@ const portableTextComponents = {
     ),
     number: ({ children, index }: any) => (
       <li style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '0.65rem' }}>
-        <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '26px', height: '22px', background: '#242426', color: '#7C9919', fontSize: '0.72rem', fontWeight: 700, transform: 'skewX(-8deg)', flexShrink: 0 }}>
+        <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '26px', height: '22px', background: '#242426', color: '#6B8313', fontSize: '0.72rem', fontWeight: 700, transform: 'skewX(-8deg)', flexShrink: 0 }}>
           <span style={{ transform: 'skewX(8deg)', display: 'inline-block' }}>{(index ?? 0) + 1}</span>
         </span>
         <span>{children}</span>
@@ -126,7 +126,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '1.25rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
             {post.category && (
-              <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#7C9919', background: '#e8f0c4', padding: '3px 10px', textTransform: 'uppercase', letterSpacing: '0.08em', transform: 'skewX(-6deg)', display: 'inline-block' }}>
+              <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#6B8313', background: '#e8f0c4', padding: '3px 10px', textTransform: 'uppercase', letterSpacing: '0.08em', transform: 'skewX(-6deg)', display: 'inline-block' }}>
                 {post.category}
               </span>
             )}
