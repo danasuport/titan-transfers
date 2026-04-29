@@ -107,22 +107,28 @@ Estas variables están en `.env.local` del proyecto y **deben replicarse en Cool
 
 ## 5. Parámetros de URL — qué se envía a ETO
 
+> ⚠️ **Importante (commit `4f1183a`):** los nombres de parámetros que ETO entiende NO son `pickup`/`dest`/`date`. Hay que usar los nombres del plugin oficial de WordPress (verificados leyendo `easytaxioffice.php` del `etoplugin.zip` que está en la raíz del repo).
+
 El BookingForm envía estos params a ETO via la URL del iframe:
 
 | Param | Significado | Ejemplo |
 |---|---|---|
-| `type` | Tipo de reserva | `transfer` |
-| `step` | Paso del wizard | `2` (saltar selección de tipo) |
-| `pickup` | Texto del origen | `Barcelona Airport` |
-| `pickup_pid` | Google Place ID origen | `ChIJ...` |
-| `dest` | Texto del destino | `Sitges Hotel Plaza` |
-| `dest_pid` | Google Place ID destino | `ChIJ...` |
-| `date` | Fecha en `DD/MM/YYYY` | `15/06/2026` |
-| `time` | Hora `HH:MM` | `14:30` |
-| `pax` | Número pasajeros | `2` |
-| `lug` | Número maletas | `3` |
+| `r1ls` | Origen (route 1 location start) | `Barcelona Airport` |
+| `r1le` | Destino (route 1 location end) | `Sitges Hotel Plaza` |
+| `r1d` | Fecha + hora `YYYY-MM-DD HH:MM` | `2026-06-15 14:30` |
+| `pax` | Número pasajeros (no leído por ETO en URL pero se mantiene) | `2` |
+| `lug` | Número maletas (idem) | `3` |
+| `r1cs` | Categoría origen (opcional) | — |
+| `r1ce` | Categoría destino (opcional) | — |
+| `r1wp` | Waypoints separados por `\|` (opcional) | — |
+| `r2*` | Misma serie para retorno (`r=2`) | — |
+| `s` | Service ID (servicio específico) | — |
+| `bookingType` | `to-airport`, `from-airport`, etc. | — |
+| `site_key` | Identificador opcional de sitio | — |
 
-**ETO acepta esto sin problema** (verificado con `curl` — `/eto/?step=2&type=transfer` devuelve 200).
+URL final del iframe: `https://www.titantransfers.es/eto/booking?r1ls=...&r1le=...&r1d=...`
+
+> Nota: el path correcto es `/booking` (no la raíz). El plugin original de WordPress también construía la URL así (`$url .= 'booking'`).
 
 ---
 

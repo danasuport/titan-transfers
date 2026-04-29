@@ -58,6 +58,7 @@ Hola Claude. Estoy migrando la web **Titan Transfers** desde un WordPress en Sit
 
 - **404 de URLs invertidas en página de ciudad** (commit `6da5965`): RoutesList usaba `airportSlug` compartido → URLs como `/airport-transfers-private-taxi/adelianos-kambos/...` que daban 404. Solución: cada `RouteCard` usa `route.origin.slug.current`. Validado en producción.
 - **Recursión infinita del iframe ETO** (commit `d54bdd6`, **CRÍTICO**): el `ETOBookingIframe` apuntaba a `https://titantransfers.com/booking/` (recursivo). Funcionaba solo porque hoy WordPress sirve esa URL; tras el corte DNS habría sido bucle infinito. Ahora apunta a `${NEXT_PUBLIC_ETO_URL}` (= `https://www.titantransfers.es/eto/`). Verificado en bundle JS — 0 referencias a la URL incorrecta.
+- **Nombres de params de ETO incorrectos** (commit `4f1183a`, **CRÍTICO**): el form enviaba `pickup`, `dest`, `date`, `time`, `pax`, `lug` que ETO ignora. El plugin oficial de WordPress (`etoplugin.zip` en el repo) usa `r1ls`/`r1le`/`r1d` (formato `YYYY-MM-DD HH:MM`) — verificado leyendo `easytaxioffice.php`. Ahora `BookingForm.tsx` y `BlogBookingForm.tsx` envían los nombres correctos, y `ETOBookingIframe.tsx` carga `${ETO_URL}/booking?...` (no la raíz). Resultado: el wizard ETO arranca pre-rellenado con el origen, destino y fecha que el usuario eligió.
 
 ### Optimizaciones Lighthouse (commits `fc32da7` y `0330901`)
 
@@ -203,6 +204,8 @@ ETO NO tiene `X-Frame-Options` ni CSP `frame-ancestors` → permite embed desde 
 ## ÚLTIMOS COMMITS EN `main`
 
 ```
+4f1183a  Fix ETO param names + iframe path so booking pre-fills correctly
+c14b2d7  docs: ETO operational guide + handoff prompt for next session
 d54bdd6  Fix CRITICAL ETO iframe recursion bug — would break bookings on launch
 0330901  Fine-tune accessibility & SEO after Lighthouse re-test
 fc32da7  Improve accessibility, SEO score and LCP for Lighthouse
@@ -230,7 +233,7 @@ Estado del repo local cuando dejé el chat anterior: clean, sincronizado con `or
 
 ## EMPIEZA AQUÍ
 
-Acabo de hacer Redeploy en Coolify del último commit (`d54bdd6` con el fix de ETO). Espera a que termine (~3 min) y luego:
+Acabo de hacer Redeploy en Coolify del último commit (`4f1183a` — fix nombres de params ETO + path /booking). Espera a que termine (~3 min) y luego:
 
 1. **Comprueba que el deploy nuevo está activo**:
    ```
