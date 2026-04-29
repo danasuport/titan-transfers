@@ -24,6 +24,8 @@ export function BookingPageShell({
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/themes/airbnb.css" />
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.11.2/build/css/intlTelInput.css" />
       <link rel="stylesheet" href="/taxi-booking/css/taxi-booking.min.css" />
+      {/* Brand overrides — must come after the plugin CSS to win the cascade */}
+      <link rel="stylesheet" href="/taxi-booking/css/titan-overrides.css" />
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 6vw' }}>
         <Breadcrumbs items={[{ label: breadcrumbLabel }]} variant="light" />

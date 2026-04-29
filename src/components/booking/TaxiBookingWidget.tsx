@@ -20,12 +20,30 @@ type Extracted = {
   ajaxObject: Record<string, unknown> | null
 }
 
+// Brand palette injected into the widget's inlined CSS variables. The WP
+// plugin ships defaults that the client never customised in admin, so the
+// embedded HTML carries `--taxi-primary-color: #667eea` (purple) etc.
+// We rewrite those defaults so the plugin's own selectors (which read
+// var(--taxi-...)) pick up the Titan green automatically.
+const BRAND_COLOR_REWRITES: Array<[RegExp, string]> = [
+  [/--taxi-primary-color:\s*#?[0-9a-f]{3,8};?/gi, '--taxi-primary-color: #8BAA1D;'],
+  [/--taxi-primary-rgb:\s*[\d,\s]+;?/gi, '--taxi-primary-rgb: 139, 170, 29;'],
+  [/--taxi-secondary-color:\s*#?[0-9a-f]{3,8};?/gi, '--taxi-secondary-color: #6B8313;'],
+  [/--taxi-secondary-rgb:\s*[\d,\s]+;?/gi, '--taxi-secondary-rgb: 107, 131, 19;'],
+]
+
+function rebrandStyle(style: string): string {
+  let out = style
+  for (const [re, replacement] of BRAND_COLOR_REWRITES) out = out.replace(re, replacement)
+  return out
+}
+
 function extractWidget(html: string): Extracted {
   const styleTags: string[] = []
   const styleRe = /<style[^>]*>[\s\S]*?<\/style>/gi
   for (const m of html.matchAll(styleRe)) {
     if (m[0].includes('taxi-booking-widget') || m[0].includes('--taxi-')) {
-      styleTags.push(m[0])
+      styleTags.push(rebrandStyle(m[0]))
     }
   }
 

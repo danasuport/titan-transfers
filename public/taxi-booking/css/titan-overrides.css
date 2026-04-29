@@ -1,0 +1,237 @@
+/* ──────────────────────────────────────────────────────────────────────
+   Titan Transfers — visual overrides for the Taxi Booking Plugin
+
+   Loaded after the plugin's own CSS so these declarations win without
+   touching the plugin source. Goal: make the embedded WP widget look
+   like a native part of titantransfers.com (brand colours, brand font,
+   square / lightly-rounded corners, less plugin "page-builder" feel).
+   ────────────────────────────────────────────────────────────────── */
+
+#taxi-booking-widget {
+  /* Brand variables — every selector inside the plugin reads these via
+     var(--taxi-*) so this single block re-skins almost everything. */
+  --taxi-primary-color: #8BAA1D;
+  --taxi-primary-rgb: 139, 170, 29;
+  --taxi-secondary-color: #6B8313;
+  --taxi-secondary-rgb: 107, 131, 19;
+  --taxi-text-color: #242426;
+  --taxi-error-rgb: 220, 53, 69;
+  --taxi-success-rgb: 40, 167, 69;
+
+  /* Match the rest of the site: same body font, no oversized shadow,
+     less aggressive corners. The plugin uses min-width:500px which
+     would overflow on narrow viewports — let it shrink to the column. */
+  font-family: var(--font-archivo), -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif !important;
+  background: #ffffff !important;
+  border-radius: 4px !important;
+  box-shadow: 0 6px 24px rgba(36, 36, 38, 0.08) !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+/* Header strip: flat brand green instead of purple gradient. */
+#taxi-booking-widget .taxi-booking-header {
+  background: #8BAA1D !important;
+  padding: 1.25rem 1.5rem !important;
+  text-align: left !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+#taxi-booking-widget .taxi-booking-header h2 {
+  color: #ffffff !important;
+  font-family: var(--font-russo-one), -apple-system, sans-serif !important;
+  font-size: clamp(1.25rem, 2vw, 1.5rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.01em !important;
+  text-transform: none !important;
+}
+
+/* Step nav (1. Edit itinerary → 2. Choose vehicle → 3. Book & Pay) */
+#taxi-booking-widget .taxi-steps-nav {
+  background: #f8faf0 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+#taxi-booking-widget .taxi-steps-nav li {
+  color: #64748b !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: uppercase !important;
+}
+#taxi-booking-widget .taxi-steps-nav li.active {
+  color: #6B8313 !important;
+}
+
+/* Form container */
+#taxi-booking-widget .taxi-booking-form {
+  padding: 1.75rem 1.5rem !important;
+}
+
+/* Booking type tabs (Transfer / By Hour) */
+#taxi-booking-widget .booking-type-tabs {
+  background: #f1f5f9 !important;
+  border-radius: 4px !important;
+  padding: 3px !important;
+  margin-bottom: 1.25rem !important;
+}
+#taxi-booking-widget .booking-type-tab {
+  border-radius: 3px !important;
+  font-family: inherit !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  color: #475569 !important;
+}
+#taxi-booking-widget .booking-type-tab.active {
+  background: #8BAA1D !important;
+  color: #ffffff !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Inputs — square, brand-bordered on focus */
+#taxi-booking-widget .taxi-form-control {
+  background: #ffffff !important;
+  border: 2px solid #e2e8f0 !important;
+  border-radius: 4px !important;
+  font-family: inherit !important;
+  font-size: 0.95rem !important;
+  color: #242426 !important;
+}
+#taxi-booking-widget .taxi-form-control:focus {
+  border-color: #8BAA1D !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(139, 170, 29, 0.15) !important;
+}
+#taxi-booking-widget .taxi-form-control.error {
+  border-color: #dc3545 !important;
+}
+
+/* Icons inside inputs use brand green */
+#taxi-booking-widget .location-icon,
+#taxi-booking-widget .date-icon,
+#taxi-booking-widget .time-icon,
+#taxi-booking-widget .input-icon {
+  color: #6B8313 !important;
+}
+#taxi-booking-widget .location-target:hover {
+  color: #8BAA1D !important;
+}
+
+/* Buttons */
+#taxi-booking-widget .taxi-btn {
+  border-radius: 4px !important;
+  font-family: inherit !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  font-size: 0.9rem !important;
+}
+#taxi-booking-widget .taxi-btn-primary,
+#taxi-booking-widget .taxi-btn-success {
+  background: #8BAA1D !important;
+  color: #ffffff !important;
+  border: 2px solid #8BAA1D !important;
+  transition: background 0.15s ease, border-color 0.15s ease !important;
+}
+#taxi-booking-widget .taxi-btn-primary:hover:not(:disabled),
+#taxi-booking-widget .taxi-btn-success:hover:not(:disabled) {
+  background: #6B8313 !important;
+  border-color: #6B8313 !important;
+  color: #ffffff !important;
+}
+#taxi-booking-widget .taxi-btn:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+/* Number-stepper buttons (passengers / luggage) */
+#taxi-booking-widget .number-btn {
+  background: #f8faf0 !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #6B8313 !important;
+  border-radius: 4px !important;
+}
+#taxi-booking-widget .number-btn:hover {
+  background: #8BAA1D !important;
+  color: #ffffff !important;
+  border-color: #8BAA1D !important;
+}
+
+/* Vehicle cards (step 2) */
+#taxi-booking-widget .vehicle-card {
+  border: 2px solid #e2e8f0 !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  transition: all 0.15s ease !important;
+}
+#taxi-booking-widget .vehicle-card:hover {
+  border-color: #8BAA1D !important;
+  box-shadow: 0 4px 12px rgba(36, 36, 38, 0.08) !important;
+}
+#taxi-booking-widget .vehicle-card.selected {
+  border-color: #8BAA1D !important;
+  background: #f8faf0 !important;
+}
+#taxi-booking-widget .vehicle-price {
+  color: #6B8313 !important;
+  font-weight: 700 !important;
+  font-family: var(--font-russo-one), inherit !important;
+}
+
+/* Suggestions dropdown (autocomplete) */
+#taxi-booking-widget .location-suggestions {
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 4px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+  background: #ffffff !important;
+}
+#taxi-booking-widget .location-suggestions .suggestion-item:hover {
+  background: #f8faf0 !important;
+  color: #6B8313 !important;
+}
+
+/* Loading overlay (Processing…) */
+#taxi-booking-widget .taxi-loading-overlay {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(2px) !important;
+}
+#taxi-booking-widget .taxi-spinner {
+  border-top-color: #8BAA1D !important;
+}
+
+/* Field errors */
+#taxi-booking-widget .field-error {
+  color: #dc3545 !important;
+  font-size: 0.8rem !important;
+  font-family: inherit !important;
+}
+
+/* Return-booking checkbox */
+#taxi-booking-widget .return-booking-toggle .checkbox-label {
+  color: #475569 !important;
+  font-size: 0.9rem !important;
+}
+#taxi-booking-widget .return-booking-toggle input[type="checkbox"]:checked + .checkbox-custom {
+  background: #8BAA1D !important;
+  border-color: #8BAA1D !important;
+}
+
+/* Map / route summary on step 2-3 */
+#taxi-booking-widget #route-meta,
+#taxi-booking-widget .booking-summary {
+  background: #f8faf0 !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 4px !important;
+  font-family: inherit !important;
+}
+
+/* Mobile: kill the plugin's full-bleed overrides so the widget keeps
+   its rounded corners and breathing room inside the Next.js page. */
+@media (max-width: 600px) {
+  #taxi-booking-widget {
+    border-radius: 4px !important;
+    margin: 0 !important;
+    box-shadow: 0 4px 12px rgba(36, 36, 38, 0.08) !important;
+  }
+}
