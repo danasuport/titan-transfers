@@ -4,6 +4,11 @@
 // instead of admin-ajax.php directly. Strings, custom fields, currency
 // list and pricing logic stay in the WP plugin so the client can keep
 // editing them in their familiar admin.
+//
+// The plugin runs the full three-step flow on a single URL ("/booking/")
+// and uses query string params (?step=2, ?step=3, plus pickup/dest/etc)
+// to drive the wizard. Whatever query params arrive at the Next.js page
+// are forwarded to the WP fetch so the upstream renders the right step.
 import { cookies } from 'next/headers'
 
 const WP_ORIGIN = (process.env.NEXT_PUBLIC_WP_BOOKING_URL || 'https://titantransfers.com').replace(/\/+$/, '')
@@ -16,7 +21,6 @@ type Extracted = {
 }
 
 function extractWidget(html: string): Extracted {
-  // Inline <style> blocks that the plugin emits right above the widget
   const styleTags: string[] = []
   const styleRe = /<style[^>]*>[\s\S]*?<\/style>/gi
   for (const m of html.matchAll(styleRe)) {
@@ -25,16 +29,11 @@ function extractWidget(html: string): Extracted {
     }
   }
 
-  // Main widget container — span from the opening tag with id="taxi-booking-widget"
-  // down to its closing div. WordPress / Yoast may inject siblings so we look
-  // for the specific id attribute.
   let widgetHtml = ''
   const openIdx = html.indexOf('id="taxi-booking-widget"')
   if (openIdx !== -1) {
-    // Walk back to the opening <div ...
     const divStart = html.lastIndexOf('<div', openIdx)
     if (divStart !== -1) {
-      // Walk forward, counting nested <div> until balanced
       let depth = 0
       let i = divStart
       while (i < html.length) {
@@ -57,7 +56,6 @@ function extractWidget(html: string): Extracted {
     }
   }
 
-  // Inline <script> with taxi_booking_ajax = {...}; (wp_localize_script output)
   let inlineConfig: string | null = null
   let ajaxObject: Record<string, unknown> | null = null
   const cfgMatch = html.match(/var\s+taxi_booking_ajax\s*=\s*(\{[\s\S]*?\});/)
@@ -73,33 +71,39 @@ function extractWidget(html: string): Extracted {
   return { widgetHtml, styleTags, inlineConfig, ajaxObject }
 }
 
-function rewriteUrls(widgetHtml: string): string {
-  // Any inline asset references in the widget HTML (mostly image src) point at
-  // the WP server. We let them keep pointing there — they're public assets.
-  return widgetHtml
-}
-
 export async function TaxiBookingWidget({
   locale = 'en',
-  wpPath = '/booking/',
+  searchParams = {},
 }: {
   locale?: string
-  wpPath?: '/booking/' | '/choose-vehicle/' | '/confirm-booking/'
+  searchParams?: Record<string, string | string[] | undefined>
 }) {
-  const langSuffix = locale === 'es' ? (wpPath.includes('?') ? '&lang=es' : '?lang=es') : ''
-  const wpUrl = `${WP_ORIGIN}${wpPath}${langSuffix}`
-  let extracted: Extracted = { widgetHtml: '', styleTags: [], inlineConfig: null, ajaxObject: null }
+  // Build the upstream URL with the same query string the user hit. The
+  // plugin reads ?step= / ?bid= / ?pickup= etc to render the appropriate
+  // step. Drop empty/array values; WP expects flat strings.
+  const upstreamParams = new URLSearchParams()
+  for (const [key, value] of Object.entries(searchParams)) {
+    if (value === undefined) continue
+    if (Array.isArray(value)) {
+      for (const v of value) upstreamParams.append(key, v)
+    } else {
+      upstreamParams.set(key, value)
+    }
+  }
+  if (locale === 'es' && !upstreamParams.has('lang')) upstreamParams.set('lang', 'es')
+  const qs = upstreamParams.toString()
+  const wpUrl = `${WP_ORIGIN}/booking/${qs ? `?${qs}` : ''}`
 
-  // Forward the user's WP-specific cookies to the upstream fetch so the
-  // plugin renders the widget in the correct session state (booking ID,
-  // logged-in user, currency choice, etc.). Without this, WP would render
-  // a fresh empty step-1 widget and the JS would rebound the user to /booking/.
+  // Forward the user's cookies so WP keeps the same PHP session state
+  // (booking id, logged-in user, currency choice, etc.) across step
+  // navigation triggered by window.location.href in the plugin JS.
   const cookieJar = await cookies()
   const cookieHeader = cookieJar
     .getAll()
     .map(c => `${c.name}=${c.value}`)
     .join('; ')
 
+  let extracted: Extracted = { widgetHtml: '', styleTags: [], inlineConfig: null, ajaxObject: null }
   try {
     const res = await fetch(wpUrl, {
       headers: {
@@ -125,17 +129,12 @@ export async function TaxiBookingWidget({
     )
   }
 
-  // Override the AJAX target so the browser hits the Next.js proxy instead of
-  // talking to the WP origin directly (avoids CORS, keeps cookies on the
-  // primary domain). Also force step2_url / step3_url to relative paths so
-  // navigation stays inside the Next.js app — WP delivers these as absolute
-  // URLs against the WP host, which would bounce the user out of the new site.
-  const localePrefix = locale === 'es' ? '/es' : ''
+  // Only override the AJAX target — the plugin's JS does its step navigation
+  // with TBKParams.buildUrl('/booking', ...) so the step2_url / step3_url
+  // fields in the localized config aren't actually consulted. Leave them.
   const finalAjax = {
     ...(extracted.ajaxObject || {}),
     ajax_url: '/api/taxi-booking-ajax',
-    step2_url: `${localePrefix}/choose-vehicle/`,
-    step3_url: `${localePrefix}/confirm-booking/`,
   }
 
   return (
@@ -143,10 +142,8 @@ export async function TaxiBookingWidget({
       {extracted.styleTags.map((s, i) => (
         <div key={i} dangerouslySetInnerHTML={{ __html: s }} />
       ))}
-      <div dangerouslySetInnerHTML={{ __html: rewriteUrls(extracted.widgetHtml) }} />
+      <div dangerouslySetInnerHTML={{ __html: extracted.widgetHtml }} />
       <script
-        // Preserve the rest of the localized config (nonce, api_url,
-        // language, currency, step URLs, google_ads, strings).
         dangerouslySetInnerHTML={{
           __html: `var taxi_booking_ajax = ${JSON.stringify(finalAjax)};`,
         }}

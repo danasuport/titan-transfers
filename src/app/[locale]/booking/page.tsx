@@ -13,17 +13,33 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   }
 }
 
-export default async function BookingPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function BookingPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string }>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}) {
   const { locale } = await params
+  const sp = await searchParams
   const es = locale === 'es'
+  const stepFromUrl = typeof sp.step === 'string' ? sp.step : '1'
+
+  const heading = es
+    ? stepFromUrl === '2' ? 'Elige tu vehículo'
+    : stepFromUrl === '3' ? 'Confirma tu reserva'
+    : 'Reserva tu traslado privado'
+    : stepFromUrl === '2' ? 'Choose your vehicle'
+    : stepFromUrl === '3' ? 'Confirm your booking'
+    : 'Book your private transfer'
 
   return (
     <BookingPageShell
       locale={locale}
       breadcrumbLabel={es ? 'Reservar' : 'Book'}
-      heading={es ? 'Reserva tu traslado privado' : 'Book your private transfer'}
+      heading={heading}
     >
-      {await TaxiBookingWidget({ locale, wpPath: '/booking/' })}
+      {await TaxiBookingWidget({ locale, searchParams: sp })}
     </BookingPageShell>
   )
 }
