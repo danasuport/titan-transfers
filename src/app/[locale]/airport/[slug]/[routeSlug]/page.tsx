@@ -282,16 +282,16 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         const bg = i % 2 === 0 ? '#ffffff' : '#F8FAF0'
         return (
           <section key={i} style={{ background: bg, padding: '5rem 6vw' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5vw', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
+            <div className="route-section-grid">
 
               {/* Image */}
               {imgLeft && imgUrl && (
-                <div style={{ position: 'relative', height: '420px', clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)', overflow: 'hidden' }}>
-                  <Image src={imgUrl} alt={section.imageAlt || section.title || ''} fill style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="50vw" />
+                <div className="route-section-img" style={{ clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }}>
+                  <Image src={imgUrl} alt={section.imageAlt || section.title || ''} fill style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="(max-width: 768px) 100vw, 50vw" />
                 </div>
               )}
               {imgLeft && !imgUrl && (
-                <div style={{ height: '420px', background: '#e5e7eb', clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }} />
+                <div className="route-section-img route-section-img-empty" style={{ background: '#e5e7eb', clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }} />
               )}
 
               {/* Text */}
@@ -311,12 +311,12 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
 
               {/* Image right */}
               {!imgLeft && imgUrl && (
-                <div style={{ position: 'relative', height: '420px', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)', overflow: 'hidden' }}>
-                  <Image src={imgUrl} alt={section.imageAlt || section.title || ''} fill style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="50vw" />
+                <div className="route-section-img" style={{ clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
+                  <Image src={imgUrl} alt={section.imageAlt || section.title || ''} fill style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="(max-width: 768px) 100vw, 50vw" />
                 </div>
               )}
               {!imgLeft && !imgUrl && (
-                <div style={{ height: '420px', background: '#e5e7eb', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }} />
+                <div className="route-section-img route-section-img-empty" style={{ background: '#e5e7eb', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }} />
               )}
 
             </div>
@@ -326,7 +326,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
 
       {/* ─── WHY BOOK ──────────────────────────────────────────────────── */}
       <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
-        <div style={{ display: 'grid', gap: '4rem', gridTemplateColumns: '1fr 1fr', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
+        <div className="resp-2col" style={{ display: 'grid', gap: '4rem', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
           <div>
             <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
             <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)', color: '#242426', marginBottom: '1rem' }}>

@@ -311,6 +311,21 @@ footer .text-gray-500 { color: #6b7280 !important; }
   grid-template-columns: 1fr 1fr;
 }
 
+/* Route page content sections (text + image) — desktop defaults */
+.route-section-grid {
+  display: grid;
+  gap: 5vw;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.route-section-img {
+  position: relative;
+  height: 420px;
+  overflow: hidden;
+}
+
 /* CTA section: asymmetric 2 cols */
 .resp-cta-grid {
   grid-template-columns: 45fr 55fr;
@@ -386,6 +401,20 @@ footer .text-gray-500 { color: #6b7280 !important; }
   }
   .service-carousel-dots {
     justify-content: center !important;
+  }
+
+  /* Route page content sections — collapse to 1 col, image full width on top */
+  .route-section-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.75rem !important;
+  }
+  .route-section-img {
+    height: 240px !important;
+    clip-path: none !important;
+    order: -1;
+  }
+  .route-section-img-empty {
+    display: none !important;
   }
 
   .resp-booking-section {
