@@ -1,21 +1,48 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from '@/lib/i18n/navigation'
+import { useLocale } from 'next-intl'
 
 interface Props {
   t: { name: string; email: string; message: string; send: string }
 }
 
 export function ContactForm({ t }: Props) {
+  const router = useRouter()
+  const locale = useLocale()
   const [sending, setSending] = useState(false)
-  const [sent, setSent] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    setError(null)
+    const form = e.currentTarget
+    const data = {
+      name: (form.elements.namedItem('name') as HTMLInputElement).value.trim(),
+      email: (form.elements.namedItem('email') as HTMLInputElement).value.trim(),
+      message: (form.elements.namedItem('message') as HTMLTextAreaElement).value.trim(),
+      locale,
+    }
+    if (!data.name || !data.email || !data.message) {
+      setError(locale === 'es' ? 'Por favor rellena todos los campos.' : 'Please fill in all fields.')
+      return
+    }
     setSending(true)
-    await new Promise(r => setTimeout(r, 800))
-    setSending(false)
-    setSent(true)
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+      if (!res.ok) throw new Error('send_failed')
+      router.push('/contact/sent/' as any)
+    } catch {
+      setError(locale === 'es'
+        ? 'No se pudo enviar el mensaje. Inténtalo de nuevo o escríbenos a info@titantransfers.com.'
+        : 'Could not send your message. Please try again or email info@titantransfers.com.')
+      setSending(false)
+    }
   }
 
   const inputStyle: React.CSSProperties = {
@@ -41,48 +68,36 @@ export function ContactForm({ t }: Props) {
     marginBottom: '0.4rem',
   }
 
-  if (sent) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: '#F8FAF0', border: '1.5px solid #8BAA1D', padding: '1.5rem', transform: 'skewX(-4deg)' }}>
-        <div style={{ transform: 'skewX(4deg)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <div style={{ background: '#8BAA1D', padding: '6px', transform: 'skewX(-8deg)', flexShrink: 0 }}>
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#fff" style={{ transform: 'skewX(8deg)', display: 'block' }}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-            </svg>
-          </div>
-          <span style={{ fontSize: '0.95rem', fontWeight: 600, color: '#242426' }}>
-            Message sent — we'll get back to you shortly.
-          </span>
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+    <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
       <div>
-        <label style={labelStyle}>{t.name}</label>
-        <input type="text" required style={inputStyle}
+        <label style={labelStyle} htmlFor="contact-name">{t.name}</label>
+        <input id="contact-name" name="name" type="text" required disabled={sending} style={inputStyle}
           onFocus={e => (e.currentTarget.style.borderColor = '#8BAA1D')}
           onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
         />
       </div>
       <div>
-        <label style={labelStyle}>{t.email}</label>
-        <input type="email" required style={inputStyle}
+        <label style={labelStyle} htmlFor="contact-email">{t.email}</label>
+        <input id="contact-email" name="email" type="email" required disabled={sending} style={inputStyle}
           onFocus={e => (e.currentTarget.style.borderColor = '#8BAA1D')}
           onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
         />
       </div>
       <div>
-        <label style={labelStyle}>{t.message}</label>
-        <textarea required rows={5} style={{ ...inputStyle, resize: 'vertical' }}
+        <label style={labelStyle} htmlFor="contact-message">{t.message}</label>
+        <textarea id="contact-message" name="message" required rows={5} disabled={sending} style={{ ...inputStyle, resize: 'vertical' }}
           onFocus={e => (e.currentTarget.style.borderColor = '#8BAA1D')}
           onBlur={e => (e.currentTarget.style.borderColor = '#e5e7eb')}
         />
       </div>
 
-      {/* Submit button — skewed / / style */}
+      {error && (
+        <div style={{ background: '#fef2f2', border: '1.5px solid #fecaca', color: '#b91c1c', padding: '0.75rem 1rem', fontSize: '0.875rem' }}>
+          {error}
+        </div>
+      )}
+
       <div>
         <button
           type="submit"
@@ -109,7 +124,7 @@ export function ContactForm({ t }: Props) {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} style={{ animation: 'spin 1s linear infinite' }}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                 </svg>
-                Sending...
+                {locale === 'es' ? 'Enviando…' : 'Sending…'}
               </>
             ) : (
               <>

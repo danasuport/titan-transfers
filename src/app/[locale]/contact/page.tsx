@@ -1,5 +1,7 @@
 import { getTranslations } from 'next-intl/server'
+import Image from 'next/image'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
+import { ContactForm } from '@/components/contact/ContactForm'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -19,38 +21,18 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
       <h1 className="mb-4 text-3xl font-bold text-heading sm:text-4xl">{t('title')}</h1>
       <p className="mb-8 text-lg text-body">{t('subtitle')}</p>
 
-      <div className="grid gap-8 md:grid-cols-2">
-        <form className="space-y-4">
-          <div>
-            <label htmlFor="name" className="mb-1 block text-sm font-medium text-body">{t('name')}</label>
-            <input id="name" type="text" className="w-full rounded-lg border border-glass-ring bg-dark-card px-4 py-2.5 text-sm text-heading focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500" />
-          </div>
-          <div>
-            <label htmlFor="email" className="mb-1 block text-sm font-medium text-body">{t('email')}</label>
-            <input id="email" type="email" className="w-full rounded-lg border border-glass-ring bg-dark-card px-4 py-2.5 text-sm text-heading focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500" />
-          </div>
-          <div>
-            <label htmlFor="message" className="mb-1 block text-sm font-medium text-body">{t('message')}</label>
-            <textarea id="message" rows={5} className="w-full rounded-lg border border-glass-ring bg-dark-card px-4 py-2.5 text-sm text-heading focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500" />
-          </div>
-          <button type="submit" className="rounded-lg bg-brand-600 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700">
-            {t('send')}
-          </button>
-        </form>
+      <div className="grid gap-8 md:grid-cols-2 md:items-start">
+        <ContactForm t={{ name: t('name'), email: t('email'), message: t('message'), send: t('send') }} />
 
-        <div className="space-y-6">
-          <div>
-            <h2 className="mb-2 text-lg font-semibold text-heading">{t('phone')}</h2>
-            <p className="text-body">+34 900 000 000</p>
-          </div>
-          <div>
-            <h2 className="mb-2 text-lg font-semibold text-heading">{t('emailAddress')}</h2>
-            <p className="text-body">info@titantransfers.com</p>
-          </div>
-          <div>
-            <h2 className="mb-2 text-lg font-semibold text-heading">{t('address')}</h2>
-            <p className="text-body">Barcelona, Spain</p>
-          </div>
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '4 / 3', minHeight: '320px' }}>
+          <Image
+            src="/contact-hero.jpg"
+            alt={t('title')}
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 50vw"
+            style={{ objectFit: 'cover' }}
+          />
         </div>
       </div>
     </div>

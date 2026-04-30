@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { useLocale } from 'next-intl'
 
-const WHATSAPP = 'https://wa.me/34600000000'
-const PHONE = 'tel:+34600000000'
-const EMAIL = 'mailto:info@titan-transfers.com'
+const WHATSAPP = 'https://wa.me/16465030394'
+const PHONE = 'tel:+34930477712'
+const EMAIL = 'mailto:info@titantransfers.com'
 
 export function StickyHelp() {
   const locale = useLocale()
