@@ -129,12 +129,19 @@ export function Header() {
 
         {/* ========== Mobile layout (< lg) ========== */}
         <div className="lg:hidden">
-          {/* Row 1: bigger logo, centered */}
-          <Link href="/" onClick={() => setActiveMenu(null)} style={{ display: 'flex', justifyContent: 'center', paddingTop: '0.25rem', paddingBottom: '0.75rem' }}>
-            <Image src="/Logo-titan-transfers-texto-negro.png" alt="Titan Transfers" width={300} height={68} priority style={{ width: '200px', height: 'auto' }} />
-          </Link>
+          {/* Row 1: logo (left, bigger) · hamburger (right) */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '0.75rem' }}>
+            <Link href="/" onClick={() => setActiveMenu(null)} style={{ display: 'inline-flex' }}>
+              <Image src="/Logo-titan-transfers-texto-negro.png" alt="Titan Transfers" width={300} height={68} priority style={{ width: '220px', height: 'auto' }} />
+            </Link>
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="rounded-lg p-2 text-gray-600" aria-label="Toggle menu" style={{ flexShrink: 0 }}>
+              <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" strokeWidth={1.75} stroke="currentColor">
+                {mobileMenuOpen ? <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /> : <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />}
+              </svg>
+            </button>
+          </div>
 
-          {/* Row 2: language · login · search · hamburger */}
+          {/* Row 2: language · login · search */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <LanguageSwitcher />
             <Link href="/login/"
@@ -148,11 +155,6 @@ export function Header() {
             <div style={{ flex: 1, minWidth: 0 }}>
               <GlobalSearch />
             </div>
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="rounded-lg p-2 text-gray-600" aria-label="Toggle menu" style={{ flexShrink: 0 }}>
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                {mobileMenuOpen ? <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /> : <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />}
-              </svg>
-            </button>
           </div>
         </div>
 
