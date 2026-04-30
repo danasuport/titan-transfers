@@ -122,6 +122,19 @@ add_action('wp_head', function () {
         body.titan-embed [class*="cookie-consent"],
         body.titan-embed [id*="cookie-consent"] { display: none !important; visibility: hidden !important; }
 
+        /* Hide the floating WhatsApp button — the Next.js parent already
+           shows its own Help button, so two floating CTAs would compete. */
+        body.titan-embed [class*="whatsapp" i],
+        body.titan-embed [id*="whatsapp" i],
+        body.titan-embed .wa-float,
+        body.titan-embed .wa-button,
+        body.titan-embed .ht-ctc,
+        body.titan-embed .click-to-chat,
+        body.titan-embed .wpfront-whatsapp,
+        body.titan-embed .floating-whatsapp,
+        body.titan-embed .joinchat,
+        body.titan-embed #joinchat { display: none !important; visibility: hidden !important; }
+
         /* Booking widget polish */
         body.titan-embed .taxi-booking-widget { margin: 0 auto !important; box-shadow: none !important; border: none !important; }
         body.titan-embed .taxi-booking-header { background: #8BAA1D !important; }

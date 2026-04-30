@@ -73,15 +73,15 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white" style={{ boxShadow: activeMenu ? 'none' : '0 1px 0 #e5e7eb' }}>
       <div style={{ paddingLeft: '6vw', paddingRight: '6vw', paddingTop: '1rem', paddingBottom: '1rem' }}>
-        <div className="flex h-20 items-center justify-between">
 
-          {/* Logo */}
+        {/* ========== Desktop layout (≥ lg) ========== */}
+        <div className="hidden lg:flex h-20 items-center justify-between">
+
           <Link href="/" className="flex items-center flex-shrink-0" onClick={() => setActiveMenu(null)}>
-            <Image src="/Logo-titan-transfers-texto-negro.png" alt="Titan Transfers" width={220} height={50} priority className="w-36 sm:w-48 lg:w-56" style={{ height: 'auto' }} />
+            <Image src="/Logo-titan-transfers-texto-negro.png" alt="Titan Transfers" width={220} height={50} priority style={{ width: '224px', height: 'auto' }} />
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-1 lg:flex">
+          <nav className="flex items-center gap-1">
             {navItems.map((item) => (
               <button
                 key={item.key}
@@ -107,23 +107,15 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Global search — desktop only */}
-          <div className="hidden lg:flex flex-1 mx-6" style={{ maxWidth: '420px' }}>
+          <div className="flex flex-1 mx-6" style={{ maxWidth: '420px' }}>
             <GlobalSearch />
           </div>
-          {/* spacer mobile */}
-          <div className="flex-1 lg:hidden" />
 
-          {/* Right side */}
           <div className="flex items-center gap-3">
             <LanguageSwitcher />
-            <div className="hidden lg:block">
-              <SkewButton href={`/${locale}/contact/`} variant="primary" style={{ padding: '0.5rem 1.25rem', fontSize: '0.875rem' }}>{t('contact')}</SkewButton>
-            </div>
-            {/* Desktop login — with text */}
+            <SkewButton href={`/${locale}/contact/`} variant="primary" style={{ padding: '0.5rem 1.25rem', fontSize: '0.875rem' }}>{t('contact')}</SkewButton>
             <Link href="/login/"
-              className="hidden lg:flex"
-              style={{ alignItems: 'center', gap: '0.4rem', color: '#ffffff', textDecoration: 'none', background: '#242426', border: '2px solid #242426', transform: 'skewX(-12deg)', padding: '0.4rem 0.9rem', transition: 'background 0.2s, border-color 0.2s', fontSize: '0.875rem', fontWeight: 700 }}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#ffffff', textDecoration: 'none', background: '#242426', border: '2px solid #242426', transform: 'skewX(-12deg)', padding: '0.4rem 0.9rem', transition: 'background 0.2s, border-color 0.2s', fontSize: '0.875rem', fontWeight: 700 }}
               onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#8BAA1D'; e.currentTarget.style.borderColor = '#8BAA1D' }}
               onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#242426'; e.currentTarget.style.borderColor = '#242426' }}
             >
@@ -132,21 +124,31 @@ export function Header() {
               </svg>
               <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{locale === 'es' ? 'Acceder' : 'Login'}</span>
             </Link>
-            {/* Mobile login — icon only, skewed */}
+          </div>
+        </div>
+
+        {/* ========== Mobile layout (< lg) ========== */}
+        <div className="lg:hidden">
+          {/* Row 1: bigger logo, centered */}
+          <Link href="/" onClick={() => setActiveMenu(null)} style={{ display: 'flex', justifyContent: 'center', paddingTop: '0.25rem', paddingBottom: '0.75rem' }}>
+            <Image src="/Logo-titan-transfers-texto-negro.png" alt="Titan Transfers" width={300} height={68} priority style={{ width: '200px', height: 'auto' }} />
+          </Link>
+
+          {/* Row 2: language · login · search · hamburger */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <LanguageSwitcher />
             <Link href="/login/"
-              className="flex lg:hidden"
               aria-label={locale === 'es' ? 'Acceder' : 'Login'}
-              style={{ alignItems: 'center', justifyContent: 'center', color: '#ffffff', textDecoration: 'none', width: '34px', height: '34px', background: '#242426', border: '2px solid #242426', transform: 'skewX(-12deg)', transition: 'background 0.2s, border-color 0.2s' }}
-              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#8BAA1D'; e.currentTarget.style.borderColor = '#8BAA1D' }}
-              onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#242426'; e.currentTarget.style.borderColor = '#242426' }}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', textDecoration: 'none', width: '34px', height: '34px', background: '#242426', border: '2px solid #242426', transform: 'skewX(-12deg)', flexShrink: 0 }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'skewX(12deg)' }}>
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
               </svg>
             </Link>
-
-            {/* Mobile menu button */}
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="rounded-lg p-2 text-gray-600 lg:hidden" aria-label="Toggle menu">
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <GlobalSearch />
+            </div>
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="rounded-lg p-2 text-gray-600" aria-label="Toggle menu" style={{ flexShrink: 0 }}>
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                 {mobileMenuOpen ? <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /> : <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />}
               </svg>
@@ -154,10 +156,6 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile search row */}
-        <div className="mobile-search-row pb-3">
-          <GlobalSearch />
-        </div>
       </div>
 
       {/* Mega Menu Panel */}
