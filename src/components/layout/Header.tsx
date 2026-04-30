@@ -130,7 +130,7 @@ export function Header() {
         {/* ========== Mobile layout (< lg) ========== */}
         <div className="lg:hidden">
           {/* Row 1: logo (left, bigger) · hamburger (right) */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '0.75rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1.25rem' }}>
             <Link href="/" onClick={() => setActiveMenu(null)} style={{ display: 'inline-flex' }}>
               <Image src="/Logo-titan-transfers-texto-negro.png" alt="Titan Transfers" width={300} height={68} priority style={{ width: '220px', height: 'auto' }} />
             </Link>
