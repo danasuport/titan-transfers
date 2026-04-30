@@ -210,6 +210,32 @@ const nextConfig: NextConfig = {
           { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
         ],
       },
+      // Block indexing on every non-production host (sslip.io test URL,
+      // raw IP, Coolify preview hostnames). Done via response headers — NOT
+      // via middleware — so that ISR cache stays public on the real domain.
+      // Each rule below adds X-Robots-Tag: noindex when the host header
+      // matches the pattern. Stays harmless on titantransfers.com because
+      // none of these match it.
+      {
+        source: '/(.*)',
+        has: [{ type: 'host', value: '(?<host>.*\\.sslip\\.io)' }],
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
+      {
+        source: '/(.*)',
+        has: [{ type: 'host', value: '(?<host>\\d+\\.\\d+\\.\\d+\\.\\d+(:\\d+)?)' }],
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
+      {
+        source: '/(.*)',
+        has: [{ type: 'host', value: '(?<host>.*\\.coolify\\..*)' }],
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
+      {
+        source: '/(.*)',
+        has: [{ type: 'host', value: '(?<host>localhost(:\\d+)?)' }],
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
     ]
   },
 }
