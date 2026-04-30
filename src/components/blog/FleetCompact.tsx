@@ -5,12 +5,13 @@ import { useTranslations, useLocale } from 'next-intl'
 import { russoOne } from '@/lib/fonts'
 
 const vehicles = [
-  { key: 'economy',       pax: 3, bags: 3, img: '/vehicles/sedan.jpg',           icon: '/vehicles/icon-economy.png' },
-  { key: 'standard',      pax: 3, bags: 3, img: '/vehicles/standard.jpg',        icon: '/vehicles/icon-standard.png' },
-  { key: 'firstClass',    pax: 3, bags: 2, img: '/vehicles/first-class.jpg',     icon: '/vehicles/icon-first-class.png' },
-  { key: 'suv',           pax: 6, bags: 6, img: '/vehicles/suv.jpg',             icon: '/vehicles/icon-suv.png' },
-  { key: 'vanStandard',   pax: 7, bags: 7, img: '/vehicles/van-standard.jpg',    icon: '/vehicles/icon-van-standard.png' },
-  { key: 'vanFirstClass', pax: 6, bags: 6, img: '/vehicles/van-first-class.jpg', icon: '/vehicles/icon-van-first-class.png' },
+  { key: 'economy',      pax: 3, bags: 3, img: '/vehicles/economy3pax.png' },
+  { key: 'comfort',      pax: 3, bags: 3, img: '/vehicles/confort3pax.png' },
+  { key: 'minivan',      pax: 6, bags: 5, img: '/vehicles/minivan.png' },
+  { key: 'mpv',          pax: 7, bags: 7, img: '/vehicles/mvp-suv.png' },
+  { key: 'premiumSedan', pax: 3, bags: 3, img: '/vehicles/premiumclaseE.png' },
+  { key: 'luxurySedan',  pax: 3, bags: 2, img: '/vehicles/luxury.png' },
+  { key: 'premiumVan',   pax: 6, bags: 6, img: '/vehicles/premiumminivan.png' },
 ] as const
 
 function IconPerson() {

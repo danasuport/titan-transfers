@@ -33,12 +33,13 @@ function IconCheck() {
 }
 
 const vehicles = [
-  { key: 'economy',       pax: 3, bags: 3, img: '/vehicles/sedan.jpg',           icon: '/vehicles/icon-economy.png' },
-  { key: 'standard',      pax: 3, bags: 3, img: '/vehicles/standard.jpg',        icon: '/vehicles/icon-standard.png' },
-  { key: 'firstClass',    pax: 3, bags: 2, img: '/vehicles/first-class.jpg',     icon: '/vehicles/icon-first-class.png' },
-  { key: 'suv',           pax: 6, bags: 6, img: '/vehicles/suv.jpg',             icon: '/vehicles/icon-suv.png' },
-  { key: 'vanStandard',   pax: 7, bags: 7, img: '/vehicles/van-standard.jpg',    icon: '/vehicles/icon-van-standard.png' },
-  { key: 'vanFirstClass', pax: 6, bags: 6, img: '/vehicles/van-first-class.jpg', icon: '/vehicles/icon-van-first-class.png' },
+  { key: 'economy',      pax: 3, bags: 3, img: '/vehicles/economy3pax.png' },
+  { key: 'comfort',      pax: 3, bags: 3, img: '/vehicles/confort3pax.png' },
+  { key: 'minivan',      pax: 6, bags: 5, img: '/vehicles/minivan.png' },
+  { key: 'mpv',          pax: 7, bags: 7, img: '/vehicles/mvp-suv.png' },
+  { key: 'premiumSedan', pax: 3, bags: 3, img: '/vehicles/premiumclaseE.png' },
+  { key: 'luxurySedan',  pax: 3, bags: 2, img: '/vehicles/luxury.png' },
+  { key: 'premiumVan',   pax: 6, bags: 6, img: '/vehicles/premiumminivan.png' },
 ] as const
 
 export function FleetShowcase() {
@@ -120,10 +121,7 @@ export function FleetShowcase() {
                 </div>
               </div>
               <div style={{ padding: '1rem 1.25rem 1.25rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                  <Image src={v.icon} alt="" width={64} height={38} style={{ objectFit: 'contain', flexShrink: 0 }} />
-                  <h3 style={{ fontSize: '1rem', fontWeight: 400, color: '#242426' }}>{t(v.key as any)}</h3>
-                </div>
+                <h3 style={{ fontSize: '1rem', fontWeight: 600, color: '#242426', marginBottom: '0.5rem' }}>{t(v.key as any)}</h3>
                 <p style={{ fontSize: '0.875rem', color: '#475569', lineHeight: 1.6 }}>
                   {t(`${v.key}Desc` as any)}
                 </p>
