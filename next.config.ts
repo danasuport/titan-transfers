@@ -58,28 +58,49 @@ const nextConfig: NextConfig = {
       { source: '/airport/los-angeles-lax-airport-transfers/', destination: '/airport-transfers-private-taxi/los-angeles/', permanent: true },
       { source: '/airport/marrakesh-airport-transfers/', destination: '/airport-transfers-private-taxi/marrakech/', permanent: true },
       { source: '/airport/prague-airport-prg-airport-transfers/', destination: '/airport-transfers-private-taxi/prague/', permanent: true },
+      // EN airport slugs that don't exist in Sanity → listing
+      { source: '/airport/skopje/', destination: '/airports/', permanent: true },
+      { source: '/airport/skopje-airport-transfers/', destination: '/airports/', permanent: true },
+      { source: '/airport/traslados-al-aeropuerto-de-phuket/', destination: '/airports/', permanent: true },
+
+      // EN city slug mismatches — when Sanity uses a shorter/cleaner slug
+      { source: '/city/beijing-pekin-private-transfers/', destination: '/private-transfers/beijing/', permanent: true },
+      { source: '/city/cartagena-de-indias-private-transfers/', destination: '/private-transfers/cartagena/', permanent: true },
+      { source: '/city/dallas-fort-worth-private-transfers/', destination: '/private-transfers/dallas/', permanent: true },
+      { source: '/city/guangzhou-canton-private-transfers/', destination: '/private-transfers/guangzhou/', permanent: true },
+      { source: '/city/marrakesh-private-transfers/', destination: '/private-transfers/marrakech/', permanent: true },
+      { source: '/city/nanjing-nanjing-private-transfers/', destination: '/private-transfers/nanjing/', permanent: true },
+      { source: '/city/porto-oporto-private-transfers/', destination: '/private-transfers/porto/', permanent: true },
+      { source: '/city/prague-praga-private-transfers/', destination: '/private-transfers/prague/', permanent: true },
+      // EN cities not in Sanity → listing (better than 404)
+      { source: '/city/bucharest-private-transfers/', destination: '/cities/', permanent: true },
+      { source: '/city/mostar-private-transfers/', destination: '/cities/', permanent: true },
+      { source: '/city/raleigh-durham-private-transfers/', destination: '/cities/', permanent: true },
+      { source: '/city/sharm-el-sheikh-private-transfers/', destination: '/cities/', permanent: true },
+      { source: '/city/washington-d-c-private-transfers/', destination: '/cities/', permanent: true },
 
       // ES airport slug mismatches
       { source: '/es/airport/los-angeles-lax-traslados-al-aeropuerto/', destination: '/es/traslados-aeropuerto-privados-taxi/los-angeles/', permanent: true },
       { source: '/es/airport/nankin-traslados-al-aeropuerto/', destination: '/es/traslados-aeropuerto-privados-taxi/nanjing/', permanent: true },
-      { source: '/es/airport/ohare-de-chicago-traslados-al-aeropuerto/', destination: '/es/traslados-aeropuerto-privados-taxi/chicago/', permanent: true },
+      { source: '/es/airport/ohare-de-chicago-traslados-al-aeropuerto/', destination: '/es/aeropuertos/', permanent: true },
 
       // ES city slug mismatches (translated WP slugs → Sanity EN slugs)
       { source: '/es/city/traslados-privados-en-asuan/', destination: '/es/traslados-privados-taxi/aswan/', permanent: true },
-      { source: '/es/city/traslados-privados-en-bucarest/', destination: '/es/traslados-privados-taxi/bucharest/', permanent: true },
       { source: '/es/city/traslados-privados-en-bufalo/', destination: '/es/traslados-privados-taxi/buffalo/', permanent: true },
       { source: '/es/city/traslados-privados-en-cartagena-de-indias/', destination: '/es/traslados-privados-taxi/cartagena/', permanent: true },
       { source: '/es/city/traslados-privados-en-guangzhou-canton/', destination: '/es/traslados-privados-taxi/guangzhou/', permanent: true },
       { source: '/es/city/traslados-privados-en-mineapolis/', destination: '/es/traslados-privados-taxi/minneapolis/', permanent: true },
-      { source: '/es/city/traslados-privados-en-mostar/', destination: '/es/traslados-privados-taxi/mostar/', permanent: true },
       { source: '/es/city/traslados-privados-en-oporto-oporto/', destination: '/es/traslados-privados-taxi/porto/', permanent: true },
       { source: '/es/city/traslados-privados-en-praga-praga/', destination: '/es/traslados-privados-taxi/prague/', permanent: true },
-      { source: '/es/city/traslados-privados-en-raleigh-durham/', destination: '/es/traslados-privados-taxi/raleigh-durham/', permanent: true },
-      { source: '/es/city/traslados-privados-en-sharm-el-sheikh/', destination: '/es/traslados-privados-taxi/sharm-el-sheikh/', permanent: true },
       { source: '/es/city/traslados-privados-en-skopie/', destination: '/es/traslados-privados-taxi/skopje/', permanent: true },
       { source: '/es/city/traslados-privados-en-tanger/', destination: '/es/traslados-privados-taxi/tangier/', permanent: true },
-      { source: '/es/city/traslados-privados-en-washington-d-c/', destination: '/es/traslados-privados-taxi/washington/', permanent: true },
       { source: '/es/city/traslados-privados-dallas-fort-worth/', destination: '/es/traslados-privados-taxi/dallas/', permanent: true },
+      // ES city slugs whose Sanity equivalent doesn't exist → ES cities listing
+      { source: '/es/city/traslados-privados-en-bucarest/', destination: '/es/ciudades/', permanent: true },
+      { source: '/es/city/traslados-privados-en-mostar/', destination: '/es/ciudades/', permanent: true },
+      { source: '/es/city/traslados-privados-en-raleigh-durham/', destination: '/es/ciudades/', permanent: true },
+      { source: '/es/city/traslados-privados-en-sharm-el-sheikh/', destination: '/es/ciudades/', permanent: true },
+      { source: '/es/city/traslados-privados-en-washington-d-c/', destination: '/es/ciudades/', permanent: true },
 
       // ES country slug mismatch
       { source: '/es/pais/moldavia-traslados-privados/', destination: '/es/traslados-privados-pais/moldova/', permanent: true },
@@ -219,9 +240,12 @@ const nextConfig: NextConfig = {
       // because the WP slugs ("traslados-al-aeropuerto-de-paris") don't match
       // the Sanity ES slugs ("paris").
 
-      // ── Old /rutas/ listing pages — fallback for any slug not in legacyRedirects ──
-      { source: '/rutas/', destination: '/airport-transfers-private-taxi/', permanent: true },
-      { source: '/es/rutas/', destination: '/es/traslados-aeropuerto-privados-taxi/', permanent: true },
+      // ── Old /rutas/ listing pages — send to the airports listing (the
+      // /airport-transfers-private-taxi/ root has no listing of its own). ──
+      { source: '/rutas/', destination: '/airports/', permanent: true },
+      { source: '/rutas/:path*', destination: '/airports/', permanent: true },
+      { source: '/es/rutas/', destination: '/es/aeropuertos/', permanent: true },
+      { source: '/es/rutas/:path*', destination: '/es/aeropuertos/', permanent: true },
 
       // ── Old landing pages ──
       { source: '/landing-aeropuertos-barcelona/', destination: '/airport-transfers-private-taxi/barcelona/', permanent: true },
