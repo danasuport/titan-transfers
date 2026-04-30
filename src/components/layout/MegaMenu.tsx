@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 import { useLocale } from 'next-intl'
-import { useRouter } from '@/lib/i18n/navigation'
+import { Link, useRouter } from '@/lib/i18n/navigation'
 import { russoOne } from '@/lib/fonts'
 
 interface Airport { _id: string; title: string; iataCode: string; slug: string; esSlug?: string; city?: string; country?: string; countrySlug?: string }
@@ -74,7 +74,6 @@ type Tab = 'airports' | 'cities' | 'countries'
 
 export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose: () => void; mobile?: boolean }) {
   const locale = useLocale()
-  const router = useRouter()
   const es = locale === 'es'
   const [data, setData] = useState<MenuData | null>(null)
   const [search, setSearch] = useState('')
@@ -83,14 +82,8 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
     fetch('/api/megamenu').then(r => r.json()).then(setData)
   }, [])
 
-
   function slug(item: { slug: string; esSlug?: string }) {
     return es && item.esSlug ? item.esSlug : item.slug
-  }
-
-  function go(path: string) {
-    onClose()
-    router.push(path as any)
   }
 
   const q = search.toLowerCase()
@@ -107,7 +100,6 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
     !q || c.title.toLowerCase().includes(q)
   )
 
-  // Group airports by country
   const airportsByCountry: Record<string, Airport[]> = {}
   airports.forEach(a => {
     const key = a.country ?? 'Other'
@@ -115,7 +107,6 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
     airportsByCountry[key].push(a)
   })
 
-  // Group cities by country
   const citiesByCountry: Record<string, City[]> = {}
   cities.forEach(c => {
     const key = c.country ?? 'Other'
@@ -130,14 +121,25 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
     transform: 'skewX(-8deg)',
     background: hovered ? '#8BAA1D' : 'transparent',
     transition: 'background 0.12s',
+    textDecoration: 'none',
   })
+
+  function airportHref(a: Airport) {
+    return es ? `/traslados-aeropuerto-privados-taxi/${slug(a)}/` : `/airport-transfers-private-taxi/${slug(a)}/`
+  }
+  function cityHref(c: City) {
+    return es ? `/traslados-privados-taxi/${slug(c)}/` : `/private-transfers/${slug(c)}/`
+  }
+  function countryHref(slugStr: string | undefined) {
+    return es ? `/traslados-privados-pais/${slugStr}/` : `/private-transfers-country/${slugStr}/`
+  }
 
   if (mobile) {
     return (
       <MegaMenuMobile type={type} onClose={onClose} es={es} data={data}
         airports={airports} cities={cities} countries={countries}
         airportsByCountry={airportsByCountry} citiesByCountry={citiesByCountry}
-        slug={slug} go={go} />
+        slug={slug} airportHref={airportHref} cityHref={cityHref} countryHref={countryHref} />
     )
   }
 
@@ -152,12 +154,12 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
           <div style={{ columns: '4', columnGap: '2rem' }}>
             {Object.entries(airportsByCountry).map(([country, items]) => (
               <div key={country} style={{ breakInside: 'avoid', marginBottom: '1.25rem' }}>
-                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-pais/${items[0]?.countrySlug}/` : `/private-transfers-country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#6B8313', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                <Link href={countryHref(items[0]?.countrySlug) as never} onClick={onClose} className={russoOne.className} style={{ fontSize: '0.72rem', color: '#6B8313', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem', textDecoration: 'none' }}>
                   <Flag countrySlug={items[0]?.countrySlug ?? ''} /> {country}
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </div>
+                </Link>
                 {items.map(a => (
-                  <HoverItem key={a._id} style={itemStyle} onClick={() => go(es ? `/traslados-aeropuerto-privados-taxi/${slug(a)}/` : `/airport-transfers-private-taxi/${slug(a)}/`)}>
+                  <HoverItem key={a._id} href={airportHref(a)} onClose={onClose} style={itemStyle}>
                     {a.iataCode && (
                       <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#6B8313', background: '#f0f4e3', padding: '1px 5px', borderRadius: '3px', flexShrink: 0 }}>
                         {a.iataCode}
@@ -169,7 +171,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
               </div>
             ))}
           </div>
-          <Footer href="/airports/" label={es ? 'Ver todos los aeropuertos' : 'Browse all airports'} />
+          <Footer href="/airports/" label={es ? 'Ver todos los aeropuertos' : 'Browse all airports'} onClose={onClose} />
         </div>
       )}
 
@@ -181,19 +183,19 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
           <div style={{ columns: '4', columnGap: '2rem' }}>
             {Object.entries(citiesByCountry).map(([country, items]) => (
               <div key={country} style={{ breakInside: 'avoid', marginBottom: '1.25rem' }}>
-                <div className={russoOne.className} onClick={() => go(es ? `/traslados-privados-pais/${items[0]?.countrySlug}/` : `/private-transfers-country/${items[0]?.countrySlug}/`)} style={{ fontSize: '0.72rem', color: '#6B8313', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                <Link href={countryHref(items[0]?.countrySlug) as never} onClick={onClose} className={russoOne.className} style={{ fontSize: '0.72rem', color: '#6B8313', textTransform: 'none', letterSpacing: '0.08em', marginBottom: '0.4rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem', textDecoration: 'none' }}>
                   <Flag countrySlug={items[0]?.countrySlug ?? ''} /> {country}
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </div>
+                </Link>
                 {items.map(c => (
-                  <HoverItem key={c._id} style={itemStyle} onClick={() => go(es ? `/traslados-privados-taxi/${slug(c)}/` : `/private-transfers/${slug(c)}/`)}>
+                  <HoverItem key={c._id} href={cityHref(c)} onClose={onClose} style={itemStyle}>
                     <span style={{ fontSize: '0.85rem', color: 'inherit' }}>{c.title}</span>
                   </HoverItem>
                 ))}
               </div>
             ))}
           </div>
-          <Footer href="/cities/" label={es ? 'Ver todas las ciudades' : 'Browse all cities'} />
+          <Footer href="/cities/" label={es ? 'Ver todas las ciudades' : 'Browse all cities'} onClose={onClose} />
         </div>
       )}
 
@@ -204,7 +206,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
           {data && countries.length === 0 && <Empty es={es} />}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.5rem', marginBottom: '1.25rem' }}>
             {countries.map(c => (
-              <HoverItem key={c._id} style={itemStyle} onClick={() => go(es ? `/traslados-privados-pais/${slug(c)}/` : `/private-transfers-country/${slug(c)}/`)}>
+              <HoverItem key={c._id} href={countryHref(slug(c))} onClose={onClose} style={itemStyle}>
                 <Flag countrySlug={c.slug} />
                 <div>
                   <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'inherit' }}>{c.title}</div>
@@ -219,7 +221,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
               </HoverItem>
             ))}
           </div>
-          <Footer href="/countries/" label={es ? 'Ver todos los países' : 'Browse all countries'} />
+          <Footer href="/countries/" label={es ? 'Ver todos los países' : 'Browse all countries'} onClose={onClose} />
         </div>
       )}
 
@@ -227,18 +229,20 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
   )
 }
 
-function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, airportsByCountry, citiesByCountry, slug, go }: {
+function MegaMenuMobile({ type, onClose, es, data, countries, airportsByCountry, citiesByCountry, airportHref, cityHref, countryHref }: {
   type: Tab; onClose: () => void; es: boolean; data: MenuData | null
   airports: Airport[]; cities: City[]; countries: Country[]
   airportsByCountry: Record<string, Airport[]>; citiesByCountry: Record<string, City[]>
   slug: (item: { slug: string; esSlug?: string }) => string
-  go: (path: string) => void
+  airportHref: (a: Airport) => string
+  cityHref: (c: City) => string
+  countryHref: (slug: string | undefined) => string
 }) {
   const [openCountry, setOpenCountry] = useState<string | null>(null)
 
   const groupStyle: React.CSSProperties = { borderBottom: '1px solid #f1f5f9' }
   const groupHeader: React.CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.65rem 0', cursor: 'pointer', gap: '0.5rem' }
-  const itemRowStyle: React.CSSProperties = { display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', cursor: 'pointer', borderBottom: '1px solid #f8fafc' }
+  const itemRowStyle: React.CSSProperties = { display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', cursor: 'pointer', borderBottom: '1px solid #f8fafc', textDecoration: 'none', color: '#242426' }
 
   return (
     <div style={{ padding: '0.5rem 0' }}>
@@ -251,7 +255,7 @@ function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, 
             <div key={country} style={groupStyle}>
               <div style={groupHeader} onClick={() => setOpenCountry(openCountry === country ? null : country)}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Flag countrySlug={(items[0] as any)?.countrySlug ?? ''} />
+                  <Flag countrySlug={(items[0] as Airport | City)?.countrySlug ?? ''} />
                   <span className={russoOne.className} style={{ fontSize: '0.8rem', color: '#242426' }}>{country}</span>
                   <span style={{ fontSize: '0.7rem', color: '#64748b' }}>({items.length})</span>
                 </div>
@@ -262,26 +266,30 @@ function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, 
               </div>
               {openCountry === country && (
                 <div style={{ paddingBottom: '0.5rem' }}>
+                  {/* Country page link header */}
+                  <Link href={countryHref((items[0] as Airport | City)?.countrySlug) as never} onClick={onClose} style={{ display: 'block', padding: '0.5rem 0.75rem', fontSize: '0.78rem', color: '#6B8313', textDecoration: 'none', fontWeight: 600, borderBottom: '1px solid #f8fafc' }}>
+                    {es ? `Ver país: ${country} →` : `View country: ${country} →`}
+                  </Link>
                   {type === 'airports' && (items as Airport[]).map(a => (
-                    <div key={a._id} style={itemRowStyle} onClick={() => go(es ? `/traslados-aeropuerto-privados-taxi/${slug(a)}/` : `/airport-transfers-private-taxi/${slug(a)}/`)}>
+                    <Link key={a._id} href={airportHref(a) as never} onClick={onClose} style={itemRowStyle}>
                       {a.iataCode && <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#6B8313', background: '#f0f4e3', padding: '1px 5px', flexShrink: 0 }}>{a.iataCode}</span>}
                       <span style={{ fontSize: '0.875rem', color: '#242426' }}>{a.title}</span>
-                    </div>
+                    </Link>
                   ))}
                   {type === 'cities' && (items as City[]).map(c => (
-                    <div key={c._id} style={itemRowStyle} onClick={() => go(es ? `/traslados-privados-taxi/${slug(c)}/` : `/private-transfers/${slug(c)}/`)}>
+                    <Link key={c._id} href={cityHref(c) as never} onClick={onClose} style={itemRowStyle}>
                       <span style={{ fontSize: '0.875rem', color: '#242426' }}>{c.title}</span>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               )}
             </div>
           ))}
           <div style={{ paddingTop: '1rem' }}>
-            <button onClick={() => go(type === 'airports' ? '/airports/' : '/cities/')}
-              style={{ background: '#242426', color: '#ffffff', border: 'none', padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', fontFamily: 'inherit', width: '100%' }}>
+            <Link href={(type === 'airports' ? '/airports/' : '/cities/') as never} onClick={onClose}
+              style={{ display: 'block', textAlign: 'center', background: '#242426', color: '#ffffff', padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.8rem', textDecoration: 'none', fontFamily: 'inherit', width: '100%', boxSizing: 'border-box' }}>
               {type === 'airports' ? (es ? 'Ver todos los aeropuertos →' : 'Browse all airports →') : (es ? 'Ver todas las ciudades →' : 'Browse all cities →')}
-            </button>
+            </Link>
           </div>
         </>
       )}
@@ -291,8 +299,8 @@ function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, 
         <>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.4rem', marginBottom: '1rem' }}>
             {countries.map(c => (
-              <div key={c._id} onClick={() => go(es ? `/traslados-privados-pais/${slug(c)}/` : `/private-transfers-country/${slug(c)}/`)}
-                style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', cursor: 'pointer', background: '#f8fafc', borderRadius: '4px' }}>
+              <Link key={c._id} href={countryHref(c.esSlug && es ? c.esSlug : c.slug) as never} onClick={onClose}
+                style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', cursor: 'pointer', background: '#f8fafc', borderRadius: '4px', textDecoration: 'none' }}>
                 <Flag countrySlug={c.slug} />
                 <div>
                   <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#242426', lineHeight: 1.2 }}>{c.title}</div>
@@ -302,43 +310,43 @@ function MegaMenuMobile({ type, onClose, es, data, airports, cities, countries, 
                     </div>
                   )}
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
-          <button onClick={() => go('/countries/')}
-            style={{ background: '#242426', color: '#ffffff', border: 'none', padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', fontFamily: 'inherit', width: '100%' }}>
+          <Link href={'/countries/' as never} onClick={onClose}
+            style={{ display: 'block', textAlign: 'center', background: '#242426', color: '#ffffff', padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.8rem', textDecoration: 'none', fontFamily: 'inherit', width: '100%', boxSizing: 'border-box' }}>
             {es ? 'Ver todos los países →' : 'Browse all countries →'}
-          </button>
+          </Link>
         </>
       )}
     </div>
   )
 }
 
-function HoverItem({ children, style, onClick }: { children: React.ReactNode; style: (h: boolean) => React.CSSProperties; onClick: () => void }) {
+function HoverItem({ children, style, href, onClose }: { children: ReactNode; style: (h: boolean) => React.CSSProperties; href: string; onClose: () => void }) {
   const [hovered, setHovered] = useState(false)
   return (
-    <div style={style(hovered)} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onClick={onClick}>
+    <Link href={href as never} onClick={onClose} style={style(hovered)} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <div style={{ transform: 'skewX(8deg)', display: 'flex', alignItems: 'center', gap: '0.5rem', color: hovered ? '#ffffff' : 'inherit' }}>
         {children}
       </div>
-    </div>
+    </Link>
   )
 }
 
-function Footer({ href, label }: { href: string; label: string }) {
+function Footer({ href, label, onClose }: { href: string; label: string; onClose: () => void }) {
   const [hovered, setHovered] = useState(false)
-  const router = useRouter()
   return (
     <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '1rem', marginTop: '0.5rem' }}>
-      <button
-        onClick={() => router.push(href as any)}
+      <Link
+        href={href as never}
+        onClick={onClose}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        style={{ background: hovered ? '#242426' : 'transparent', color: hovered ? '#ffffff' : '#242426', border: '2px solid #242426', padding: '0.4rem 1.25rem', transform: 'skewX(-12deg)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 700, fontFamily: 'inherit', transition: 'all 0.15s', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+        style={{ background: hovered ? '#242426' : 'transparent', color: hovered ? '#ffffff' : '#242426', border: '2px solid #242426', padding: '0.4rem 1.25rem', transform: 'skewX(-12deg)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 700, fontFamily: 'inherit', transition: 'all 0.15s', display: 'inline-flex', alignItems: 'center', gap: '0.4rem', textDecoration: 'none' }}
       >
         <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{label} →</span>
-      </button>
+      </Link>
     </div>
   )
 }

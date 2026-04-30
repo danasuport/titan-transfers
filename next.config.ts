@@ -42,6 +42,55 @@ const nextConfig: NextConfig = {
       { source: '/es/traslados-aeropuerto-privados-taxi/tanger/', destination: '/es/traslados-aeropuerto-privados-taxi/tangier/', permanent: true },
       { source: '/city/:slug/', destination: '/private-transfers/:slug/', permanent: true },
       { source: '/es/ciudad/:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
+
+      // ── WP legacy: /country/<slug>-private-transfers/ (22 indexed URLs) ─────
+      // Match BEFORE /country/:slug/ so the suffix doesn't get captured into :slug.
+      { source: '/country/:slug-private-transfers/', destination: '/private-transfers-country/:slug/', permanent: true },
+
+      // ── WP legacy: ES airport URLs with translation suffix (~126 indexed) ───
+      // Order matters: more specific suffix first.
+      { source: '/es/airport/:slug-traslados-al-aeropuerto/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/', permanent: true },
+      { source: '/es/airport/:slug-traslados-desde-el-aeropuerto/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/', permanent: true },
+
+      // ── WP legacy: ES city URLs with translated prefix (~94 indexed) ────────
+      // The WP slug-translations are heterogeneous; match the three known prefixes.
+      { source: '/es/city/traslados-privados-en-:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
+      { source: '/es/city/traslados-de-:slug-private/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
+      { source: '/es/city/traslados-privados-:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
+
+      // ── ES city slug overrides where Sanity uses the EN base slug ──────────
+      // (e.g. "bruselas" in WP → "brussels" in Sanity). Keep as explicit
+      // sources because the wildcards above can't translate the slug itself.
+      { source: '/es/traslados-privados-taxi/bruselas/', destination: '/es/traslados-privados-taxi/brussels/', permanent: true },
+      { source: '/es/traslados-privados-taxi/atenas/', destination: '/es/traslados-privados-taxi/athens/', permanent: true },
+      { source: '/es/traslados-privados-taxi/londres/', destination: '/es/traslados-privados-taxi/london/', permanent: true },
+      { source: '/es/traslados-privados-taxi/roma/', destination: '/es/traslados-privados-taxi/rome/', permanent: true },
+      { source: '/es/traslados-privados-taxi/lisboa/', destination: '/es/traslados-privados-taxi/lisbon/', permanent: true },
+      { source: '/es/traslados-privados-taxi/nueva-york/', destination: '/es/traslados-privados-taxi/new-york/', permanent: true },
+
+      // ── WP legacy: ES pais URLs with translated suffix (~23 indexed) ────────
+      { source: '/es/pais/:slug-traslados-privados/', destination: '/es/traslados-privados-pais/:slug/', permanent: true },
+      { source: '/es/pais/:slug-private-transfers/', destination: '/es/traslados-privados-pais/:slug/', permanent: true },
+
+      // ── ES country slug overrides (translated WP names → Sanity EN slugs) ──
+      { source: '/es/traslados-privados-pais/belgica/', destination: '/es/traslados-privados-pais/belgium/', permanent: true },
+      { source: '/es/traslados-privados-pais/grecia/', destination: '/es/traslados-privados-pais/greece/', permanent: true },
+      { source: '/es/traslados-privados-pais/hungria/', destination: '/es/traslados-privados-pais/hungary/', permanent: true },
+      { source: '/es/traslados-privados-pais/irlanda/', destination: '/es/traslados-privados-pais/ireland/', permanent: true },
+      { source: '/es/traslados-privados-pais/alemania/', destination: '/es/traslados-privados-pais/germany/', permanent: true },
+      { source: '/es/traslados-privados-pais/republica-checa/', destination: '/es/traslados-privados-pais/czech-republic/', permanent: true },
+      { source: '/es/traslados-privados-pais/marruecos/', destination: '/es/traslados-privados-pais/morocco/', permanent: true },
+      { source: '/es/traslados-privados-pais/egipto/', destination: '/es/traslados-privados-pais/egypt/', permanent: true },
+      { source: '/es/traslados-privados-pais/tailandia/', destination: '/es/traslados-privados-pais/thailand/', permanent: true },
+      { source: '/es/traslados-privados-pais/rumania/', destination: '/es/traslados-privados-pais/romania/', permanent: true },
+      { source: '/es/traslados-privados-pais/jamaica/', destination: '/es/traslados-privados-pais/jamaica/', permanent: true },
+      { source: '/es/traslados-privados-pais/bosnia/', destination: '/es/traslados-privados-pais/bosnia-and-herzegovina/', permanent: true },
+
+      // ── WP legacy: ES airport/city/pais clean slug (no translation suffix) ──
+      // Final fallback for old paths whose slug already matches Sanity.
+      { source: '/es/airport/:slug/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/', permanent: true },
+      { source: '/es/city/:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
+
       { source: '/country/:slug/', destination: '/private-transfers-country/:slug/', permanent: true },
       { source: '/es/pais/:slug/', destination: '/es/traslados-privados-pais/:slug/', permanent: true },
       { source: '/region/:slug/', destination: '/private-transfers-region/:slug/', permanent: true },
