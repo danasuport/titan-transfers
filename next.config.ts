@@ -22,6 +22,11 @@ const nextConfig: NextConfig = {
       // Strip "-airport-transfers" / "-airport-transfer" / "-airpot-transfers"
       // suffixes BEFORE the generic /airport/:slug/ rule (which would otherwise
       // capture them greedily into :slug and end up at a non-existent Sanity slug).
+      // Specific /airport/<x>/ overrides where Sanity has no matching slug —
+      // MUST come before /airport/:slug/ catch-all below.
+      { source: '/airport/skopje/', destination: '/airports/', permanent: true },
+      { source: '/airport/skopje-airport-transfers/', destination: '/airports/', permanent: true },
+      { source: '/airport/traslados-al-aeropuerto-de-phuket/', destination: '/airports/', permanent: true },
       { source: '/airport/:slug([^/]+?)-airport-transfers/', destination: '/airport-transfers-private-taxi/:slug/', permanent: true },
       { source: '/airport/:slug([^/]+?)-airport-transfer/', destination: '/airport-transfers-private-taxi/:slug/', permanent: true },
       { source: '/airport/:slug([^/]+?)-airpot-transfers/', destination: '/airport-transfers-private-taxi/:slug/', permanent: true },
@@ -58,10 +63,8 @@ const nextConfig: NextConfig = {
       { source: '/airport/los-angeles-lax-airport-transfers/', destination: '/airport-transfers-private-taxi/los-angeles/', permanent: true },
       { source: '/airport/marrakesh-airport-transfers/', destination: '/airport-transfers-private-taxi/marrakech/', permanent: true },
       { source: '/airport/prague-airport-prg-airport-transfers/', destination: '/airport-transfers-private-taxi/prague/', permanent: true },
-      // EN airport slugs that don't exist in Sanity → listing
-      { source: '/airport/skopje/', destination: '/airports/', permanent: true },
-      { source: '/airport/skopje-airport-transfers/', destination: '/airports/', permanent: true },
-      { source: '/airport/traslados-al-aeropuerto-de-phuket/', destination: '/airports/', permanent: true },
+      // (skopje/, skopje-airport-transfers/, traslados-al-aeropuerto-de-phuket
+      //  moved earlier — must beat /airport/:slug/ catch-all.)
 
       // EN city slug mismatches — when Sanity uses a shorter/cleaner slug
       { source: '/city/beijing-pekin-private-transfers/', destination: '/private-transfers/beijing/', permanent: true },
@@ -152,7 +155,7 @@ const nextConfig: NextConfig = {
       { source: '/es/traslados-privados-pais/egipto/', destination: '/es/traslados-privados-pais/egypt/', permanent: true },
       { source: '/es/traslados-privados-pais/tailandia/', destination: '/es/traslados-privados-pais/thailand/', permanent: true },
       { source: '/es/traslados-privados-pais/rumania/', destination: '/es/traslados-privados-pais/romania/', permanent: true },
-      { source: '/es/traslados-privados-pais/jamaica/', destination: '/es/traslados-privados-pais/jamaica/', permanent: true },
+      // jamaica/jamaica was a self-redirect loop — removed.
       { source: '/es/traslados-privados-pais/bosnia/', destination: '/es/traslados-privados-pais/bosnia-and-herzegovina/', permanent: true },
 
       // /es/airport/:slug/, /es/city/:slug/, /es/pais/:slug/ (clean slug, no
