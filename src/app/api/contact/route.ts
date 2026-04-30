@@ -15,6 +15,12 @@ function escapeHtml(s: string) {
   return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string))
 }
 
+// Strip control chars (incl. CR/LF) so attacker-controlled values can't inject
+// extra SMTP headers via Subject / Reply-To (CRLF injection -> open relay).
+function stripControl(s: string) {
+  return s.replace(/\p{Cc}/gu, ' ').trim()
+}
+
 export async function POST(req: NextRequest) {
   let body: Payload
   try {
@@ -23,10 +29,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'invalid_json' }, { status: 400 })
   }
 
-  const name = (body.name || '').toString().trim().slice(0, 200)
-  const email = (body.email || '').toString().trim().slice(0, 200)
+  const name = stripControl((body.name || '').toString()).slice(0, 200)
+  const email = stripControl((body.email || '').toString()).slice(0, 200)
   const message = (body.message || '').toString().trim().slice(0, 5000)
-  const locale = (body.locale || 'en').toString().slice(0, 5)
+  const locale = stripControl((body.locale || 'en').toString()).slice(0, 5)
 
   if (!name || !email || !message) {
     return NextResponse.json({ error: 'missing_fields' }, { status: 400 })

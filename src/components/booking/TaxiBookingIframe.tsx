@@ -25,11 +25,14 @@ export function TaxiBookingIframe() {
   // Listen for height messages posted by the MU-plugin's child snippet.
   useEffect(() => {
     function onMessage(e: MessageEvent) {
-      if (WP_ORIGIN_HOST && e.origin !== WP_ORIGIN_HOST) return
+      // Reject if origin couldn't be parsed (env var unset) or doesn't match.
+      // Closing this avoids any frame on the page DoSing layout via huge heights.
+      if (!WP_ORIGIN_HOST || e.origin !== WP_ORIGIN_HOST) return
       const data = e.data
       if (!data || typeof data !== 'object' || data.type !== 'titanBookingHeight') return
       const h = Number(data.height)
-      if (Number.isFinite(h) && h > 0) setHeight(h)
+      if (!Number.isFinite(h) || h <= 0) return
+      setHeight(Math.min(h, 10000))
     }
     window.addEventListener('message', onMessage)
     return () => window.removeEventListener('message', onMessage)
