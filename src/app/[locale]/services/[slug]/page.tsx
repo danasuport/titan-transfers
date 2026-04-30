@@ -17,6 +17,11 @@ import { Link } from '@/lib/i18n/navigation'
 import type { Locale } from '@/lib/i18n/config'
 import { russoOne } from '@/lib/fonts'
 
+// ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
+// stay cached so navigation feels instant; new content shows up within 1h
+// or immediately via /api/revalidate.
+export const revalidate = 3600
+
 const serviceImages: Record<string, string> = {
   airport: '/services/airport-transfers.jpg',
   port: '/services/port-transfers.jpg',

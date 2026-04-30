@@ -20,6 +20,11 @@ import { PortableText } from '@portabletext/react'
 import type { Locale } from '@/lib/i18n/config'
 import { russoOne } from '@/lib/fonts'
 
+// ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
+// stay cached so navigation feels instant; new content shows up within 1h
+// or immediately via /api/revalidate.
+export const revalidate = 3600
+
 const MULTI_AIRPORT_CITIES = new Set(['Beijing', 'Chicago', 'Dubai', 'Houston', 'Istanbul', 'London', 'Milan', 'New York', 'Panama City', 'Paris', 'Rome', 'Shanghai', 'Washington D.C.'])
 
 export async function generateStaticParams() {
@@ -119,9 +124,9 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
   const isMultiAirport = MULTI_AIRPORT_CITIES.has(airport.city?.title || '')
   const h1 = airport.seoH1 || (isMultiAirport ? `${airportTitle} transfers` : `${cityName} airport transfers`)
 
-  const heroImg = urlFor(airport.featuredImage)?.width(1920).height(900).quality(90).url()
+  const heroImg = urlFor(airport.featuredImage)?.width(1920).height(900).quality(80).auto('format').url()
   const gallery = (airport.gallery || []).map((img: { asset?: { _ref?: string }; alt?: string; title?: string }) => ({
-    url: urlFor(img)?.width(800).height(500).quality(80).url(),
+    url: urlFor(img)?.width(800).height(500).quality(75).auto('format').url(),
     alt: img.alt || airportTitle,
     title: img.title || airportTitle,
   })).filter((g: { url: string | null }) => g.url)

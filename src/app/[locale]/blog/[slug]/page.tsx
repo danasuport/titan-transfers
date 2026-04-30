@@ -19,6 +19,11 @@ import type { Locale } from '@/lib/i18n/config'
 import { getAirportUrl, getCityUrl, getTranslatedTitle } from '@/lib/utils/slugHelpers'
 import { russoOne } from '@/lib/fonts'
 
+// ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
+// stay cached so navigation feels instant; new content shows up within 1h
+// or immediately via /api/revalidate.
+export const revalidate = 3600
+
 export async function generateStaticParams() {
   const posts = await sanityClient.fetch(allBlogPostsQuery)
   return posts.map((p: { slug: { current: string } }) => ({ slug: p.slug.current }))

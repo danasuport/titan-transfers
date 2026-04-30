@@ -20,6 +20,11 @@ import { PortableText } from '@portabletext/react'
 import type { Locale } from '@/lib/i18n/config'
 import { russoOne } from '@/lib/fonts'
 
+// ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
+// stay cached so navigation feels instant; new content shows up within 1h
+// or immediately via /api/revalidate.
+export const revalidate = 3600
+
 export async function generateStaticParams() {
   const cities = await sanityClient.fetch(allCitiesQuery)
   return cities.map((c: { slug: { current: string } }) => ({ slug: c.slug.current }))
@@ -47,7 +52,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
 
   const cityTitle = (locale !== 'en' && city.translations?.[locale]?.title) || city.title
   const description = (locale !== 'en' && city.translations?.[locale]?.description) || city.description
-  const heroImg = urlFor(city.featuredImage)?.width(1920).height(900).quality(90).url()
+  const heroImg = urlFor(city.featuredImage)?.width(1920).height(900).quality(80).auto('format').url()
 
   const breadcrumbs = [
     { label: city.country?.title || '', href: es ? `/traslados-privados-pais/${city.country?.slug?.current}/` : `/private-transfers-country/${city.country?.slug?.current}/` },

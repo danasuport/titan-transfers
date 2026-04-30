@@ -8,6 +8,11 @@ import { CountriesClient } from '@/components/listings/CountriesClient'
 import type { Locale } from '@/lib/i18n/config'
 import { russoOne } from '@/lib/fonts'
 
+// ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
+// stay cached so navigation feels instant; new content shows up within 1h
+// or immediately via /api/revalidate.
+export const revalidate = 3600
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
@@ -27,7 +32,7 @@ export default async function CountriesPage({ params }: { params: Promise<{ loca
     _id: c._id,
     title: getTranslatedTitle(c, locale as Locale),
     href: getCountryUrl(c, locale as Locale),
-    imgUrl: urlFor(c.featuredImage)?.width(800).height(500).quality(85).url() || null,
+    imgUrl: urlFor(c.featuredImage)?.width(800).height(500).quality(75).auto('format').url() || null,
     airportCount: c.airportCount || 0,
     cityCount: c.cityCount || 0,
   }))

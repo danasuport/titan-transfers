@@ -3,6 +3,11 @@ import Image from 'next/image'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { ContactForm } from '@/components/contact/ContactForm'
 
+// ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
+// stay cached so navigation feels instant; new content shows up within 1h
+// or immediately via /api/revalidate.
+export const revalidate = 3600
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {

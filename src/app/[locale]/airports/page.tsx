@@ -9,6 +9,11 @@ import { AirportsClient } from '@/components/listings/AirportsClient'
 import type { Locale } from '@/lib/i18n/config'
 import { russoOne } from '@/lib/fonts'
 
+// ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
+// stay cached so navigation feels instant; new content shows up within 1h
+// or immediately via /api/revalidate.
+export const revalidate = 3600
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
@@ -33,7 +38,7 @@ export default async function AirportsPage({ params }: { params: Promise<{ local
       title: getTranslatedTitle(a, locale as Locale),
       iataCode: a.iataCode,
       href: getAirportUrl(a, locale as Locale),
-      imgUrl: urlFor(a.featuredImage)?.width(600).height(400).quality(85).url() || null,
+      imgUrl: urlFor(a.featuredImage)?.width(600).height(400).quality(75).auto('format').url() || null,
       country: a.country?.title || '',
       countrySlug: a.country?.slug?.current || null,
     })
