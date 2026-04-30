@@ -132,9 +132,11 @@ export function Header() {
             </div>
           </div>
 
-          {/* Search second row — visible only between lg and xl */}
-          <div className="xl:hidden flex mt-3">
-            <div style={{ flex: 1, maxWidth: '720px', margin: '0 auto' }}>
+          {/* Search second row — visible only between lg and xl.
+              Aligned to the right so it sits under the right cluster
+              (lang · contact · login) instead of stretching full width. */}
+          <div className="xl:hidden flex mt-3 justify-end">
+            <div style={{ width: '100%', maxWidth: '420px' }}>
               <GlobalSearch />
             </div>
           </div>
