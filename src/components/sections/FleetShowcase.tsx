@@ -33,7 +33,7 @@ function IconCheck() {
 }
 
 const vehicles = [
-  { key: 'economy',       pax: 3, bags: 3, img: '/vehicles/economy.jpg',         icon: '/vehicles/icon-economy.png' },
+  { key: 'economy',       pax: 3, bags: 3, img: '/vehicles/sedan.jpg',           icon: '/vehicles/icon-economy.png' },
   { key: 'standard',      pax: 3, bags: 3, img: '/vehicles/standard.jpg',        icon: '/vehicles/icon-standard.png' },
   { key: 'firstClass',    pax: 3, bags: 2, img: '/vehicles/first-class.jpg',     icon: '/vehicles/icon-first-class.png' },
   { key: 'suv',           pax: 6, bags: 6, img: '/vehicles/suv.jpg',             icon: '/vehicles/icon-suv.png' },

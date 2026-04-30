@@ -74,56 +74,69 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-white" style={{ boxShadow: activeMenu ? 'none' : '0 1px 0 #e5e7eb' }}>
       <div style={{ paddingLeft: '6vw', paddingRight: '6vw', paddingTop: '1rem', paddingBottom: '1rem' }}>
 
-        {/* ========== Desktop layout (≥ lg) ========== */}
-        <div className="hidden lg:flex h-20 items-center justify-between">
+        {/* ========== Desktop layout (≥ lg) ==========
+            Below xl (1280px) the search drops to a second row so the
+            menu doesn't crowd the logo on mid-size laptops. */}
+        <div className="hidden lg:block">
+          <div className="flex h-20 items-center gap-4">
 
-          <Link href="/" className="flex items-center flex-shrink-0" onClick={() => setActiveMenu(null)}>
-            <Image src="/Logo-titan-transfers-texto-negro.png" alt="Titan Transfers" width={220} height={50} priority style={{ width: '224px', height: 'auto' }} />
-          </Link>
+            <Link href="/" className="flex items-center flex-shrink-0" onClick={() => setActiveMenu(null)}>
+              <Image src="/Logo-titan-transfers-texto-negro.png" alt="Titan Transfers" width={220} height={50} priority style={{ width: '224px', height: 'auto' }} />
+            </Link>
 
-          <nav className="flex items-center gap-1">
-            {navItems.map((item) => (
-              <button
-                key={item.key}
-                onMouseEnter={() => openMenu(item.key)}
-                onMouseLeave={scheduleClose}
-                onClick={() => setActiveMenu(activeMenu === item.key ? null : item.key)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '4px',
-                  padding: '0.5rem 0.75rem', background: 'none', border: 'none',
-                  cursor: 'pointer', fontFamily: 'inherit', fontSize: '1rem',
-                  fontWeight: 500, color: activeMenu === item.key ? '#8BAA1D' : '#374151',
-                  transition: 'color 0.15s',
-                }}
-              >
-                {item.label}
-                <svg
-                  style={{ transition: 'transform 0.2s', transform: activeMenu === item.key ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                  width="14" height="14" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"
+            <nav className="flex items-center gap-1">
+              {navItems.map((item) => (
+                <button
+                  key={item.key}
+                  onMouseEnter={() => openMenu(item.key)}
+                  onMouseLeave={scheduleClose}
+                  onClick={() => setActiveMenu(activeMenu === item.key ? null : item.key)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '4px',
+                    padding: '0.5rem 0.75rem', background: 'none', border: 'none',
+                    cursor: 'pointer', fontFamily: 'inherit', fontSize: '1rem',
+                    fontWeight: 500, color: activeMenu === item.key ? '#8BAA1D' : '#374151',
+                    transition: 'color 0.15s',
+                  }}
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-            ))}
-          </nav>
+                  {item.label}
+                  <svg
+                    style={{ transition: 'transform 0.2s', transform: activeMenu === item.key ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                    width="14" height="14" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              ))}
+            </nav>
 
-          <div className="flex flex-1 mx-6" style={{ maxWidth: '420px' }}>
-            <GlobalSearch />
+            {/* Search inline — only on xl+ */}
+            <div className="hidden xl:flex flex-1 mx-2" style={{ maxWidth: '420px' }}>
+              <GlobalSearch />
+            </div>
+
+            {/* Right cluster — auto-pushed to the end when search isn't inline */}
+            <div className="ml-auto flex items-center gap-3">
+              <LanguageSwitcher />
+              <SkewButton href={`/${locale}/contact/`} variant="primary" style={{ padding: '0.5rem 1.25rem', fontSize: '0.875rem' }}>{t('contact')}</SkewButton>
+              <Link href="/login/"
+                style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#ffffff', textDecoration: 'none', background: '#242426', border: '2px solid #242426', transform: 'skewX(-12deg)', padding: '0.4rem 0.9rem', transition: 'background 0.2s, border-color 0.2s', fontSize: '0.875rem', fontWeight: 700 }}
+                onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#8BAA1D'; e.currentTarget.style.borderColor = '#8BAA1D' }}
+                onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#242426'; e.currentTarget.style.borderColor = '#242426' }}
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'skewX(12deg)', flexShrink: 0 }}>
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{locale === 'es' ? 'Acceder' : 'Login'}</span>
+              </Link>
+            </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <LanguageSwitcher />
-            <SkewButton href={`/${locale}/contact/`} variant="primary" style={{ padding: '0.5rem 1.25rem', fontSize: '0.875rem' }}>{t('contact')}</SkewButton>
-            <Link href="/login/"
-              style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#ffffff', textDecoration: 'none', background: '#242426', border: '2px solid #242426', transform: 'skewX(-12deg)', padding: '0.4rem 0.9rem', transition: 'background 0.2s, border-color 0.2s', fontSize: '0.875rem', fontWeight: 700 }}
-              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#8BAA1D'; e.currentTarget.style.borderColor = '#8BAA1D' }}
-              onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#242426'; e.currentTarget.style.borderColor = '#242426' }}
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'skewX(12deg)', flexShrink: 0 }}>
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-              </svg>
-              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{locale === 'es' ? 'Acceder' : 'Login'}</span>
-            </Link>
+          {/* Search second row — visible only between lg and xl */}
+          <div className="xl:hidden flex mt-3">
+            <div style={{ flex: 1, maxWidth: '720px', margin: '0 auto' }}>
+              <GlobalSearch />
+            </div>
           </div>
         </div>
 
