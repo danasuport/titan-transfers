@@ -19,6 +19,12 @@ const nextConfig: NextConfig = {
   async redirects() {
     // Old URL structure → new keyword-rich URLs (wildcard)
     const urlUpgradeRedirects = [
+      // Strip "-airport-transfers" / "-airport-transfer" / "-airpot-transfers"
+      // suffixes BEFORE the generic /airport/:slug/ rule (which would otherwise
+      // capture them greedily into :slug and end up at a non-existent Sanity slug).
+      { source: '/airport/:slug([^/]+?)-airport-transfers/', destination: '/airport-transfers-private-taxi/:slug/', permanent: true },
+      { source: '/airport/:slug([^/]+?)-airport-transfer/', destination: '/airport-transfers-private-taxi/:slug/', permanent: true },
+      { source: '/airport/:slug([^/]+?)-airpot-transfers/', destination: '/airport-transfers-private-taxi/:slug/', permanent: true },
       { source: '/airport/:slug/:routeSlug/', destination: '/airport-transfers-private-taxi/:slug/:routeSlug/', permanent: true },
       { source: '/airport/:slug/', destination: '/airport-transfers-private-taxi/:slug/', permanent: true },
       { source: '/airport-transfers/:slug/:routeSlug/', destination: '/airport-transfers-private-taxi/:slug/:routeSlug/', permanent: true },
@@ -40,22 +46,64 @@ const nextConfig: NextConfig = {
       { source: '/es/traslados-aeropuerto-privados-taxi/traslados-aeropuerto-ciudad-de-mexico/', destination: '/es/traslados-aeropuerto-privados-taxi/ciudad-de-mexico/', permanent: true },
       { source: '/es/traslados-aeropuerto-privados-taxi/aeropuerto-reus/', destination: '/es/traslados-aeropuerto-privados-taxi/reus/', permanent: true },
       { source: '/es/traslados-aeropuerto-privados-taxi/tanger/', destination: '/es/traslados-aeropuerto-privados-taxi/tangier/', permanent: true },
+
+      // ── WP slug-mismatch overrides — MUST come before the wildcards that
+      // strip the suffix into :slug, otherwise the wildcard captures first
+      // and sends the request to a non-existent Sanity slug. ───────────────
+      { source: '/country/bosnia-private-transfers/', destination: '/private-transfers-country/bosnia-and-herzegovina/', permanent: true },
+      { source: '/cities/private-transfers-new-york-city/', destination: '/private-transfers/new-york/', permanent: true },
+
+      // EN airport slug mismatches (WP uses long IATA-style, Sanity uses city)
+      { source: '/airport/dallas-fort-worth-airport-transfers/', destination: '/airport-transfers-private-taxi/dallas/', permanent: true },
+      { source: '/airport/los-angeles-lax-airport-transfers/', destination: '/airport-transfers-private-taxi/los-angeles/', permanent: true },
+      { source: '/airport/marrakesh-airport-transfers/', destination: '/airport-transfers-private-taxi/marrakech/', permanent: true },
+      { source: '/airport/prague-airport-prg-airport-transfers/', destination: '/airport-transfers-private-taxi/prague/', permanent: true },
+
+      // ES airport slug mismatches
+      { source: '/es/airport/los-angeles-lax-traslados-al-aeropuerto/', destination: '/es/traslados-aeropuerto-privados-taxi/los-angeles/', permanent: true },
+      { source: '/es/airport/nankin-traslados-al-aeropuerto/', destination: '/es/traslados-aeropuerto-privados-taxi/nanjing/', permanent: true },
+      { source: '/es/airport/ohare-de-chicago-traslados-al-aeropuerto/', destination: '/es/traslados-aeropuerto-privados-taxi/chicago/', permanent: true },
+
+      // ES city slug mismatches (translated WP slugs → Sanity EN slugs)
+      { source: '/es/city/traslados-privados-en-asuan/', destination: '/es/traslados-privados-taxi/aswan/', permanent: true },
+      { source: '/es/city/traslados-privados-en-bucarest/', destination: '/es/traslados-privados-taxi/bucharest/', permanent: true },
+      { source: '/es/city/traslados-privados-en-bufalo/', destination: '/es/traslados-privados-taxi/buffalo/', permanent: true },
+      { source: '/es/city/traslados-privados-en-cartagena-de-indias/', destination: '/es/traslados-privados-taxi/cartagena/', permanent: true },
+      { source: '/es/city/traslados-privados-en-guangzhou-canton/', destination: '/es/traslados-privados-taxi/guangzhou/', permanent: true },
+      { source: '/es/city/traslados-privados-en-mineapolis/', destination: '/es/traslados-privados-taxi/minneapolis/', permanent: true },
+      { source: '/es/city/traslados-privados-en-mostar/', destination: '/es/traslados-privados-taxi/mostar/', permanent: true },
+      { source: '/es/city/traslados-privados-en-oporto-oporto/', destination: '/es/traslados-privados-taxi/porto/', permanent: true },
+      { source: '/es/city/traslados-privados-en-praga-praga/', destination: '/es/traslados-privados-taxi/prague/', permanent: true },
+      { source: '/es/city/traslados-privados-en-raleigh-durham/', destination: '/es/traslados-privados-taxi/raleigh-durham/', permanent: true },
+      { source: '/es/city/traslados-privados-en-sharm-el-sheikh/', destination: '/es/traslados-privados-taxi/sharm-el-sheikh/', permanent: true },
+      { source: '/es/city/traslados-privados-en-skopie/', destination: '/es/traslados-privados-taxi/skopje/', permanent: true },
+      { source: '/es/city/traslados-privados-en-tanger/', destination: '/es/traslados-privados-taxi/tangier/', permanent: true },
+      { source: '/es/city/traslados-privados-en-washington-d-c/', destination: '/es/traslados-privados-taxi/washington/', permanent: true },
+      { source: '/es/city/traslados-privados-dallas-fort-worth/', destination: '/es/traslados-privados-taxi/dallas/', permanent: true },
+
+      // ES country slug mismatch
+      { source: '/es/pais/moldavia-traslados-privados/', destination: '/es/traslados-privados-pais/moldova/', permanent: true },
+
+      // ── WP legacy: /city/<slug>-private-transfers/ (~93 indexed URLs) ──────
+      // MUST come before /city/:slug/ — otherwise :slug greedily eats the suffix.
+      { source: '/city/:slug([^/]+?)-private-transfers/', destination: '/private-transfers/:slug/', permanent: true },
+
       { source: '/city/:slug/', destination: '/private-transfers/:slug/', permanent: true },
       { source: '/es/ciudad/:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
 
       // ── WP legacy: /country/<slug>-private-transfers/ (22 indexed URLs) ─────
       // Match BEFORE /country/:slug/ so the suffix doesn't get captured into :slug.
-      { source: '/country/:slug-private-transfers/', destination: '/private-transfers-country/:slug/', permanent: true },
+      { source: '/country/:slug([^/]+?)-private-transfers/', destination: '/private-transfers-country/:slug/', permanent: true },
 
       // ── WP legacy: ES airport URLs with translation suffix (~126 indexed) ───
       // Order matters: more specific suffix first.
-      { source: '/es/airport/:slug-traslados-al-aeropuerto/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/', permanent: true },
-      { source: '/es/airport/:slug-traslados-desde-el-aeropuerto/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/', permanent: true },
+      { source: '/es/airport/:slug([^/]+?)-traslados-al-aeropuerto/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/', permanent: true },
+      { source: '/es/airport/:slug([^/]+?)-traslados-desde-el-aeropuerto/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/', permanent: true },
 
       // ── WP legacy: ES city URLs with translated prefix (~94 indexed) ────────
       // The WP slug-translations are heterogeneous; match the three known prefixes.
       { source: '/es/city/traslados-privados-en-:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
-      { source: '/es/city/traslados-de-:slug-private/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
+      { source: '/es/city/traslados-de-:slug([^/]+?)-private/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
       { source: '/es/city/traslados-privados-:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
 
       // ── ES city slug overrides where Sanity uses the EN base slug ──────────
@@ -69,8 +117,8 @@ const nextConfig: NextConfig = {
       { source: '/es/traslados-privados-taxi/nueva-york/', destination: '/es/traslados-privados-taxi/new-york/', permanent: true },
 
       // ── WP legacy: ES pais URLs with translated suffix (~23 indexed) ────────
-      { source: '/es/pais/:slug-traslados-privados/', destination: '/es/traslados-privados-pais/:slug/', permanent: true },
-      { source: '/es/pais/:slug-private-transfers/', destination: '/es/traslados-privados-pais/:slug/', permanent: true },
+      { source: '/es/pais/:slug([^/]+?)-traslados-privados/', destination: '/es/traslados-privados-pais/:slug/', permanent: true },
+      { source: '/es/pais/:slug([^/]+?)-private-transfers/', destination: '/es/traslados-privados-pais/:slug/', permanent: true },
 
       // ── ES country slug overrides (translated WP names → Sanity EN slugs) ──
       { source: '/es/traslados-privados-pais/belgica/', destination: '/es/traslados-privados-pais/belgium/', permanent: true },
@@ -114,9 +162,9 @@ const nextConfig: NextConfig = {
       { source: '/es/ciudades/traslados-privados-paris/', destination: '/es/traslados-privados-taxi/paris/', permanent: true },
       { source: '/es/ciudades/traslados-privados-nueva-york/', destination: '/es/traslados-privados-taxi/new-york/', permanent: true },
       { source: '/es/ciudades/traslados-privados-las-vegas/', destination: '/es/traslados-privados-taxi/las-vegas/', permanent: true },
-      // Specific slug fixes (where WP slug ≠ Sanity slug)
-      { source: '/cities/private-transfers-new-york-city/', destination: '/private-transfers/new-york/', permanent: true },
-      { source: '/country/bosnia-private-transfers/', destination: '/private-transfers-country/bosnia-and-herzegovina/', permanent: true },
+      // Slug-mismatch overrides for new-york-city / bosnia were moved earlier
+      // in the array (above the wildcard suffix-strippers) so the wildcard
+      // doesn't capture them first.
       // Wildcard fallback — strips "private-transfers-" prefix (works for most slugs)
       { source: '/cities/private-transfers-:slug/', destination: '/private-transfers/:slug/', permanent: true },
       { source: '/es/ciudades/traslados-privados-:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
@@ -134,9 +182,7 @@ const nextConfig: NextConfig = {
       { source: '/es/paises/traslados-privados-emirates-arabes-unidos/', destination: '/es/traslados-privados-pais/united-arab-emirates/', permanent: true },
       { source: '/countries/private-transfers-:slug/', destination: '/private-transfers-country/:slug/', permanent: true },
 
-      // ── WP legacy: /city/<slug>-private-transfers/ — biggest 404 family (93 URLs) ──
-      // Yoast appended "-private-transfers" to the city slug. Strip the suffix.
-      { source: '/city/:slug-private-transfers/', destination: '/private-transfers/:slug/', permanent: true },
+      // /city/:slug-private-transfers/ moved earlier (must beat /city/:slug/).
 
       // ── WP listing-only pages with no equivalent on the new site ─────────────
       // The clean listing pages (/airports/, /cities/, /countries/) live elsewhere
