@@ -86,13 +86,11 @@ const nextConfig: NextConfig = {
       { source: '/es/traslados-privados-pais/jamaica/', destination: '/es/traslados-privados-pais/jamaica/', permanent: true },
       { source: '/es/traslados-privados-pais/bosnia/', destination: '/es/traslados-privados-pais/bosnia-and-herzegovina/', permanent: true },
 
-      // ── WP legacy: ES airport/city/pais clean slug (no translation suffix) ──
-      // Final fallback for old paths whose slug already matches Sanity.
-      { source: '/es/airport/:slug/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/', permanent: true },
-      { source: '/es/city/:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
+      // /es/airport/:slug/, /es/city/:slug/, /es/pais/:slug/ (clean slug, no
+      // translation suffix) -> handled by the :path* catchalls below, which
+      // send to the listing instead of attempting a slug match that often 404s.
 
       { source: '/country/:slug/', destination: '/private-transfers-country/:slug/', permanent: true },
-      { source: '/es/pais/:slug/', destination: '/es/traslados-privados-pais/:slug/', permanent: true },
       { source: '/region/:slug/', destination: '/private-transfers-region/:slug/', permanent: true },
       { source: '/es/region/:slug/', destination: '/es/traslados-privados-region/:slug/', permanent: true },
       // Remove type segment from private-transfers URLs
@@ -116,6 +114,9 @@ const nextConfig: NextConfig = {
       { source: '/es/ciudades/traslados-privados-paris/', destination: '/es/traslados-privados-taxi/paris/', permanent: true },
       { source: '/es/ciudades/traslados-privados-nueva-york/', destination: '/es/traslados-privados-taxi/new-york/', permanent: true },
       { source: '/es/ciudades/traslados-privados-las-vegas/', destination: '/es/traslados-privados-taxi/las-vegas/', permanent: true },
+      // Specific slug fixes (where WP slug ≠ Sanity slug)
+      { source: '/cities/private-transfers-new-york-city/', destination: '/private-transfers/new-york/', permanent: true },
+      { source: '/country/bosnia-private-transfers/', destination: '/private-transfers-country/bosnia-and-herzegovina/', permanent: true },
       // Wildcard fallback — strips "private-transfers-" prefix (works for most slugs)
       { source: '/cities/private-transfers-:slug/', destination: '/private-transfers/:slug/', permanent: true },
       { source: '/es/ciudades/traslados-privados-:slug/', destination: '/es/traslados-privados-taxi/:slug/', permanent: true },
@@ -133,15 +134,44 @@ const nextConfig: NextConfig = {
       { source: '/es/paises/traslados-privados-emirates-arabes-unidos/', destination: '/es/traslados-privados-pais/united-arab-emirates/', permanent: true },
       { source: '/countries/private-transfers-:slug/', destination: '/private-transfers-country/:slug/', permanent: true },
 
+      // ── WP legacy: /city/<slug>-private-transfers/ — biggest 404 family (93 URLs) ──
+      // Yoast appended "-private-transfers" to the city slug. Strip the suffix.
+      { source: '/city/:slug-private-transfers/', destination: '/private-transfers/:slug/', permanent: true },
+
+      // ── WP listing-only pages with no equivalent on the new site ─────────────
+      // The clean listing pages (/airports/, /cities/, /countries/) live elsewhere
+      // and the /airport/ /city/ /country/ singular forms were never real listings.
+      { source: '/airport/', destination: '/airports/', permanent: true },
+      { source: '/city/', destination: '/cities/', permanent: true },
+      { source: '/country/', destination: '/countries/', permanent: true },
+      { source: '/es/airport/', destination: '/es/aeropuertos/', permanent: true },
+      { source: '/es/city/', destination: '/es/ciudades/', permanent: true },
+      { source: '/es/pais/', destination: '/es/paises/', permanent: true },
+
+      // ── WP test/widget pages — no SEO value, send to home so the 404 disappears ──
+      { source: '/cx_widget/:path*', destination: '/', permanent: true },
+      { source: '/prova/', destination: '/', permanent: true },
+      { source: '/page-test/', destination: '/', permanent: true },
+
+      // ── Catchall fallbacks for ES legacy paths whose specific pattern didn't match ──
+      // These fire AFTER all specific patterns above so an unknown ES slug ends
+      // up at the right listing page instead of a 404. Better for SEO than a
+      // dead end: Google sees a 301 to a topical listing.
+      { source: '/es/airport/:path*', destination: '/es/aeropuertos/', permanent: true },
+      { source: '/es/city/:path*', destination: '/es/ciudades/', permanent: true },
+      { source: '/es/pais/:path*', destination: '/es/paises/', permanent: true },
+      { source: '/es/aeropuertos/:slug/:rest*', destination: '/es/aeropuertos/', permanent: true },
+
       // ── Old WordPress listing pages (only redirects that don't conflict with current listing pages) ──
       { source: '/es/traslados-aeropuerto-america/', destination: '/es/aeropuertos/', permanent: true },
 
       // ── Old WordPress airport detail pages (/airports/[slug]/) ──
       { source: '/airports/:slug/', destination: '/airport-transfers-private-taxi/:slug/', permanent: true },
 
-      // ── Old WordPress category airport pages ──
-      { source: '/es/aeropuertos/:slug/:routeSlug/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/:routeSlug/', permanent: true },
-      { source: '/es/aeropuertos/:slug/', destination: '/es/traslados-aeropuerto-privados-taxi/:slug/', permanent: true },
+      // /es/aeropuertos/:nested/ (WP category pages) -> the catchall below
+      // forwards them to the listing. Clean slug-by-slug match isn't possible
+      // because the WP slugs ("traslados-al-aeropuerto-de-paris") don't match
+      // the Sanity ES slugs ("paris").
 
       // ── Old /rutas/ listing pages — fallback for any slug not in legacyRedirects ──
       { source: '/rutas/', destination: '/airport-transfers-private-taxi/', permanent: true },
