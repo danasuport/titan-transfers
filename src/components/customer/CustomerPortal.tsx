@@ -26,6 +26,7 @@ export function CustomerPortal() {
             width="100%"
             style={{ height: '600px', border: 'none' }}
             title="Customer portal"
+            sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox"
             allow="payment"
           />
         ) : (

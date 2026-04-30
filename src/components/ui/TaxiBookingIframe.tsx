@@ -26,6 +26,7 @@ export function TaxiBookingIframe() {
           width="100%"
           style={{ height: '1800px', border: 'none', display: 'block', background: '#ffffff' }}
           title="Booking"
+          sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox"
           allow="payment; geolocation"
         />
       ) : (

@@ -28,6 +28,7 @@ export function ETOBookingIframe() {
           width="100%"
           style={{ height: '800px', border: 'none', display: 'block' }}
           title="Booking"
+          sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox"
           allow="payment"
         />
       ) : (

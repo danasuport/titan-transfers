@@ -9,6 +9,8 @@ interface Payload {
   email?: string
   message?: string
   locale?: string
+  // Hidden honeypot field. Browsers don't fill it, bots usually do.
+  website?: string
 }
 
 function escapeHtml(s: string) {
@@ -21,12 +23,48 @@ function stripControl(s: string) {
   return s.replace(/\p{Cc}/gu, ' ').trim()
 }
 
+// In-memory rate limit: 5 messages per IP per hour. Lives only as long as
+// the Node process — fine for a single-replica Coolify deploy. Move to
+// Upstash / Redis if we ever scale horizontally.
+const RATE_WINDOW_MS = 60 * 60 * 1000
+const RATE_MAX = 5
+const ipHits = new Map<string, { count: number; resetAt: number }>()
+
+function rateLimited(ip: string): boolean {
+  const now = Date.now()
+  const entry = ipHits.get(ip)
+  if (!entry || entry.resetAt < now) {
+    ipHits.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS })
+    return false
+  }
+  entry.count++
+  return entry.count > RATE_MAX
+}
+
+function clientIp(req: NextRequest): string {
+  return (
+    req.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+    req.headers.get('x-real-ip') ||
+    'unknown'
+  )
+}
+
 export async function POST(req: NextRequest) {
+  if (rateLimited(clientIp(req))) {
+    return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
+  }
+
   let body: Payload
   try {
     body = await req.json()
   } catch {
     return NextResponse.json({ error: 'invalid_json' }, { status: 400 })
+  }
+
+  // Honeypot — silently accept then drop, so bots don't realise they were
+  // filtered and keep wasting their cycles on us.
+  if (body.website && body.website.trim()) {
+    return NextResponse.json({ ok: true })
   }
 
   const name = stripControl((body.name || '').toString()).slice(0, 200)

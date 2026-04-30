@@ -35,6 +35,7 @@ export function BookingWidget({
         src={iframeUrl}
         className="w-full border-0"
         style={{ minHeight: '120px' }}
+        sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox"
         allow="geolocation"
         title="Booking Widget"
       />

@@ -45,6 +45,11 @@ export function TaxiBookingIframe() {
           ref={iframeRef}
           src={iframeUrl}
           title="Booking"
+          // sandbox keeps the WP origin in its own trust zone — if WP gets
+          // popped (separate stack, separate patch cadence), it can't pivot
+          // onto titantransfers.com via the iframe. allow-same-origin is
+          // required so the WP session cookie still flows.
+          sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox"
           allow="payment; geolocation"
           style={{
             width: '100%',

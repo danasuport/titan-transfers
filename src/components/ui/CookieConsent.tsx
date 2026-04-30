@@ -45,12 +45,15 @@ export function CookieConsent({ locale }: { locale: string }) {
   function handleAccept() {
     writeConsent('granted')
     updateGtagConsent(true)
+    // Tells GtagLoader to mount the gtag.js scripts now that consent is in.
+    window.dispatchEvent(new Event('tt-consent-changed'))
     setVisible(false)
   }
 
   function handleReject() {
     writeConsent('denied')
     updateGtagConsent(false)
+    window.dispatchEvent(new Event('tt-consent-changed'))
     setVisible(false)
   }
 

@@ -22,6 +22,7 @@ export function ContactForm({ t }: Props) {
       name: (form.elements.namedItem('name') as HTMLInputElement).value.trim(),
       email: (form.elements.namedItem('email') as HTMLInputElement).value.trim(),
       message: (form.elements.namedItem('message') as HTMLTextAreaElement).value.trim(),
+      website: (form.elements.namedItem('website') as HTMLInputElement | null)?.value || '',
       locale,
     }
     if (!data.name || !data.email || !data.message) {
@@ -70,6 +71,15 @@ export function ContactForm({ t }: Props) {
 
   return (
     <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+      {/* Honeypot — hidden from real users, irresistible to spam bots that auto-fill every field. */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        style={{ position: 'absolute', left: '-10000px', width: '1px', height: '1px', opacity: 0, pointerEvents: 'none' }}
+      />
       <div>
         <label style={labelStyle} htmlFor="contact-name">{t.name}</label>
         <input id="contact-name" name="name" type="text" required disabled={sending} style={inputStyle}

@@ -4,6 +4,7 @@ import Script from 'next/script'
 import { getLocale } from 'next-intl/server'
 import { russoOne, archivo } from '@/lib/fonts'
 import { CookieConsent } from '@/components/ui/CookieConsent'
+import { GtagLoader } from '@/components/analytics/GtagLoader'
 import '@/app/globals.css'
 
 const GA4_ID = 'G-MNJCJ137ZL'
@@ -39,17 +40,15 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             wait_for_update: 500,
           });
         `}</Script>
-        {/* Google tag (gtag.js) — loads once, configures GA4 + Google Ads */}
-        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} strategy="afterInteractive" />
-        <Script id="gtag-init" strategy="afterInteractive">{`
-          gtag('js', new Date());
-          gtag('config', '${GA4_ID}');
-          gtag('config', '${GAds_ID}');
-        `}</Script>
+        {/* gtag.js itself is loaded by GtagLoader after the user grants consent
+            in the banner. The defaults above are just no-op declarations until
+            then. AEPD requires that no network request to GTM/GA fires before
+            consent — even loading the script is considered tracking. */}
       </head>
       <body className={`${archivo.className} min-h-screen bg-white antialiased`}>
         {children}
         <CookieConsent locale={locale} />
+        <GtagLoader ga4Id={GA4_ID} googleAdsId={GAds_ID} />
       </body>
     </html>
   )
