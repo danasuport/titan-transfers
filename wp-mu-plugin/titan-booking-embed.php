@@ -6,7 +6,7 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     3.10.0
+ * Version:     3.11.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -255,7 +255,7 @@ add_action('wp_footer', function () {
     /* Unconditional version log so we can verify which build is loaded
        just by opening the iframe's console. If you don't see this exact
        line on /booking/, the server still has an old MU-plugin file. */
-    console.log('[titan-prefill] script loaded, version 3.10.0');
+    console.log('[titan-prefill] script loaded, version 3.11.0');
     (function () {
         // ON-PAGE DEBUG OVERLAY — shows the prefill steps directly in the
         // booking widget so the user can read what's happening without
@@ -392,16 +392,45 @@ add_action('wp_footer', function () {
             })();
         }
 
-        // Date/time inputs are wired to flatpickr with format d/m/Y. The
-        // server rejects ISO format (yyyy-mm-dd) with "Server Error", so
-        // we MUST go through flatpickr.setDate() — but flatpickr inits async
-        // after the by-hour-fields div is shown, so poll until ready.
+        // Date/time inputs need flatpickr with format d/m/Y / H:i. The
+        // plugin only initialises flatpickr on by-hour fields after a
+        // genuine user click on the tab — our programmatic .click() doesn't
+        // reliably trigger its $(...).on('click') handler. So we bring our
+        // own flatpickr init using the SAME config as the plugin.
+        // Configs lifted directly from taxi-booking.js (lines 290 + 299).
+        function ensureFlatpickr(sel) {
+            var el = document.querySelector(sel);
+            if (!el) return null;
+            if (el._flatpickr) return el; // already initialised by plugin
+            if (typeof window.flatpickr !== 'function') return null;
+            try {
+                var isTime = /(time)$/i.test(sel);
+                if (isTime) {
+                    window.flatpickr(el, {
+                        enableTime: true,
+                        noCalendar: true,
+                        dateFormat: 'H:i',
+                        time_24hr: true,
+                        disableMobile: true
+                    });
+                } else {
+                    window.flatpickr(el, {
+                        dateFormat: 'd/m/Y',
+                        minDate: 'today',
+                        disableMobile: true
+                    });
+                }
+                log('ensureFlatpickr: initialised', sel);
+            } catch (e) { log('ensureFlatpickr threw on', sel, e); }
+            return el;
+        }
+
         function setFlatpickr(sel, val, cb) {
             cb = cb || function () {};
             if (val == null || val === '') return cb(false);
             var attempts = 0;
             (function tryIt() {
-                var el = document.querySelector(sel);
+                var el = ensureFlatpickr(sel);
                 if (!el) {
                     if (attempts++ > 60) { log('setFlatpickr: selector NEVER appeared', sel); return cb(false); }
                     return setTimeout(tryIt, 100);
@@ -416,8 +445,6 @@ add_action('wp_footer', function () {
                     return setTimeout(tryIt, 100);
                 }
                 try {
-                    // Pass an ISO string; flatpickr parses it and renders in
-                    // its configured display format (d/m/Y for date, H:i for time).
                     el._flatpickr.setDate(val, true);
                     log('setFlatpickr', sel, '→ value=', el.value);
                     cb(true);
