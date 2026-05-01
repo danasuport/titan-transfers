@@ -298,7 +298,11 @@ const nextConfig: NextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'X-DNS-Prefetch-Control', value: 'on' },
-          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+          // Permissions-Policy: deny camera/microphone everywhere; explicitly
+          // allow payment + geolocation to the WP booking subdomain so Stripe
+          // Elements (loaded inside the booking iframe at wp.titantransfers.com)
+          // can initialise and run 3D Secure.
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), payment=(self "https://wp.titantransfers.com"), geolocation=(self "https://wp.titantransfers.com")' },
         ],
       },
       {
