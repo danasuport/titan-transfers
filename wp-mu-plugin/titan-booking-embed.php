@@ -6,7 +6,7 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     3.9.0
+ * Version:     3.10.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -255,7 +255,7 @@ add_action('wp_footer', function () {
     /* Unconditional version log so we can verify which build is loaded
        just by opening the iframe's console. If you don't see this exact
        line on /booking/, the server still has an old MU-plugin file. */
-    console.log('[titan-prefill] script loaded, version 3.9.0');
+    console.log('[titan-prefill] script loaded, version 3.10.0');
     (function () {
         // ON-PAGE DEBUG OVERLAY — shows the prefill steps directly in the
         // booking widget so the user can read what's happening without
@@ -376,6 +376,20 @@ add_action('wp_footer', function () {
             if (place.cat_type) $el.data('cat_type', place.cat_type);
             log('applyPluginPlace', sel, place.place_id, place.cat_id, place.cat_type);
             return true;
+        }
+
+        // Wait for the flatpickr global to load — the WP plugin pulls it
+        // from a CDN with no integrity hint, so it can land 1–2s after our
+        // script runs. Without it, the tab-click handler's
+        // initByHourFields() bails on `typeof flatpickr === 'undefined'`
+        // and the date/time inputs stay as raw text inputs (no formatter).
+        function whenFlatpickrLoaded(cb) {
+            var attempts = 0;
+            (function tick() {
+                if (typeof window.flatpickr !== 'undefined') return cb();
+                if (attempts++ > 100) { log('flatpickr lib NEVER loaded after 10s'); return cb(); }
+                setTimeout(tick, 100);
+            })();
         }
 
         // Date/time inputs are wired to flatpickr with format d/m/Y. The
@@ -500,8 +514,16 @@ add_action('wp_footer', function () {
         function applyHourly() {
             var tab = document.querySelector('.booking-type-tab[data-type="by-hour"]');
             if (!tab) { log('by-hour tab NOT FOUND'); return; }
-            log('clicking by-hour tab');
-            tab.click();
+            // Wait for flatpickr lib so the tab-click handler can actually
+            // initialise the date/time pickers when it fires.
+            whenFlatpickrLoaded(function () {
+                log('flatpickr lib ready, clicking by-hour tab');
+                tab.click();
+                applyHourlyAfterTab();
+            });
+        }
+
+        function applyHourlyAfterTab() {
 
             setTimeout(function () {
                 // Resolve pickup address via the plugin's own search endpoint
@@ -584,6 +606,13 @@ add_action('wp_footer', function () {
         }
 
         function applyTransfer() {
+            // Wait for flatpickr lib (loaded async from CDN) so the date/time
+            // pickers are usable when we set them.
+            whenFlatpickrLoaded(applyTransferAfterFlatpickr);
+        }
+
+        function applyTransferAfterFlatpickr() {
+            log('flatpickr lib ready, transfer prefill');
             // Resolve both addresses via plugin's own endpoint, in parallel,
             // then fill the form once both are back.
             var pickupResolved = false, destResolved = false;
