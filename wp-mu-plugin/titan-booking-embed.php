@@ -6,7 +6,7 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     3.8.1
+ * Version:     3.9.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -255,7 +255,7 @@ add_action('wp_footer', function () {
     /* Unconditional version log so we can verify which build is loaded
        just by opening the iframe's console. If you don't see this exact
        line on /booking/, the server still has an old MU-plugin file. */
-    console.log('[titan-prefill] script loaded, version 3.8.1');
+    console.log('[titan-prefill] script loaded, version 3.9.0');
     (function () {
         // ON-PAGE DEBUG OVERLAY — shows the prefill steps directly in the
         // booking widget so the user can read what's happening without
@@ -378,24 +378,40 @@ add_action('wp_footer', function () {
             return true;
         }
 
-        // Date/time inputs are wired to flatpickr — setting el.value directly
-        // does NOT update flatpickr's internal model, so the form thinks the
-        // field is still empty. Use the instance's setDate() instead.
-        function setFlatpickr(sel, val) {
-            var el = document.querySelector(sel);
-            if (!el) { log('setFlatpickr: selector NOT FOUND', sel); return false; }
-            if (val == null || val === '') return false;
-            if (el._flatpickr && typeof el._flatpickr.setDate === 'function') {
+        // Date/time inputs are wired to flatpickr with format d/m/Y. The
+        // server rejects ISO format (yyyy-mm-dd) with "Server Error", so
+        // we MUST go through flatpickr.setDate() — but flatpickr inits async
+        // after the by-hour-fields div is shown, so poll until ready.
+        function setFlatpickr(sel, val, cb) {
+            cb = cb || function () {};
+            if (val == null || val === '') return cb(false);
+            var attempts = 0;
+            (function tryIt() {
+                var el = document.querySelector(sel);
+                if (!el) {
+                    if (attempts++ > 60) { log('setFlatpickr: selector NEVER appeared', sel); return cb(false); }
+                    return setTimeout(tryIt, 100);
+                }
+                if (!el._flatpickr || typeof el._flatpickr.setDate !== 'function') {
+                    if (attempts++ > 60) {
+                        log('setFlatpickr: flatpickr NEVER initialised on', sel, '— falling back to raw value (server will likely reject)');
+                        el.value = val;
+                        el.dispatchEvent(new Event('change', { bubbles: true }));
+                        return cb(false);
+                    }
+                    return setTimeout(tryIt, 100);
+                }
                 try {
-                    el._flatpickr.setDate(val, true); // true = trigger change
-                    return true;
-                } catch (e) { log('flatpickr.setDate threw on', sel, e); }
-            }
-            // Fallback (no flatpickr instance found yet) — set value + change.
-            el.value = val;
-            el.dispatchEvent(new Event('input', { bubbles: true }));
-            el.dispatchEvent(new Event('change', { bubbles: true }));
-            return true;
+                    // Pass an ISO string; flatpickr parses it and renders in
+                    // its configured display format (d/m/Y for date, H:i for time).
+                    el._flatpickr.setDate(val, true);
+                    log('setFlatpickr', sel, '→ value=', el.value);
+                    cb(true);
+                } catch (e) {
+                    log('setFlatpickr threw', sel, e);
+                    cb(false);
+                }
+            })();
         }
 
         // The duration <select> in by-hour mode is populated asynchronously
@@ -510,52 +526,61 @@ add_action('wp_footer', function () {
                         el.style.display = 'none';
                         el.innerHTML = '';
                     });
-                    if (params.date) setFlatpickr('#byhour-date', params.date);
-                    if (params.time) setFlatpickr('#byhour-time', params.time);
-                    if (params.pax) {
-                        var paxN = parseInt(params.pax, 10);
-                        if (!isNaN(paxN)) {
-                            var hidden = document.querySelector('#byhour-passengers');
-                            var disp = document.querySelector('#byhour-passengers-display');
-                            if (hidden) { hidden.value = String(paxN); hidden.dispatchEvent(new Event('change', { bubbles: true })); }
-                            if (disp) disp.value = paxN + ' ' + (paxN === 1 ? 'Passenger' : 'Passengers');
-                        }
-                    }
-                    if (params.lug) {
-                        var lugN = parseInt(params.lug, 10);
-                        if (!isNaN(lugN)) {
-                            var hidden2 = document.querySelector('#byhour-luggage');
-                            var disp2 = document.querySelector('#byhour-luggage-display');
-                            if (hidden2) { hidden2.value = String(lugN); hidden2.dispatchEvent(new Event('change', { bubbles: true })); }
-                            if (disp2) disp2.value = lugN + ' ' + (lugN === 1 ? 'Bag' : 'Bag(s)');
-                        }
-                    }
 
-                    setDurationWhenReady(params.hours || '3', function (durationOk) {
-                        var $byhour = window.jQuery && window.jQuery('#byhour-pickup-address');
-                        var snapshot = {
-                            pickup: (document.querySelector('#byhour-pickup-address') || {}).value,
-                            place_id: $byhour ? $byhour.data('place_id') : null,
-                            cat_id: $byhour ? $byhour.data('cat_id') : null,
-                            date: (document.querySelector('#byhour-date') || {}).value,
-                            time: (document.querySelector('#byhour-time') || {}).value,
-                            duration: (document.querySelector('#byhour-duration') || {}).value,
-                        };
-                        log('hourly snapshot', snapshot, 'durationOk=', durationOk);
-                        var ready = !!(snapshot.pickup && snapshot.place_id
-                            && snapshot.date && snapshot.time && snapshot.duration);
-                        log('hourly ready=', ready);
-                        if (!ready) {
-                            log('NOT clicking. Missing:',
-                                Object.keys(snapshot).filter(function (k) { return !snapshot[k] }));
-                            return;
-                        }
-                        if (window.__titanAutoCalc) return;
-                        window.__titanAutoCalc = true;
-                        setTimeout(function () { tryClick('#byhour-calculate-price-btn', 1); }, 800);
+                    // Serialise the async flatpickr calls, then continue with
+                    // the rest of the prefill once both date and time are set.
+                    setFlatpickr('#byhour-date', params.date || '', function () {
+                        setFlatpickr('#byhour-time', params.time || '', function () {
+                            continueHourlyPrefill();
+                        });
                     });
                 });
             }, 700);
+        }
+
+        function continueHourlyPrefill() {
+            if (params.pax) {
+                var paxN = parseInt(params.pax, 10);
+                if (!isNaN(paxN)) {
+                    var hidden = document.querySelector('#byhour-passengers');
+                    var disp = document.querySelector('#byhour-passengers-display');
+                    if (hidden) { hidden.value = String(paxN); hidden.dispatchEvent(new Event('change', { bubbles: true })); }
+                    if (disp) disp.value = paxN + ' ' + (paxN === 1 ? 'Passenger' : 'Passengers');
+                }
+            }
+            if (params.lug) {
+                var lugN = parseInt(params.lug, 10);
+                if (!isNaN(lugN)) {
+                    var hidden2 = document.querySelector('#byhour-luggage');
+                    var disp2 = document.querySelector('#byhour-luggage-display');
+                    if (hidden2) { hidden2.value = String(lugN); hidden2.dispatchEvent(new Event('change', { bubbles: true })); }
+                    if (disp2) disp2.value = lugN + ' ' + (lugN === 1 ? 'Bag' : 'Bag(s)');
+                }
+            }
+
+            setDurationWhenReady(params.hours || '3', function (durationOk) {
+                var $byhour = window.jQuery && window.jQuery('#byhour-pickup-address');
+                var snapshot = {
+                    pickup: (document.querySelector('#byhour-pickup-address') || {}).value,
+                    place_id: $byhour ? $byhour.data('place_id') : null,
+                    cat_id: $byhour ? $byhour.data('cat_id') : null,
+                    date: (document.querySelector('#byhour-date') || {}).value,
+                    time: (document.querySelector('#byhour-time') || {}).value,
+                    duration: (document.querySelector('#byhour-duration') || {}).value,
+                };
+                log('hourly snapshot', snapshot, 'durationOk=', durationOk);
+                var ready = !!(snapshot.pickup && snapshot.place_id
+                    && snapshot.date && snapshot.time && snapshot.duration);
+                log('hourly ready=', ready);
+                if (!ready) {
+                    log('NOT clicking. Missing:',
+                        Object.keys(snapshot).filter(function (k) { return !snapshot[k] }));
+                    return;
+                }
+                if (window.__titanAutoCalc) return;
+                window.__titanAutoCalc = true;
+                setTimeout(function () { tryClick('#byhour-calculate-price-btn', 1); }, 800);
+            });
         }
 
         function applyTransfer() {
@@ -591,34 +616,39 @@ add_action('wp_footer', function () {
                     el.style.display = 'none';
                     el.innerHTML = '';
                 });
-                if (params.date) setFlatpickr('#pickup-date', params.date);
-                if (params.time) setFlatpickr('#pickup-time', params.time);
                 if (params.pax) setNumber('passengers', params.pax);
                 if (params.lug) setNumber('luggage', params.lug);
 
-                var $pickup = window.jQuery && window.jQuery('#pickup-address');
-                var $dest = window.jQuery && window.jQuery('#destination-address');
-                var snapshot = {
-                    pickup: (document.querySelector('#pickup-address') || {}).value,
-                    pickup_pid: $pickup ? $pickup.data('place_id') : null,
-                    dest: (document.querySelector('#destination-address') || {}).value,
-                    dest_pid: $dest ? $dest.data('place_id') : null,
-                    date: (document.querySelector('#pickup-date') || {}).value,
-                    time: (document.querySelector('#pickup-time') || {}).value,
-                };
-                log('transfer snapshot', snapshot);
-                var ready = !!(snapshot.pickup && snapshot.pickup_pid
-                    && snapshot.dest && snapshot.dest_pid
-                    && snapshot.date && snapshot.time);
-                log('transfer ready=', ready);
-                if (!ready) {
-                    log('NOT clicking. Missing:',
-                        Object.keys(snapshot).filter(function (k) { return !snapshot[k] }));
-                    return;
-                }
-                if (window.__titanAutoCalc) return;
-                window.__titanAutoCalc = true;
-                setTimeout(function () { tryClick('#calculate-price-btn', 1); }, 1200);
+                // Wait for both flatpickr instances (date + time) before
+                // reading the snapshot — value isn't formatted until then,
+                // and the server rejects ISO dates with "Server Error".
+                setFlatpickr('#pickup-date', params.date || '', function () {
+                    setFlatpickr('#pickup-time', params.time || '', function () {
+                        var $pickup = window.jQuery && window.jQuery('#pickup-address');
+                        var $dest = window.jQuery && window.jQuery('#destination-address');
+                        var snapshot = {
+                            pickup: (document.querySelector('#pickup-address') || {}).value,
+                            pickup_pid: $pickup ? $pickup.data('place_id') : null,
+                            dest: (document.querySelector('#destination-address') || {}).value,
+                            dest_pid: $dest ? $dest.data('place_id') : null,
+                            date: (document.querySelector('#pickup-date') || {}).value,
+                            time: (document.querySelector('#pickup-time') || {}).value,
+                        };
+                        log('transfer snapshot', snapshot);
+                        var ready = !!(snapshot.pickup && snapshot.pickup_pid
+                            && snapshot.dest && snapshot.dest_pid
+                            && snapshot.date && snapshot.time);
+                        log('transfer ready=', ready);
+                        if (!ready) {
+                            log('NOT clicking. Missing:',
+                                Object.keys(snapshot).filter(function (k) { return !snapshot[k] }));
+                            return;
+                        }
+                        if (window.__titanAutoCalc) return;
+                        window.__titanAutoCalc = true;
+                        setTimeout(function () { tryClick('#calculate-price-btn', 1); }, 1200);
+                    });
+                });
             }
 
             lookupPluginPlace(params.pickup || '', 'from', function (place) {
