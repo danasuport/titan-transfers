@@ -441,6 +441,11 @@ export function BookingPanel() {
           .hero-widget-panel form {
             max-width: 100% !important;
           }
+          /* Stack pax + bag counters on mobile — each one needs the full
+             width of the form to fit the +/- buttons without overflow. */
+          .bp-counter-row {
+            grid-template-columns: 1fr !important;
+          }
         }
       `}</style>
       {/* Header */}
@@ -552,7 +557,7 @@ export function BookingPanel() {
         </div>
 
         {/* Pax + Bag */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.65rem', marginBottom: '0.85rem' }}>
+        <div className="bp-counter-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.65rem', marginBottom: '0.85rem' }}>
           <CounterField
             icon={
               /* Two-person "group" icon — matches the WP widget */
