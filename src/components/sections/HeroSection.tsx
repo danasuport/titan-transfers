@@ -91,9 +91,9 @@ export function HeroSection() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '2.5rem 1.5rem',
+          padding: '2rem 1rem 2rem 5rem',
           overflow: 'hidden',
-          clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)',
+          clipPath: 'polygon(4% 0%, 100% 0%, 100% 100%, 0% 100%)',
         }}
       >
         {/* Car background */}
