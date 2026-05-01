@@ -425,13 +425,22 @@ export function BookingPanel() {
 
   return (
     <form onSubmit={handleSubmit} style={{ background: '#ffffff', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 12px 40px rgba(0,0,0,0.15)', maxWidth: '440px', width: '100%' }}>
-      {/* Mobile: hide hero background images and tighten the widget panel
-          padding so the form fills the screen cleanly. The .hero-bg-image
-          class is set on the <Image>'s clipped wrapper in every page. */}
+      {/* Mobile: hide hero background images, kill the inherited clip-path
+          (globals.css:374 cuts the bottom-right corner of .resp-img-panel
+          and would slice the Calculate button), and tighten padding so the
+          form fits the viewport without horizontal overflow. */}
       <style>{`
         @media (max-width: 768px) {
           .hero-bg-image { display: none !important; }
-          .hero-widget-panel { padding: 1rem !important; min-height: 0 !important; }
+          .hero-widget-panel {
+            padding: 1rem !important;
+            min-height: 0 !important;
+            clip-path: none !important;
+            overflow: hidden;
+          }
+          .hero-widget-panel form {
+            max-width: 100% !important;
+          }
         }
       `}</style>
       {/* Header */}
