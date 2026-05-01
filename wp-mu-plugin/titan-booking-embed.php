@@ -6,7 +6,7 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     3.3.0
+ * Version:     3.4.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -228,10 +228,35 @@ add_action('wp_footer', function () {
     /* Unconditional version log so we can verify which build is loaded
        just by opening the iframe's console. If you don't see this exact
        line on /booking/, the server still has an old MU-plugin file. */
-    console.log('[titan-prefill] script loaded, version 3.3.0');
+    console.log('[titan-prefill] script loaded, version 3.4.0');
     (function () {
+        // ON-PAGE DEBUG OVERLAY — shows the prefill steps directly in the
+        // booking widget so the user can read what's happening without
+        // having to open DevTools (which is awkward in a cross-origin iframe).
+        var __debugLines = [];
+        function showDebug(message) {
+            __debugLines.push(message);
+            var box = document.getElementById('titan-debug-overlay');
+            if (!box) {
+                box = document.createElement('div');
+                box.id = 'titan-debug-overlay';
+                box.style.cssText = 'position:fixed;bottom:8px;left:8px;right:8px;max-height:45vh;overflow:auto;background:#1a1a1a;color:#fff;font:11px/1.4 monospace;padding:8px 10px;border-radius:6px;z-index:99999;box-shadow:0 4px 16px rgba(0,0,0,0.4);white-space:pre-wrap;';
+                box.innerHTML = '<div style="font-weight:bold;color:#8BAA1D;margin-bottom:4px;display:flex;justify-content:space-between;"><span>TITAN DEBUG (v3.4.0)</span><span style="cursor:pointer;color:#999;" onclick="this.parentElement.parentElement.remove()">×</span></div><div id="titan-debug-content"></div>';
+                document.body.appendChild(box);
+            }
+            var content = document.getElementById('titan-debug-content');
+            if (content) content.textContent = __debugLines.join('\n');
+        }
         function log() {
-            try { console.log.apply(console, ['[titan-prefill]'].concat([].slice.call(arguments))); } catch (e) {}
+            var args = [].slice.call(arguments);
+            try { console.log.apply(console, ['[titan-prefill]'].concat(args)); } catch (e) {}
+            try {
+                var line = args.map(function (a) {
+                    if (typeof a === 'object') { try { return JSON.stringify(a); } catch (e) { return String(a); } }
+                    return String(a);
+                }).join(' ');
+                showDebug(line);
+            } catch (e) {}
         }
         function getParams() {
             var sp = new URLSearchParams(window.location.search);
