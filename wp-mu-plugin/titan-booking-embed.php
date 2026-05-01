@@ -6,10 +6,37 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     3.7.0
+ * Version:     3.8.0
  */
 
 if (!defined('ABSPATH')) exit;
+
+/**
+ * Server-side debug log — captures the calculate-price AJAX payload from
+ * BOTH manual and programmatic flows so we can diff them. Writes to a
+ * file in wp-content/uploads/ that we can read with curl from outside.
+ *
+ * Endpoint: POST /wp-admin/admin-ajax.php?action=titan_debug_log
+ * Payload:  message=<string>
+ *
+ * Reachable URL of the log:
+ *   https://wp.titantransfers.com/wp-content/uploads/titan-debug.log
+ *
+ * To clear the log: just upload a fresh empty file with the same name
+ * via SiteGround File Manager.
+ */
+add_action('wp_ajax_titan_debug_log', 'titan_debug_log_handler');
+add_action('wp_ajax_nopriv_titan_debug_log', 'titan_debug_log_handler');
+function titan_debug_log_handler() {
+    $upload_dir = wp_upload_dir();
+    $log_file = trailingslashit($upload_dir['basedir']) . 'titan-debug.log';
+    $msg = isset($_POST['message']) ? wp_unslash($_POST['message']) : '';
+    if ($msg) {
+        $line = '[' . date('Y-m-d H:i:s') . '] ' . substr($msg, 0, 8000) . "\n";
+        @file_put_contents($log_file, $line, FILE_APPEND | LOCK_EX);
+    }
+    wp_send_json_success();
+}
 
 /**
  * True when the current request is the embed flavour of /booking/.
@@ -228,7 +255,7 @@ add_action('wp_footer', function () {
     /* Unconditional version log so we can verify which build is loaded
        just by opening the iframe's console. If you don't see this exact
        line on /booking/, the server still has an old MU-plugin file. */
-    console.log('[titan-prefill] script loaded, version 3.7.0');
+    console.log('[titan-prefill] script loaded, version 3.8.0');
     (function () {
         // ON-PAGE DEBUG OVERLAY — shows the prefill steps directly in the
         // booking widget so the user can read what's happening without
@@ -256,6 +283,24 @@ add_action('wp_footer', function () {
                     return String(a);
                 }).join(' ');
                 showDebug(line);
+            } catch (e) {}
+        }
+
+        // Persist a message to wp-content/uploads/titan-debug.log via the
+        // server endpoint, so it survives page navigation. Used to capture
+        // the calculate-price AJAX payload + response in BOTH the manual
+        // and programmatic flows for side-by-side comparison.
+        function sendToServerLog(message) {
+            try {
+                if (!window.taxi_booking_ajax) return;
+                var body = new URLSearchParams();
+                body.set('action', 'titan_debug_log');
+                body.set('message', message);
+                fetch(window.taxi_booking_ajax.ajax_url, {
+                    method: 'POST',
+                    body: body,
+                    keepalive: true, // survive page navigation
+                });
             } catch (e) {}
         }
         function getParams() {
@@ -609,11 +654,24 @@ add_action('wp_footer', function () {
                             : data;
                         log('AJAX REQUEST →', action, payload);
 
+                        // Mark whether this came from auto-calc (URL params)
+                        // or a manual user click — for diffing later.
+                        var source = window.__titanAutoCalc ? 'AUTO' : 'MANUAL';
+                        if (action === 'taxi_calculate_price') {
+                            sendToServerLog(source + ' REQUEST: ' + JSON.stringify(payload));
+                        }
+
                         // Wrap success/error to capture what comes back.
                         var origSuccess = opts.success;
                         var origError = opts.error;
                         opts.success = function (resp) {
-                            try { log('AJAX RESPONSE ←', typeof resp === 'object' ? JSON.stringify(resp).slice(0, 500) : String(resp).slice(0, 500)); } catch (e) {}
+                            try {
+                                var respStr = typeof resp === 'object' ? JSON.stringify(resp).slice(0, 500) : String(resp).slice(0, 500);
+                                log('AJAX RESPONSE ←', respStr);
+                                if (action === 'taxi_calculate_price') {
+                                    sendToServerLog(source + ' RESPONSE: ' + respStr);
+                                }
+                            } catch (e) {}
                             if (origSuccess) return origSuccess.apply(this, arguments);
                         };
                         opts.error = function (xhr, status, err) {
