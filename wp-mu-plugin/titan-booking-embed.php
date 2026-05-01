@@ -6,37 +6,10 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     3.13.0
+ * Version:     4.0.0
  */
 
 if (!defined('ABSPATH')) exit;
-
-/**
- * Server-side debug log — captures the calculate-price AJAX payload from
- * BOTH manual and programmatic flows so we can diff them. Writes to a
- * file in wp-content/uploads/ that we can read with curl from outside.
- *
- * Endpoint: POST /wp-admin/admin-ajax.php?action=titan_debug_log
- * Payload:  message=<string>
- *
- * Reachable URL of the log:
- *   https://wp.titantransfers.com/wp-content/uploads/titan-debug.log
- *
- * To clear the log: just upload a fresh empty file with the same name
- * via SiteGround File Manager.
- */
-add_action('wp_ajax_titan_debug_log', 'titan_debug_log_handler');
-add_action('wp_ajax_nopriv_titan_debug_log', 'titan_debug_log_handler');
-function titan_debug_log_handler() {
-    $upload_dir = wp_upload_dir();
-    $log_file = trailingslashit($upload_dir['basedir']) . 'titan-debug.log';
-    $msg = isset($_POST['message']) ? wp_unslash($_POST['message']) : '';
-    if ($msg) {
-        $line = '[' . date('Y-m-d H:i:s') . '] ' . substr($msg, 0, 8000) . "\n";
-        @file_put_contents($log_file, $line, FILE_APPEND | LOCK_EX);
-    }
-    wp_send_json_success();
-}
 
 /**
  * True when the current request is the embed flavour of /booking/.
@@ -252,56 +225,9 @@ add_action('wp_footer', function () {
     if (!titan_booking_is_embed()) return;
     ?>
     <script>
-    /* Unconditional version log so we can verify which build is loaded
-       just by opening the iframe's console. If you don't see this exact
-       line on /booking/, the server still has an old MU-plugin file. */
-    console.log('[titan-prefill] script loaded, version 3.13.0 — iframe URL:', window.location.href);
     (function () {
-        // ON-PAGE DEBUG OVERLAY — shows the prefill steps directly in the
-        // booking widget so the user can read what's happening without
-        // having to open DevTools (which is awkward in a cross-origin iframe).
-        var __debugLines = [];
-        function showDebug(message) {
-            __debugLines.push(message);
-            var box = document.getElementById('titan-debug-overlay');
-            if (!box) {
-                box = document.createElement('div');
-                box.id = 'titan-debug-overlay';
-                box.style.cssText = 'position:fixed;bottom:8px;left:8px;right:8px;max-height:45vh;overflow:auto;background:#1a1a1a;color:#fff;font:11px/1.4 monospace;padding:8px 10px;border-radius:6px;z-index:99999;box-shadow:0 4px 16px rgba(0,0,0,0.4);white-space:pre-wrap;';
-                box.innerHTML = '<div style="font-weight:bold;color:#8BAA1D;margin-bottom:4px;display:flex;justify-content:space-between;"><span>TITAN DEBUG (v3.4.0)</span><span style="cursor:pointer;color:#999;" onclick="this.parentElement.parentElement.remove()">×</span></div><div id="titan-debug-content"></div>';
-                document.body.appendChild(box);
-            }
-            var content = document.getElementById('titan-debug-content');
-            if (content) content.textContent = __debugLines.join('\n');
-        }
         function log() {
-            var args = [].slice.call(arguments);
-            try { console.log.apply(console, ['[titan-prefill]'].concat(args)); } catch (e) {}
-            try {
-                var line = args.map(function (a) {
-                    if (typeof a === 'object') { try { return JSON.stringify(a); } catch (e) { return String(a); } }
-                    return String(a);
-                }).join(' ');
-                showDebug(line);
-            } catch (e) {}
-        }
-
-        // Persist a message to wp-content/uploads/titan-debug.log via the
-        // server endpoint, so it survives page navigation. Used to capture
-        // the calculate-price AJAX payload + response in BOTH the manual
-        // and programmatic flows for side-by-side comparison.
-        function sendToServerLog(message) {
-            try {
-                if (!window.taxi_booking_ajax) return;
-                var body = new URLSearchParams();
-                body.set('action', 'titan_debug_log');
-                body.set('message', message);
-                fetch(window.taxi_booking_ajax.ajax_url, {
-                    method: 'POST',
-                    body: body,
-                    keepalive: true, // survive page navigation
-                });
-            } catch (e) {}
+            try { console.log.apply(console, ['[titan-prefill]'].concat([].slice.call(arguments))); } catch (e) {}
         }
         function getParams() {
             var sp = new URLSearchParams(window.location.search);
@@ -312,9 +238,7 @@ add_action('wp_footer', function () {
         }
         var params = getParams();
         var hasParams = !!(params.pickup || params.dest || params.date);
-        log('iframe URL =', window.location.href);
-        if (hasParams) log('params', params);
-        else log('no URL params (manual flow) — patch + log only');
+        if (!hasParams) return; // manual flow — nothing to do
 
         function setVal(sel, val, fire) {
             var el = document.querySelector(sel);
@@ -741,63 +665,10 @@ add_action('wp_footer', function () {
             if (params.mode === 'hourly') applyHourly();
             else applyTransfer();
         }
-        // Intercept the WP plugin's AJAX call so we can show the user the
-        // exact payload sent and the server's response — debugging "Server
-        // Error" is impossible without this.
-        function patchAjaxForLogging() {
-            if (!window.jQuery || !window.jQuery.ajax || window.__titanAjaxPatched) return;
-            window.__titanAjaxPatched = true;
-            var origAjax = window.jQuery.ajax;
-            window.jQuery.ajax = function (opts) {
-                try {
-                    var data = (opts && opts.data) || {};
-                    var action = (typeof data === 'string')
-                        ? new URLSearchParams(data).get('action')
-                        : data.action;
-                    if (action === 'taxi_calculate_price' || action === 'taxi_byhour_calculate_price' || (typeof action === 'string' && action.indexOf('taxi_') === 0)) {
-                        var payload = (typeof data === 'string')
-                            ? Object.fromEntries(new URLSearchParams(data))
-                            : data;
-                        log('AJAX REQUEST →', action, payload);
-
-                        // Mark whether this came from auto-calc (URL params)
-                        // or a manual user click — for diffing later.
-                        var source = window.__titanAutoCalc ? 'AUTO' : 'MANUAL';
-                        if (action === 'taxi_calculate_price') {
-                            sendToServerLog(source + ' REQUEST: ' + JSON.stringify(payload));
-                        }
-
-                        // Wrap success/error to capture what comes back.
-                        var origSuccess = opts.success;
-                        var origError = opts.error;
-                        opts.success = function (resp) {
-                            try {
-                                var respStr = typeof resp === 'object' ? JSON.stringify(resp).slice(0, 500) : String(resp).slice(0, 500);
-                                log('AJAX RESPONSE ←', respStr);
-                                if (action === 'taxi_calculate_price') {
-                                    sendToServerLog(source + ' RESPONSE: ' + respStr);
-                                }
-                            } catch (e) {}
-                            if (origSuccess) return origSuccess.apply(this, arguments);
-                        };
-                        opts.error = function (xhr, status, err) {
-                            try {
-                                log('AJAX ERROR ←', 'status=' + (xhr ? xhr.status : '?'), 'statusText=' + (xhr ? xhr.statusText : '?'), 'err=' + (err || '?'));
-                                if (xhr && xhr.responseText) log('responseText:', String(xhr.responseText).slice(0, 800));
-                            } catch (e) {}
-                            if (origError) return origError.apply(this, arguments);
-                        };
-                    }
-                } catch (e) { log('ajax patch error', e); }
-                return origAjax.apply(this, arguments);
-            };
-            log('jQuery.ajax patched for logging');
-        }
 
         function tick(attempts) {
             if (document.querySelector('#pickup-address') && window.jQuery) {
-                patchAjaxForLogging();
-                if (hasParams) applyAndAdvance();
+                applyAndAdvance();
                 return;
             }
             if (attempts > 60) {
