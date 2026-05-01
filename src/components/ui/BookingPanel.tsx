@@ -92,6 +92,55 @@ function PlaceInput({ placeholder, ariaLabel, onSelect, value, onChange, icon }:
   )
 }
 
+function PickerField({ icon, type, value, onChange, placeholder, displayValue, ariaLabel }: {
+  icon: React.ReactNode
+  type: 'date' | 'time'
+  value: string
+  onChange: (v: string) => void
+  placeholder: string
+  displayValue: string
+  ariaLabel: string
+}) {
+  const inputRef = useRef<HTMLInputElement>(null)
+  function open() {
+    const el = inputRef.current
+    if (!el) return
+    // Modern browsers: showPicker() opens the native picker on demand.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const anyEl = el as any
+    if (typeof anyEl.showPicker === 'function') {
+      try { anyEl.showPicker(); return } catch {}
+    }
+    el.focus()
+    el.click()
+  }
+  return (
+    <div
+      onClick={open}
+      style={{
+        position: 'relative',
+        display: 'flex', alignItems: 'center', gap: '0.6rem',
+        background: '#F8FAF0', border: '1.5px solid #e5e7eb', borderRadius: '6px',
+        padding: '0.85rem 1rem', cursor: 'pointer',
+      }}
+    >
+      <span style={{ color: '#6B8313', flexShrink: 0, display: 'flex' }}>{icon}</span>
+      <span style={{ flex: 1, fontSize: '0.875rem', color: value ? '#242426' : '#94a3b8', fontFamily: 'inherit', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        {value ? displayValue : placeholder}
+      </span>
+      {/* Native input is invisible but takes clicks. Acts as the real picker. */}
+      <input
+        ref={inputRef}
+        type={type}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        aria-label={ariaLabel}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, border: 'none', cursor: 'pointer' }}
+      />
+    </div>
+  )
+}
+
 function CounterField({ icon, label, value, onChange, min = 0, max = 16 }: {
   icon: React.ReactNode
   label: string
@@ -263,24 +312,38 @@ export function BookingPanel() {
           />
         </div>
 
-        {/* Date + Time */}
+        {/* Date + Time
+            Native <input type="date|time"> doesn't display the placeholder
+            attribute, so we render a <button> overlay that shows the chosen
+            value or the placeholder, and a hidden native input does the
+            actual picking. Click anywhere on the field opens the picker. */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.65rem', marginBottom: '0.65rem' }}>
-          <div style={inputBoxStyle}>
-            <span style={{ color: '#6B8313', flexShrink: 0, display: 'flex' }}>
+          <PickerField
+            icon={
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
               </svg>
-            </span>
-            <input type="date" value={date} onChange={e => setDate(e.target.value)} aria-label={es ? 'Fecha' : 'Date'} placeholder={es ? 'Fecha' : 'Pickup date'} style={{ width: '100%', border: 'none', outline: 'none', background: 'transparent', fontSize: '0.875rem', color: date ? '#242426' : '#94a3b8', fontFamily: 'inherit' }} />
-          </div>
-          <div style={inputBoxStyle}>
-            <span style={{ color: '#6B8313', flexShrink: 0, display: 'flex' }}>
+            }
+            type="date"
+            value={date}
+            onChange={setDate}
+            placeholder={es ? 'Fecha' : 'Pickup date'}
+            displayValue={date ? new Date(date + 'T00:00:00').toLocaleDateString(es ? 'es-ES' : 'en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : ''}
+            ariaLabel={es ? 'Fecha de recogida' : 'Pickup date'}
+          />
+          <PickerField
+            icon={
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
               </svg>
-            </span>
-            <input type="time" value={time} onChange={e => setTime(e.target.value)} aria-label={es ? 'Hora' : 'Time'} placeholder="Time" style={{ width: '100%', border: 'none', outline: 'none', background: 'transparent', fontSize: '0.875rem', color: time ? '#242426' : '#94a3b8', fontFamily: 'inherit' }} />
-          </div>
+            }
+            type="time"
+            value={time}
+            onChange={setTime}
+            placeholder={es ? 'Hora' : 'Time'}
+            displayValue={time}
+            ariaLabel={es ? 'Hora de recogida' : 'Pickup time'}
+          />
         </div>
 
         {/* Pax + Bag */}
