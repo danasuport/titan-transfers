@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { russoOne } from '@/lib/fonts'
-import { BookingPanelIframe } from '@/components/booking/BookingPanelIframe'
+import { BookingPanel } from '@/components/ui/BookingPanel'
 
 const starPaths = [
   'M51.7538 67.3504L54.7436 68.9755L53.7109 70.0167L50.7212 68.3916L51.7538 67.3504Z',
@@ -91,9 +91,9 @@ export function HeroSection() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '2rem 1rem 2rem 5rem',
+          padding: '3rem 4vw',
           overflow: 'hidden',
-          clipPath: 'polygon(4% 0%, 100% 0%, 100% 100%, 0% 100%)',
+          clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)',
         }}
       >
         {/* Car background */}
@@ -112,7 +112,7 @@ export function HeroSection() {
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.15), rgba(0,0,0,0.35))', zIndex: 1 }} />
         {/* Widget on top */}
         <div style={{ position: 'relative', zIndex: 2 }}>
-          <BookingPanelIframe />
+          <BookingPanel />
         </div>
       </div>
 
