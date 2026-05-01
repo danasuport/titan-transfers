@@ -76,6 +76,25 @@ function PlaceInput({ placeholder, ariaLabel, onSelect, value, onChange, icon }:
     })
   }, [])
 
+  // "Use my location" button — fills the field with the user's current GPS
+  // address via reverse geocoding. Mirrors the crosshair button on the WP
+  // plugin's original widget.
+  function useMyLocation() {
+    if (!navigator?.geolocation) return
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      const { latitude, longitude } = pos.coords
+      await loadGooglePlaces()
+      const g = window.google?.maps
+      if (!g?.Geocoder) return
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      new g.Geocoder().geocode({ location: { lat: latitude, lng: longitude } }, (results: any[], status: string) => {
+        if (status === 'OK' && results?.[0]?.formatted_address) {
+          onSelect(results[0].formatted_address, latitude, longitude)
+        }
+      })
+    })
+  }
+
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', background: '#F8FAF0', border: '1.5px solid #e5e7eb', borderRadius: '6px', padding: '0.85rem 1rem', width: '100%' }}>
       <span style={{ color: '#6B8313', flexShrink: 0, display: 'flex' }}>{icon}</span>
@@ -88,6 +107,21 @@ function PlaceInput({ placeholder, ariaLabel, onSelect, value, onChange, icon }:
         aria-label={ariaLabel}
         style={{ width: '100%', border: 'none', outline: 'none', background: 'transparent', fontSize: '0.875rem', color: '#242426', fontFamily: 'inherit' }}
       />
+      <button
+        type="button"
+        onClick={useMyLocation}
+        aria-label="Use my location"
+        title="Use my location"
+        style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', color: '#94a3b8', flexShrink: 0, display: 'flex', alignItems: 'center' }}
+        onMouseEnter={e => e.currentTarget.style.color = '#6B8313'}
+        onMouseLeave={e => e.currentTarget.style.color = '#94a3b8'}
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="9"/>
+          <circle cx="12" cy="12" r="2"/>
+          <path d="M12 1v3M12 20v3M1 12h3M20 12h3"/>
+        </svg>
+      </button>
     </div>
   )
 }
@@ -305,8 +339,16 @@ export function BookingPanel() {
             onChange={setDest}
             onSelect={(addr, lat, lng) => { setDest(addr); setDestLat(lat); setDestLng(lng) }}
             icon={
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M4 22V4M4 4h12l-2 4 2 4H4"/>
+              /* Checkered finish flag */
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <line x1="5" y1="2" x2="5" y2="22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                <rect x="7" y="3" width="3" height="3" fill="currentColor"/>
+                <rect x="13" y="3" width="3" height="3" fill="currentColor"/>
+                <rect x="10" y="6" width="3" height="3" fill="currentColor"/>
+                <rect x="16" y="6" width="3" height="3" fill="currentColor"/>
+                <rect x="7" y="9" width="3" height="3" fill="currentColor"/>
+                <rect x="13" y="9" width="3" height="3" fill="currentColor"/>
+                <rect x="7" y="3" width="12" height="9" stroke="currentColor" strokeWidth="1" fill="none"/>
               </svg>
             }
           />
@@ -376,9 +418,13 @@ export function BookingPanel() {
 
         {/* Book a return */}
         <label style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', background: '#F8FAF0', border: '1.5px solid #e5e7eb', borderRadius: '6px', padding: '0.7rem 1rem', cursor: 'pointer', marginBottom: '1rem' }}>
-          <input type="checkbox" checked={bookReturn} onChange={e => setBookReturn(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#8BAA1D', cursor: 'pointer' }} />
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2">
-            <path d="M17 1l4 4-4 4M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 0 1-4 4H3"/>
+          <input type="checkbox" checked={bookReturn} onChange={e => setBookReturn(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#8BAA1D', cursor: 'pointer', flexShrink: 0 }} />
+          {/* Swap arrows — same shape as the WP plugin */}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B8313" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+            <path d="M7 4 3 8l4 4"/>
+            <path d="M3 8h14"/>
+            <path d="m17 20 4-4-4-4"/>
+            <path d="M21 16H7"/>
           </svg>
           <span style={{ fontSize: '0.875rem', color: '#242426', fontWeight: 500 }}>
             {es ? '¿Reservar vuelta?' : 'Book a return?'}
@@ -386,12 +432,23 @@ export function BookingPanel() {
         </label>
 
         {/* Submit */}
-        <button type="submit" style={{ width: '100%', background: '#8BAA1D', color: '#ffffff', border: 'none', padding: '1rem', fontSize: '0.95rem', fontWeight: 700, fontFamily: 'inherit', cursor: 'pointer', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', letterSpacing: '0.04em', textTransform: 'uppercase', transition: 'background 0.15s' }}
+        <button type="submit" style={{ width: '100%', background: '#8BAA1D', color: '#ffffff', border: 'none', padding: '1rem', fontSize: '0.95rem', fontWeight: 700, fontFamily: 'inherit', cursor: 'pointer', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', letterSpacing: '0.04em', textTransform: 'uppercase', transition: 'background 0.15s' }}
           onMouseEnter={e => e.currentTarget.style.background = '#7a9519'}
           onMouseLeave={e => e.currentTarget.style.background = '#8BAA1D'}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/>
+          {/* Calculator icon */}
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="4" y="2" width="16" height="20" rx="2"/>
+            <line x1="8" y1="6" x2="16" y2="6"/>
+            <line x1="8" y1="11" x2="8" y2="11"/>
+            <line x1="12" y1="11" x2="12" y2="11"/>
+            <line x1="16" y1="11" x2="16" y2="11"/>
+            <line x1="8" y1="15" x2="8" y2="15"/>
+            <line x1="12" y1="15" x2="12" y2="15"/>
+            <line x1="16" y1="15" x2="16" y2="15"/>
+            <line x1="8" y1="19" x2="8" y2="19"/>
+            <line x1="12" y1="19" x2="12" y2="19"/>
+            <line x1="16" y1="19" x2="16" y2="19"/>
           </svg>
           {es ? 'Calcular precio' : 'Calculate price'}
         </button>
