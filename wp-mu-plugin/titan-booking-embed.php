@@ -319,74 +319,66 @@ add_action('wp_footer', function () {
 
 /**
  * Compact-mode behaviour: when the iframe is loaded with ?compact=1 (used
- * by the Next.js home hero), intercept the Calculate Price click so the
- * step-2 navigation happens on the PARENT window (Next.js /booking/) instead
- * of advancing inside this iframe. Sends the form data via postMessage; the
- * parent assembles the URL and does window.location.href.
+ * by the Next.js home hero), patch jQuery.ajax so the FIRST request to
+ * action=taxi_calculate_price posts the (already-validated) form fields
+ * to the parent window. The parent listens for this and redirects the top
+ * window to /booking/?pickup=...&dest=... where step 2 renders. We let
+ * the AJAX call itself proceed (no abort): the parent's location.href
+ * drops the iframe before the response can render step 2 here.
  *
- * Both the regular Transfer button (#calculate-price-btn) and the By Hour
- * button (#byhour-calculate-price-btn) are intercepted.
+ * Patching the AJAX is more reliable than intercepting the button click,
+ * because by the time the plugin builds the AJAX payload it has already
+ * geocoded addresses and filled the hidden lat/lng inputs.
  */
 add_action('wp_footer', function () {
     if (!titan_booking_is_embed() || !titan_booking_is_compact()) return;
     ?>
     <script>
     (function () {
-        function val(sel) {
-            var el = document.querySelector(sel);
-            return el ? (el.value || '') : '';
-        }
-        function bool(sel) {
-            var el = document.querySelector(sel);
-            return !!(el && el.checked);
-        }
-        function collect(mode) {
-            return {
-                mode: mode,
-                pickup: val('#pickup-address'),
-                pickup_lat: val('#pickup-lat'),
-                pickup_lng: val('#pickup-lng'),
-                dest: val('#destination-address'),
-                dest_lat: val('#destination-lat'),
-                dest_lng: val('#destination-lng'),
-                date: val('#pickup-date'),
-                time: val('#pickup-time'),
-                pax: val('#passengers') || val('#booking-passengers') || '1',
-                lug: val('#luggage') || '0',
-                bookReturn: bool('#return-booking') ? '1' : '',
+        function patch() {
+            if (!window.jQuery || !window.jQuery.ajax || window.__titanCompactPatched) return;
+            window.__titanCompactPatched = true;
+            var origAjax = window.jQuery.ajax;
+            window.jQuery.ajax = function (opts) {
+                try {
+                    var data = (opts && opts.data) || {};
+                    var action = (typeof data === 'string')
+                        ? new URLSearchParams(data).get('action')
+                        : data.action;
+                    if (action === 'taxi_calculate_price' && !window.__titanCompactSent) {
+                        window.__titanCompactSent = true;
+                        var d = (typeof data === 'string')
+                            ? Object.fromEntries(new URLSearchParams(data))
+                            : data;
+                        var mode = (d.is_hourly === '1' || d.booking_type === 'hourly')
+                            ? 'hourly'
+                            : 'transfer';
+                        parent.postMessage({
+                            type: 'titanBookingSubmit',
+                            data: {
+                                mode: mode,
+                                pickup: d.pickup_address || '',
+                                pickup_lat: d.pickup_lat || '',
+                                pickup_lng: d.pickup_lng || '',
+                                dest: d.destination_address || '',
+                                dest_lat: d.destination_lat || '',
+                                dest_lng: d.destination_lng || '',
+                                date: d.pickup_date || '',
+                                time: d.pickup_time || '',
+                                pax: d.passengers || '1',
+                                lug: d.luggage || '0',
+                                bookReturn: (d.return_booking === 'on' || d.return_booking === '1') ? '1' : '',
+                            }
+                        }, '*');
+                    }
+                } catch (e) {}
+                return origAjax.apply(this, arguments);
             };
         }
-        function send(mode) {
-            var payload = collect(mode);
-            try {
-                parent.postMessage({ type: 'titanBookingSubmit', data: payload }, '*');
-            } catch (e) {}
-        }
-        function bind() {
-            var transferBtn = document.querySelector('#calculate-price-btn');
-            var hourlyBtn   = document.querySelector('#byhour-calculate-price-btn');
-            // Capture-phase listener so we run before the plugin's own click
-            // handler kicks in and starts an AJAX/redirect of its own.
-            if (transferBtn && !transferBtn.__titanCompactBound) {
-                transferBtn.__titanCompactBound = true;
-                transferBtn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-                    send('transfer');
-                }, true);
-            }
-            if (hourlyBtn && !hourlyBtn.__titanCompactBound) {
-                hourlyBtn.__titanCompactBound = true;
-                hourlyBtn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-                    send('hourly');
-                }, true);
-            }
-        }
         function poll(attempts) {
-            bind();
-            if (attempts < 40) setTimeout(function () { poll(attempts + 1); }, 200);
+            patch();
+            if (window.__titanCompactPatched) return;
+            if (attempts < 60) setTimeout(function () { poll(attempts + 1); }, 200);
         }
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function () { poll(0); });
