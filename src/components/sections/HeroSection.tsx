@@ -41,73 +41,79 @@ export function HeroSection() {
   return (
     <section className="resp-hero-grid" style={{ background: '#F8FAF0', display: 'grid' }}>
 
-      {/* Left: text + small car illustration */}
+      {/* Left: text — same look as before the widget redesign */}
       <div
-        className="resp-hero-text flex flex-col justify-center py-12"
+        className="resp-hero-text flex flex-col justify-center py-16"
         style={{ paddingLeft: '6vw', paddingRight: '4vw' }}
       >
         <h1
-          className={`${russoOne.className} mb-5`}
-          style={{ fontSize: 'clamp(2.5rem, 4.5vw, 4rem)', lineHeight: 1.05, color: '#242426' }}
+          className={`${russoOne.className} mb-6`}
+          style={{ fontSize: '5rem', lineHeight: 1.05, color: '#242426' }}
         >
           {t('heroTitle')}
         </h1>
 
-        <p className="mb-6 leading-relaxed text-gray-600" style={{ fontSize: 'clamp(1rem, 1.4vw, 1.25rem)', maxWidth: '520px' }}>
+        <p className="mb-10 leading-relaxed text-gray-500" style={{ fontSize: '24px' }}>
           {t('heroSubtitle')}
         </p>
 
-        <div className="mb-6">
-          <div className="flex gap-2 mb-2 resp-hero-stars">
-            {Array.from({ length: 4 }).map((_, i) => <StarFull key={i} size={36} />)}
-            <StarPartial size={36} />
+        <div className="mb-10">
+          <div className="flex gap-3 mb-4 resp-hero-stars">
+            {Array.from({ length: 4 }).map((_, i) => <StarFull key={i} size={64} />)}
+            <StarPartial size={64} />
           </div>
-          <p className="text-gray-600" style={{ fontSize: '0.95rem' }}>
+          <p className="text-gray-600" style={{ fontSize: '24px' }}>
             {t('heroRating')}{' '}
             <span
               className={`${russoOne.className} underline`}
-              style={{ color: '#6B8313', fontSize: '0.95rem' }}
+              style={{ color: '#6B8313', fontSize: '24px' }}
             >
               4.8
             </span>
           </p>
         </div>
 
-        <div className="hidden sm:flex flex-wrap gap-3 mb-8">
+        <div className="hidden sm:flex flex-wrap gap-3">
           <a href="https://apps.apple.com/es/app/titan-transfers-luxury-ride/id6759010305" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-80">
-            <Image src="/app-store-btn.png" alt="Download on the App Store" width={140} height={42} className="h-11 w-auto" />
+            <Image src="/app-store-btn.png" alt="Download on the App Store" width={160} height={48} className="h-12 w-auto" />
           </a>
           <a href="https://play.google.com/store/apps/details?id=com.titantransfers.app&hl=es" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-80">
-            <Image src="/play-store-btn.png" alt="Get it on Google Play" width={140} height={42} className="h-11 w-auto" />
+            <Image src="/play-store-btn.png" alt="Get it on Google Play" width={160} height={48} className="h-12 w-auto" />
           </a>
-        </div>
-
-        {/* Small car illustration below the text */}
-        <div className="hero-car-illustration" style={{ position: 'relative', width: '100%', maxWidth: '520px', aspectRatio: '16/9', overflow: 'hidden', borderRadius: '8px' }}>
-          <Image
-            src="/hero-car.png"
-            alt="Vehículo de traslado privado de lujo"
-            fill
-            priority
-            fetchPriority="high"
-            className="object-cover object-center"
-            sizes="(max-width: 768px) 100vw, 35vw"
-            quality={80}
-          />
         </div>
       </div>
 
-      {/* Right: booking widget panel */}
+      {/* Right: car as background, booking panel on top */}
       <div
         className="hero-booking-panel-wrap"
         style={{
+          position: 'relative',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           padding: '3rem 4vw',
+          overflow: 'hidden',
+          clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)',
         }}
       >
-        <BookingPanel />
+        {/* Car background */}
+        <Image
+          src="/hero-car.png"
+          alt="Vehículo de traslado privado de lujo"
+          fill
+          priority
+          fetchPriority="high"
+          className="object-cover object-center"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          quality={85}
+          style={{ zIndex: 0 }}
+        />
+        {/* Subtle overlay so the white widget reads cleanly on any car colour */}
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.15), rgba(0,0,0,0.35))', zIndex: 1 }} />
+        {/* Widget on top */}
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <BookingPanel />
+        </div>
       </div>
 
     </section>

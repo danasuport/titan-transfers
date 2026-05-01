@@ -385,10 +385,8 @@ footer .text-gray-500 { color: #6b7280 !important; }
   .hero-booking-panel-wrap {
     order: -1;
     padding: 1.5rem 1rem !important;
-  }
-  .hero-car-illustration {
-    max-width: 100% !important;
-    margin-top: 1rem;
+    clip-path: none !important;
+    min-height: 480px !important;
   }
   /* Service types carousel — 1 col on mobile */
   .service-types-section {
