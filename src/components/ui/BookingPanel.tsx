@@ -126,50 +126,51 @@ function PlaceInput({ placeholder, ariaLabel, onSelect, value, onChange, icon }:
   )
 }
 
-function PickerField({ icon, type, value, onChange, placeholder, displayValue, ariaLabel }: {
+function PickerField({ icon, type, value, onChange, placeholder, ariaLabel }: {
   icon: React.ReactNode
   type: 'date' | 'time'
   value: string
   onChange: (v: string) => void
   placeholder: string
-  displayValue: string
+  displayValue?: string
   ariaLabel: string
 }) {
-  const inputRef = useRef<HTMLInputElement>(null)
-  function open() {
-    const el = inputRef.current
-    if (!el) return
-    // Modern browsers: showPicker() opens the native picker on demand.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const anyEl = el as any
-    if (typeof anyEl.showPicker === 'function') {
-      try { anyEl.showPicker(); return } catch {}
-    }
-    el.focus()
-    el.click()
-  }
+  // Native <input type="date|time"> directly. Clicking the input itself is
+  // the most reliable way to open the picker — no overlays, no showPicker()
+  // tricks. When value is empty we hide the browser's own ":--" placeholder
+  // by making the text transparent and overlaying our own placeholder span
+  // with pointer-events:none so clicks still reach the input.
+  const isEmpty = !value
   return (
-    <div
-      onClick={open}
-      style={{
-        position: 'relative',
-        display: 'flex', alignItems: 'center', gap: '0.6rem',
-        background: '#F8FAF0', border: '1.5px solid #e5e7eb', borderRadius: '6px',
-        padding: '0.85rem 1rem', cursor: 'pointer',
-      }}
-    >
-      <span style={{ color: '#6B8313', flexShrink: 0, display: 'flex' }}>{icon}</span>
-      <span style={{ flex: 1, fontSize: '0.875rem', color: value ? '#242426' : '#94a3b8', fontFamily: 'inherit', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-        {value ? displayValue : placeholder}
-      </span>
-      {/* Native input is invisible but takes clicks. Acts as the real picker. */}
+    <div style={{
+      position: 'relative',
+      display: 'flex', alignItems: 'center', gap: '0.6rem',
+      background: '#F8FAF0', border: '1.5px solid #e5e7eb', borderRadius: '6px',
+      padding: '0.85rem 1rem',
+    }}>
+      <span style={{ color: '#6B8313', flexShrink: 0, display: 'flex', pointerEvents: 'none' }}>{icon}</span>
+      {isEmpty && (
+        <span style={{ position: 'absolute', left: 'calc(1rem + 16px + 0.6rem)', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontSize: '0.875rem', pointerEvents: 'none' }}>
+          {placeholder}
+        </span>
+      )}
       <input
-        ref={inputRef}
         type={type}
         value={value}
         onChange={e => onChange(e.target.value)}
         aria-label={ariaLabel}
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, border: 'none', cursor: 'pointer' }}
+        style={{
+          flex: 1,
+          width: '100%',
+          minWidth: 0,
+          background: 'transparent',
+          border: 'none',
+          outline: 'none',
+          fontSize: '0.875rem',
+          color: isEmpty ? 'transparent' : '#242426',
+          fontFamily: 'inherit',
+          cursor: 'pointer',
+        }}
       />
     </div>
   )
