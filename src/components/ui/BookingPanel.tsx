@@ -135,19 +135,33 @@ function PickerField({ icon, type, value, onChange, placeholder, ariaLabel }: {
   displayValue?: string
   ariaLabel: string
 }) {
-  // Native <input type="date|time"> directly. Clicking the input itself is
-  // the most reliable way to open the picker — no overlays, no showPicker()
-  // tricks. When value is empty we hide the browser's own ":--" placeholder
-  // by making the text transparent and overlaying our own placeholder span
-  // with pointer-events:none so clicks still reach the input.
+  // Native <input type="date|time"> with the calendar-picker-indicator
+  // stretched to cover the whole input, so clicking ANYWHERE on the field
+  // opens the picker (Chrome/Safari). Plus showPicker() on the wrapper
+  // click as a Firefox fallback. When value is empty the input text is
+  // transparent so we can show our own custom placeholder.
+  const inputRef = useRef<HTMLInputElement>(null)
   const isEmpty = !value
+  function openPicker() {
+    const el = inputRef.current
+    if (!el) return
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const anyEl = el as any
+    if (typeof anyEl.showPicker === 'function') {
+      try { anyEl.showPicker() } catch {}
+    }
+  }
   return (
-    <div style={{
-      position: 'relative',
-      display: 'flex', alignItems: 'center', gap: '0.6rem',
-      background: '#F8FAF0', border: '1.5px solid #e5e7eb', borderRadius: '6px',
-      padding: '0.85rem 1rem',
-    }}>
+    <div
+      onClick={openPicker}
+      style={{
+        position: 'relative',
+        display: 'flex', alignItems: 'center', gap: '0.6rem',
+        background: '#F8FAF0', border: '1.5px solid #e5e7eb', borderRadius: '6px',
+        padding: '0.85rem 1rem',
+        cursor: 'pointer',
+      }}
+    >
       <span style={{ color: '#6B8313', flexShrink: 0, display: 'flex', pointerEvents: 'none' }}>{icon}</span>
       {isEmpty && (
         <span style={{ position: 'absolute', left: 'calc(1rem + 16px + 0.6rem)', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontSize: '0.875rem', pointerEvents: 'none' }}>
@@ -155,10 +169,12 @@ function PickerField({ icon, type, value, onChange, placeholder, ariaLabel }: {
         </span>
       )}
       <input
+        ref={inputRef}
         type={type}
         value={value}
         onChange={e => onChange(e.target.value)}
         aria-label={ariaLabel}
+        className="titan-picker-input"
         style={{
           flex: 1,
           width: '100%',
@@ -172,6 +188,21 @@ function PickerField({ icon, type, value, onChange, placeholder, ariaLabel }: {
           cursor: 'pointer',
         }}
       />
+      {/* Stretch the native picker indicator to cover the full field.
+          Without this the picker only opens when you click the tiny
+          icon at the far right of the input. */}
+      <style>{`
+        .titan-picker-input::-webkit-calendar-picker-indicator {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          opacity: 0;
+          cursor: pointer;
+        }
+      `}</style>
     </div>
   )
 }
