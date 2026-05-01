@@ -6,7 +6,7 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     3.6.0
+ * Version:     3.7.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -228,7 +228,7 @@ add_action('wp_footer', function () {
     /* Unconditional version log so we can verify which build is loaded
        just by opening the iframe's console. If you don't see this exact
        line on /booking/, the server still has an old MU-plugin file. */
-    console.log('[titan-prefill] script loaded, version 3.6.0');
+    console.log('[titan-prefill] script loaded, version 3.7.0');
     (function () {
         // ON-PAGE DEBUG OVERLAY — shows the prefill steps directly in the
         // booking widget so the user can read what's happening without
@@ -286,17 +286,52 @@ add_action('wp_footer', function () {
             return true;
         }
 
-        // The plugin stores Google Places place_id as a jQuery .data() on the
-        // address input — set when the user picks a suggestion from the
-        // autocomplete dropdown. The AJAX payload then includes pickup_pid /
-        // dest_pid from those data attrs, and the server REQUIRES them
-        // (otherwise it returns "Server Error" even with valid lat/lng).
-        function setPlaceId(sel, placeId) {
-            if (!placeId || !window.jQuery) return false;
+        // The WP taxi plugin doesn't use Google Places. It has its own
+        // backend endpoint `taxi_search_address` that returns place_ids
+        // tied to its internal locations DB (with cat_id and cat_type
+        // for routing to the right ratecard). The submit AJAX validates
+        // place_id against THAT db, so a Google Places place_id makes the
+        // server return "Server Error". We have to look up the address
+        // through the plugin's own endpoint and use the result.
+        function lookupPluginPlace(query, type, cb) {
+            if (!window.jQuery || !window.taxi_booking_ajax) {
+                log('lookupPluginPlace: jQuery or taxi_booking_ajax missing');
+                return cb(null);
+            }
+            window.jQuery.ajax({
+                url: window.taxi_booking_ajax.ajax_url,
+                type: 'POST',
+                data: {
+                    action: 'taxi_search_address',
+                    nonce: window.taxi_booking_ajax.nonce,
+                    query: query,
+                    searchType: type
+                },
+                success: function (resp) {
+                    if (resp && resp.success && resp.data && resp.data.length > 0) {
+                        log('lookupPluginPlace', type, query, '→', resp.data[0].name, resp.data[0].place_id);
+                        cb(resp.data[0]);
+                    } else {
+                        log('lookupPluginPlace', type, query, '→ no results');
+                        cb(null);
+                    }
+                },
+                error: function (xhr) { log('lookupPluginPlace failed', xhr && xhr.status); cb(null); }
+            });
+        }
+
+        // Apply a plugin-place result to the input: address text + place_id
+        // + cat_id + cat_type as jQuery data attrs (mirroring what the
+        // suggestion-click handler does in taxi-booking.js).
+        function applyPluginPlace(sel, place) {
+            if (!place || !window.jQuery) return false;
             var $el = window.jQuery(sel);
-            if (!$el.length) { log('setPlaceId: selector NOT FOUND', sel); return false; }
-            $el.data('place_id', placeId);
-            log('place_id set on', sel, '=', placeId);
+            if (!$el.length) { log('applyPluginPlace: selector NOT FOUND', sel); return false; }
+            $el.val(place.name || '');
+            if (place.place_id) $el.data('place_id', place.place_id);
+            if (place.cat_id) $el.data('cat_id', place.cat_id);
+            if (place.cat_type) $el.data('cat_type', place.cat_type);
+            log('applyPluginPlace', sel, place.place_id, place.cat_id, place.cat_type);
             return true;
         }
 
@@ -399,132 +434,156 @@ add_action('wp_footer', function () {
             }, 2500);
         }
 
-        // Hourly mode uses a separate set of inputs prefixed "byhour-".
-        // The duration field is a <select> populated async via API config;
-        // date/time inputs are wired to flatpickr and need its API to take
-        // a value. The submit button is #byhour-calculate-price-btn.
+        // Hourly mode uses inputs prefixed "byhour-". The duration field is
+        // a <select> populated async; date/time use flatpickr; place_id +
+        // cat_id + cat_type must come from the plugin's own taxi_search_address
+        // endpoint (Google Places ids don't work — server returns "Server Error").
         function applyHourly() {
             var tab = document.querySelector('.booking-type-tab[data-type="by-hour"]');
-            if (!tab) {
-                log('by-hour tab NOT FOUND. Tabs:',
-                    Array.from(document.querySelectorAll('.booking-type-tab')).map(function (t) { return t.getAttribute('data-type') }));
-                return;
-            }
+            if (!tab) { log('by-hour tab NOT FOUND'); return; }
             log('clicking by-hour tab');
             tab.click();
 
-            // Give the plugin time to show #by-hour-fields, init flatpickr
-            // on its date/time inputs, and kick off the API call that
-            // populates #byhour-duration's options.
             setTimeout(function () {
-                if (params.pickup) {
-                    setVal('#byhour-pickup-address', params.pickup, false);
+                // Resolve pickup address via the plugin's own search endpoint
+                // BEFORE filling the form. We use the first matching result —
+                // its place_id / cat_id / cat_type are what the calculate-price
+                // AJAX needs.
+                lookupPluginPlace(params.pickup || '', 'from', function (place) {
+                    if (place) {
+                        applyPluginPlace('#byhour-pickup-address', place);
+                    } else {
+                        log('no plugin match for pickup, falling back to URL params');
+                        setVal('#byhour-pickup-address', params.pickup, false);
+                        if (params.pickup_pid) setPlaceId('#byhour-pickup-address', params.pickup_pid);
+                    }
+                    // Lat/lng aren't strictly required by the AJAX payload (the
+                    // plugin's server resolves via place_id) but set them anyway
+                    // so any validators that read them are happy.
                     setVal('#byhour-pickup-lat', params.pickup_lat || '', false);
                     setVal('#byhour-pickup-lng', params.pickup_lng || '', false);
-                    setPlaceId('#byhour-pickup-address', params.pickup_pid);
-                }
-                document.querySelectorAll('#byhour-pickup-suggestions, .location-suggestions').forEach(function (el) {
-                    el.style.display = 'none';
-                    el.innerHTML = '';
-                });
-                if (params.date) setFlatpickr('#byhour-date', params.date);
-                if (params.time) setFlatpickr('#byhour-time', params.time);
-                if (params.pax) {
-                    var paxN = parseInt(params.pax, 10);
-                    if (!isNaN(paxN)) {
-                        var hidden = document.querySelector('#byhour-passengers');
-                        var disp = document.querySelector('#byhour-passengers-display');
-                        if (hidden) { hidden.value = String(paxN); hidden.dispatchEvent(new Event('change', { bubbles: true })); }
-                        if (disp) disp.value = paxN + ' ' + (paxN === 1 ? 'Passenger' : 'Passengers');
-                    }
-                }
-                if (params.lug) {
-                    var lugN = parseInt(params.lug, 10);
-                    if (!isNaN(lugN)) {
-                        var hidden2 = document.querySelector('#byhour-luggage');
-                        var disp2 = document.querySelector('#byhour-luggage-display');
-                        if (hidden2) { hidden2.value = String(lugN); hidden2.dispatchEvent(new Event('change', { bubbles: true })); }
-                        if (disp2) disp2.value = lugN + ' ' + (lugN === 1 ? 'Bag' : 'Bag(s)');
-                    }
-                }
 
-                // Duration select needs to wait for its options to load.
-                setDurationWhenReady(params.hours || '3', function (durationOk) {
-                    var snapshot = {
-                        pickup: (document.querySelector('#byhour-pickup-address') || {}).value,
-                        pickup_lat: (document.querySelector('#byhour-pickup-lat') || {}).value,
-                        pickup_lng: (document.querySelector('#byhour-pickup-lng') || {}).value,
-                        date: (document.querySelector('#byhour-date') || {}).value,
-                        time: (document.querySelector('#byhour-time') || {}).value,
-                        duration: (document.querySelector('#byhour-duration') || {}).value,
-                    };
-                    log('hourly form snapshot', snapshot, 'durationOk=', durationOk);
-                    var ready = !!(snapshot.pickup && snapshot.pickup_lat && snapshot.pickup_lng
-                        && snapshot.date && snapshot.time && snapshot.duration);
-                    log('hourly ready=', ready);
-                    if (!ready) {
-                        log('NOT clicking — would trigger Server Error. Missing:',
-                            Object.keys(snapshot).filter(function (k) { return !snapshot[k] }));
-                        return;
+                    document.querySelectorAll('#byhour-pickup-suggestions, .location-suggestions').forEach(function (el) {
+                        el.style.display = 'none';
+                        el.innerHTML = '';
+                    });
+                    if (params.date) setFlatpickr('#byhour-date', params.date);
+                    if (params.time) setFlatpickr('#byhour-time', params.time);
+                    if (params.pax) {
+                        var paxN = parseInt(params.pax, 10);
+                        if (!isNaN(paxN)) {
+                            var hidden = document.querySelector('#byhour-passengers');
+                            var disp = document.querySelector('#byhour-passengers-display');
+                            if (hidden) { hidden.value = String(paxN); hidden.dispatchEvent(new Event('change', { bubbles: true })); }
+                            if (disp) disp.value = paxN + ' ' + (paxN === 1 ? 'Passenger' : 'Passengers');
+                        }
                     }
-                    if (window.__titanAutoCalc) return;
-                    window.__titanAutoCalc = true;
-                    setTimeout(function () { tryClick('#byhour-calculate-price-btn', 1); }, 800);
+                    if (params.lug) {
+                        var lugN = parseInt(params.lug, 10);
+                        if (!isNaN(lugN)) {
+                            var hidden2 = document.querySelector('#byhour-luggage');
+                            var disp2 = document.querySelector('#byhour-luggage-display');
+                            if (hidden2) { hidden2.value = String(lugN); hidden2.dispatchEvent(new Event('change', { bubbles: true })); }
+                            if (disp2) disp2.value = lugN + ' ' + (lugN === 1 ? 'Bag' : 'Bag(s)');
+                        }
+                    }
+
+                    setDurationWhenReady(params.hours || '3', function (durationOk) {
+                        var $byhour = window.jQuery && window.jQuery('#byhour-pickup-address');
+                        var snapshot = {
+                            pickup: (document.querySelector('#byhour-pickup-address') || {}).value,
+                            place_id: $byhour ? $byhour.data('place_id') : null,
+                            cat_id: $byhour ? $byhour.data('cat_id') : null,
+                            date: (document.querySelector('#byhour-date') || {}).value,
+                            time: (document.querySelector('#byhour-time') || {}).value,
+                            duration: (document.querySelector('#byhour-duration') || {}).value,
+                        };
+                        log('hourly snapshot', snapshot, 'durationOk=', durationOk);
+                        var ready = !!(snapshot.pickup && snapshot.place_id
+                            && snapshot.date && snapshot.time && snapshot.duration);
+                        log('hourly ready=', ready);
+                        if (!ready) {
+                            log('NOT clicking. Missing:',
+                                Object.keys(snapshot).filter(function (k) { return !snapshot[k] }));
+                            return;
+                        }
+                        if (window.__titanAutoCalc) return;
+                        window.__titanAutoCalc = true;
+                        setTimeout(function () { tryClick('#byhour-calculate-price-btn', 1); }, 800);
+                    });
                 });
             }, 700);
         }
 
         function applyTransfer() {
-            // Silent prefill on visible address inputs to avoid the plugin's
-            // own autocomplete kicking in. Only the hidden lat/lng need to
-            // exist for calculatePrice() to consider the address validated.
-            if (params.pickup) {
-                setVal('#pickup-address', params.pickup, false);
+            // Resolve both addresses via plugin's own endpoint, in parallel,
+            // then fill the form once both are back.
+            var pickupResolved = false, destResolved = false;
+            var pickupPlace = null, destPlace = null;
+
+            function maybeFill() {
+                if (!pickupResolved || !destResolved) return;
+
+                if (pickupPlace) {
+                    applyPluginPlace('#pickup-address', pickupPlace);
+                } else {
+                    log('no plugin match for pickup');
+                    setVal('#pickup-address', params.pickup, false);
+                    if (params.pickup_pid) setPlaceId('#pickup-address', params.pickup_pid);
+                }
                 setVal('#pickup-lat', params.pickup_lat || '', false);
                 setVal('#pickup-lng', params.pickup_lng || '', false);
-                setPlaceId('#pickup-address', params.pickup_pid);
-            }
-            if (params.dest) {
-                setVal('#destination-address', params.dest, false);
+
+                if (destPlace) {
+                    applyPluginPlace('#destination-address', destPlace);
+                } else {
+                    log('no plugin match for destination');
+                    setVal('#destination-address', params.dest, false);
+                    if (params.dest_pid) setPlaceId('#destination-address', params.dest_pid);
+                }
                 setVal('#destination-lat', params.dest_lat || '', false);
                 setVal('#destination-lng', params.dest_lng || '', false);
-                setPlaceId('#destination-address', params.dest_pid);
-            }
-            // Force-close any suggestion dropdown the plugin might have opened.
-            document.querySelectorAll('#pickup-suggestions, #destination-suggestions, .location-suggestions').forEach(function (el) {
-                el.style.display = 'none';
-                el.innerHTML = '';
-            });
-            // Date/time use flatpickr too — same fix as hourly.
-            if (params.date) setFlatpickr('#pickup-date', params.date);
-            if (params.time) setFlatpickr('#pickup-time', params.time);
-            if (params.pax) setNumber('passengers', params.pax);
-            if (params.lug) setNumber('luggage', params.lug);
 
-            var snapshot = {
-                pickup: (document.querySelector('#pickup-address') || {}).value,
-                pickup_lat: (document.querySelector('#pickup-lat') || {}).value,
-                pickup_lng: (document.querySelector('#pickup-lng') || {}).value,
-                dest: (document.querySelector('#destination-address') || {}).value,
-                dest_lat: (document.querySelector('#destination-lat') || {}).value,
-                dest_lng: (document.querySelector('#destination-lng') || {}).value,
-                date: (document.querySelector('#pickup-date') || {}).value,
-                time: (document.querySelector('#pickup-time') || {}).value,
-            };
-            log('transfer form snapshot', snapshot);
-            var ready = !!(snapshot.pickup && snapshot.pickup_lat && snapshot.pickup_lng
-                && snapshot.dest && snapshot.dest_lat && snapshot.dest_lng
-                && snapshot.date && snapshot.time);
-            log('transfer ready=', ready);
-            if (!ready) {
-                log('NOT clicking — missing:',
-                    Object.keys(snapshot).filter(function (k) { return !snapshot[k] }));
-                return;
-            }
-            if (!window.__titanAutoCalc) {
+                document.querySelectorAll('#pickup-suggestions, #destination-suggestions, .location-suggestions').forEach(function (el) {
+                    el.style.display = 'none';
+                    el.innerHTML = '';
+                });
+                if (params.date) setFlatpickr('#pickup-date', params.date);
+                if (params.time) setFlatpickr('#pickup-time', params.time);
+                if (params.pax) setNumber('passengers', params.pax);
+                if (params.lug) setNumber('luggage', params.lug);
+
+                var $pickup = window.jQuery && window.jQuery('#pickup-address');
+                var $dest = window.jQuery && window.jQuery('#destination-address');
+                var snapshot = {
+                    pickup: (document.querySelector('#pickup-address') || {}).value,
+                    pickup_pid: $pickup ? $pickup.data('place_id') : null,
+                    dest: (document.querySelector('#destination-address') || {}).value,
+                    dest_pid: $dest ? $dest.data('place_id') : null,
+                    date: (document.querySelector('#pickup-date') || {}).value,
+                    time: (document.querySelector('#pickup-time') || {}).value,
+                };
+                log('transfer snapshot', snapshot);
+                var ready = !!(snapshot.pickup && snapshot.pickup_pid
+                    && snapshot.dest && snapshot.dest_pid
+                    && snapshot.date && snapshot.time);
+                log('transfer ready=', ready);
+                if (!ready) {
+                    log('NOT clicking. Missing:',
+                        Object.keys(snapshot).filter(function (k) { return !snapshot[k] }));
+                    return;
+                }
+                if (window.__titanAutoCalc) return;
                 window.__titanAutoCalc = true;
                 setTimeout(function () { tryClick('#calculate-price-btn', 1); }, 1200);
             }
+
+            lookupPluginPlace(params.pickup || '', 'from', function (place) {
+                pickupPlace = place; pickupResolved = true; maybeFill();
+            });
+            lookupPluginPlace(params.dest || '', 'to', function (place) {
+                destPlace = place; destResolved = true; maybeFill();
+            });
         }
 
         function applyAndAdvance() {
