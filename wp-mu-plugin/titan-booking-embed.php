@@ -6,7 +6,7 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     3.2.0
+ * Version:     3.3.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -228,7 +228,7 @@ add_action('wp_footer', function () {
     /* Unconditional version log so we can verify which build is loaded
        just by opening the iframe's console. If you don't see this exact
        line on /booking/, the server still has an old MU-plugin file. */
-    console.log('[titan-prefill] script loaded, version 3.2.0');
+    console.log('[titan-prefill] script loaded, version 3.3.0');
     (function () {
         function log() {
             try { console.log.apply(console, ['[titan-prefill]'].concat([].slice.call(arguments))); } catch (e) {}
@@ -259,6 +259,64 @@ add_action('wp_footer', function () {
                 el.dispatchEvent(new Event('change', { bubbles: true }));
             }
             return true;
+        }
+
+        // Date/time inputs are wired to flatpickr — setting el.value directly
+        // does NOT update flatpickr's internal model, so the form thinks the
+        // field is still empty. Use the instance's setDate() instead.
+        function setFlatpickr(sel, val) {
+            var el = document.querySelector(sel);
+            if (!el) { log('setFlatpickr: selector NOT FOUND', sel); return false; }
+            if (val == null || val === '') return false;
+            if (el._flatpickr && typeof el._flatpickr.setDate === 'function') {
+                try {
+                    el._flatpickr.setDate(val, true); // true = trigger change
+                    return true;
+                } catch (e) { log('flatpickr.setDate threw on', sel, e); }
+            }
+            // Fallback (no flatpickr instance found yet) — set value + change.
+            el.value = val;
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+            return true;
+        }
+
+        // The duration <select> in by-hour mode is populated asynchronously
+        // from a server-side API config call. Poll until the select actually
+        // has options before we try to assign a value (otherwise the assign
+        // is silently dropped because the option doesn't exist yet).
+        function setDurationWhenReady(hours, onDone) {
+            var attempts = 0;
+            (function tick() {
+                var sel = document.querySelector('#byhour-duration');
+                if (!sel) {
+                    if (attempts++ > 60) { log('byhour-duration NOT FOUND after polling'); onDone(false); return; }
+                    setTimeout(tick, 200); return;
+                }
+                // sel.options[0] is the placeholder "<option value=''>Duration</option>"
+                var realOptions = Array.from(sel.options).filter(function (o) { return o.value !== '' });
+                if (realOptions.length === 0) {
+                    if (attempts++ > 60) { log('byhour-duration has no options after polling'); onDone(false); return; }
+                    setTimeout(tick, 200); return;
+                }
+                var target = String(parseInt(hours, 10));
+                var match = realOptions.find(function (o) { return o.value === target });
+                if (!match) {
+                    // Fallback: closest numeric option (or the first one).
+                    var nums = realOptions.map(function (o) { return parseInt(o.value, 10) }).filter(function (n) { return !isNaN(n) }).sort(function (a, b) { return a - b });
+                    var want = parseInt(hours, 10);
+                    var closest = nums.reduce(function (best, n) {
+                        return Math.abs(n - want) < Math.abs(best - want) ? n : best;
+                    }, nums[0]);
+                    sel.value = String(closest);
+                    log('byhour-duration: requested', target, 'not in options', nums, '— using closest', closest);
+                } else {
+                    sel.value = match.value;
+                    log('byhour-duration set to', match.value);
+                }
+                sel.dispatchEvent(new Event('change', { bubbles: true }));
+                onDone(true);
+            })();
         }
         function setNumber(name, val) {
             var n = parseInt(val, 10); if (isNaN(n)) return;
@@ -302,37 +360,35 @@ add_action('wp_footer', function () {
             }, 2500);
         }
 
-        // Hourly mode uses a separate set of inputs prefixed "byhour-"
-        // (e.g. #byhour-pickup-address, #byhour-date, #byhour-duration for
-        // hours, #byhour-calculate-price-btn). The tab data-type is "by-hour".
+        // Hourly mode uses a separate set of inputs prefixed "byhour-".
+        // The duration field is a <select> populated async via API config;
+        // date/time inputs are wired to flatpickr and need its API to take
+        // a value. The submit button is #byhour-calculate-price-btn.
         function applyHourly() {
-            // Switch the widget into by-hour mode by clicking its tab.
             var tab = document.querySelector('.booking-type-tab[data-type="by-hour"]');
-            if (tab) {
-                log('clicking by-hour tab');
-                tab.click();
-            } else {
-                log('by-hour tab NOT FOUND. Available tabs:',
+            if (!tab) {
+                log('by-hour tab NOT FOUND. Tabs:',
                     Array.from(document.querySelectorAll('.booking-type-tab')).map(function (t) { return t.getAttribute('data-type') }));
-                // Bail — clicking transfer's calculate-price-btn would fire
-                // the AJAX with empty data and produce a Server Error.
                 return;
             }
+            log('clicking by-hour tab');
+            tab.click();
 
-            // Wait a generous beat for the plugin to render the byhour-* fields.
+            // Give the plugin time to show #by-hour-fields, init flatpickr
+            // on its date/time inputs, and kick off the API call that
+            // populates #byhour-duration's options.
             setTimeout(function () {
-                var ok = true;
                 if (params.pickup) {
-                    ok = setVal('#byhour-pickup-address', params.pickup, false) && ok;
-                    ok = setVal('#byhour-pickup-lat', params.pickup_lat || '', false) && ok;
-                    ok = setVal('#byhour-pickup-lng', params.pickup_lng || '', false) && ok;
+                    setVal('#byhour-pickup-address', params.pickup, false);
+                    setVal('#byhour-pickup-lat', params.pickup_lat || '', false);
+                    setVal('#byhour-pickup-lng', params.pickup_lng || '', false);
                 }
                 document.querySelectorAll('#byhour-pickup-suggestions, .location-suggestions').forEach(function (el) {
                     el.style.display = 'none';
                     el.innerHTML = '';
                 });
-                if (params.date) setVal('#byhour-date', params.date, true);
-                if (params.time) setVal('#byhour-time', params.time, true);
+                if (params.date) setFlatpickr('#byhour-date', params.date);
+                if (params.time) setFlatpickr('#byhour-time', params.time);
                 if (params.pax) {
                     var paxN = parseInt(params.pax, 10);
                     if (!isNaN(paxN)) {
@@ -351,32 +407,30 @@ add_action('wp_footer', function () {
                         if (disp2) disp2.value = lugN + ' ' + (lugN === 1 ? 'Bag' : 'Bag(s)');
                     }
                 }
-                if (params.hours) setVal('#byhour-duration', String(parseInt(params.hours, 10) || 3), true);
 
-                // Verify the inputs actually have the values before clicking,
-                // otherwise we trigger the plugin's "Server Error" by submitting
-                // empty data.
-                var snapshot = {
-                    pickup: (document.querySelector('#byhour-pickup-address') || {}).value,
-                    pickup_lat: (document.querySelector('#byhour-pickup-lat') || {}).value,
-                    pickup_lng: (document.querySelector('#byhour-pickup-lng') || {}).value,
-                    date: (document.querySelector('#byhour-date') || {}).value,
-                    time: (document.querySelector('#byhour-time') || {}).value,
-                    duration: (document.querySelector('#byhour-duration') || {}).value,
-                };
-                log('hourly form snapshot', snapshot);
-
-                var ready = !!(snapshot.pickup && snapshot.pickup_lat && snapshot.pickup_lng
-                    && snapshot.date && snapshot.time && snapshot.duration);
-                log('hourly ready=', ready);
-                if (!ready) {
-                    log('NOT clicking — would trigger Server Error');
-                    return;
-                }
-                if (!window.__titanAutoCalc) {
+                // Duration select needs to wait for its options to load.
+                setDurationWhenReady(params.hours || '3', function (durationOk) {
+                    var snapshot = {
+                        pickup: (document.querySelector('#byhour-pickup-address') || {}).value,
+                        pickup_lat: (document.querySelector('#byhour-pickup-lat') || {}).value,
+                        pickup_lng: (document.querySelector('#byhour-pickup-lng') || {}).value,
+                        date: (document.querySelector('#byhour-date') || {}).value,
+                        time: (document.querySelector('#byhour-time') || {}).value,
+                        duration: (document.querySelector('#byhour-duration') || {}).value,
+                    };
+                    log('hourly form snapshot', snapshot, 'durationOk=', durationOk);
+                    var ready = !!(snapshot.pickup && snapshot.pickup_lat && snapshot.pickup_lng
+                        && snapshot.date && snapshot.time && snapshot.duration);
+                    log('hourly ready=', ready);
+                    if (!ready) {
+                        log('NOT clicking — would trigger Server Error. Missing:',
+                            Object.keys(snapshot).filter(function (k) { return !snapshot[k] }));
+                        return;
+                    }
+                    if (window.__titanAutoCalc) return;
                     window.__titanAutoCalc = true;
                     setTimeout(function () { tryClick('#byhour-calculate-price-btn', 1); }, 800);
-                }
+                });
             }, 700);
         }
 
@@ -399,17 +453,33 @@ add_action('wp_footer', function () {
                 el.style.display = 'none';
                 el.innerHTML = '';
             });
-            if (params.date) setVal('#pickup-date', params.date, true);
-            if (params.time) setVal('#pickup-time', params.time, true);
+            // Date/time use flatpickr too — same fix as hourly.
+            if (params.date) setFlatpickr('#pickup-date', params.date);
+            if (params.time) setFlatpickr('#pickup-time', params.time);
             if (params.pax) setNumber('passengers', params.pax);
             if (params.lug) setNumber('luggage', params.lug);
 
-            var ready = params.pickup && params.dest
-                && params.pickup_lat && params.pickup_lng
-                && params.dest_lat && params.dest_lng
-                && params.date && params.time;
-            log('transfer prefilled, ready=', !!ready);
-            if (ready && !window.__titanAutoCalc) {
+            var snapshot = {
+                pickup: (document.querySelector('#pickup-address') || {}).value,
+                pickup_lat: (document.querySelector('#pickup-lat') || {}).value,
+                pickup_lng: (document.querySelector('#pickup-lng') || {}).value,
+                dest: (document.querySelector('#destination-address') || {}).value,
+                dest_lat: (document.querySelector('#destination-lat') || {}).value,
+                dest_lng: (document.querySelector('#destination-lng') || {}).value,
+                date: (document.querySelector('#pickup-date') || {}).value,
+                time: (document.querySelector('#pickup-time') || {}).value,
+            };
+            log('transfer form snapshot', snapshot);
+            var ready = !!(snapshot.pickup && snapshot.pickup_lat && snapshot.pickup_lng
+                && snapshot.dest && snapshot.dest_lat && snapshot.dest_lng
+                && snapshot.date && snapshot.time);
+            log('transfer ready=', ready);
+            if (!ready) {
+                log('NOT clicking — missing:',
+                    Object.keys(snapshot).filter(function (k) { return !snapshot[k] }));
+                return;
+            }
+            if (!window.__titanAutoCalc) {
                 window.__titanAutoCalc = true;
                 setTimeout(function () { tryClick('#calculate-price-btn', 1); }, 1200);
             }
