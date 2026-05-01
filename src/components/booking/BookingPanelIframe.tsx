@@ -37,7 +37,7 @@ export function BookingPanelIframe() {
   }, [])
 
   return (
-    <div style={{ background: '#ffffff', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 12px 40px rgba(0,0,0,0.18)', maxWidth: '440px', width: '100%' }}>
+    <div style={{ background: '#ffffff', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 12px 40px rgba(0,0,0,0.18)', maxWidth: '640px', width: '100%' }}>
       {iframeUrl ? (
         <iframe
           ref={iframeRef}

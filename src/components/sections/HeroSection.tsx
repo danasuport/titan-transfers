@@ -91,7 +91,7 @@ export function HeroSection() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '3rem 4vw',
+          padding: '2.5rem 1.5rem',
           overflow: 'hidden',
           clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)',
         }}
