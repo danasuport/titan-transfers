@@ -15,7 +15,7 @@ import { FleetShowcase } from '@/components/sections/FleetShowcase'
 import { CtaSection } from '@/components/sections/CtaSection'
 import { HowItWorks } from '@/components/sections/HowItWorks'
 import { Testimonials } from '@/components/sections/Testimonials'
-import { BookingPanelIframe } from '@/components/booking/BookingPanelIframe'
+import { BookingPanel } from '@/components/ui/BookingPanel'
 import { PortableText } from '@portabletext/react'
 import type { Locale } from '@/lib/i18n/config'
 import { russoOne } from '@/lib/fonts'
@@ -171,7 +171,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
       <SchemaOrg data={generateTaxiServiceSchema({ name: `${airportTitle} ${t('transfers')}`, description: t('transferBestPriceDesc', { airport: airportTitle }), url: `/airport-transfers-private-taxi/${slug}/`, areaServed: cityName, rating: 4.8, reviewCount: 2500 })} />
 
       {/* ─── HERO ───────────────────────────────────────────────────────── */}
-      <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '520px' }}>
+      <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '720px' }}>
 
         {/* Left: content */}
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '6vw', paddingRight: '4vw', paddingTop: '4rem', paddingBottom: '4rem' }}>
@@ -186,33 +186,33 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
           </p>
         </div>
 
-        {/* Right: image with diagonal left mask */}
-        <div className="resp-img-panel" style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
-          {heroImg ? (
-            <Image
-              src={heroImg}
-              alt={`${t('transfers')} ${airportTitle}`}
-              fill
-              priority
-              style={{ objectFit: 'cover', objectPosition: 'center' }}
-              sizes="50vw"
-            />
-          ) : (
-            <div style={{ position: 'absolute', inset: 0, background: '#242426' }} />
-          )}
+        {/* Right: image with diagonal left mask + booking widget overlay */}
+        <div className="resp-img-panel" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1.5rem' }}>
+          <div style={{ position: 'absolute', inset: 0, clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)', overflow: 'hidden' }}>
+            {heroImg ? (
+              <Image
+                src={heroImg}
+                alt={`${t('transfers')} ${airportTitle}`}
+                fill
+                priority
+                style={{ objectFit: 'cover', objectPosition: 'center' }}
+                sizes="50vw"
+              />
+            ) : (
+              <div style={{ position: 'absolute', inset: 0, background: '#242426' }} />
+            )}
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)' }} />
+          </div>
+          <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '550px', display: 'flex', justifyContent: 'center' }}>
+            <BookingPanel />
+          </div>
         </div>
 
       </section>
 
-      {/* ─── BOOKING FORM ──────────────────────────────────────────────── */}
-      <section style={{ background: '#ffffff', paddingTop: '2.5rem', paddingBottom: '2.5rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
-        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#6B8313', textTransform: 'none', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
-          {es ? `Reserva tu transfer — ${airportTitle}` : `Book your transfer — ${airportTitle}`}
-        </p>
-        <BookingPanelIframe />
-
-        {/* Trust badges inline below form */}
-        <div style={{ display: 'flex', gap: '2rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
+      {/* ─── TRUST BADGES ──────────────────────────────────────────────── */}
+      <section style={{ background: '#ffffff', paddingTop: '2rem', paddingBottom: '2rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
+        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
           {trustBadges.map((b, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <span style={{ color: '#6B8313', fontSize: '1rem', lineHeight: 1, flexShrink: 0 }}>{b.icon}</span>

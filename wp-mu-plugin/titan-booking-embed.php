@@ -6,7 +6,7 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     1.0.0
+ * Version:     3.0.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -24,17 +24,6 @@ function titan_booking_is_embed() {
     if (isset($_GET['embed']) && $_GET['embed'] === '1') return true;
     if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'iframe') return true;
     return false;
-}
-
-/**
- * True when the embed is the "compact" flavour used in the home hero —
- * we want the user to STAY on the home for step 1, then bounce out to
- * /booking/ on the Next.js site once they hit Calculate Price (full
- * step 2/3 lives there). Without compact mode the iframe would advance
- * internally and the booking flow would happen entirely in the home.
- */
-function titan_booking_is_compact() {
-    return isset($_GET['compact']) && $_GET['compact'] === '1';
 }
 
 /**
@@ -227,21 +216,32 @@ add_filter('body_class', function ($classes) {
  *
  * Auto-clicks #calculate-price-btn when every required field is present
  * so the user lands directly on step 2 (matching the previous ETO embed UX).
+ *
+ * Robustness: waits 1200ms after prefill before clicking (lets the plugin
+ * settle its address autocomplete listeners), verifies the button isn't
+ * disabled, and retries up to 3 times if step 1 is still visible after 2.5s.
  */
 add_action('wp_footer', function () {
     if (!titan_booking_is_embed()) return;
     ?>
     <script>
     (function () {
+        function log() {
+            try { console.log.apply(console, ['[titan-prefill]'].concat([].slice.call(arguments))); } catch (e) {}
+        }
         function getParams() {
             var sp = new URLSearchParams(window.location.search);
-            var keys = ['pickup','dest','pickup_lat','pickup_lng','dest_lat','dest_lng','date','time','pax','lug'];
+            var keys = ['pickup','dest','pickup_lat','pickup_lng','dest_lat','dest_lng','date','time','pax','lug','mode','hours','return'];
             var out = {};
             keys.forEach(function (k) { var v = sp.get(k); if (v) out[k] = v; });
             return out;
         }
         var params = getParams();
-        if (!params.pickup && !params.dest && !params.date) return;
+        if (!params.pickup && !params.dest && !params.date) {
+            log('no params, skip');
+            return;
+        }
+        log('params', params);
 
         function setVal(sel, val, fire) {
             var el = document.querySelector(sel);
@@ -263,7 +263,48 @@ add_action('wp_footer', function () {
                 display.value = n + ' ' + label;
             }
         }
+        function tryClick(attempt) {
+            var btn = document.querySelector('#calculate-price-btn');
+            if (!btn) {
+                if (attempt < 5) {
+                    log('button not yet rendered, retry', attempt);
+                    setTimeout(function () { tryClick(attempt + 1); }, 500);
+                }
+                return;
+            }
+            if (btn.disabled) {
+                if (attempt < 6) {
+                    log('button disabled, retry', attempt);
+                    setTimeout(function () { tryClick(attempt + 1); }, 500);
+                }
+                return;
+            }
+            log('clicking calculate-price (attempt ' + attempt + ')');
+            btn.click();
+            // If step 1 is still visible 2.5s later, retry up to 3 times total.
+            setTimeout(function () {
+                var stillThere = document.querySelector('#calculate-price-btn');
+                if (stillThere && stillThere.offsetParent !== null && attempt < 3) {
+                    log('step 1 still visible, retry click', attempt + 1);
+                    tryClick(attempt + 1);
+                } else if (!stillThere || stillThere.offsetParent === null) {
+                    log('advanced past step 1');
+                }
+            }, 2500);
+        }
         function applyAndAdvance() {
+            var isHourly = params.mode === 'hourly';
+
+            // If hourly, click the Hourly tab in the widget so the plugin
+            // switches its own form into hourly mode before we prefill.
+            if (isHourly) {
+                var hourlyTab = document.querySelector('.booking-type-tab[data-type="hourly"], .booking-type-tab.hourly');
+                if (hourlyTab) {
+                    log('switching to hourly tab');
+                    hourlyTab.click();
+                }
+            }
+
             // Silent prefill on visible address inputs to avoid the plugin's
             // own autocomplete kicking in. Only the hidden lat/lng need to
             // exist for calculatePrice() to consider the address validated.
@@ -272,7 +313,7 @@ add_action('wp_footer', function () {
                 setVal('#pickup-lat', params.pickup_lat || '', false);
                 setVal('#pickup-lng', params.pickup_lng || '', false);
             }
-            if (params.dest) {
+            if (!isHourly && params.dest) {
                 setVal('#destination-address', params.dest, false);
                 setVal('#destination-lat', params.dest_lat || '', false);
                 setVal('#destination-lng', params.dest_lng || '', false);
@@ -286,17 +327,26 @@ add_action('wp_footer', function () {
             if (params.time) setVal('#pickup-time', params.time, true);
             if (params.pax) setNumber('passengers', params.pax);
             if (params.lug) setNumber('luggage', params.lug);
+            if (isHourly && params.hours) {
+                // Try a few common selectors the plugin might use for the hours field.
+                ['#hours', '#booking-hours', '#hourly-hours', 'input[name="hours"]'].some(function (sel) {
+                    var el = document.querySelector(sel);
+                    if (!el) return false;
+                    el.value = String(parseInt(params.hours, 10) || 3);
+                    el.dispatchEvent(new Event('change', { bubbles: true }));
+                    log('set hours via', sel);
+                    return true;
+                });
+            }
 
-            var ready = params.pickup && params.dest
-                && params.pickup_lat && params.pickup_lng
-                && params.dest_lat && params.dest_lng
-                && params.date && params.time;
+            var ready = isHourly
+                ? (params.pickup && params.pickup_lat && params.pickup_lng && params.date && params.time && params.hours)
+                : (params.pickup && params.dest && params.pickup_lat && params.pickup_lng && params.dest_lat && params.dest_lng && params.date && params.time);
+            log('prefilled, ready=', !!ready, 'mode=', isHourly ? 'hourly' : 'transfer');
             if (ready && !window.__titanAutoCalc) {
                 window.__titanAutoCalc = true;
-                setTimeout(function () {
-                    var btn = document.querySelector('#calculate-price-btn');
-                    if (btn && !btn.disabled) btn.click();
-                }, 350);
+                // Wait for the plugin's own listeners to settle before clicking.
+                setTimeout(function () { tryClick(1); }, 1200);
             }
         }
         function tick(attempts) {
@@ -304,86 +354,16 @@ add_action('wp_footer', function () {
                 applyAndAdvance();
                 return;
             }
-            if (attempts > 60) return;
+            if (attempts > 60) {
+                log('gave up waiting for plugin to mount');
+                return;
+            }
             setTimeout(function () { tick(attempts + 1); }, 100);
         }
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function () { tick(0); });
         } else {
             tick(0);
-        }
-    })();
-    </script>
-    <?php
-});
-
-/**
- * Compact-mode behaviour: when the iframe is loaded with ?compact=1 (used
- * by the Next.js home hero), patch jQuery.ajax so the FIRST request to
- * action=taxi_calculate_price posts the (already-validated) form fields
- * to the parent window. The parent listens for this and redirects the top
- * window to /booking/?pickup=...&dest=... where step 2 renders. We let
- * the AJAX call itself proceed (no abort): the parent's location.href
- * drops the iframe before the response can render step 2 here.
- *
- * Patching the AJAX is more reliable than intercepting the button click,
- * because by the time the plugin builds the AJAX payload it has already
- * geocoded addresses and filled the hidden lat/lng inputs.
- */
-add_action('wp_footer', function () {
-    if (!titan_booking_is_embed() || !titan_booking_is_compact()) return;
-    ?>
-    <script>
-    (function () {
-        function patch() {
-            if (!window.jQuery || !window.jQuery.ajax || window.__titanCompactPatched) return;
-            window.__titanCompactPatched = true;
-            var origAjax = window.jQuery.ajax;
-            window.jQuery.ajax = function (opts) {
-                try {
-                    var data = (opts && opts.data) || {};
-                    var action = (typeof data === 'string')
-                        ? new URLSearchParams(data).get('action')
-                        : data.action;
-                    if (action === 'taxi_calculate_price' && !window.__titanCompactSent) {
-                        window.__titanCompactSent = true;
-                        var d = (typeof data === 'string')
-                            ? Object.fromEntries(new URLSearchParams(data))
-                            : data;
-                        var mode = (d.is_hourly === '1' || d.booking_type === 'hourly')
-                            ? 'hourly'
-                            : 'transfer';
-                        parent.postMessage({
-                            type: 'titanBookingSubmit',
-                            data: {
-                                mode: mode,
-                                pickup: d.pickup_address || '',
-                                pickup_lat: d.pickup_lat || '',
-                                pickup_lng: d.pickup_lng || '',
-                                dest: d.destination_address || '',
-                                dest_lat: d.destination_lat || '',
-                                dest_lng: d.destination_lng || '',
-                                date: d.pickup_date || '',
-                                time: d.pickup_time || '',
-                                pax: d.passengers || '1',
-                                lug: d.luggage || '0',
-                                bookReturn: (d.return_booking === 'on' || d.return_booking === '1') ? '1' : '',
-                            }
-                        }, '*');
-                    }
-                } catch (e) {}
-                return origAjax.apply(this, arguments);
-            };
-        }
-        function poll(attempts) {
-            patch();
-            if (window.__titanCompactPatched) return;
-            if (attempts < 60) setTimeout(function () { poll(attempts + 1); }, 200);
-        }
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function () { poll(0); });
-        } else {
-            poll(0);
         }
     })();
     </script>

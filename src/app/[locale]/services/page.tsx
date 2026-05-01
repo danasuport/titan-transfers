@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
-import { BookingPanelIframe } from '@/components/booking/BookingPanelIframe'
+import { BookingPanel } from '@/components/ui/BookingPanel'
 import { sanityClient } from '@/lib/sanity/client'
 import { allServicesQuery } from '@/lib/sanity/queries'
 import { ServicesClient } from '@/components/listings/ServicesClient'
@@ -111,7 +111,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
   return (
     <>
       {/* ─── HERO ─────────────────────────────────────────────────────── */}
-      <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '520px' }}>
+      <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '720px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '6vw', paddingRight: '4vw', paddingTop: '4rem', paddingBottom: '4rem' }}>
           <Breadcrumbs items={[{ label: t('services') }]} variant="light" />
 
@@ -138,17 +138,15 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
           </p>
         </div>
 
-        <div className="resp-img-panel" style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
-          <Image src="/services/airport-transfers.jpg" alt={es ? 'Servicios de traslados privados' : 'Private transfer services'} fill priority style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="50vw" />
+        <div className="resp-img-panel" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1.5rem' }}>
+          <div style={{ position: 'absolute', inset: 0, clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)', overflow: 'hidden' }}>
+            <Image src="/services/airport-transfers.jpg" alt={es ? 'Servicios de traslados privados' : 'Private transfer services'} fill priority style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="50vw" />
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)' }} />
+          </div>
+          <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '550px', display: 'flex', justifyContent: 'center' }}>
+            <BookingPanel />
+          </div>
         </div>
-      </section>
-
-      {/* ─── BOOKING FORM ──────────────────────────────────────────────── */}
-      <section style={{ background: '#ffffff', paddingTop: '2.5rem', paddingBottom: '2.5rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
-        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#6B8313', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
-          {es ? 'Reserva tu traslado privado' : 'Book your private transfer'}
-        </p>
-        <BookingPanelIframe />
       </section>
 
       {/* ─── LISTING ──────────────────────────────────────────────────── */}

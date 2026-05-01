@@ -6,7 +6,7 @@ import { serviceBySlugQuery, allServicesQuery } from '@/lib/sanity/queries'
 import { generateTaxiServiceSchema } from '@/lib/seo/schemaOrg'
 import { SchemaOrg } from '@/components/seo/SchemaOrg'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
-import { BookingPanelIframe } from '@/components/booking/BookingPanelIframe'
+import { BookingPanel } from '@/components/ui/BookingPanel'
 import { FleetShowcase } from '@/components/sections/FleetShowcase'
 import { HowItWorks } from '@/components/sections/HowItWorks'
 import { Testimonials } from '@/components/sections/Testimonials'
@@ -137,9 +137,15 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
       <SchemaOrg data={generateTaxiServiceSchema({ name: `Private ${service.title}`, description: service.seoDescription || `Book private ${service.title.toLowerCase()}`, url: `/services/${slug}/`, rating: 4.8 })} />
 
       {/* ─── HERO ───────────────────────────────────────────────────────── */}
-      <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '520px' }}>
-        <div className="resp-img-panel" style={{ position: 'relative', clipPath: 'polygon(0% 0%, 100% 0%, 92% 100%, 0% 100%)' }}>
-          <Image src={heroImg} alt={serviceTitle} fill priority style={{ objectFit: 'cover', objectPosition: 'center right' }} sizes="50vw" />
+      <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '720px' }}>
+        <div className="resp-img-panel" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1.5rem' }}>
+          <div style={{ position: 'absolute', inset: 0, clipPath: 'polygon(0% 0%, 100% 0%, 92% 100%, 0% 100%)', overflow: 'hidden' }}>
+            <Image src={heroImg} alt={serviceTitle} fill priority style={{ objectFit: 'cover', objectPosition: 'center right' }} sizes="50vw" />
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)' }} />
+          </div>
+          <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '550px', display: 'flex', justifyContent: 'center' }}>
+            <BookingPanel />
+          </div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '4vw', paddingRight: '6vw', paddingTop: '4rem', paddingBottom: '4rem' }}>
@@ -167,13 +173,9 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
 
       </section>
 
-      {/* ─── BOOKING FORM ──────────────────────────────────────────────── */}
-      <section style={{ background: '#ffffff', paddingTop: '2.5rem', paddingBottom: '2.5rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
-        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#6B8313', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
-          {es ? `Reserva tu ${serviceTitle.toLowerCase()}` : `Book your ${serviceTitle.toLowerCase()}`}
-        </p>
-        <BookingPanelIframe />
-        <div style={{ display: 'flex', gap: '2rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
+      {/* ─── TRUST BADGES ──────────────────────────────────────────────── */}
+      <section style={{ background: '#ffffff', paddingTop: '2rem', paddingBottom: '2rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
+        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
           {trustBadges.map((b, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <span style={{ color: '#6B8313', fontSize: '1rem', lineHeight: 1, flexShrink: 0 }}>{b.icon}</span>

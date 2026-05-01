@@ -218,26 +218,32 @@ export function BookingPanel() {
   const [time, setTime] = useState('')
   const [pax, setPax] = useState(1)
   const [lug, setLug] = useState(0)
+  const [hours, setHours] = useState(3)
   const [bookReturn, setBookReturn] = useState(false)
 
   function buildUrl(coords: { pLat: number | null; pLng: number | null; dLat: number | null; dLng: number | null }) {
     const params = new URLSearchParams()
     if (pickup) params.set('pickup', pickup)
-    if (dest) params.set('dest', dest)
     if (coords.pLat != null && coords.pLng != null) {
       params.set('pickup_lat', String(coords.pLat))
       params.set('pickup_lng', String(coords.pLng))
     }
-    if (coords.dLat != null && coords.dLng != null) {
-      params.set('dest_lat', String(coords.dLat))
-      params.set('dest_lng', String(coords.dLng))
+    if (mode === 'transfer') {
+      if (dest) params.set('dest', dest)
+      if (coords.dLat != null && coords.dLng != null) {
+        params.set('dest_lat', String(coords.dLat))
+        params.set('dest_lng', String(coords.dLng))
+      }
+      if (bookReturn) params.set('return', '1')
+    } else {
+      // Hourly mode — no destination, just hours
+      params.set('mode', 'hourly')
+      params.set('hours', String(hours))
     }
     if (date) params.set('date', date)
     params.set('time', time || '12:00')
     if (pax >= 1) params.set('pax', String(pax))
     if (lug >= 0) params.set('lug', String(lug))
-    if (bookReturn) params.set('return', '1')
-    if (mode === 'hourly') params.set('mode', 'hourly')
     return `${ETO_BASE}?${params.toString()}`
   }
 
@@ -265,7 +271,7 @@ export function BookingPanel() {
     if (pickup && (pLat == null || pLng == null)) {
       const r = await geocode(pickup); if (r) { pLat = r.lat; pLng = r.lng }
     }
-    if (dest && (dLat == null || dLng == null)) {
+    if (mode === 'transfer' && dest && (dLat == null || dLng == null)) {
       const r = await geocode(dest); if (r) { dLat = r.lat; dLng = r.lng }
     }
     const url = buildUrl({ pLat, pLng, dLat, dLng })
@@ -330,29 +336,46 @@ export function BookingPanel() {
           />
         </div>
 
-        {/* Destination */}
-        <div style={{ marginBottom: '0.65rem' }}>
-          <PlaceInput
-            placeholder={es ? 'Dirección de destino completa' : 'Enter full destination address'}
-            ariaLabel={es ? 'Destino' : 'Destination'}
-            value={dest}
-            onChange={setDest}
-            onSelect={(addr, lat, lng) => { setDest(addr); setDestLat(lat); setDestLng(lng) }}
-            icon={
-              /* Checkered finish flag */
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <line x1="5" y1="2" x2="5" y2="22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                <rect x="7" y="3" width="3" height="3" fill="currentColor"/>
-                <rect x="13" y="3" width="3" height="3" fill="currentColor"/>
-                <rect x="10" y="6" width="3" height="3" fill="currentColor"/>
-                <rect x="16" y="6" width="3" height="3" fill="currentColor"/>
-                <rect x="7" y="9" width="3" height="3" fill="currentColor"/>
-                <rect x="13" y="9" width="3" height="3" fill="currentColor"/>
-                <rect x="7" y="3" width="12" height="9" stroke="currentColor" strokeWidth="1" fill="none"/>
-              </svg>
-            }
-          />
-        </div>
+        {/* Destination (transfer mode) or Hours counter (hourly mode) */}
+        {mode === 'transfer' ? (
+          <div style={{ marginBottom: '0.65rem' }}>
+            <PlaceInput
+              placeholder={es ? 'Dirección de destino completa' : 'Enter full destination address'}
+              ariaLabel={es ? 'Destino' : 'Destination'}
+              value={dest}
+              onChange={setDest}
+              onSelect={(addr, lat, lng) => { setDest(addr); setDestLat(lat); setDestLng(lng) }}
+              icon={
+                /* Checkered finish flag */
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <line x1="5" y1="2" x2="5" y2="22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  <rect x="7" y="3" width="3" height="3" fill="currentColor"/>
+                  <rect x="13" y="3" width="3" height="3" fill="currentColor"/>
+                  <rect x="10" y="6" width="3" height="3" fill="currentColor"/>
+                  <rect x="16" y="6" width="3" height="3" fill="currentColor"/>
+                  <rect x="7" y="9" width="3" height="3" fill="currentColor"/>
+                  <rect x="13" y="9" width="3" height="3" fill="currentColor"/>
+                  <rect x="7" y="3" width="12" height="9" stroke="currentColor" strokeWidth="1" fill="none"/>
+                </svg>
+              }
+            />
+          </div>
+        ) : (
+          <div style={{ marginBottom: '0.65rem' }}>
+            <CounterField
+              icon={
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                </svg>
+              }
+              label={hours === 1 ? (es ? 'Hora' : 'Hour') : (es ? 'Horas' : 'Hours')}
+              value={hours}
+              onChange={setHours}
+              min={2}
+              max={12}
+            />
+          </div>
+        )}
 
         {/* Date + Time
             Native <input type="date|time"> doesn't display the placeholder
@@ -422,20 +445,22 @@ export function BookingPanel() {
           />
         </div>
 
-        {/* Book a return */}
-        <label style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', background: '#F8FAF0', border: '1.5px solid #e5e7eb', borderRadius: '6px', padding: '0.7rem 1rem', cursor: 'pointer', marginBottom: '1rem' }}>
-          <input type="checkbox" checked={bookReturn} onChange={e => setBookReturn(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#8BAA1D', cursor: 'pointer', flexShrink: 0 }} />
-          {/* Swap arrows — same shape as the WP plugin */}
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B8313" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-            <path d="M7 4 3 8l4 4"/>
-            <path d="M3 8h14"/>
-            <path d="m17 20 4-4-4-4"/>
-            <path d="M21 16H7"/>
-          </svg>
-          <span style={{ fontSize: '0.875rem', color: '#242426', fontWeight: 500 }}>
-            {es ? '¿Reservar vuelta?' : 'Book a return?'}
-          </span>
-        </label>
+        {/* Book a return — only in transfer mode */}
+        {mode === 'transfer' && (
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', background: '#F8FAF0', border: '1.5px solid #e5e7eb', borderRadius: '6px', padding: '0.7rem 1rem', cursor: 'pointer', marginBottom: '1rem' }}>
+            <input type="checkbox" checked={bookReturn} onChange={e => setBookReturn(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#8BAA1D', cursor: 'pointer', flexShrink: 0 }} />
+            {/* Swap arrows — same shape as the WP plugin */}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B8313" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <path d="M7 4 3 8l4 4"/>
+              <path d="M3 8h14"/>
+              <path d="m17 20 4-4-4-4"/>
+              <path d="M21 16H7"/>
+            </svg>
+            <span style={{ fontSize: '0.875rem', color: '#242426', fontWeight: 500 }}>
+              {es ? '¿Reservar vuelta?' : 'Book a return?'}
+            </span>
+          </label>
+        )}
 
         {/* Submit */}
         <button type="submit" style={{ width: '100%', background: '#8BAA1D', color: '#ffffff', border: 'none', padding: '1rem', fontSize: '0.95rem', fontWeight: 700, fontFamily: 'inherit', cursor: 'pointer', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', letterSpacing: '0.04em', textTransform: 'uppercase', transition: 'background 0.15s' }}

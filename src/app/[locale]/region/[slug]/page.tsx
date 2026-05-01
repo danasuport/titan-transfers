@@ -8,7 +8,7 @@ import { generatePageMetadata, generateRegionMetadata } from '@/lib/seo/generate
 import { generateTaxiServiceSchema } from '@/lib/seo/schemaOrg'
 import { SchemaOrg } from '@/components/seo/SchemaOrg'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
-import { BookingPanelIframe } from '@/components/booking/BookingPanelIframe'
+import { BookingPanel } from '@/components/ui/BookingPanel'
 import { RegionOverview } from '@/components/sections/RegionOverview'
 import { FAQ } from '@/components/sections/FAQ'
 import { FleetShowcase } from '@/components/sections/FleetShowcase'
@@ -82,7 +82,7 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
       <SchemaOrg data={generateTaxiServiceSchema({ name: `${regionTitle} Transfers`, description: `Private transfers in ${regionTitle}`, url: `/private-transfers/${slug}/`, areaServed: regionTitle, rating: 4.8 })} />
 
       {/* ─── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '520px' }}>
+      <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '720px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '6vw', paddingRight: '4vw', paddingTop: '4rem', paddingBottom: '4rem' }}>
           <Breadcrumbs items={breadcrumbs} variant="light" />
           <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1.25rem', marginTop: '0.75rem' }}>
@@ -93,22 +93,24 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
           </p>
         </div>
 
-        <div className="resp-img-panel" style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
-          {heroImg ? (
-            <Image src={heroImg} alt={`Transfers ${regionTitle}`} fill priority style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="50vw" />
-          ) : (
-            <div style={{ position: 'absolute', inset: 0, background: '#242426' }} />
-          )}
+        <div className="resp-img-panel" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1.5rem' }}>
+          <div style={{ position: 'absolute', inset: 0, clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)', overflow: 'hidden' }}>
+            {heroImg ? (
+              <Image src={heroImg} alt={`Transfers ${regionTitle}`} fill priority style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="50vw" />
+            ) : (
+              <div style={{ position: 'absolute', inset: 0, background: '#242426' }} />
+            )}
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)' }} />
+          </div>
+          <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '550px', display: 'flex', justifyContent: 'center' }}>
+            <BookingPanel />
+          </div>
         </div>
       </section>
 
-      {/* ─── BOOKING FORM ─────────────────────────────────────────────────── */}
-      <section style={{ background: '#ffffff', paddingTop: '2.5rem', paddingBottom: '2.5rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
-        <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#6B8313', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
-          {es ? `Reserva tu transfer — ${regionTitle}` : `Book your transfer — ${regionTitle}`}
-        </p>
-        <BookingPanelIframe />
-        <div style={{ display: 'flex', gap: '2rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
+      {/* ─── TRUST BADGES ─────────────────────────────────────────────────── */}
+      <section style={{ background: '#ffffff', paddingTop: '2rem', paddingBottom: '2rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
+        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
           {trustBadges.map((b, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <span style={{ color: '#6B8313', fontSize: '1rem', lineHeight: 1, flexShrink: 0 }}>{b.icon}</span>

@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { russoOne } from '@/lib/fonts'
-import { BookingPanelIframe } from '@/components/booking/BookingPanelIframe'
+import { BookingPanel } from '@/components/ui/BookingPanel'
 
 const starPaths = [
   'M51.7538 67.3504L54.7436 68.9755L53.7109 70.0167L50.7212 68.3916L51.7538 67.3504Z',
@@ -39,9 +39,9 @@ export function HeroSection() {
   const t = useTranslations('home')
 
   return (
-    <section className="resp-hero-grid" style={{ background: '#F8FAF0', display: 'grid' }}>
+    <section className="resp-hero-grid" style={{ background: '#F8FAF0', display: 'grid', minHeight: '720px' }}>
 
-      {/* Left: text — same look as before the widget redesign */}
+      {/* Left: text on cream background — original look */}
       <div
         className="resp-hero-text flex flex-col justify-center py-16"
         style={{ paddingLeft: '6vw', paddingRight: '4vw' }}
@@ -83,36 +83,23 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Right: car as background, booking panel on top */}
-      <div
-        className="hero-booking-panel-wrap"
-        style={{
-          position: 'relative',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '1.5rem 1rem 1.5rem 4rem',
-          overflow: 'hidden',
-          clipPath: 'polygon(3% 0%, 100% 0%, 100% 100%, 0% 100%)',
-        }}
-      >
-        {/* Car background */}
-        <Image
-          src="/hero-car.png"
-          alt="Vehículo de traslado privado de lujo"
-          fill
-          priority
-          fetchPriority="high"
-          className="object-cover object-center"
-          sizes="(max-width: 768px) 100vw, 50vw"
-          quality={85}
-          style={{ zIndex: 0 }}
-        />
-        {/* Subtle overlay so the white widget reads cleanly on any car colour */}
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.15), rgba(0,0,0,0.35))', zIndex: 1 }} />
-        {/* Widget on top — fills the right column horizontally */}
-        <div style={{ position: 'relative', zIndex: 2, width: '100%' }}>
-          <BookingPanelIframe />
+      {/* Right: car image with diagonal clip + booking widget overlay */}
+      <div className="resp-img-panel" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1.5rem' }}>
+        <div style={{ position: 'absolute', inset: 0, clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)', overflow: 'hidden' }}>
+          <Image
+            src="/hero-car.png"
+            alt="Vehículo de traslado privado de lujo"
+            fill
+            priority
+            fetchPriority="high"
+            sizes="50vw"
+            quality={85}
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)' }} />
+        </div>
+        <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '550px', display: 'flex', justifyContent: 'center' }}>
+          <BookingPanel />
         </div>
       </div>
 

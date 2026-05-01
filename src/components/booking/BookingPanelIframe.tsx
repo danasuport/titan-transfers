@@ -68,7 +68,11 @@ export function BookingPanelIframe() {
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
   useEffect(() => {
-    setIframeUrl(`${WP_ORIGIN}/booking/?embed=1&compact=1`)
+    // Pass our origin so the iframe can drive a top-window navigation
+    // back here when the user submits step 1 (more reliable than
+    // postMessage — the iframe doesn't depend on the parent listening).
+    const parentOrigin = encodeURIComponent(window.location.origin)
+    setIframeUrl(`${WP_ORIGIN}/booking/?embed=1&compact=1&parent_origin=${parentOrigin}`)
   }, [])
 
   useEffect(() => {
