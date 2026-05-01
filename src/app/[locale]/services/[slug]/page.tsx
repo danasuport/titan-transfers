@@ -138,8 +138,8 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
 
       {/* ─── HERO ───────────────────────────────────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '720px' }}>
-        <div className="resp-img-panel" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1.5rem' }}>
-          <div style={{ position: 'absolute', inset: 0, clipPath: 'polygon(0% 0%, 100% 0%, 92% 100%, 0% 100%)', overflow: 'hidden' }}>
+        <div className="resp-img-panel hero-widget-panel" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1.5rem' }}>
+          <div className="hero-bg-image" style={{ position: 'absolute', inset: 0, clipPath: 'polygon(0% 0%, 100% 0%, 92% 100%, 0% 100%)', overflow: 'hidden' }}>
             <Image src={heroImg} alt={serviceTitle} fill priority style={{ objectFit: 'cover', objectPosition: 'center right' }} sizes="50vw" />
             <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)' }} />
           </div>

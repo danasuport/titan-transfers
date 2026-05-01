@@ -126,6 +126,98 @@ function PlaceInput({ placeholder, ariaLabel, onSelect, value, onChange, icon }:
   )
 }
 
+function TimeField({ icon, value, onChange, placeholder, ariaLabel }: {
+  icon: React.ReactNode
+  value: string
+  onChange: (v: string) => void
+  placeholder: string
+  ariaLabel: string
+}) {
+  // Custom dropdown picker — Firefox and Safari desktop don't render any
+  // popup for <input type="time">, so we build our own. Two scrollable
+  // columns (hours 00-23, minutes every 5).
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    function onDocClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    if (open) document.addEventListener('mousedown', onDocClick)
+    return () => document.removeEventListener('mousedown', onDocClick)
+  }, [open])
+
+  const [h, m] = value ? value.split(':') : ['', '']
+  const hours = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'))
+  const minutes = Array.from({ length: 12 }, (_, i) => String(i * 5).padStart(2, '0'))
+
+  return (
+    <div ref={ref} style={{ position: 'relative' }}>
+      <button
+        type="button"
+        onClick={() => setOpen(o => !o)}
+        aria-label={ariaLabel}
+        style={{
+          width: '100%',
+          display: 'flex', alignItems: 'center', gap: '0.6rem',
+          background: '#F8FAF0', border: '1.5px solid #e5e7eb', borderRadius: '6px',
+          padding: '0.85rem 1rem',
+          cursor: 'pointer',
+          fontFamily: 'inherit',
+          textAlign: 'left',
+        }}
+      >
+        <span style={{ color: '#6B8313', flexShrink: 0, display: 'flex' }}>{icon}</span>
+        <span style={{ flex: 1, fontSize: '0.875rem', color: value ? '#242426' : '#94a3b8' }}>
+          {value || placeholder}
+        </span>
+      </button>
+      {open && (
+        <div style={{
+          position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 100,
+          background: '#fff', border: '1.5px solid #e5e7eb', borderRadius: '6px',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+          display: 'flex', gap: '0.25rem', padding: '0.4rem',
+        }}>
+          <div style={{ flex: 1, maxHeight: '200px', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+            {hours.map(hh => (
+              <button
+                key={hh}
+                type="button"
+                onClick={() => onChange(`${hh}:${m || '00'}`)}
+                style={{
+                  padding: '6px 0', border: 'none',
+                  background: hh === h ? '#8BAA1D' : 'transparent',
+                  color: hh === h ? '#fff' : '#242426',
+                  cursor: 'pointer', borderRadius: '4px',
+                  fontSize: '0.875rem', textAlign: 'center',
+                  fontFamily: 'inherit',
+                }}
+              >{hh}</button>
+            ))}
+          </div>
+          <div style={{ flex: 1, maxHeight: '200px', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+            {minutes.map(mm => (
+              <button
+                key={mm}
+                type="button"
+                onClick={() => { onChange(`${h || '12'}:${mm}`); setOpen(false) }}
+                style={{
+                  padding: '6px 0', border: 'none',
+                  background: mm === m ? '#8BAA1D' : 'transparent',
+                  color: mm === m ? '#fff' : '#242426',
+                  cursor: 'pointer', borderRadius: '4px',
+                  fontSize: '0.875rem', textAlign: 'center',
+                  fontFamily: 'inherit',
+                }}
+              >{mm}</button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function PickerField({ icon, type, value, onChange, placeholder, ariaLabel }: {
   icon: React.ReactNode
   type: 'date' | 'time'
@@ -333,6 +425,15 @@ export function BookingPanel() {
 
   return (
     <form onSubmit={handleSubmit} style={{ background: '#ffffff', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 12px 40px rgba(0,0,0,0.15)', maxWidth: '440px', width: '100%' }}>
+      {/* Mobile: hide hero background images and tighten the widget panel
+          padding so the form fills the screen cleanly. The .hero-bg-image
+          class is set on the <Image>'s clipped wrapper in every page. */}
+      <style>{`
+        @media (max-width: 768px) {
+          .hero-bg-image { display: none !important; }
+          .hero-widget-panel { padding: 1rem !important; min-height: 0 !important; }
+        }
+      `}</style>
       {/* Header */}
       <div style={{ background: '#8BAA1D', padding: '1.1rem 1.5rem', textAlign: 'center' }}>
         <h2 className={russoOne.className} style={{ color: '#ffffff', fontSize: '1.25rem', margin: 0, letterSpacing: '0.02em' }}>
@@ -428,17 +529,15 @@ export function BookingPanel() {
             displayValue={date ? new Date(date + 'T00:00:00').toLocaleDateString(es ? 'es-ES' : 'en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : ''}
             ariaLabel={es ? 'Fecha de recogida' : 'Pickup date'}
           />
-          <PickerField
+          <TimeField
             icon={
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
               </svg>
             }
-            type="time"
             value={time}
             onChange={setTime}
             placeholder={es ? 'Hora' : 'Time'}
-            displayValue={time}
             ariaLabel={es ? 'Hora de recogida' : 'Pickup time'}
           />
         </div>
