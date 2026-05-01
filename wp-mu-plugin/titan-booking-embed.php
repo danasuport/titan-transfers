@@ -6,7 +6,7 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     3.4.0
+ * Version:     3.5.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -228,7 +228,7 @@ add_action('wp_footer', function () {
     /* Unconditional version log so we can verify which build is loaded
        just by opening the iframe's console. If you don't see this exact
        line on /booking/, the server still has an old MU-plugin file. */
-    console.log('[titan-prefill] script loaded, version 3.4.0');
+    console.log('[titan-prefill] script loaded, version 3.5.0');
     (function () {
         // ON-PAGE DEBUG OVERLAY — shows the prefill steps directly in the
         // booking widget so the user can read what's happening without
@@ -514,8 +514,49 @@ add_action('wp_footer', function () {
             if (params.mode === 'hourly') applyHourly();
             else applyTransfer();
         }
+        // Intercept the WP plugin's AJAX call so we can show the user the
+        // exact payload sent and the server's response — debugging "Server
+        // Error" is impossible without this.
+        function patchAjaxForLogging() {
+            if (!window.jQuery || !window.jQuery.ajax || window.__titanAjaxPatched) return;
+            window.__titanAjaxPatched = true;
+            var origAjax = window.jQuery.ajax;
+            window.jQuery.ajax = function (opts) {
+                try {
+                    var data = (opts && opts.data) || {};
+                    var action = (typeof data === 'string')
+                        ? new URLSearchParams(data).get('action')
+                        : data.action;
+                    if (action === 'taxi_calculate_price' || action === 'taxi_byhour_calculate_price' || (typeof action === 'string' && action.indexOf('taxi_') === 0)) {
+                        var payload = (typeof data === 'string')
+                            ? Object.fromEntries(new URLSearchParams(data))
+                            : data;
+                        log('AJAX REQUEST →', action, payload);
+
+                        // Wrap success/error to capture what comes back.
+                        var origSuccess = opts.success;
+                        var origError = opts.error;
+                        opts.success = function (resp) {
+                            try { log('AJAX RESPONSE ←', typeof resp === 'object' ? JSON.stringify(resp).slice(0, 500) : String(resp).slice(0, 500)); } catch (e) {}
+                            if (origSuccess) return origSuccess.apply(this, arguments);
+                        };
+                        opts.error = function (xhr, status, err) {
+                            try {
+                                log('AJAX ERROR ←', 'status=' + (xhr ? xhr.status : '?'), 'statusText=' + (xhr ? xhr.statusText : '?'), 'err=' + (err || '?'));
+                                if (xhr && xhr.responseText) log('responseText:', String(xhr.responseText).slice(0, 800));
+                            } catch (e) {}
+                            if (origError) return origError.apply(this, arguments);
+                        };
+                    }
+                } catch (e) { log('ajax patch error', e); }
+                return origAjax.apply(this, arguments);
+            };
+            log('jQuery.ajax patched for logging');
+        }
+
         function tick(attempts) {
             if (document.querySelector('#pickup-address') && window.jQuery) {
+                patchAjaxForLogging();
                 applyAndAdvance();
                 return;
             }
