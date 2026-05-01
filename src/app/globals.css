@@ -380,6 +380,16 @@ footer .text-gray-500 { color: #6b7280 !important; }
     order: 1;
     padding-bottom: 2rem;
   }
+  /* Booking panel in hero: widget on top, text underneath. No clip-path
+     (would crop the form), no fixed min-height (let it size to content). */
+  .hero-booking-panel-wrap {
+    order: -1;
+    padding: 1.5rem 1rem !important;
+  }
+  .hero-car-illustration {
+    max-width: 100% !important;
+    margin-top: 1rem;
+  }
   /* Service types carousel — 1 col on mobile */
   .service-types-section {
     padding-top: 0 !important;

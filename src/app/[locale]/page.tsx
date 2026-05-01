@@ -1,6 +1,5 @@
 import { getTranslations } from 'next-intl/server'
 import { HeroSection } from '@/components/sections/HeroSection'
-import { BookingForm } from '@/components/ui/BookingForm'
 import { WhyChooseUs } from '@/components/sections/WhyChooseUs'
 import { ServiceTypes } from '@/components/sections/ServiceTypes'
 import { PopularDestinations } from '@/components/sections/PopularDestinations'
@@ -33,10 +32,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     <>
       <SchemaOrg data={generateLocalBusinessSchema()} />
       <HeroSection />
-      <div className="bg-white py-10 resp-booking-section">
+      {/* Trust signals strip — booking widget itself moved into HeroSection. */}
+      <div className="bg-white py-6 resp-booking-section">
         <div className="site-container">
-          <BookingForm />
-          <div style={{ display: 'flex', gap: '2rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
             {[
               { icon: '★', label: '4.8/5 Rating', sub: 'Based on 2,500+ reviews' },
               { icon: '◈', label: 'Fixed price', sub: 'No hidden charges' },
