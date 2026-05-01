@@ -6,7 +6,7 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     3.12.0
+ * Version:     3.13.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -255,7 +255,7 @@ add_action('wp_footer', function () {
     /* Unconditional version log so we can verify which build is loaded
        just by opening the iframe's console. If you don't see this exact
        line on /booking/, the server still has an old MU-plugin file. */
-    console.log('[titan-prefill] script loaded, version 3.12.0 — iframe URL:', window.location.href);
+    console.log('[titan-prefill] script loaded, version 3.13.0 — iframe URL:', window.location.href);
     (function () {
         // ON-PAGE DEBUG OVERLAY — shows the prefill steps directly in the
         // booking widget so the user can read what's happening without
@@ -542,11 +542,32 @@ add_action('wp_footer', function () {
         function applyHourly() {
             var tab = document.querySelector('.booking-type-tab[data-type="by-hour"]');
             if (!tab) { log('by-hour tab NOT FOUND'); return; }
-            // Wait for flatpickr lib so the tab-click handler can actually
-            // initialise the date/time pickers when it fires.
             whenFlatpickrLoaded(function () {
-                log('flatpickr lib ready, clicking by-hour tab');
-                tab.click();
+                log('flatpickr lib ready, switching to by-hour mode');
+
+                // The plugin's tab handler updates several pieces of state
+                // and our DOM .click() doesn't reliably trigger it. Replicate
+                // ALL of it manually so collectStep1Data() later sees
+                // #booking-type === "by-hour" and builds the right redirect
+                // URL after a successful submit:
+                //   - mark the tab active
+                //   - update the hidden #booking-type input
+                //   - show the by-hour fields, hide the transfer fields
+                if (window.jQuery) {
+                    window.jQuery('.booking-type-tab').removeClass('active');
+                    window.jQuery(tab).addClass('active');
+                    window.jQuery('#booking-type').val('by-hour');
+                    window.jQuery('#transfer-fields').hide();
+                    window.jQuery('#by-hour-fields').show();
+                    log('booking-type set to by-hour, fields swapped');
+                }
+                // Also dispatch a real click event in case the plugin has
+                // listeners we don't know about (suggestion close, focus, etc.).
+                try {
+                    if (window.jQuery) window.jQuery(tab).trigger('click');
+                    else tab.click();
+                } catch (e) { log('tab click trigger threw', e); }
+
                 applyHourlyAfterTab();
             });
         }
