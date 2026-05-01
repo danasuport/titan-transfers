@@ -6,7 +6,7 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     3.11.0
+ * Version:     3.12.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -255,7 +255,7 @@ add_action('wp_footer', function () {
     /* Unconditional version log so we can verify which build is loaded
        just by opening the iframe's console. If you don't see this exact
        line on /booking/, the server still has an old MU-plugin file. */
-    console.log('[titan-prefill] script loaded, version 3.11.0');
+    console.log('[titan-prefill] script loaded, version 3.12.0 — iframe URL:', window.location.href);
     (function () {
         // ON-PAGE DEBUG OVERLAY — shows the prefill steps directly in the
         // booking widget so the user can read what's happening without
@@ -312,6 +312,7 @@ add_action('wp_footer', function () {
         }
         var params = getParams();
         var hasParams = !!(params.pickup || params.dest || params.date);
+        log('iframe URL =', window.location.href);
         if (hasParams) log('params', params);
         else log('no URL params (manual flow) — patch + log only');
 
