@@ -6,7 +6,7 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     4.0.0
+ * Version:     4.0.1
  */
 
 if (!defined('ABSPATH')) exit;
@@ -239,6 +239,17 @@ add_action('wp_footer', function () {
         var params = getParams();
         var hasParams = !!(params.pickup || params.dest || params.date);
         if (!hasParams) return; // manual flow — nothing to do
+
+        // After a successful step 1 submit the plugin redirects to /booking/
+        // ?type=transfer&step=2&pickup=...&dest=... — that URL still carries
+        // pickup/dest/date, so without this guard we'd re-run the prefill,
+        // re-click submit, and trigger an infinite step-2 reload loop.
+        var sp = new URLSearchParams(window.location.search);
+        var step = sp.get('step');
+        if (step && step !== '1') {
+            log('on step', step, '— skipping prefill (already past step 1)');
+            return;
+        }
 
         function setVal(sel, val, fire) {
             var el = document.querySelector(sel);
