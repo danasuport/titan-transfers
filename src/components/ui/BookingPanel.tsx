@@ -392,8 +392,12 @@ export function BookingPanel() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.65rem', marginBottom: '0.85rem' }}>
           <CounterField
             icon={
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              /* Two-person "group" icon — matches the WP widget */
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="9" cy="7" r="3"/>
+                <path d="M9 12c-3.5 0-6 1.7-6 4v2h12v-2c0-2.3-2.5-4-6-4z"/>
+                <circle cx="17" cy="8" r="2.5"/>
+                <path d="M17 12.5c-1 0-1.9.2-2.6.5 1.4.9 2.3 2.2 2.6 3.5h5v-1.5c0-1.5-2-2.5-5-2.5z"/>
               </svg>
             }
             label={pax === 1 ? (es ? 'Pasajero' : 'Passenger') : (es ? 'Pasajeros' : 'Passengers')}
@@ -404,8 +408,10 @@ export function BookingPanel() {
           />
           <CounterField
             icon={
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="6" y="4" width="12" height="16" rx="2"/><path d="M10 4V2h4v2M8 11h8"/>
+              /* Suitcase with handle — matches the WP widget */
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 3a1 1 0 0 0-1 1v2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-2V4a1 1 0 0 0-1-1H9zm1 2h4v1h-4V5zM6 8h12v11H6V8z"/>
+                <path d="M11 10v7M13 10v7" stroke="#F8FAF0" strokeWidth="1"/>
               </svg>
             }
             label={lug === 1 ? (es ? 'Maleta' : 'Bag') : (es ? 'Maletas' : 'Bags')}
