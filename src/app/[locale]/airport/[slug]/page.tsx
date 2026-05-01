@@ -15,7 +15,7 @@ import { FleetShowcase } from '@/components/sections/FleetShowcase'
 import { CtaSection } from '@/components/sections/CtaSection'
 import { HowItWorks } from '@/components/sections/HowItWorks'
 import { Testimonials } from '@/components/sections/Testimonials'
-import { BookingForm } from '@/components/ui/BookingForm'
+import { BookingPanelIframe } from '@/components/booking/BookingPanelIframe'
 import { PortableText } from '@portabletext/react'
 import type { Locale } from '@/lib/i18n/config'
 import { russoOne } from '@/lib/fonts'
@@ -209,7 +209,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
         <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#6B8313', textTransform: 'none', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
           {es ? `Reserva tu transfer — ${airportTitle}` : `Book your transfer — ${airportTitle}`}
         </p>
-        <BookingForm />
+        <BookingPanelIframe />
 
         {/* Trust badges inline below form */}
         <div style={{ display: 'flex', gap: '2rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>

@@ -7,7 +7,7 @@ import { generatePageMetadata, generateRouteMetadata } from '@/lib/seo/generateM
 import { generateTaxiServiceSchema } from '@/lib/seo/schemaOrg'
 import { SchemaOrg } from '@/components/seo/SchemaOrg'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
-import { BookingForm } from '@/components/ui/BookingForm'
+import { BookingPanelIframe } from '@/components/booking/BookingPanelIframe'
 import { FleetShowcase } from '@/components/sections/FleetShowcase'
 import { HowItWorks } from '@/components/sections/HowItWorks'
 import { Testimonials } from '@/components/sections/Testimonials'
@@ -216,7 +216,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#6B8313', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
           {es ? `Reserva tu transfer — ${originTitle} → ${destTitle}` : `Book your transfer — ${originTitle} → ${destTitle}`}
         </p>
-        <BookingForm />
+        <BookingPanelIframe />
 
         {/* Trust badges */}
         <div style={{ display: 'flex', gap: '2rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>

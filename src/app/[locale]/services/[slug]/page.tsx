@@ -6,7 +6,7 @@ import { serviceBySlugQuery, allServicesQuery } from '@/lib/sanity/queries'
 import { generateTaxiServiceSchema } from '@/lib/seo/schemaOrg'
 import { SchemaOrg } from '@/components/seo/SchemaOrg'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
-import { BookingForm } from '@/components/ui/BookingForm'
+import { BookingPanelIframe } from '@/components/booking/BookingPanelIframe'
 import { FleetShowcase } from '@/components/sections/FleetShowcase'
 import { HowItWorks } from '@/components/sections/HowItWorks'
 import { Testimonials } from '@/components/sections/Testimonials'
@@ -172,7 +172,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
         <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#6B8313', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
           {es ? `Reserva tu ${serviceTitle.toLowerCase()}` : `Book your ${serviceTitle.toLowerCase()}`}
         </p>
-        <BookingForm />
+        <BookingPanelIframe />
         <div style={{ display: 'flex', gap: '2rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
           {trustBadges.map((b, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

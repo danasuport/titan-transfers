@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
-import { BookingForm } from '@/components/ui/BookingForm'
+import { BookingPanelIframe } from '@/components/booking/BookingPanelIframe'
 import { sanityClient } from '@/lib/sanity/client'
 import { allServicesQuery } from '@/lib/sanity/queries'
 import { ServicesClient } from '@/components/listings/ServicesClient'
@@ -148,7 +148,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
         <p style={{ fontSize: '0.8rem', fontWeight: 700, color: '#6B8313', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
           {es ? 'Reserva tu traslado privado' : 'Book your private transfer'}
         </p>
-        <BookingForm />
+        <BookingPanelIframe />
       </section>
 
       {/* ─── LISTING ──────────────────────────────────────────────────── */}

@@ -8,8 +8,7 @@ import { SchemaOrg } from '@/components/seo/SchemaOrg'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { PortableText } from '@portabletext/react'
 import { BookingCTABlock } from '@/components/blog/BookingCTABlock'
-import { BookingForm } from '@/components/ui/BookingForm'
-import { BlogBookingForm } from '@/components/blog/BlogBookingForm'
+import { BookingPanelIframe } from '@/components/booking/BookingPanelIframe'
 import { FleetCompact } from '@/components/blog/FleetCompact'
 import { RouteInlineBlock } from '@/components/blog/RouteCard'
 import { formatDate } from '@/lib/utils/formatters'
@@ -47,7 +46,7 @@ function InlineBookingBlock({ locale }: { locale: string }) {
       <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#6B8313', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
         {es ? 'Reserva tu transfer' : 'Book your transfer'}
       </p>
-      <BlogBookingForm />
+      <BookingPanelIframe />
     </div>
   )
 }
