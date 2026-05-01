@@ -6,7 +6,7 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     3.8.0
+ * Version:     3.8.1
  */
 
 if (!defined('ABSPATH')) exit;
@@ -255,7 +255,7 @@ add_action('wp_footer', function () {
     /* Unconditional version log so we can verify which build is loaded
        just by opening the iframe's console. If you don't see this exact
        line on /booking/, the server still has an old MU-plugin file. */
-    console.log('[titan-prefill] script loaded, version 3.8.0');
+    console.log('[titan-prefill] script loaded, version 3.8.1');
     (function () {
         // ON-PAGE DEBUG OVERLAY — shows the prefill steps directly in the
         // booking widget so the user can read what's happening without
@@ -311,11 +311,9 @@ add_action('wp_footer', function () {
             return out;
         }
         var params = getParams();
-        if (!params.pickup && !params.dest && !params.date) {
-            log('no params, skip');
-            return;
-        }
-        log('params', params);
+        var hasParams = !!(params.pickup || params.dest || params.date);
+        if (hasParams) log('params', params);
+        else log('no URL params (manual flow) — patch + log only');
 
         function setVal(sel, val, fire) {
             var el = document.querySelector(sel);
@@ -691,7 +689,7 @@ add_action('wp_footer', function () {
         function tick(attempts) {
             if (document.querySelector('#pickup-address') && window.jQuery) {
                 patchAjaxForLogging();
-                applyAndAdvance();
+                if (hasParams) applyAndAdvance();
                 return;
             }
             if (attempts > 60) {
