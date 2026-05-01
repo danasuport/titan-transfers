@@ -6,7 +6,7 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     3.1.0
+ * Version:     3.2.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -225,6 +225,10 @@ add_action('wp_footer', function () {
     if (!titan_booking_is_embed()) return;
     ?>
     <script>
+    /* Unconditional version log so we can verify which build is loaded
+       just by opening the iframe's console. If you don't see this exact
+       line on /booking/, the server still has an old MU-plugin file. */
+    console.log('[titan-prefill] script loaded, version 3.2.0');
     (function () {
         function log() {
             try { console.log.apply(console, ['[titan-prefill]'].concat([].slice.call(arguments))); } catch (e) {}
@@ -245,11 +249,16 @@ add_action('wp_footer', function () {
 
         function setVal(sel, val, fire) {
             var el = document.querySelector(sel);
-            if (!el || val == null) return;
+            if (!el) { log('setVal: selector NOT FOUND', sel); return false; }
+            if (val == null) return false;
             el.value = val;
             if (fire) {
+                // Fire both input and change — some plugins listen to input,
+                // others to change. Bubbling so jQuery delegated handlers see it.
+                el.dispatchEvent(new Event('input', { bubbles: true }));
                 el.dispatchEvent(new Event('change', { bubbles: true }));
             }
+            return true;
         }
         function setNumber(name, val) {
             var n = parseInt(val, 10); if (isNaN(n)) return;
@@ -303,16 +312,20 @@ add_action('wp_footer', function () {
                 log('clicking by-hour tab');
                 tab.click();
             } else {
-                log('by-hour tab not found, listing tabs:',
+                log('by-hour tab NOT FOUND. Available tabs:',
                     Array.from(document.querySelectorAll('.booking-type-tab')).map(function (t) { return t.getAttribute('data-type') }));
+                // Bail — clicking transfer's calculate-price-btn would fire
+                // the AJAX with empty data and produce a Server Error.
+                return;
             }
 
-            // Wait a beat for the plugin to render the byhour-* fields.
+            // Wait a generous beat for the plugin to render the byhour-* fields.
             setTimeout(function () {
+                var ok = true;
                 if (params.pickup) {
-                    setVal('#byhour-pickup-address', params.pickup, false);
-                    setVal('#byhour-pickup-lat', params.pickup_lat || '', false);
-                    setVal('#byhour-pickup-lng', params.pickup_lng || '', false);
+                    ok = setVal('#byhour-pickup-address', params.pickup, false) && ok;
+                    ok = setVal('#byhour-pickup-lat', params.pickup_lat || '', false) && ok;
+                    ok = setVal('#byhour-pickup-lng', params.pickup_lng || '', false) && ok;
                 }
                 document.querySelectorAll('#byhour-pickup-suggestions, .location-suggestions').forEach(function (el) {
                     el.style.display = 'none';
@@ -340,14 +353,31 @@ add_action('wp_footer', function () {
                 }
                 if (params.hours) setVal('#byhour-duration', String(parseInt(params.hours, 10) || 3), true);
 
-                var ready = params.pickup && params.pickup_lat && params.pickup_lng
-                    && params.date && params.time && params.hours;
-                log('hourly prefilled, ready=', !!ready);
-                if (ready && !window.__titanAutoCalc) {
-                    window.__titanAutoCalc = true;
-                    setTimeout(function () { tryClick('#byhour-calculate-price-btn', 1); }, 1200);
+                // Verify the inputs actually have the values before clicking,
+                // otherwise we trigger the plugin's "Server Error" by submitting
+                // empty data.
+                var snapshot = {
+                    pickup: (document.querySelector('#byhour-pickup-address') || {}).value,
+                    pickup_lat: (document.querySelector('#byhour-pickup-lat') || {}).value,
+                    pickup_lng: (document.querySelector('#byhour-pickup-lng') || {}).value,
+                    date: (document.querySelector('#byhour-date') || {}).value,
+                    time: (document.querySelector('#byhour-time') || {}).value,
+                    duration: (document.querySelector('#byhour-duration') || {}).value,
+                };
+                log('hourly form snapshot', snapshot);
+
+                var ready = !!(snapshot.pickup && snapshot.pickup_lat && snapshot.pickup_lng
+                    && snapshot.date && snapshot.time && snapshot.duration);
+                log('hourly ready=', ready);
+                if (!ready) {
+                    log('NOT clicking — would trigger Server Error');
+                    return;
                 }
-            }, 400);
+                if (!window.__titanAutoCalc) {
+                    window.__titanAutoCalc = true;
+                    setTimeout(function () { tryClick('#byhour-calculate-price-btn', 1); }, 800);
+                }
+            }, 700);
         }
 
         function applyTransfer() {
