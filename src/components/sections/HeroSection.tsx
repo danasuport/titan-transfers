@@ -91,9 +91,9 @@ export function HeroSection() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '2rem 1rem 2rem 5rem',
+          padding: '1.5rem 1rem 1.5rem 4rem',
           overflow: 'hidden',
-          clipPath: 'polygon(4% 0%, 100% 0%, 100% 100%, 0% 100%)',
+          clipPath: 'polygon(3% 0%, 100% 0%, 100% 100%, 0% 100%)',
         }}
       >
         {/* Car background */}
@@ -110,8 +110,8 @@ export function HeroSection() {
         />
         {/* Subtle overlay so the white widget reads cleanly on any car colour */}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.15), rgba(0,0,0,0.35))', zIndex: 1 }} />
-        {/* Widget on top */}
-        <div style={{ position: 'relative', zIndex: 2 }}>
+        {/* Widget on top — fills the right column horizontally */}
+        <div style={{ position: 'relative', zIndex: 2, width: '100%' }}>
           <BookingPanelIframe />
         </div>
       </div>
