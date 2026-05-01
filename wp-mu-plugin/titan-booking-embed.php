@@ -6,7 +6,7 @@
  *              so the parent (Next.js on titantransfers.com) can auto-fit
  *              the iframe height. Drop this file into wp-content/mu-plugins/.
  * Author:      KM Adisseny
- * Version:     3.5.0
+ * Version:     3.6.0
  */
 
 if (!defined('ABSPATH')) exit;
@@ -228,7 +228,7 @@ add_action('wp_footer', function () {
     /* Unconditional version log so we can verify which build is loaded
        just by opening the iframe's console. If you don't see this exact
        line on /booking/, the server still has an old MU-plugin file. */
-    console.log('[titan-prefill] script loaded, version 3.5.0');
+    console.log('[titan-prefill] script loaded, version 3.6.0');
     (function () {
         // ON-PAGE DEBUG OVERLAY — shows the prefill steps directly in the
         // booking widget so the user can read what's happening without
@@ -260,7 +260,7 @@ add_action('wp_footer', function () {
         }
         function getParams() {
             var sp = new URLSearchParams(window.location.search);
-            var keys = ['pickup','dest','pickup_lat','pickup_lng','dest_lat','dest_lng','date','time','pax','lug','mode','hours','return'];
+            var keys = ['pickup','dest','pickup_lat','pickup_lng','dest_lat','dest_lng','pickup_pid','dest_pid','date','time','pax','lug','mode','hours','return'];
             var out = {};
             keys.forEach(function (k) { var v = sp.get(k); if (v) out[k] = v; });
             return out;
@@ -283,6 +283,20 @@ add_action('wp_footer', function () {
                 el.dispatchEvent(new Event('input', { bubbles: true }));
                 el.dispatchEvent(new Event('change', { bubbles: true }));
             }
+            return true;
+        }
+
+        // The plugin stores Google Places place_id as a jQuery .data() on the
+        // address input — set when the user picks a suggestion from the
+        // autocomplete dropdown. The AJAX payload then includes pickup_pid /
+        // dest_pid from those data attrs, and the server REQUIRES them
+        // (otherwise it returns "Server Error" even with valid lat/lng).
+        function setPlaceId(sel, placeId) {
+            if (!placeId || !window.jQuery) return false;
+            var $el = window.jQuery(sel);
+            if (!$el.length) { log('setPlaceId: selector NOT FOUND', sel); return false; }
+            $el.data('place_id', placeId);
+            log('place_id set on', sel, '=', placeId);
             return true;
         }
 
@@ -407,6 +421,7 @@ add_action('wp_footer', function () {
                     setVal('#byhour-pickup-address', params.pickup, false);
                     setVal('#byhour-pickup-lat', params.pickup_lat || '', false);
                     setVal('#byhour-pickup-lng', params.pickup_lng || '', false);
+                    setPlaceId('#byhour-pickup-address', params.pickup_pid);
                 }
                 document.querySelectorAll('#byhour-pickup-suggestions, .location-suggestions').forEach(function (el) {
                     el.style.display = 'none';
@@ -467,11 +482,13 @@ add_action('wp_footer', function () {
                 setVal('#pickup-address', params.pickup, false);
                 setVal('#pickup-lat', params.pickup_lat || '', false);
                 setVal('#pickup-lng', params.pickup_lng || '', false);
+                setPlaceId('#pickup-address', params.pickup_pid);
             }
             if (params.dest) {
                 setVal('#destination-address', params.dest, false);
                 setVal('#destination-lat', params.dest_lat || '', false);
                 setVal('#destination-lng', params.dest_lng || '', false);
+                setPlaceId('#destination-address', params.dest_pid);
             }
             // Force-close any suggestion dropdown the plugin might have opened.
             document.querySelectorAll('#pickup-suggestions, #destination-suggestions, .location-suggestions').forEach(function (el) {

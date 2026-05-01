@@ -51,7 +51,7 @@ function loadGooglePlaces(): Promise<void> {
 function PlaceInput({ placeholder, ariaLabel, onSelect, value, onChange, icon }: {
   placeholder: string
   ariaLabel: string
-  onSelect: (address: string, lat: number, lng: number) => void
+  onSelect: (address: string, lat: number, lng: number, placeId: string) => void
   value: string
   onChange: (v: string) => void
   icon: React.ReactNode
@@ -70,7 +70,7 @@ function PlaceInput({ placeholder, ariaLabel, onSelect, value, onChange, icon }:
         if (place?.formatted_address && place?.geometry?.location) {
           const lat = typeof place.geometry.location.lat === 'function' ? place.geometry.location.lat() : place.geometry.location.lat
           const lng = typeof place.geometry.location.lng === 'function' ? place.geometry.location.lng() : place.geometry.location.lng
-          onSelect(place.formatted_address, lat, lng)
+          onSelect(place.formatted_address, lat, lng, place.place_id || '')
         }
       })
     })
@@ -89,7 +89,7 @@ function PlaceInput({ placeholder, ariaLabel, onSelect, value, onChange, icon }:
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       new g.Geocoder().geocode({ location: { lat: latitude, lng: longitude } }, (results: any[], status: string) => {
         if (status === 'OK' && results?.[0]?.formatted_address) {
-          onSelect(results[0].formatted_address, latitude, longitude)
+          onSelect(results[0].formatted_address, latitude, longitude, results[0].place_id || '')
         }
       })
     })
@@ -335,9 +335,11 @@ export function BookingPanel() {
   const [pickup, setPickup] = useState('')
   const [pickupLat, setPickupLat] = useState<number | null>(null)
   const [pickupLng, setPickupLng] = useState<number | null>(null)
+  const [pickupPlaceId, setPickupPlaceId] = useState('')
   const [dest, setDest] = useState('')
   const [destLat, setDestLat] = useState<number | null>(null)
   const [destLng, setDestLng] = useState<number | null>(null)
+  const [destPlaceId, setDestPlaceId] = useState('')
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
   const [pax, setPax] = useState(1)
@@ -352,12 +354,16 @@ export function BookingPanel() {
       params.set('pickup_lat', String(coords.pLat))
       params.set('pickup_lng', String(coords.pLng))
     }
+    // place_id is required by the WP plugin server-side validation —
+    // without it the AJAX returns "Server Error" even with valid lat/lng.
+    if (pickupPlaceId) params.set('pickup_pid', pickupPlaceId)
     if (mode === 'transfer') {
       if (dest) params.set('dest', dest)
       if (coords.dLat != null && coords.dLng != null) {
         params.set('dest_lat', String(coords.dLat))
         params.set('dest_lng', String(coords.dLng))
       }
+      if (destPlaceId) params.set('dest_pid', destPlaceId)
       if (bookReturn) params.set('return', '1')
     } else {
       // Hourly mode — no destination, just hours
@@ -474,7 +480,7 @@ export function BookingPanel() {
             ariaLabel={es ? 'Origen' : 'Pickup'}
             value={pickup}
             onChange={setPickup}
-            onSelect={(addr, lat, lng) => { setPickup(addr); setPickupLat(lat); setPickupLng(lng) }}
+            onSelect={(addr, lat, lng, pid) => { setPickup(addr); setPickupLat(lat); setPickupLng(lng); setPickupPlaceId(pid) }}
             icon={
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 1 8 8c0 5.25-8 13-8 13S4 15.25 4 10a8 8 0 0 1 8-8z"/>
@@ -491,7 +497,7 @@ export function BookingPanel() {
               ariaLabel={es ? 'Destino' : 'Destination'}
               value={dest}
               onChange={setDest}
-              onSelect={(addr, lat, lng) => { setDest(addr); setDestLat(lat); setDestLng(lng) }}
+              onSelect={(addr, lat, lng, pid) => { setDest(addr); setDestLat(lat); setDestLng(lng); setDestPlaceId(pid) }}
               icon={
                 /* Checkered finish flag */
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
