@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { russoOne } from '@/lib/fonts'
-import { BookingPanel } from '@/components/ui/BookingPanel'
+import { BookingPanelIframe } from '@/components/booking/BookingPanelIframe'
 
 const starPaths = [
   'M51.7538 67.3504L54.7436 68.9755L53.7109 70.0167L50.7212 68.3916L51.7538 67.3504Z',
@@ -112,7 +112,7 @@ export function HeroSection() {
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.15), rgba(0,0,0,0.35))', zIndex: 1 }} />
         {/* Widget on top */}
         <div style={{ position: 'relative', zIndex: 2 }}>
-          <BookingPanel />
+          <BookingPanelIframe />
         </div>
       </div>
 

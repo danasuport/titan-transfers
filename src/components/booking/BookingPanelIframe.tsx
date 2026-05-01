@@ -2,17 +2,65 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-// Hero booking widget — iframe to the WP plugin's step-1 form. Same widget
-// the client has used for years; lives at wp.titantransfers.com so any tweak
-// is done once in the WP plugin and reflected here AND on /booking/.
-//
-// We render the iframe inside a rounded white card so it sits cleanly on
-// top of the hero car background. The MU-plugin (titan-booking-embed.php)
-// strips the WP theme chrome when ?embed=1 is passed and posts back the
-// document height on every layout change so the iframe grows to fit.
+// Hero booking widget — iframe to the WP plugin's step-1 form, loaded in
+// COMPACT mode (?compact=1). The MU-plugin's compact handler intercepts
+// Calculate Price clicks inside the iframe and posts the form data here,
+// so we can redirect the parent window to /booking/ instead of advancing
+// the booking flow inside the home iframe.
 
 const WP_ORIGIN = (process.env.NEXT_PUBLIC_WP_BOOKING_URL || 'https://titantransfers.com').replace(/\/+$/, '')
 const WP_ORIGIN_HOST = (() => { try { return new URL(WP_ORIGIN).origin } catch { return '' } })()
+
+const GADS_ID = 'AW-17350153035'
+const CONVERSION_LABEL = 'qeFICP6D9aobEMummdFA'
+
+interface SubmitData {
+  mode?: string
+  pickup?: string
+  pickup_lat?: string
+  pickup_lng?: string
+  dest?: string
+  dest_lat?: string
+  dest_lng?: string
+  date?: string
+  time?: string
+  pax?: string
+  lug?: string
+  bookReturn?: string
+}
+
+function fireConversion(callback?: () => void) {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const w = window as any
+    if (typeof w.gtag === 'function') {
+      w.gtag('event', 'conversion', {
+        send_to: `${GADS_ID}/${CONVERSION_LABEL}`,
+        event_callback: callback,
+      })
+      if (callback) setTimeout(callback, 1500)
+      return
+    }
+  } catch {}
+  if (callback) callback()
+}
+
+function buildBookingUrl(d: SubmitData): string {
+  const p = new URLSearchParams()
+  if (d.pickup) p.set('pickup', d.pickup)
+  if (d.dest) p.set('dest', d.dest)
+  if (d.pickup_lat) p.set('pickup_lat', d.pickup_lat)
+  if (d.pickup_lng) p.set('pickup_lng', d.pickup_lng)
+  if (d.dest_lat) p.set('dest_lat', d.dest_lat)
+  if (d.dest_lng) p.set('dest_lng', d.dest_lng)
+  if (d.date) p.set('date', d.date)
+  if (d.time) p.set('time', d.time)
+  if (d.pax) p.set('pax', d.pax)
+  if (d.lug) p.set('lug', d.lug)
+  if (d.bookReturn) p.set('return', '1')
+  if (d.mode === 'hourly') p.set('mode', 'hourly')
+  return `/booking/?${p.toString()}`
+}
 
 export function BookingPanelIframe() {
   const [iframeUrl, setIframeUrl] = useState<string | null>(null)
@@ -20,17 +68,36 @@ export function BookingPanelIframe() {
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
   useEffect(() => {
-    setIframeUrl(`${WP_ORIGIN}/booking/?embed=1`)
+    setIframeUrl(`${WP_ORIGIN}/booking/?embed=1&compact=1`)
   }, [])
 
   useEffect(() => {
     function onMessage(e: MessageEvent) {
       if (!WP_ORIGIN_HOST || e.origin !== WP_ORIGIN_HOST) return
       const data = e.data
-      if (!data || typeof data !== 'object' || data.type !== 'titanBookingHeight') return
-      const h = Number(data.height)
-      if (!Number.isFinite(h) || h <= 0) return
-      setHeight(Math.min(h, 10000))
+      if (!data || typeof data !== 'object') return
+
+      // Iframe-resize message — adjust the iframe height to fit content.
+      if (data.type === 'titanBookingHeight') {
+        const h = Number(data.height)
+        if (!Number.isFinite(h) || h <= 0) return
+        setHeight(Math.min(h, 10000))
+        return
+      }
+
+      // Compact-mode submit — user clicked Calculate Price inside the
+      // iframe; redirect the top window to /booking/ with the form data
+      // so step 2 loads on the dedicated booking page.
+      if (data.type === 'titanBookingSubmit' && data.data) {
+        const url = buildBookingUrl(data.data as SubmitData)
+        let redirected = false
+        const go = () => {
+          if (redirected) return
+          redirected = true
+          window.location.href = url
+        }
+        fireConversion(go)
+      }
     }
     window.addEventListener('message', onMessage)
     return () => window.removeEventListener('message', onMessage)

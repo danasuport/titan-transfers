@@ -27,6 +27,17 @@ function titan_booking_is_embed() {
 }
 
 /**
+ * True when the embed is the "compact" flavour used in the home hero —
+ * we want the user to STAY on the home for step 1, then bounce out to
+ * /booking/ on the Next.js site once they hit Calculate Price (full
+ * step 2/3 lives there). Without compact mode the iframe would advance
+ * internally and the booking flow would happen entirely in the home.
+ */
+function titan_booking_is_compact() {
+    return isset($_GET['compact']) && $_GET['compact'] === '1';
+}
+
+/**
  * Strip the WordPress admin bar from the embedded view.
  */
 add_action('init', function () {
@@ -300,6 +311,87 @@ add_action('wp_footer', function () {
             document.addEventListener('DOMContentLoaded', function () { tick(0); });
         } else {
             tick(0);
+        }
+    })();
+    </script>
+    <?php
+});
+
+/**
+ * Compact-mode behaviour: when the iframe is loaded with ?compact=1 (used
+ * by the Next.js home hero), intercept the Calculate Price click so the
+ * step-2 navigation happens on the PARENT window (Next.js /booking/) instead
+ * of advancing inside this iframe. Sends the form data via postMessage; the
+ * parent assembles the URL and does window.location.href.
+ *
+ * Both the regular Transfer button (#calculate-price-btn) and the By Hour
+ * button (#byhour-calculate-price-btn) are intercepted.
+ */
+add_action('wp_footer', function () {
+    if (!titan_booking_is_embed() || !titan_booking_is_compact()) return;
+    ?>
+    <script>
+    (function () {
+        function val(sel) {
+            var el = document.querySelector(sel);
+            return el ? (el.value || '') : '';
+        }
+        function bool(sel) {
+            var el = document.querySelector(sel);
+            return !!(el && el.checked);
+        }
+        function collect(mode) {
+            return {
+                mode: mode,
+                pickup: val('#pickup-address'),
+                pickup_lat: val('#pickup-lat'),
+                pickup_lng: val('#pickup-lng'),
+                dest: val('#destination-address'),
+                dest_lat: val('#destination-lat'),
+                dest_lng: val('#destination-lng'),
+                date: val('#pickup-date'),
+                time: val('#pickup-time'),
+                pax: val('#passengers') || val('#booking-passengers') || '1',
+                lug: val('#luggage') || '0',
+                bookReturn: bool('#return-booking') ? '1' : '',
+            };
+        }
+        function send(mode) {
+            var payload = collect(mode);
+            try {
+                parent.postMessage({ type: 'titanBookingSubmit', data: payload }, '*');
+            } catch (e) {}
+        }
+        function bind() {
+            var transferBtn = document.querySelector('#calculate-price-btn');
+            var hourlyBtn   = document.querySelector('#byhour-calculate-price-btn');
+            // Capture-phase listener so we run before the plugin's own click
+            // handler kicks in and starts an AJAX/redirect of its own.
+            if (transferBtn && !transferBtn.__titanCompactBound) {
+                transferBtn.__titanCompactBound = true;
+                transferBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    send('transfer');
+                }, true);
+            }
+            if (hourlyBtn && !hourlyBtn.__titanCompactBound) {
+                hourlyBtn.__titanCompactBound = true;
+                hourlyBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    send('hourly');
+                }, true);
+            }
+        }
+        function poll(attempts) {
+            bind();
+            if (attempts < 40) setTimeout(function () { poll(attempts + 1); }, 200);
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () { poll(0); });
+        } else {
+            poll(0);
         }
     })();
     </script>
