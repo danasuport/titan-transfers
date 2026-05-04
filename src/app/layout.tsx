@@ -25,6 +25,11 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang={locale} className={`${russoOne.variable} ${archivo.variable}`}>
       <head>
+        {/* Warm up the connection to the WP booking origin so the iframe on
+            /booking/ starts loading the moment the page navigates, instead of
+            waiting for DNS + TCP + TLS (~300-500ms saved). */}
+        <link rel="preconnect" href="https://wp.titantransfers.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://wp.titantransfers.com" />
         {/* Google Consent Mode v2 — default DENIED until the user accepts the cookie banner */}
         <Script id="gtag-consent-default" strategy="beforeInteractive">{`
           window.dataLayer = window.dataLayer || [];

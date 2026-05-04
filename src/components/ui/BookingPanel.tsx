@@ -18,7 +18,10 @@ function fireConversion(callback?: () => void) {
         send_to: `${GADS_ID}/${CONVERSION_LABEL}`,
         event_callback: callback,
       })
-      if (callback) setTimeout(callback, 1500)
+      // Fallback if event_callback never fires (consent denied, gtag still
+      // initialising, etc). gtag dispatches via sendBeacon under the hood
+      // so the conversion is registered before this fires anyway.
+      if (callback) setTimeout(callback, 600)
       return
     }
   } catch {}

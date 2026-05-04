@@ -16,7 +16,7 @@ export function BookingPageShell({
 }) {
   return (
     <div style={{ minHeight: '80vh', background: '#F8FAF0' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 6vw' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '2rem 1.5rem' }}>
         <Breadcrumbs items={[{ label: breadcrumbLabel }]} variant="light" />
         <h1 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', color: '#242426', fontWeight: 700, margin: '1rem 0 1.5rem' }}>
           {heading}

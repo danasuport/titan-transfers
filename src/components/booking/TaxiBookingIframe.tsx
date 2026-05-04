@@ -54,6 +54,7 @@ export function TaxiBookingIframe() {
             width: '100%',
             height: `${height}px`,
             border: 'none',
+            outline: 'none',
             display: 'block',
             background: '#F8FAF0',
           }}
