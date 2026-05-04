@@ -64,13 +64,23 @@ function PlaceInput({ placeholder, ariaLabel, onSelect, value, onChange, icon }:
     loadGooglePlaces().then(() => {
       if (!inputRef.current || autocompleteRef.current) return
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      autocompleteRef.current = new (window.google.maps.places.Autocomplete as any)(inputRef.current, { types: ['geocode', 'establishment'] })
+      autocompleteRef.current = new (window.google.maps.places.Autocomplete as any)(inputRef.current, {
+        types: ['geocode', 'establishment'],
+        fields: ['place_id', 'geometry', 'formatted_address', 'name'],
+      })
       autocompleteRef.current.addListener('place_changed', () => {
         const place = autocompleteRef.current.getPlace()
         if (place?.formatted_address && place?.geometry?.location) {
           const lat = typeof place.geometry.location.lat === 'function' ? place.geometry.location.lat() : place.geometry.location.lat
           const lng = typeof place.geometry.location.lng === 'function' ? place.geometry.location.lng() : place.geometry.location.lng
-          onSelect(place.formatted_address, lat, lng, place.place_id || '')
+          // For establishments (airports, hotels, POIs), Google returns the
+          // venue name in place.name and only postal code + city in
+          // formatted_address. Combine both so the user sees the venue name
+          // they searched for, not just the postcode.
+          const addr = place.name && !place.formatted_address.toLowerCase().startsWith(place.name.toLowerCase())
+            ? `${place.name}, ${place.formatted_address}`
+            : place.formatted_address
+          onSelect(addr, lat, lng, place.place_id || '')
         }
       })
     })
