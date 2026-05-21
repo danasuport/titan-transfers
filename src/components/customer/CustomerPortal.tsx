@@ -1,40 +1,53 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useLocale } from 'next-intl'
-import { buildETOUrl, LOCALE_TO_ETO_LANG } from '@/lib/eto/config'
+
+// The customer account (login + booking history) lives on the WordPress
+// install — that is where the Taxi Booking plugin stores user sessions and
+// orders. We embed wp.titantransfers.com/login/?embed=1 in an iframe so the
+// user stays under our domain and chrome. The MU-plugin on WP strips the
+// theme around the login form when ?embed=1 is present and posts back the
+// document height so we can autogrow without inner scrollbars.
+
+const WP_ORIGIN = (process.env.NEXT_PUBLIC_WP_BOOKING_URL || 'https://wp.titantransfers.com').replace(/\/+$/, '')
+const WP_ORIGIN_HOST = (() => { try { return new URL(WP_ORIGIN).origin } catch { return '' } })()
 
 export function CustomerPortal() {
-  const locale = useLocale()
-  const [isVisible, setIsVisible] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const [iframeUrl, setIframeUrl] = useState<string | null>(null)
+  const [height, setHeight] = useState<number>(600)
 
   useEffect(() => {
-    setIsVisible(true)
+    setIframeUrl(`${WP_ORIGIN}/login/?embed=1`)
   }, [])
 
-  const iframeUrl = buildETOUrl('customer', {
-    lang: LOCALE_TO_ETO_LANG[locale] || LOCALE_TO_ETO_LANG.en,
-  })
+  useEffect(() => {
+    function onMessage(e: MessageEvent) {
+      if (!WP_ORIGIN_HOST || e.origin !== WP_ORIGIN_HOST) return
+      const data = e.data
+      if (!data || typeof data !== 'object' || data.type !== 'titanBookingHeight') return
+      const h = Number(data.height)
+      if (!Number.isFinite(h) || h <= 0) return
+      setHeight(Math.min(h, 10000))
+    }
+    window.addEventListener('message', onMessage)
+    return () => window.removeEventListener('message', onMessage)
+  }, [])
 
   return (
-    <div ref={containerRef} className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-lg">
-      <div className="p-6">
-        {isVisible ? (
-          <iframe
-            src={iframeUrl}
-            width="100%"
-            style={{ height: '600px', border: 'none' }}
-            title="Customer portal"
-            sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-            allow="payment"
-          />
-        ) : (
-          <div className="flex h-96 items-center justify-center rounded-lg bg-gray-50">
-            <p className="text-sm text-gray-400">Loading...</p>
-          </div>
-        )}
-      </div>
+    <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-lg">
+      {iframeUrl ? (
+        <iframe
+          src={iframeUrl}
+          title="Customer login"
+          allow="payment *"
+          style={{ width: '100%', height: `${height}px`, border: 'none', display: 'block', background: '#F8FAF0' }}
+        />
+      ) : (
+        <div style={{ height: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#F8FAF0' }}>
+          <div style={{ width: 32, height: 32, border: '3px solid #e2e8f0', borderTop: '3px solid #8BAA1D', borderRadius: '50%', animation: 'taxiSpin 0.8s linear infinite' }} />
+          <style>{`@keyframes taxiSpin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+      )}
     </div>
   )
 }
