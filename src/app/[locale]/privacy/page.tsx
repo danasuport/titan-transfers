@@ -54,6 +54,11 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
               <p>Puede ejercer sus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad enviando un correo a <strong>info@titantransfers.com</strong>.</p>
               <h2>Cookies</h2>
               <p>Utilizamos cookies propias y de terceros. Consulte nuestra <a href="/es/cookies/" style={{ color: '#6B8313' }}>política de cookies</a> para más información.</p>
+              <h2>Aplicación Titan Transfers Driver</h2>
+              <p>Para los conductores que utilizan nuestra aplicación móvil, también procesamos los siguientes datos:</p>
+              <p><strong>Ubicación</strong> — Recopilamos la ubicación GPS precisa, incluso en segundo plano mientras el conductor está EN SERVICIO o realizando un trayecto activo. Esto es necesario para asignar servicios, proporcionar navegación, actualizar el estado del viaje y compartir la ubicación en tiempo real con el equipo de gestión y el pasajero durante el servicio. El seguimiento de ubicación en segundo plano se detiene al desactivar el modo FUERA DE SERVICIO.</p>
+              <p><strong>Otros datos</strong> — También procesamos información de la cuenta (como nombre, correo electrónico y teléfono), documentación del conductor y del vehículo, información relacionada con viajes y chats, datos de ganancias e información técnica (como tokens de notificaciones push y analítica de la aplicación).</p>
+              <p><strong>Finalidad</strong> — Estos datos se procesan para gestionar la plataforma de conductores, coordinar los servicios de transporte, garantizar la seguridad y el correcto funcionamiento de los trayectos, cumplir con obligaciones legales y mejorar el rendimiento y la experiencia de uso de la aplicación.</p>
               <h2>Transferencias internacionales</h2>
               <p>Al ser una empresa con sede en los Emiratos Árabes Unidos, sus datos pueden ser tratados fuera del Espacio Económico Europeo, aplicándose siempre las garantías adecuadas conforme al RGPD.</p>
             </>
@@ -83,6 +88,11 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
               <p>You may exercise your rights of access, rectification, erasure, objection, restriction and portability by emailing <strong>info@titantransfers.com</strong>.</p>
               <h2>Cookies</h2>
               <p>We use first-party and third-party cookies. See our <a href="/cookies/" style={{ color: '#6B8313' }}>cookie policy</a> for more information.</p>
+              <h2>Titan Transfers Driver App</h2>
+              <p>For drivers using our mobile app, we process the following data:</p>
+              <p><strong>Location</strong> — We collect precise GPS location, including in the background while you are ON DUTY or completing an active trip. This is necessary to assign bookings, provide navigation, update trip progress, and share the driver&rsquo;s live location with dispatch and passengers during the service. Background location tracking stops when you switch OFF DUTY.</p>
+              <p><strong>Other data</strong> — We also process account information (such as name, email, and phone number), uploaded driver and vehicle documents, trip and chat information, earnings data, and technical information (such as push notification tokens and app analytics).</p>
+              <p><strong>Purpose</strong> — This data is processed to operate the driver platform, manage dispatch services, ensure trip safety and reliability, comply with legal obligations, and improve app performance and user experience.</p>
               <h2>International Transfers</h2>
               <p>As a company based in the United Arab Emirates, your data may be processed outside the European Economic Area, with appropriate GDPR safeguards always applied.</p>
             </>
