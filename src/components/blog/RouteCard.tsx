@@ -3,6 +3,7 @@
 import { Link } from '@/lib/i18n/navigation'
 import { russoOne } from '@/lib/fonts'
 import { formatDistance, formatDuration } from '@/lib/utils/formatters'
+import { getLocalizedPath } from '@/lib/utils/slugHelpers'
 import type { Locale } from '@/lib/i18n/config'
 
 interface Route {
@@ -46,7 +47,7 @@ export function RouteInlineBlock({ routes, locale }: RouteCardProps) {
           return (
             <Link
               key={route._id}
-              href={originSlug ? `/airport-transfers-private-taxi/${originSlug}/${routeSlug}/` as any : `/` as any}
+              href={originSlug ? `/${getLocalizedPath('airport', locale)}/${originSlug}/${routeSlug}/` as any : `/` as any}
               style={{ textDecoration: 'none' }}
             >
               <div

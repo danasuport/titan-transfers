@@ -4,15 +4,16 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link } from '@/lib/i18n/navigation'
-import { getServiceUrl } from '@/lib/utils/slugHelpers'
+import { getServiceUrl, getLocalizedPath } from '@/lib/utils/slugHelpers'
+import { pick } from '@/lib/i18n/pick'
 import { russoOne } from '@/lib/fonts'
 import type { Locale } from '@/lib/i18n/config'
 
 const servicesSlugs = [
-  { en: 'airport-transfers', es: 'traslados-aeropuerto', key: 'airportTransfers' },
-  { en: 'port-transfers', es: 'traslados-puerto', key: 'portTransfers' },
-  { en: 'train-station-transfers', es: 'traslados-estacion-tren', key: 'trainStationTransfers' },
-  { en: 'city-to-city', es: 'ciudad-a-ciudad', key: 'cityToCity' },
+  { en: 'airport-transfers', es: 'traslados-aeropuerto', ar: 'nakl-mataar', key: 'airportTransfers' },
+  { en: 'port-transfers', es: 'traslados-puerto', ar: 'nakl-mina', key: 'portTransfers' },
+  { en: 'train-station-transfers', es: 'traslados-estacion-tren', ar: 'nakl-mahattat-qitar', key: 'trainStationTransfers' },
+  { en: 'city-to-city', es: 'ciudad-a-ciudad', ar: 'madina-ila-madina', key: 'cityToCity' },
 ]
 
 const linkStyle = { color: '#475569', textDecoration: 'none', fontSize: '1rem', transition: 'color 0.2s' }
@@ -65,7 +66,11 @@ export function Footer() {
               <Image src="/Logo-titan-transfers-texto-negro.png" alt="Titan Transfers" width={220} height={50} />
             </Link>
             <p style={{ fontSize: '1rem', lineHeight: 1.7, color: '#475569', maxWidth: '280px', marginBottom: '1.75rem' }}>
-              {locale === 'es' ? 'Transfers privados en más de 100 destinos. Precio fijo, conductor profesional y soporte 24/7.' : 'Private transfers in 100+ destinations. Fixed prices, professional driver and 24/7 support.'}
+              {pick(locale, {
+                en: 'Private transfers in 100+ destinations. Fixed prices, professional driver and 24/7 support.',
+                es: 'Transfers privados en más de 100 destinos. Precio fijo, conductor profesional y soporte 24/7.',
+                ar: 'نقل خاص في أكثر من ١٠٠ وجهة. أسعار ثابتة، سائق محترف، ودعم على مدار الساعة.',
+              })}
             </p>
             <div style={{ display: 'flex', gap: '0.75rem' }}>
               {[
@@ -108,7 +113,7 @@ export function Footer() {
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
               {servicesSlugs.map(s => (
                 <li key={s.key}>
-                  <Link href={getServiceUrl(locale === 'es' ? s.es : s.en, locale) as any} style={linkStyle}
+                  <Link href={getServiceUrl(pick(locale, { en: s.en, es: s.es, ar: s.ar }), locale as Locale) as any} style={linkStyle}
                     onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = '#8BAA1D')}
                     onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = '#475569')}
                   >{nav(s.key)}</Link>
@@ -118,13 +123,13 @@ export function Footer() {
           </AccordionCol>
 
           {/* Contact */}
-          <AccordionCol title={locale === 'es' ? 'Contacto' : 'Contact info'}>
+          <AccordionCol title={pick(locale, { en: 'Contact info', es: 'Contacto', ar: 'بيانات التواصل' })}>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
               {[
                 { href: `tel:+34930477712`, label: '+34 930 47 77 12' },
                 { href: `tel:+16465030394`, label: '+1 (646) 503-0394' },
                 { href: 'mailto:info@titantransfers.com', label: 'info@titantransfers.com' },
-                { href: `/${locale}/contact/`, label: locale === 'es' ? 'Formulario de contacto' : 'Contact form' },
+                { href: `/${locale}/${getLocalizedPath('contact', locale as Locale)}/`, label: pick(locale, { en: 'Contact form', es: 'Formulario de contacto', ar: 'نموذج التواصل' }) },
               ].map(item => (
                 <li key={item.href}>
                   <a href={item.href} style={linkStyle}
@@ -137,13 +142,16 @@ export function Footer() {
           </AccordionCol>
 
           {/* Reviews */}
-          <AccordionCol title={locale === 'es' ? 'Opiniones' : 'Reviews'}>
+          <AccordionCol title={pick(locale, { en: 'Reviews', es: 'Opiniones', ar: 'التقييمات' })}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {[
-                { href: 'https://ie.trustpilot.com/review/titantransfers.com', name: 'Trustpilot', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="#00B67A"><path d="M12 0l3.09 9.26H24l-7.85 5.7 3.09 9.26L12 18.52l-7.24 5.7 3.09-9.26L0 9.26h8.91z"/></svg>, starColor: '#00B67A', score: `4.9 / 5 · +500 ${locale === 'es' ? 'opiniones' : 'reviews'}` },
-                { href: 'https://www.trustedshops.eu/buyerrating/info_X39CC0944707618A0C37EAA21E972D649.html', name: 'Trusted Shops', icon: <Image src="/logo-trusted-shops.png" alt="Trusted Shops" width={16} height={16} style={{ objectFit: 'contain' }} />, starColor: '#FFDC0F', score: `4.9 / 5 · +1.800 ${locale === 'es' ? 'opiniones' : 'reviews'}` },
-                { href: 'https://share.google/8rCcJLQZDJ7NPKDFf', name: 'Google', icon: <Image src="/logo-google.svg" alt="Google" width={16} height={16} style={{ objectFit: 'contain' }} />, starColor: '#FBBC05', score: `4.8 / 5 · +100 ${locale === 'es' ? 'opiniones' : 'reviews'}` },
-              ].map(({ href, name, icon, starColor, score }) => (
+              {(() => {
+                const reviewsWord = pick(locale, { en: 'reviews', es: 'opiniones', ar: 'تقييم' })
+                return [
+                  { href: 'https://ie.trustpilot.com/review/titantransfers.com', name: 'Trustpilot', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="#00B67A"><path d="M12 0l3.09 9.26H24l-7.85 5.7 3.09 9.26L12 18.52l-7.24 5.7 3.09-9.26L0 9.26h8.91z"/></svg>, starColor: '#00B67A', score: `4.9 / 5 · +500 ${reviewsWord}` },
+                  { href: 'https://www.trustedshops.eu/buyerrating/info_X39CC0944707618A0C37EAA21E972D649.html', name: 'Trusted Shops', icon: <Image src="/logo-trusted-shops.png" alt="Trusted Shops" width={16} height={16} style={{ objectFit: 'contain' }} />, starColor: '#FFDC0F', score: `4.9 / 5 · +1.800 ${reviewsWord}` },
+                  { href: 'https://share.google/8rCcJLQZDJ7NPKDFf', name: 'Google', icon: <Image src="/logo-google.svg" alt="Google" width={16} height={16} style={{ objectFit: 'contain' }} />, starColor: '#FBBC05', score: `4.8 / 5 · +100 ${reviewsWord}` },
+                ]
+              })().map(({ href, name, icon, starColor, score }) => (
                 <a key={name} href={href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', background: '#ffffff', borderRadius: '8px', padding: '0.6rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '0.25rem', transition: 'box-shadow 0.2s' }}
                   onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)')}
                   onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
@@ -186,7 +194,7 @@ export function Footer() {
               { href: '/privacy/', label: t('privacy') },
               { href: '/terms/', label: t('terms') },
               { href: '/cookies/', label: t('cookies') },
-              { href: '/sitemap-page/', label: locale === 'es' ? 'Mapa del sitio' : 'Sitemap' },
+              { href: '/sitemap-page/', label: pick(locale, { en: 'Sitemap', es: 'Mapa del sitio', ar: 'خريطة الموقع' }) },
             ].map(item => (
               <Link key={item.href} href={item.href as any} style={{ ...linkStyle, fontSize: '0.8rem', color: '#64748b' }}
                 onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = '#8BAA1D')}

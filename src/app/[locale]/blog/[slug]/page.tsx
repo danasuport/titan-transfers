@@ -15,7 +15,8 @@ import { formatDate } from '@/lib/utils/formatters'
 import Image from 'next/image'
 import { Link } from '@/lib/i18n/navigation'
 import type { Locale } from '@/lib/i18n/config'
-import { getAirportUrl, getCityUrl, getTranslatedTitle } from '@/lib/utils/slugHelpers'
+import { getAirportUrl, getCityUrl, getBlogUrl, getTranslatedTitle } from '@/lib/utils/slugHelpers'
+import { pick } from '@/lib/i18n/pick'
 import { russoOne } from '@/lib/fonts'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
@@ -33,18 +34,27 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const post = await sanityClient.fetch(blogPostBySlugQuery, { slug })
   if (!post) return {}
   const { title, description } = generateBlogMetadata(post, locale as Locale)
-  const enSlug = post.slug?.current || slug
-  const esSlug = post.translations?.es?.slug?.current || enSlug
-  const currentPath = locale === 'es' ? `/es/blog/${esSlug}/` : `/blog/${enSlug}/`
-  return generatePageMetadata({ title, description, path: currentPath, locale: locale as Locale, type: 'article', publishedTime: post.publishDate, alternates: [{ locale: 'en' as Locale, path: `/blog/${enSlug}/` }, { locale: 'es' as Locale, path: `/es/blog/${esSlug}/` }] })
+  const currentPath = `${locale === 'en' ? '' : `/${locale}`}${getBlogUrl(post, locale as Locale)}`
+  return generatePageMetadata({
+    title,
+    description,
+    path: currentPath,
+    locale: locale as Locale,
+    type: 'article',
+    publishedTime: post.publishDate,
+    alternates: [
+      { locale: 'en' as Locale, path: getBlogUrl(post, 'en') },
+      { locale: 'es' as Locale, path: `/es${getBlogUrl(post, 'es')}` },
+      { locale: 'ar' as Locale, path: `/ar${getBlogUrl(post, 'ar')}` },
+    ],
+  })
 }
 
 function InlineBookingBlock({ locale }: { locale: string }) {
-  const es = locale === 'es'
   return (
     <div style={{ margin: '2.5rem 0' }}>
       <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#6B8313', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
-        {es ? 'Reserva tu transfer' : 'Book your transfer'}
+        {pick(locale, { en: 'Book your transfer', es: 'Reserva tu transfer', ar: 'احجز رحلتك' })}
       </p>
       <div style={{ display: 'flex', justifyContent: 'center' }}><BookingPanel /></div>
     </div>
@@ -99,7 +109,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
   if (!post) notFound()
 
   const t = await getTranslations({ locale, namespace: 'blog' })
-  const es = locale === 'es'
 
   const postTitle = (locale !== 'en' && post.translations?.[locale]?.title) || post.title
   const content = (locale !== 'en' && post.translations?.[locale]?.content) || post.content
@@ -119,7 +128,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
 
   return (
     <>
-      <SchemaOrg data={generateBlogPostingSchema({ title: postTitle, description: post.excerpt || postTitle, url: `/blog/${slug}/`, image: post.featuredImage?.asset?.url, publishDate: post.publishDate })} />
+      <SchemaOrg data={generateBlogPostingSchema({ title: postTitle, description: post.excerpt || postTitle, url: getBlogUrl(post, 'en'), image: post.featuredImage?.asset?.url, publishDate: post.publishDate })} />
 
       {/* ─── HERO — split grid like airport pages ─────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '480px' }}>

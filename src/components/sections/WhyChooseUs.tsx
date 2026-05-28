@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useTranslations, useLocale } from 'next-intl'
 import { russoOne } from '@/lib/fonts'
+import { pick } from '@/lib/i18n/pick'
 
 
 export function WhyChooseUs() {
@@ -13,7 +14,7 @@ export function WhyChooseUs() {
   const stats = [
     { value: '+120', label: tTrust('airports'), icon: '/icon-airplane.svg' },
     { value: '+30', label: tTrust('countries'), icon: '/icon-map.svg' },
-    { value: '24/7', label: locale === 'es' ? 'Soporte' : 'Support', icon: '/icon-countries.svg' },
+    { value: '24/7', label: pick(locale, { en: 'Support', es: 'Soporte', ar: 'دعم' }), icon: '/icon-countries.svg' },
   ]
 
   return (

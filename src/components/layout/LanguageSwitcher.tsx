@@ -28,9 +28,24 @@ function FlagES() {
   )
 }
 
+// Saudi Arabia flag — simplified geometric rendering. Client may swap to UAE
+// or another GCC flag later; only this component needs to change.
+function FlagSA() {
+  return (
+    <svg viewBox="0 0 60 40" width="18" height="13" style={{ display: 'block', borderRadius: '2px', overflow: 'hidden' }} aria-hidden="true">
+      <rect width="60" height="40" fill="#006C35"/>
+      <text x="30" y="20" textAnchor="middle" dominantBaseline="middle" fill="#ffffff" fontSize="9" fontWeight="700" fontFamily="serif">
+        ٱللَّٰه
+      </text>
+      <rect x="10" y="28" width="40" height="1.5" fill="#ffffff"/>
+    </svg>
+  )
+}
+
 const Flag: Record<Locale, () => React.ReactElement> = {
   en: FlagGB,
   es: FlagES,
+  ar: FlagSA,
 }
 
 /**

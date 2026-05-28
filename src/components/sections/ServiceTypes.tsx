@@ -7,13 +7,15 @@ import { useTranslations, useLocale } from 'next-intl'
 import { russoOne } from '@/lib/fonts'
 import { SkewButton } from '@/components/ui/SkewButton'
 import { getServiceUrl } from '@/lib/utils/slugHelpers'
+import { pick } from '@/lib/i18n/pick'
 import type { Locale } from '@/lib/i18n/config'
 
 const slides = [
   {
     slugEn: 'airport-transfers',
     slugEs: 'traslados-aeropuerto',
-    stat: '120+ aeropuertos',
+    slugAr: 'nakl-mataar',
+    stat: { en: '120+ airports', es: '120+ aeropuertos', ar: '+١٢٠ مطار' },
     titleKey: 'airportTransfers' as const,
     descKey: 'airportTransfersDesc' as const,
     img: '/services/airport-transfers.png',
@@ -21,7 +23,8 @@ const slides = [
   {
     slugEn: 'port-transfers',
     slugEs: 'traslados-puerto',
-    stat: '30+ puertos',
+    slugAr: 'nakl-mina',
+    stat: { en: '30+ ports', es: '30+ puertos', ar: '+٣٠ ميناء' },
     titleKey: 'portTransfers' as const,
     descKey: 'portTransfersDesc' as const,
     img: '/services/port-transfers.png',
@@ -29,7 +32,8 @@ const slides = [
   {
     slugEn: 'train-station-transfers',
     slugEs: 'traslados-estacion-tren',
-    stat: '80+ estaciones',
+    slugAr: 'nakl-mahattat-qitar',
+    stat: { en: '80+ stations', es: '80+ estaciones', ar: '+٨٠ محطة' },
     titleKey: 'trainStationTransfers' as const,
     descKey: 'trainTransfersDesc' as const,
     img: '/services/train-transfers.png',
@@ -37,7 +41,8 @@ const slides = [
   {
     slugEn: 'city-to-city',
     slugEs: 'ciudad-a-ciudad',
-    stat: '200+ rutas',
+    slugAr: 'madina-ila-madina',
+    stat: { en: '200+ routes', es: '200+ rutas', ar: '+٢٠٠ مسار' },
     titleKey: 'cityToCity' as const,
     descKey: 'cityToCityDesc' as const,
     img: '/services/city-to-city.png',
@@ -54,7 +59,8 @@ export function ServiceTypes() {
   const locale = useLocale() as Locale
 
   const slide = slides[active]
-  const href = getServiceUrl(locale === 'es' ? slide.slugEs : slide.slugEn, locale)
+  const slug = pick(locale, { en: slide.slugEn, es: slide.slugEs, ar: slide.slugAr })
+  const href = getServiceUrl(slug, locale)
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -102,7 +108,7 @@ export function ServiceTypes() {
           <div className="service-carousel-content" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '3rem 3rem 3rem 4rem' }}>
             {/* Stat label */}
             <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#6B8313', marginBottom: '0.75rem' }}>
-              {slide.stat}
+              {pick(locale, slide.stat)}
             </div>
 
             {/* Title */}

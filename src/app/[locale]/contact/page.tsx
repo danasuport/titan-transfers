@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { ContactForm } from '@/components/contact/ContactForm'
+import { pick } from '@/lib/i18n/pick'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
 // stay cached so navigation feels instant; new content shows up within 1h
@@ -11,8 +12,16 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
-    title: locale === 'es' ? 'Contacto | Titan Transfers' : 'Contact | Titan Transfers',
-    description: 'Contact Titan Transfers. We are available 24/7 for bookings and inquiries.',
+    title: pick(locale, {
+      en: 'Contact | Titan Transfers',
+      es: 'Contacto | Titan Transfers',
+      ar: 'تواصل معنا | تايتن ترانسفرز',
+    }),
+    description: pick(locale, {
+      en: 'Contact Titan Transfers. We are available 24/7 for bookings and inquiries.',
+      es: 'Contacta con Titan Transfers. Estamos disponibles 24/7 para reservas y consultas.',
+      ar: 'تواصل مع تايتن ترانسفرز. نحن متاحون على مدار الساعة للحجوزات والاستفسارات.',
+    }),
   }
 }
 

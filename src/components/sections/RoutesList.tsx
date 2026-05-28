@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { useLocale } from 'next-intl'
 import { Link } from '@/lib/i18n/navigation'
 import { formatDistance, formatDuration } from '@/lib/utils/formatters'
-import { getTranslatedTitle, getTranslatedSlug } from '@/lib/utils/slugHelpers'
+import { getTranslatedTitle, getTranslatedSlug, getLocalizedPath } from '@/lib/utils/slugHelpers'
+import { pick } from '@/lib/i18n/pick'
 import { russoOne } from '@/lib/fonts'
 import type { Locale } from '@/lib/i18n/config'
 
@@ -27,8 +28,9 @@ function RouteCard({ route, airportSlug, locale }: { route: Route; airportSlug: 
   // (this matters on city pages where routes come from many different airports).
   const originSlug = route.origin?.slug?.current || airportSlug
 
+  const airportSegment = getLocalizedPath('airport', locale)
   return (
-    <Link href={`/airport-transfers-private-taxi/${originSlug}/${routeSlug}/` as any} style={{ textDecoration: 'none' }}>
+    <Link href={`/${airportSegment}/${originSlug}/${routeSlug}/` as any} style={{ textDecoration: 'none' }}>
       <div
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -101,7 +103,6 @@ export function RoutesList({
   title?: string
 }) {
   const locale = useLocale() as Locale
-  const es = locale === 'es'
   const [filter, setFilter] = useState('')
 
   if (!routes || routes.length === 0) return null
@@ -140,7 +141,7 @@ export function RoutesList({
             type="text"
             value={filter}
             onChange={e => setFilter(e.target.value)}
-            placeholder={es ? 'Filtrar destino...' : 'Filter destination...'}
+            placeholder={pick(locale, { en: 'Filter destination...', es: 'Filtrar destino...', ar: 'تصفية الوجهة...' })}
             style={{
               transform: 'skewX(8deg)',
               border: 'none', outline: 'none', background: 'transparent',
@@ -155,7 +156,7 @@ export function RoutesList({
         </div>
         {filter && (
           <span style={{ fontSize: '0.78rem', color: '#64748b' }}>
-            {filtered.length} {es ? 'resultados' : 'results'}
+            {filtered.length} {pick(locale, { en: 'results', es: 'resultados', ar: 'نتائج' })}
           </span>
         )}
       </div>
@@ -169,7 +170,7 @@ export function RoutesList({
 
       {filtered.length === 0 && (
         <p style={{ color: '#64748b', fontSize: '0.875rem', marginTop: '1rem' }}>
-          {es ? 'Sin resultados' : 'No results'}
+          {pick(locale, { en: 'No results', es: 'Sin resultados', ar: 'لا توجد نتائج' })}
         </p>
       )}
     </section>

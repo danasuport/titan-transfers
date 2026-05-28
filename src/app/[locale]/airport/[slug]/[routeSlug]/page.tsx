@@ -18,6 +18,8 @@ import { Link } from '@/lib/i18n/navigation'
 import { formatDistance, formatDuration } from '@/lib/utils/formatters'
 import { urlFor } from '@/lib/sanity/image'
 import type { Locale } from '@/lib/i18n/config'
+import { getAirportUrl, getCityUrl, getCountryUrl, getRouteUrl } from '@/lib/utils/slugHelpers'
+import { pick } from '@/lib/i18n/pick'
 import { russoOne } from '@/lib/fonts'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
@@ -56,21 +58,16 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const route = await sanityClient.fetch(routeBySlugQuery, { originSlug: slug, routeSlug })
   if (!route) return {}
   const { title, description } = generateRouteMetadata(route, locale as Locale)
-  const enOriginSlug = route.origin?.slug?.current || slug
-  const enRouteSlug = route.slug?.current || routeSlug
-  const esOriginSlug = route.origin?.translations?.es?.slug?.current || enOriginSlug
-  const esRouteSlug = route.translations?.es?.slug?.current || enRouteSlug
-  const currentPath = locale === 'es'
-    ? `/es/traslados-aeropuerto-privados-taxi/${esOriginSlug}/${esRouteSlug}/`
-    : `/airport-transfers-private-taxi/${enOriginSlug}/${enRouteSlug}/`
+  const currentPath = `${locale === 'en' ? '' : `/${locale}`}${getRouteUrl(route.origin, route, locale as Locale)}`
   return generatePageMetadata({
     title,
     description,
     path: currentPath,
     locale: locale as Locale,
     alternates: [
-      { locale: 'en' as Locale, path: `/airport-transfers-private-taxi/${enOriginSlug}/${enRouteSlug}/` },
-      { locale: 'es' as Locale, path: `/es/traslados-aeropuerto-privados-taxi/${esOriginSlug}/${esRouteSlug}/` },
+      { locale: 'en' as Locale, path: getRouteUrl(route.origin, route, 'en') },
+      { locale: 'es' as Locale, path: `/es${getRouteUrl(route.origin, route, 'es')}` },
+      { locale: 'ar' as Locale, path: `/ar${getRouteUrl(route.origin, route, 'ar')}` },
     ],
   })
 }
@@ -84,7 +81,6 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
 
   const t = await getTranslations({ locale, namespace: 'route' })
   const tc = await getTranslations({ locale, namespace: 'trust' })
-  const es = locale === 'es'
 
   const originTitle = (locale !== 'en' && route.origin?.translations?.[locale]?.title) || route.origin?.title || ''
   const destTitle = (locale !== 'en' && route.destination?.translations?.[locale]?.title) || route.destination?.title || ''
@@ -96,8 +92,8 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
     ((locale !== 'en' && route.translations?.[locale]?.contentSections) || route.contentSections || []).slice(0, 3)
 
   const breadcrumbs = [
-    { label: route.country?.title || '', href: es ? `/traslados-privados-pais/${route.country?.slug?.current}/` : `/private-transfers-country/${route.country?.slug?.current}/` },
-    { label: originTitle, href: es ? `/traslados-aeropuerto-privados-taxi/${route.origin?.slug?.current}/` : `/airport-transfers-private-taxi/${route.origin?.slug?.current}/` },
+    ...(route.country ? [{ label: route.country.title || '', href: getCountryUrl(route.country, locale as Locale) }] : []),
+    ...(route.origin ? [{ label: originTitle, href: getAirportUrl(route.origin, locale as Locale) }] : []),
     { label: destTitle },
   ]
 
@@ -109,36 +105,80 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
   ]
 
   const whyItems = [
-    { icon: <IconTag />, title: es ? 'Precio fijo' : 'Fixed price', desc: es ? 'Sin sorpresas — precio cerrado antes de viajar' : 'No surprises — price agreed before you travel' },
-    { icon: <IconPlane />, title: es ? 'Meet & greet' : 'Meet & greet', desc: es ? 'Conductor con cartel con tu nombre en llegadas' : 'Driver with name sign at arrivals' },
-    { icon: <IconClock />, title: es ? 'Seguimiento de vuelo' : 'Flight monitoring', desc: es ? 'Ajustamos la recogida si tu vuelo se retrasa' : 'We adjust pickup if your flight is delayed' },
-    { icon: <IconShield />, title: es ? 'Cancelación gratuita' : 'Free cancellation', desc: es ? 'Cancela gratis hasta 24h antes' : 'Cancel free up to 24 hours before pickup' },
-    { icon: <IconMap />, title: es ? 'Puerta a puerta' : 'Door-to-door', desc: es ? 'Servicio directo desde recogida hasta destino' : 'Direct service from pickup to your destination' },
-    { icon: <IconCheck />, title: es ? 'Vehículos modernos' : 'Modern vehicles', desc: es ? 'Flota climatizada para cada necesidad' : 'Air-conditioned fleet for every group size' },
+    { icon: <IconTag />, title: pick(locale, { en: 'Fixed price', es: 'Precio fijo', ar: 'سعر ثابت' }), desc: pick(locale, { en: 'No surprises — price agreed before you travel', es: 'Sin sorpresas — precio cerrado antes de viajar', ar: 'بدون مفاجآت — السعر متفق عليه قبل السفر' }) },
+    { icon: <IconPlane />, title: pick(locale, { en: 'Meet & greet', es: 'Meet & greet', ar: 'استقبال شخصي' }), desc: pick(locale, { en: 'Driver with name sign at arrivals', es: 'Conductor con cartel con tu nombre en llegadas', ar: 'سائق يحمل لافتة باسمك عند الوصول' }) },
+    { icon: <IconClock />, title: pick(locale, { en: 'Flight monitoring', es: 'Seguimiento de vuelo', ar: 'متابعة الرحلات' }), desc: pick(locale, { en: 'We adjust pickup if your flight is delayed', es: 'Ajustamos la recogida si tu vuelo se retrasa', ar: 'نعدّل وقت الاستلام إذا تأخرت رحلتك' }) },
+    { icon: <IconShield />, title: pick(locale, { en: 'Free cancellation', es: 'Cancelación gratuita', ar: 'إلغاء مجاني' }), desc: pick(locale, { en: 'Cancel free up to 24 hours before pickup', es: 'Cancela gratis hasta 24h antes', ar: 'ألغِ مجاناً حتى ٢٤ ساعة قبل الاستلام' }) },
+    { icon: <IconMap />, title: pick(locale, { en: 'Door-to-door', es: 'Puerta a puerta', ar: 'من الباب إلى الباب' }), desc: pick(locale, { en: 'Direct service from pickup to your destination', es: 'Servicio directo desde recogida hasta destino', ar: 'خدمة مباشرة من نقطة الاستلام إلى وجهتك' }) },
+    { icon: <IconCheck />, title: pick(locale, { en: 'Modern vehicles', es: 'Vehículos modernos', ar: 'مركبات حديثة' }), desc: pick(locale, { en: 'Air-conditioned fleet for every group size', es: 'Flota climatizada para cada necesidad', ar: 'أسطول مكيّف لكل حجم مجموعة' }) },
   ]
 
   const faqItems = [
     {
-      question: es ? `¿Cuánto tarda el traslado de ${originTitle} a ${destTitle}?` : `How long is the transfer from ${originTitle} to ${destTitle}?`,
+      question: pick(locale, {
+        en: `How long is the transfer from ${originTitle} to ${destTitle}?`,
+        es: `¿Cuánto tarda el traslado de ${originTitle} a ${destTitle}?`,
+        ar: `كم تستغرق الرحلة من ${originTitle} إلى ${destTitle}؟`,
+      }),
       answer: route.estimatedDuration
-        ? (es ? `El traslado dura aproximadamente ${formatDuration(route.estimatedDuration)}.` : `The transfer takes approximately ${formatDuration(route.estimatedDuration)}.`)
-        : (es ? 'Contáctanos para una estimación del tiempo.' : 'Contact us for estimated travel time.'),
+        ? pick(locale, {
+            en: `The transfer takes approximately ${formatDuration(route.estimatedDuration)}.`,
+            es: `El traslado dura aproximadamente ${formatDuration(route.estimatedDuration)}.`,
+            ar: `تستغرق الرحلة حوالي ${formatDuration(route.estimatedDuration)}.`,
+          })
+        : pick(locale, {
+            en: 'Contact us for estimated travel time.',
+            es: 'Contáctanos para una estimación del tiempo.',
+            ar: 'تواصل معنا لتقدير مدة الرحلة.',
+          }),
     },
     {
-      question: es ? `¿Cuánto cuesta un traslado privado a ${destTitle}?` : `How much does a private transfer to ${destTitle} cost?`,
-      answer: es ? 'Usa nuestro formulario de reserva para obtener un precio fijo al instante. Sin cargos ocultos.' : 'Use our booking form for an instant quote with fixed prices. No hidden charges.',
+      question: pick(locale, {
+        en: `How much does a private transfer to ${destTitle} cost?`,
+        es: `¿Cuánto cuesta un traslado privado a ${destTitle}?`,
+        ar: `كم تكلفة النقل الخاص إلى ${destTitle}؟`,
+      }),
+      answer: pick(locale, {
+        en: 'Use our booking form for an instant quote with fixed prices. No hidden charges.',
+        es: 'Usa nuestro formulario de reserva para obtener un precio fijo al instante. Sin cargos ocultos.',
+        ar: 'استخدم نموذج الحجز للحصول على عرض سعر فوري بأسعار ثابتة. بدون رسوم خفية.',
+      }),
     },
     {
-      question: es ? '¿Qué pasa si mi vuelo se retrasa?' : 'What happens if my flight is delayed?',
-      answer: es ? 'Monitorizamos todos los vuelos en tiempo real. Tu conductor ajustará automáticamente la hora de recogida sin coste adicional.' : 'We monitor all flights in real time. Your driver will adjust the pickup time automatically at no extra cost.',
+      question: pick(locale, {
+        en: 'What happens if my flight is delayed?',
+        es: '¿Qué pasa si mi vuelo se retrasa?',
+        ar: 'ماذا يحدث إذا تأخرت رحلتي؟',
+      }),
+      answer: pick(locale, {
+        en: 'We monitor all flights in real time. Your driver will adjust the pickup time automatically at no extra cost.',
+        es: 'Monitorizamos todos los vuelos en tiempo real. Tu conductor ajustará automáticamente la hora de recogida sin coste adicional.',
+        ar: 'نتابع جميع الرحلات في الوقت الفعلي. سيعدّل سائقك وقت الاستلام تلقائياً دون أي تكلفة إضافية.',
+      }),
     },
     {
-      question: es ? '¿Puedo cancelar la reserva?' : 'Can I cancel my booking?',
-      answer: es ? 'Sí, puedes cancelar gratis hasta 24 horas antes de la recogida.' : 'Yes, you can cancel free of charge up to 24 hours before pickup.',
+      question: pick(locale, {
+        en: 'Can I cancel my booking?',
+        es: '¿Puedo cancelar la reserva?',
+        ar: 'هل يمكنني إلغاء حجزي؟',
+      }),
+      answer: pick(locale, {
+        en: 'Yes, you can cancel free of charge up to 24 hours before pickup.',
+        es: 'Sí, puedes cancelar gratis hasta 24 horas antes de la recogida.',
+        ar: 'نعم، يمكنك الإلغاء مجاناً حتى ٢٤ ساعة قبل الاستلام.',
+      }),
     },
     {
-      question: es ? '¿Hay servicio disponible las 24 horas?' : 'Is the service available 24/7?',
-      answer: es ? 'Sí, operamos las 24 horas del día, los 7 días de la semana, incluyendo festivos.' : 'Yes, we operate 24 hours a day, 7 days a week, including public holidays.',
+      question: pick(locale, {
+        en: 'Is the service available 24/7?',
+        es: '¿Hay servicio disponible las 24 horas?',
+        ar: 'هل الخدمة متاحة على مدار الساعة؟',
+      }),
+      answer: pick(locale, {
+        en: 'Yes, we operate 24 hours a day, 7 days a week, including public holidays.',
+        es: 'Sí, operamos las 24 horas del día, los 7 días de la semana, incluyendo festivos.',
+        ar: 'نعم، نعمل ٢٤ ساعة في اليوم، ٧ أيام في الأسبوع، بما في ذلك العطلات الرسمية.',
+      }),
     },
   ]
 
@@ -147,7 +187,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
       <SchemaOrg data={generateTaxiServiceSchema({
         name: `${originTitle} to ${destTitle} Transfer`,
         description: `Private transfer from ${originTitle} to ${destTitle}`,
-        url: `/airport-transfers-private-taxi/${slug}/${routeSlug}/`,
+        url: getRouteUrl(route.origin, route, 'en'),
         areaServed: destTitle,
         rating: 4.8,
       })} />
@@ -183,13 +223,19 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
           </div>
 
           <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1.25rem' }}>
-            {es ? `Traslado privado de ${originTitle} a ${destTitle}` : `Private transfer from ${originTitle} to ${destTitle}`}
+            {pick(locale, {
+              en: `Private transfer from ${originTitle} to ${destTitle}`,
+              es: `Traslado privado de ${originTitle} a ${destTitle}`,
+              ar: `نقل خاص من ${originTitle} إلى ${destTitle}`,
+            })}
           </h1>
 
           <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '480px' }}>
-            {es
-              ? `Traslado puerta a puerta desde ${originTitle} hasta ${destTitle} con conductor profesional, precio fijo y seguimiento de vuelo incluido.`
-              : `Door-to-door transfer from ${originTitle} to ${destTitle} with professional driver, fixed price and flight monitoring included.`}
+            {pick(locale, {
+              en: `Door-to-door transfer from ${originTitle} to ${destTitle} with professional driver, fixed price and flight monitoring included.`,
+              es: `Traslado puerta a puerta desde ${originTitle} hasta ${destTitle} con conductor profesional, precio fijo y seguimiento de vuelo incluido.`,
+              ar: `نقل من الباب إلى الباب من ${originTitle} إلى ${destTitle} مع سائق محترف وسعر ثابت ومتابعة الرحلات.`,
+            })}
           </p>
         </div>
 
@@ -199,7 +245,11 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
             {heroImg ? (
               <Image
                 src={heroImg}
-                alt={`${es ? 'Traslado de' : 'Transfer from'} ${originTitle} ${es ? 'a' : 'to'} ${destTitle}`}
+                alt={pick(locale, {
+                  en: `Transfer from ${originTitle} to ${destTitle}`,
+                  es: `Traslado de ${originTitle} a ${destTitle}`,
+                  ar: `نقل من ${originTitle} إلى ${destTitle}`,
+                })}
                 fill
                 priority
                 style={{ objectFit: 'cover', objectPosition: 'center' }}
@@ -335,12 +385,18 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
           <div>
             <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
             <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)', color: '#242426', marginBottom: '1rem' }}>
-              {es ? `¿Por qué reservar con nosotros?` : `Why book with us?`}
+              {pick(locale, {
+                en: 'Why book with us?',
+                es: '¿Por qué reservar con nosotros?',
+                ar: 'لماذا تحجز معنا؟',
+              })}
             </h2>
             <p style={{ color: '#475569', lineHeight: 1.75, marginBottom: '2rem' }}>
-              {es
-                ? `Todos nuestros traslados incluyen precio fijo, conductor profesional y seguimiento de vuelo sin coste adicional.`
-                : `All our transfers include fixed price, professional driver and flight monitoring at no extra cost.`}
+              {pick(locale, {
+                en: 'All our transfers include fixed price, professional driver and flight monitoring at no extra cost.',
+                es: 'Todos nuestros traslados incluyen precio fijo, conductor profesional y seguimiento de vuelo sin coste adicional.',
+                ar: 'تشمل جميع رحلاتنا سعراً ثابتاً وسائقاً محترفاً ومتابعة الرحلات دون أي تكلفة إضافية.',
+              })}
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
               {whyItems.map((item, i) => (
@@ -379,7 +435,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
       {/* ─── FAQ ───────────────────────────────────────────────────────── */}
       <section style={{ background: '#ffffff', padding: '5rem 6vw' }}>
         <div style={{ maxWidth: '860px', margin: '0 auto' }}>
-          <FAQ items={faqItems} title={es ? `Preguntas frecuentes` : `Frequently asked questions`} />
+          <FAQ items={faqItems} title={pick(locale, { en: 'Frequently asked questions', es: 'Preguntas frecuentes', ar: 'الأسئلة الشائعة' })} />
         </div>
       </section>
 
@@ -387,15 +443,15 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
       <section style={{ background: '#F8FAF0', padding: '3rem 6vw' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <p style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748b', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1rem' }}>
-            {es ? 'Explorar más' : 'Explore more'}
+            {pick(locale, { en: 'Explore more', es: 'Explorar más', ar: 'استكشف المزيد' })}
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
             {route.origin?.slug?.current && (
-              <Link href={(es ? `/traslados-aeropuerto-privados-taxi/${route.origin.slug.current}/` : `/airport-transfers-private-taxi/${route.origin.slug.current}/`) as any} style={{ textDecoration: 'none' }}>
+              <Link href={getAirportUrl(route.origin, locale as Locale) as any} style={{ textDecoration: 'none' }}>
                 <div style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', transform: 'skewX(-8deg)', overflow: 'hidden', transition: 'border-color 0.15s' }}>
                   <div style={{ transform: 'skewX(8deg)', padding: '0.6rem 1.25rem' }}>
                     <div style={{ fontSize: '0.65rem', color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>
-                      {es ? 'Aeropuerto' : 'Airport'}
+                      {pick(locale, { en: 'Airport', es: 'Aeropuerto', ar: 'المطار' })}
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', color: '#242426' }}>
                       <svg width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#8BAA1D"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
@@ -406,11 +462,11 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               </Link>
             )}
             {route.destination?.slug?.current && (
-              <Link href={(es ? `/traslados-privados-taxi/${route.destination.slug.current}/` : `/private-transfers/${route.destination.slug.current}/`) as any /* city link */} style={{ textDecoration: 'none' }}>
+              <Link href={getCityUrl(route.destination, locale as Locale) as any} style={{ textDecoration: 'none' }}>
                 <div style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', transform: 'skewX(-8deg)', overflow: 'hidden', transition: 'border-color 0.15s' }}>
                   <div style={{ transform: 'skewX(8deg)', padding: '0.6rem 1.25rem' }}>
                     <div style={{ fontSize: '0.65rem', color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>
-                      {es ? 'Ciudad destino' : 'Destination'}
+                      {pick(locale, { en: 'Destination', es: 'Ciudad destino', ar: 'الوجهة' })}
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', color: '#242426' }}>
                       <svg width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#8BAA1D"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
@@ -421,11 +477,11 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               </Link>
             )}
             {route.country?.slug?.current && (
-              <Link href={(es ? `/traslados-privados-pais/${route.country.slug.current}/` : `/private-transfers-country/${route.country.slug.current}/`) as any} style={{ textDecoration: 'none' }}>
+              <Link href={getCountryUrl(route.country, locale as Locale) as any} style={{ textDecoration: 'none' }}>
                 <div style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', transform: 'skewX(-8deg)', overflow: 'hidden' }}>
                   <div style={{ transform: 'skewX(8deg)', padding: '0.6rem 1.25rem' }}>
                     <div style={{ fontSize: '0.65rem', color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>
-                      {es ? 'País' : 'Country'}
+                      {pick(locale, { en: 'Country', es: 'País', ar: 'الدولة' })}
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', color: '#242426' }}>
                       <svg width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#8BAA1D"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>

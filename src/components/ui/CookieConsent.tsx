@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { pick } from '@/lib/i18n/pick'
 
 const COOKIE_NAME = 'tt-cookie-consent'
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365
@@ -36,7 +37,6 @@ function updateGtagConsent(granted: boolean) {
 
 export function CookieConsent({ locale }: { locale: string }) {
   const [visible, setVisible] = useState(false)
-  const es = locale === 'es'
 
   useEffect(() => {
     if (readConsent() === null) setVisible(true)
@@ -59,12 +59,16 @@ export function CookieConsent({ locale }: { locale: string }) {
 
   if (!visible) return null
 
-  const policyHref = es ? '/es/cookies/' : '/cookies/'
+  const policyHref = pick(locale, {
+    en: '/cookies/',
+    es: '/es/cookies/',
+    ar: '/ar/siyasat-cookies/',
+  })
 
   return (
     <div
       role="dialog"
-      aria-label={es ? 'Aviso de cookies' : 'Cookie notice'}
+      aria-label={pick(locale, { en: 'Cookie notice', es: 'Aviso de cookies', ar: 'إشعار الكوكيز' })}
       style={{
         position: 'fixed',
         left: 0,
@@ -89,11 +93,13 @@ export function CookieConsent({ locale }: { locale: string }) {
         }}
       >
         <p style={{ flex: '1 1 320px', margin: 0, color: '#475569', fontSize: '0.9rem', lineHeight: 1.5 }}>
-          {es
-            ? 'Usamos cookies técnicas necesarias y, si lo aceptas, cookies analíticas y publicitarias para mejorar nuestros servicios. '
-            : 'We use necessary technical cookies and, with your consent, analytics and advertising cookies to improve our services. '}
+          {pick(locale, {
+            en: 'We use necessary technical cookies and, with your consent, analytics and advertising cookies to improve our services. ',
+            es: 'Usamos cookies técnicas necesarias y, si lo aceptas, cookies analíticas y publicitarias para mejorar nuestros servicios. ',
+            ar: 'نستخدم كوكيز تقنية ضرورية، وبموافقتك، كوكيز تحليلية وإعلانية لتحسين خدماتنا. ',
+          })}
           <Link href={policyHref as never} style={{ color: '#6B8313', textDecoration: 'underline' }}>
-            {es ? 'Política de cookies' : 'Cookie policy'}
+            {pick(locale, { en: 'Cookie policy', es: 'Política de cookies', ar: 'سياسة الكوكيز' })}
           </Link>
         </p>
         <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
@@ -111,7 +117,7 @@ export function CookieConsent({ locale }: { locale: string }) {
               fontWeight: 500,
             }}
           >
-            {es ? 'Rechazar' : 'Reject'}
+            {pick(locale, { en: 'Reject', es: 'Rechazar', ar: 'رفض' })}
           </button>
           <button
             type="button"
@@ -127,7 +133,7 @@ export function CookieConsent({ locale }: { locale: string }) {
               fontWeight: 600,
             }}
           >
-            {es ? 'Aceptar' : 'Accept'}
+            {pick(locale, { en: 'Accept', es: 'Aceptar', ar: 'قبول' })}
           </button>
         </div>
       </div>

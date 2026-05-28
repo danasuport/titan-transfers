@@ -9,13 +9,20 @@ import {
 } from '@/lib/sanity/queries'
 import { Link } from '@/lib/i18n/navigation'
 import { russoOne } from '@/lib/fonts'
+import { pick } from '@/lib/i18n/pick'
+import { getAirportUrl, getRouteUrl, getCityUrl, getCountryUrl, getRegionUrl, getBlogUrl, getTranslatedTitle, getLocalizedPath } from '@/lib/utils/slugHelpers'
+import type { Locale } from '@/lib/i18n/config'
 
 export const revalidate = 3600
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
-    title: locale === 'es' ? 'Mapa del sitio | Titan Transfers' : 'Sitemap | Titan Transfers',
+    title: pick(locale, {
+      en: 'Sitemap | Titan Transfers',
+      es: 'Mapa del sitio | Titan Transfers',
+      ar: 'خريطة الموقع | تايتن ترانسفرز',
+    }),
     robots: { index: true, follow: true },
   }
 }
@@ -35,7 +42,7 @@ const grid = { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(2
 
 export default async function SitemapPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const es = locale === 'es'
+  const loc = locale as Locale
 
   const [airports, routes, cities, countries, regions, blogPosts] = await Promise.all([
     sanityClient.fetch(sitemapAirportsQuery).catch(() => []),
@@ -47,22 +54,41 @@ export default async function SitemapPage({ params }: { params: Promise<{ locale
   ])
 
   // Group routes by airport
-  const routesByAirport: Record<string, { title: string; slug: string; esSlug: string }[]> = {}
+  const routesByAirport: Record<string, any[]> = {}
   for (const route of routes) {
     if (!route.origin?.slug?.current) continue
     const key = route.origin.slug.current
     if (!routesByAirport[key]) routesByAirport[key] = []
-    routesByAirport[key].push({
-      title: (es && route.translations?.es?.title) || route.title,
-      slug: route.slug.current,
-      esSlug: route.translations?.es?.slug?.current || route.slug.current,
-    })
+    routesByAirport[key].push(route)
   }
 
-  const airportPrefix = es ? '/traslados-aeropuerto-privados-taxi' : '/airport-transfers-private-taxi'
-  const privatePrefix = es ? '/traslados-privados-taxi' : '/private-transfers'
-  const countryPrefix = es ? '/traslados-privados-pais' : '/private-transfers-country'
-  const regionPrefix = es ? '/traslados-privados-region' : '/private-transfers-region'
+  const labels = {
+    title: pick(locale, { en: 'Sitemap', es: 'Mapa del sitio', ar: 'خريطة الموقع' }),
+    subtitle: pick(locale, {
+      en: 'All pages on Titan Transfers.',
+      es: 'Todas las páginas de Titan Transfers.',
+      ar: 'جميع صفحات تايتن ترانسفرز.',
+    }),
+    sectMain: pick(locale, { en: 'Main pages', es: 'Páginas principales', ar: 'الصفحات الرئيسية' }),
+    sectAirports: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات' }),
+    sectRoutes: pick(locale, { en: 'Routes from airports', es: 'Rutas desde aeropuertos', ar: 'مسارات من المطارات' }),
+    sectCities: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن' }),
+    sectCountries: pick(locale, { en: 'Countries', es: 'Países', ar: 'الدول' }),
+    sectRegions: pick(locale, { en: 'Regions', es: 'Regiones', ar: 'المناطق' }),
+    sectBlog: pick(locale, { en: 'Blog', es: 'Blog', ar: 'المدونة' }),
+    home: pick(locale, { en: 'Home', es: 'Inicio', ar: 'الرئيسية' }),
+    citiesNav: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن' }),
+    countriesNav: pick(locale, { en: 'Countries', es: 'Países', ar: 'الدول' }),
+    regionsNav: pick(locale, { en: 'Regions', es: 'Regiones', ar: 'المناطق' }),
+    servicesNav: pick(locale, { en: 'Services', es: 'Servicios', ar: 'الخدمات' }),
+    contactNav: pick(locale, { en: 'Contact', es: 'Contacto', ar: 'تواصل معنا' }),
+    aboutNav: pick(locale, { en: 'About', es: 'Sobre nosotros', ar: 'من نحن' }),
+    faqNav: pick(locale, { en: 'FAQ', es: 'Preguntas frecuentes', ar: 'الأسئلة الشائعة' }),
+    bookNav: pick(locale, { en: 'Book', es: 'Reservar', ar: 'احجز' }),
+    blogNav: pick(locale, { en: 'Blog', es: 'Blog', ar: 'المدونة' }),
+  }
+
+  const blogSeg = getLocalizedPath('blog', loc)
 
   return (
     <>
@@ -71,60 +97,59 @@ export default async function SitemapPage({ params }: { params: Promise<{ locale
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '4rem 6vw' }}>
 
           <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 2.75rem)', color: '#242426', marginBottom: '0.5rem' }}>
-            {es ? 'Mapa del sitio' : 'Sitemap'}
+            {labels.title}
           </h1>
           <p style={{ color: '#64748b', marginBottom: '3rem', fontSize: '0.95rem' }}>
-            {es ? 'Todas las páginas de Titan Transfers.' : 'All pages on Titan Transfers.'}
+            {labels.subtitle}
           </p>
 
-          <Section title={es ? 'Páginas principales' : 'Main pages'}>
+          <Section title={labels.sectMain}>
             <div style={grid}>
               {[
-                { href: '/', label: es ? 'Inicio' : 'Home' },
-                { href: '/airports/', label: es ? 'Aeropuertos' : 'Airports' },
-                { href: '/cities/', label: es ? 'Ciudades' : 'Cities' },
-                { href: '/countries/', label: es ? 'Países' : 'Countries' },
-                { href: '/regions/', label: es ? 'Regiones' : 'Regions' },
-                { href: '/services/', label: es ? 'Servicios' : 'Services' },
-                { href: '/blog/', label: 'Blog' },
-                { href: '/contact/', label: es ? 'Contacto' : 'Contact' },
-                { href: '/about/', label: es ? 'Sobre nosotros' : 'About' },
-                { href: '/faq/', label: es ? 'Preguntas frecuentes' : 'FAQ' },
-                { href: '/booking/', label: es ? 'Reservar' : 'Book' },
+                { href: '/', label: labels.home },
+                { href: '/airports/', label: labels.sectAirports },
+                { href: '/cities/', label: labels.citiesNav },
+                { href: '/countries/', label: labels.countriesNav },
+                { href: '/regions/', label: labels.regionsNav },
+                { href: '/services/', label: labels.servicesNav },
+                { href: '/blog/', label: labels.blogNav },
+                { href: '/contact/', label: labels.contactNav },
+                { href: '/about/', label: labels.aboutNav },
+                { href: '/faq/', label: labels.faqNav },
+                { href: '/booking/', label: labels.bookNav },
               ].map(item => (
                 <Link key={item.href} href={item.href as any} className="sm-link">→ {item.label}</Link>
               ))}
             </div>
           </Section>
 
-          <Section title={es ? 'Aeropuertos' : 'Airports'}>
+          <Section title={labels.sectAirports}>
             <div style={grid}>
-              {airports.map((a: any) => {
-                const slug = es ? (a.translations?.es?.slug?.current || a.slug.current) : a.slug.current
-                const title = (es && a.translations?.es?.title) || a.title
-                return (
-                  <Link key={a._id} href={`${airportPrefix}/${slug}/` as any} className="sm-link">→ {title}</Link>
-                )
-              })}
+              {airports.map((a: any) => (
+                <Link key={a._id} href={getAirportUrl(a, loc) as any} className="sm-link">→ {getTranslatedTitle(a, loc)}</Link>
+              ))}
             </div>
           </Section>
 
-          <Section title={es ? 'Rutas desde aeropuertos' : 'Routes from airports'}>
+          <Section title={labels.sectRoutes}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
               {Object.entries(routesByAirport).sort(([a], [b]) => a.localeCompare(b)).map(([airportSlug, airportRoutes]) => {
                 const airport = airports.find((a: any) => a.slug.current === airportSlug)
-                const airportTitle = (es && airport?.translations?.es?.title) || airport?.title || airportSlug
-                const airportUrl = `${airportPrefix}/${es ? (airport?.translations?.es?.slug?.current || airportSlug) : airportSlug}/`
+                const airportTitle = airport ? getTranslatedTitle(airport, loc) : airportSlug
                 return (
                   <div key={airportSlug}>
-                    <Link href={airportUrl as any} className="sm-link" style={{ fontWeight: 700, color: '#6B8313', fontSize: '0.9rem' }}>
-                      {airportTitle}
-                    </Link>
+                    {airport && (
+                      <Link href={getAirportUrl(airport, loc) as any} className="sm-link" style={{ fontWeight: 700, color: '#6B8313', fontSize: '0.9rem' }}>
+                        {airportTitle}
+                      </Link>
+                    )}
                     <div style={{ ...grid, marginTop: '0.5rem' }}>
                       {airportRoutes.map(r => (
-                        <Link key={r.slug} href={`${airportPrefix}/${airportSlug}/${es ? r.esSlug : r.slug}/` as any} className="sm-link">
-                          → {r.title}
-                        </Link>
+                        airport && (
+                          <Link key={r.slug.current} href={getRouteUrl(airport, r, loc) as any} className="sm-link">
+                            → {getTranslatedTitle(r, loc)}
+                          </Link>
+                        )
                       ))}
                     </div>
                   </div>
@@ -133,41 +158,35 @@ export default async function SitemapPage({ params }: { params: Promise<{ locale
             </div>
           </Section>
 
-          <Section title={es ? 'Ciudades' : 'Cities'}>
+          <Section title={labels.sectCities}>
             <div style={grid}>
-              {cities.map((c: any) => {
-                const slug = es ? (c.translations?.es?.slug?.current || c.slug.current) : c.slug.current
-                const title = (es && c.translations?.es?.title) || c.title
-                return <Link key={c._id} href={`${privatePrefix}/${slug}/` as any} className="sm-link">→ {title}</Link>
-              })}
+              {cities.map((c: any) => (
+                <Link key={c._id} href={getCityUrl(c, loc) as any} className="sm-link">→ {getTranslatedTitle(c, loc)}</Link>
+              ))}
             </div>
           </Section>
 
-          <Section title={es ? 'Países' : 'Countries'}>
+          <Section title={labels.sectCountries}>
             <div style={grid}>
-              {countries.map((c: any) => {
-                const slug = es ? (c.translations?.es?.slug?.current || c.slug.current) : c.slug.current
-                const title = (es && c.translations?.es?.title) || c.title
-                return <Link key={c._id} href={`${countryPrefix}/${slug}/` as any} className="sm-link">→ {title}</Link>
-              })}
+              {countries.map((c: any) => (
+                <Link key={c._id} href={getCountryUrl(c, loc) as any} className="sm-link">→ {getTranslatedTitle(c, loc)}</Link>
+              ))}
             </div>
           </Section>
 
-          <Section title={es ? 'Regiones' : 'Regions'}>
+          <Section title={labels.sectRegions}>
             <div style={grid}>
-              {regions.map((r: any) => {
-                const slug = es ? (r.translations?.es?.slug?.current || r.slug.current) : r.slug.current
-                const title = (es && r.translations?.es?.title) || r.title
-                return <Link key={r._id} href={`${regionPrefix}/${slug}/` as any} className="sm-link">→ {title}</Link>
-              })}
+              {regions.map((r: any) => (
+                <Link key={r._id} href={getRegionUrl(r, loc) as any} className="sm-link">→ {getTranslatedTitle(r, loc)}</Link>
+              ))}
             </div>
           </Section>
 
           {blogPosts.length > 0 && (
-            <Section title="Blog">
+            <Section title={labels.sectBlog}>
               <div style={grid}>
                 {blogPosts.map((p: any) => (
-                  <Link key={p._id} href={`/blog/${p.slug.current}/` as any} className="sm-link">→ {p.title}</Link>
+                  <Link key={p._id} href={`/${blogSeg}/${p.slug.current}/` as any} className="sm-link">→ {p.title}</Link>
                 ))}
               </div>
             </Section>

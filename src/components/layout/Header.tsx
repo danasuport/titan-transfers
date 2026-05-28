@@ -4,6 +4,9 @@ import { useState, useRef, useCallback } from 'react'
 import React from 'react'
 import Image from 'next/image'
 import { useTranslations, useLocale } from 'next-intl'
+import { getLocalizedPath } from '@/lib/utils/slugHelpers'
+import { pick } from '@/lib/i18n/pick'
+import type { Locale } from '@/lib/i18n/config'
 import { Link } from '@/lib/i18n/navigation'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import { SkewButton } from '@/components/ui/SkewButton'
@@ -118,7 +121,7 @@ export function Header() {
             {/* Right cluster — auto-pushed to the end when search isn't inline */}
             <div className="ml-auto flex items-center gap-3">
               <LanguageSwitcher />
-              <SkewButton href={`/${locale}/contact/`} variant="primary" style={{ padding: '0.5rem 1.25rem', fontSize: '0.875rem' }}>{t('contact')}</SkewButton>
+              <SkewButton href={`/${locale}/${getLocalizedPath('contact', locale as Locale)}/`} variant="primary" style={{ padding: '0.5rem 1.25rem', fontSize: '0.875rem' }}>{t('contact')}</SkewButton>
               <Link href="/login/"
                 style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#ffffff', textDecoration: 'none', background: '#242426', border: '2px solid #242426', transform: 'skewX(-12deg)', padding: '0.4rem 0.9rem', transition: 'background 0.2s, border-color 0.2s', fontSize: '0.875rem', fontWeight: 700 }}
                 onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => { e.currentTarget.style.background = '#8BAA1D'; e.currentTarget.style.borderColor = '#8BAA1D' }}
@@ -127,7 +130,7 @@ export function Header() {
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'skewX(12deg)', flexShrink: 0 }}>
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
                 </svg>
-                <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{locale === 'es' ? 'Acceder' : 'Login'}</span>
+                <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{pick(locale, { en: 'Login', es: 'Acceder', ar: 'دخول' })}</span>
               </Link>
             </div>
           </div>
@@ -160,7 +163,7 @@ export function Header() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <LanguageSwitcher />
             <Link href="/login/"
-              aria-label={locale === 'es' ? 'Acceder' : 'Login'}
+              aria-label={pick(locale, { en: 'Login', es: 'Acceder', ar: 'دخول' })}
               style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', textDecoration: 'none', width: '34px', height: '34px', background: '#242426', border: '2px solid #242426', transform: 'skewX(-12deg)', flexShrink: 0 }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'skewX(12deg)' }}>
@@ -258,13 +261,13 @@ export function Header() {
 
           {/* Footer links */}
           <div style={{ flexShrink: 0, borderTop: '1px solid #e5e7eb', padding: '1rem 6vw', display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <Link href={`/${locale}/contact/`} onClick={() => setMobileMenuOpen(false)}
+            <Link href={`/${locale}/${getLocalizedPath('contact', locale as Locale)}/`} onClick={() => setMobileMenuOpen(false)}
               style={{ flex: 1, background: '#8BAA1D', color: '#ffffff', padding: '0.7rem 1rem', fontWeight: 700, fontSize: '0.875rem', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
               {t('contact')}
             </Link>
             <Link href="/login/" onClick={() => setMobileMenuOpen(false)}
               style={{ flex: 1, background: '#242426', color: '#ffffff', padding: '0.7rem 1rem', fontWeight: 700, fontSize: '0.875rem', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
-              {locale === 'es' ? 'Acceder' : 'Login'}
+              {pick(locale, { en: 'Login', es: 'Acceder', ar: 'دخول' })}
             </Link>
           </div>
         </div>

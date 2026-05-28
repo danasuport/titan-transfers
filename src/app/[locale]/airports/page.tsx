@@ -7,6 +7,7 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { Link } from '@/lib/i18n/navigation'
 import { AirportsClient } from '@/components/listings/AirportsClient'
 import type { Locale } from '@/lib/i18n/config'
+import { pick } from '@/lib/i18n/pick'
 import { russoOne } from '@/lib/fonts'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
@@ -17,17 +18,35 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
-    title: locale === 'es' ? 'Aeropuertos | Titan Transfers' : 'Airports | Titan Transfers',
-    description: locale === 'es'
-      ? 'Traslados privados desde 124 aeropuertos en todo el mundo. Precios fijos, conductor profesional, servicio 24/7.'
-      : 'Private transfers from 124 airports worldwide. Fixed prices, professional driver, 24/7 service.',
+    title: pick(locale, {
+      en: 'Airports | Titan Transfers',
+      es: 'Aeropuertos | Titan Transfers',
+      ar: 'المطارات | تايتن ترانسفرز',
+    }),
+    description: pick(locale, {
+      en: 'Private transfers from 124 airports worldwide. Fixed prices, professional driver, 24/7 service.',
+      es: 'Traslados privados desde 124 aeropuertos en todo el mundo. Precios fijos, conductor profesional, servicio 24/7.',
+      ar: 'نقل خاص من ١٢٤ مطاراً حول العالم. أسعار ثابتة، سائق محترف، خدمة على مدار الساعة.',
+    }),
   }
 }
 
 export default async function AirportsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const airports = await sanityClient.fetch(allAirportsQuery)
-  const es = locale === 'es'
+
+  const labels = {
+    breadcrumb: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات' }),
+    h1: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات' }),
+    intro: pick(locale, {
+      en: 'Private transfers from major airports worldwide. Professional driver, fixed price and flight monitoring included.',
+      es: 'Traslados privados desde los principales aeropuertos del mundo. Conductor profesional, precio fijo y seguimiento de vuelo incluido.',
+      ar: 'نقل خاص من المطارات الكبرى حول العالم. سائق محترف، سعر ثابت، ومتابعة الرحلة شاملة.',
+    }),
+    statAirports: pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار' }),
+    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة' }),
+    statSupport: pick(locale, { en: 'support', es: 'soporte', ar: 'دعم' }),
+  }
 
   const grouped: Record<string, any[]> = {}
   for (const a of airports) {
@@ -50,25 +69,23 @@ export default async function AirportsPage({ params }: { params: Promise<{ local
     <>
       {/* ─── HERO ─────────────────────────────────────────────────────── */}
       <section style={{ background: '#F8FAF0', padding: '5rem 6vw 4rem' }}>
-        <Breadcrumbs items={[{ label: es ? 'Aeropuertos' : 'Airports' }]} variant="light" />
+        <Breadcrumbs items={[{ label: labels.breadcrumb }]} variant="light" />
 
         <div style={{ marginTop: '1.5rem' }}>
           <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
           <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1rem' }}>
-            {es ? 'Aeropuertos' : 'Airports'}
+            {labels.h1}
           </h1>
           <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '620px' }}>
-            {es
-              ? 'Traslados privados desde los principales aeropuertos del mundo. Conductor profesional, precio fijo y seguimiento de vuelo incluido.'
-              : 'Private transfers from major airports worldwide. Professional driver, fixed price and flight monitoring included.'}
+            {labels.intro}
           </p>
 
           {/* Stats */}
           <div className="listing-stats-row" style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
             {[
-              { n: '124', label: es ? 'aeropuertos' : 'airports' },
-              { n: '30', label: es ? 'países' : 'countries' },
-              { n: '24/7', label: es ? 'soporte' : 'support' },
+              { n: '124', label: labels.statAirports },
+              { n: '30', label: labels.statCountries },
+              { n: '24/7', label: labels.statSupport },
             ].map(s => (
               <div key={s.label} style={{ flex: 1, background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1.5rem 1.75rem', transform: 'skewX(-6deg)', textAlign: 'center' }}>
                 <div style={{ transform: 'skewX(6deg)' }}>

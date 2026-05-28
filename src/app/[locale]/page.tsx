@@ -10,6 +10,7 @@ import { CtaSection } from '@/components/sections/CtaSection'
 import { BrowseCategories } from '@/components/sections/BrowseCategories'
 import { SchemaOrg } from '@/components/seo/SchemaOrg'
 import { generateLocalBusinessSchema } from '@/lib/seo/schemaOrg'
+import { pick } from '@/lib/i18n/pick'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
 // stay cached so navigation feels instant; new content shows up within 1h
@@ -37,10 +38,26 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <div className="site-container">
           <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
             {[
-              { icon: '★', label: '4.8/5 Rating', sub: 'Based on 2,500+ reviews' },
-              { icon: '◈', label: 'Fixed price', sub: 'No hidden charges' },
-              { icon: '◷', label: '24/7 Support', sub: 'Always here to help' },
-              { icon: '✓', label: 'Free cancellation', sub: 'Up to 24h before' },
+              {
+                icon: '★',
+                label: pick(locale, { en: '4.8/5 Rating', es: 'Valoración 4.8/5', ar: 'تقييم ٤٫٨/٥' }),
+                sub: pick(locale, { en: 'Based on 2,500+ reviews', es: 'Basado en +2.500 reseñas', ar: 'بناءً على أكثر من ٢٬٥٠٠ تقييم' }),
+              },
+              {
+                icon: '◈',
+                label: pick(locale, { en: 'Fixed price', es: 'Precio fijo', ar: 'سعر ثابت' }),
+                sub: pick(locale, { en: 'No hidden charges', es: 'Sin cargos ocultos', ar: 'بدون رسوم خفية' }),
+              },
+              {
+                icon: '◷',
+                label: pick(locale, { en: '24/7 Support', es: 'Soporte 24/7', ar: 'دعم على مدار الساعة' }),
+                sub: pick(locale, { en: 'Always here to help', es: 'Siempre disponibles', ar: 'دائماً هنا للمساعدة' }),
+              },
+              {
+                icon: '✓',
+                label: pick(locale, { en: 'Free cancellation', es: 'Cancelación gratuita', ar: 'إلغاء مجاني' }),
+                sub: pick(locale, { en: 'Up to 24h before', es: 'Hasta 24h antes', ar: 'حتى ٢٤ ساعة قبل الرحلة' }),
+              },
             ].map(({ icon, label, sub }) => (
               <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <span style={{ color: '#6B8313', fontSize: '1rem', lineHeight: 1 }}>{icon}</span>

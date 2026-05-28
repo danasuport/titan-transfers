@@ -24,7 +24,8 @@ export function truncateText(text: string, maxLength: number): string {
 }
 
 export function formatDate(date: string, locale = 'en'): string {
-  return new Date(date).toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-GB', {
+  const tag = locale === 'es' ? 'es-ES' : locale === 'ar' ? 'ar-AE' : 'en-GB'
+  return new Date(date).toLocaleDateString(tag, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',

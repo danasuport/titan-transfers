@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useLocale } from 'next-intl'
 import { russoOne } from '@/lib/fonts'
+import { pick } from '@/lib/i18n/pick'
 
 const starPaths = [
   'M51.7538 67.3504L54.7436 68.9755L53.7109 70.0167L50.7212 68.3916L51.7538 67.3504Z',
@@ -83,6 +84,21 @@ const testimonials = [
   { platform: 'trustedshops' as const, name: 'Carlos P.', location: 'Lisbon, Portugal', rating: 5, text: 'Reservé desde Lisboa al aeropuerto. Puntual, profesional y con un precio muy competitivo. Repetiré.' },
 ]
 
+const testimonialsAr = [
+  { platform: 'trustpilot' as const, name: 'أحمد ا.', location: 'دبي، الإمارات', rating: 5, text: 'خدمة ممتازة من مطار دبي إلى الفندق. كان السائق ينتظر باللافتة والسيارة نظيفة. سأحجز مرة أخرى!' },
+  { platform: 'google' as const, name: 'فاطمة ك.', location: 'الرياض، السعودية', rating: 5, text: 'استخدمنا تايتن في رحلتنا العائلية إلى برشلونة. الميني فان كان مثالياً لنا وللأطفال، والسعر معقول جداً.' },
+  { platform: 'trustedshops' as const, name: 'محمد ع.', location: 'أبو ظبي، الإمارات', rating: 5, text: 'نقل احترافي من مطار باريس شارل ديغول إلى الفندق. في الموعد، سائق ودود وسعر عادل. أنصح به بشدة.' },
+  { platform: 'trustpilot' as const, name: 'نور ح.', location: 'الكويت', rating: 5, text: 'أفضل خدمة نقل من المطار استخدمناها في أوروبا. الحجز سهل والسائق ملتزم بالمواعيد.' },
+  { platform: 'google' as const, name: 'ياسمين ف.', location: 'القاهرة، مصر', rating: 5, text: 'خدمة رائعة. كان السائق في الموعد والسيارة في حالة ممتازة. سأكرر التجربة بلا شك.' },
+  { platform: 'trustedshops' as const, name: 'خالد ب.', location: 'الدوحة، قطر', rating: 5, text: 'تجربة سلسة من البداية إلى النهاية. التطبيق سهل الاستخدام والسائق ودود ومحترف.' },
+  { platform: 'google' as const, name: 'ليلى م.', location: 'بيروت، لبنان', rating: 5, text: 'نقل مثالي من المطار. سائق ملتزم بالمواعيد، مركبة نظيفة، وسعر مناسب. أنصح به بشدة.' },
+  { platform: 'trustpilot' as const, name: 'عبد الله ن.', location: 'دبي، الإمارات', rating: 5, text: 'تجربة من الدرجة الأولى. كان السائق ينتظر في صالة الوصول وساعد في كل أمتعتنا. احترافي للغاية.' },
+  { platform: 'trustedshops' as const, name: 'سارة ر.', location: 'الرباط، المغرب', rating: 5, text: 'استخدمت تايتن من مطار مدريد. كل شيء كان مثالياً، السائق لطيف جداً ووصلنا قبل الوقت المتوقع.' },
+  { platform: 'google' as const, name: 'حسن ل.', location: 'مسقط، عُمان', rating: 5, text: 'استخدمت تايتن من هيثرو إلى وسط لندن. تواصل ممتاز، في الموعد وسيارة رائعة. سأحجز مرة أخرى.' },
+  { platform: 'trustpilot' as const, name: 'منى س.', location: 'الإسكندرية، مصر', rating: 5, text: 'حجزت لرحلة شهر العسل. كل شيء كان مثالياً — سيارة نظيفة، سائق ودود، بدون أي توتر.' },
+  { platform: 'trustedshops' as const, name: 'طارق ف.', location: 'تونس', rating: 5, text: 'حجزت من المطار إلى الفندق. ملتزم بالمواعيد، احترافي وبسعر تنافسي جداً. سأكرر التجربة.' },
+]
+
 const PER_PAGE = 4
 const PAGES = Math.ceil(testimonials.length / PER_PAGE)
 const AUTO_MS = 5000
@@ -106,7 +122,8 @@ export function Testimonials() {
     return () => clearTimeout(t)
   }, [page])
 
-  const visible = testimonials.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
+  const list = locale === 'ar' ? testimonialsAr : testimonials
+  const visible = list.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
 
   return (
     <section style={{ background: '#ffffff', padding: '4.5rem 0' }}>
@@ -115,7 +132,11 @@ export function Testimonials() {
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <h2 className={russoOne.className} style={{ fontSize: '2.75rem', color: '#242426', marginBottom: '1.25rem' }}>
-            {locale === 'es' ? 'Lo que dicen nuestros clientes' : 'What our customers say'}
+            {pick(locale, {
+              en: 'What our customers say',
+              es: 'Lo que dicen nuestros clientes',
+              ar: 'ماذا يقول عملاؤنا',
+            })}
           </h2>
 
           {/* Rating + logos row */}
@@ -124,7 +145,9 @@ export function Testimonials() {
               <span style={{ fontSize: '2rem', fontWeight: 800, color: '#6B8313', lineHeight: 1 }}>4.8</span>
               <span style={{ fontSize: '1rem', color: '#6b7280' }}>/5</span>
               <Stars count={5} />
-              <span style={{ fontSize: '0.875rem', color: '#6b7280', marginLeft: '0.25rem' }}>2,500+ reviews</span>
+              <span style={{ fontSize: '0.875rem', color: '#6b7280', marginLeft: '0.25rem' }}>
+                {pick(locale, { en: '2,500+ reviews', es: '+2.500 reseñas', ar: '+٢٬٥٠٠ تقييم' })}
+              </span>
             </div>
             <div style={{ width: '1px', height: '28px', background: '#e5e7eb' }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>

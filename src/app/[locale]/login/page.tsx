@@ -1,12 +1,21 @@
 import { getTranslations } from 'next-intl/server'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { CustomerPortal } from '@/components/customer/CustomerPortal'
+import { pick } from '@/lib/i18n/pick'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
-    title: locale === 'es' ? 'Area de Cliente | Titan Transfers' : 'Customer Area | Titan Transfers',
-    description: 'Access your bookings and manage your transfers.',
+    title: pick(locale, {
+      en: 'Customer Area | Titan Transfers',
+      es: 'Area de Cliente | Titan Transfers',
+      ar: 'منطقة العميل | تايتن ترانسفرز',
+    }),
+    description: pick(locale, {
+      en: 'Access your bookings and manage your transfers.',
+      es: 'Accede a tus reservas y gestiona tus traslados.',
+      ar: 'ادخل إلى حجوزاتك وأدر رحلاتك.',
+    }),
     robots: { index: false, follow: false },
   }
 }

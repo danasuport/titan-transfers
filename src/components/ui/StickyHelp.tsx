@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useLocale } from 'next-intl'
+import { pick } from '@/lib/i18n/pick'
 
 const WHATSAPP = 'https://wa.me/16465030394'
 const PHONE = 'tel:+34930477712'
@@ -12,7 +13,7 @@ export function StickyHelp() {
   const [open, setOpen] = useState(false)
   const [hovered, setHovered] = useState<string | null>(null)
 
-  const label = locale === 'es' ? 'Ayuda' : 'Help'
+  const label = pick(locale, { en: 'Help', es: 'Ayuda', ar: 'مساعدة' })
 
   const options = [
     {
@@ -29,7 +30,7 @@ export function StickyHelp() {
     },
     {
       key: 'phone',
-      label: locale === 'es' ? 'Teléfono' : 'Phone',
+      label: pick(locale, { en: 'Phone', es: 'Teléfono', ar: 'الهاتف' }),
       href: PHONE,
       bg: '#242426',
       hoverBg: '#8BAA1D',

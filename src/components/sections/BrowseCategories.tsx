@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Link } from '@/lib/i18n/navigation'
 import { useTranslations, useLocale } from 'next-intl'
 import { russoOne } from '@/lib/fonts'
+import { pick } from '@/lib/i18n/pick'
 
 const categories = [
   { href: '/airports/',  icon: '/icon-browse-airports.svg',  count: '120+', labelKey: 'airports'  as const },
@@ -25,12 +26,18 @@ export function BrowseCategories() {
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
           <h2 className={russoOne.className} style={{ fontSize: '3rem', color: '#242426', marginBottom: '0.75rem' }}>
-            {locale === 'es' ? 'Explora por categoría' : 'Browse by category'}
+            {pick(locale, {
+              en: 'Browse by category',
+              es: 'Explora por categoría',
+              ar: 'تصفّح حسب الفئة',
+            })}
           </h2>
           <p style={{ fontSize: '1rem', color: '#475569', maxWidth: '560px', margin: '0 auto' }}>
-            {locale === 'es'
-              ? 'Encuentra tu traslado perfecto explorando aeropuertos, ciudades, países y servicios.'
-              : 'Find your perfect transfer by browsing airports, cities, countries and services.'}
+            {pick(locale, {
+              en: 'Find your perfect transfer by browsing airports, cities, countries and services.',
+              es: 'Encuentra tu traslado perfecto explorando aeropuertos, ciudades, países y servicios.',
+              ar: 'اعثر على رحلتك المثالية بتصفّح المطارات والمدن والدول والخدمات.',
+            })}
           </p>
         </div>
 

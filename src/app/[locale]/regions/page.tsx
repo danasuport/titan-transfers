@@ -8,6 +8,7 @@ import { RegionCard } from '@/components/ui/RegionCard'
 import { SchemaOrg } from '@/components/seo/SchemaOrg'
 import { russoOne } from '@/lib/fonts'
 import type { Locale } from '@/lib/i18n/config'
+import { pick } from '@/lib/i18n/pick'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
 // stay cached so navigation feels instant; new content shows up within 1h
@@ -16,14 +17,17 @@ export const revalidate = 3600
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const es = locale === 'es'
   return {
-    title: es
-      ? 'Traslados privados por región | Europa, Asia, América | Titan Transfers'
-      : 'Private Transfers by Region | Europe, Asia, Americas | Titan Transfers',
-    description: es
-      ? 'Traslados privados con precio fijo en todas las regiones del mundo. Conductor profesional, servicio puerta a puerta y cancelación gratuita.'
-      : 'Fixed-price private transfers in every region worldwide. Professional driver, door-to-door service and free cancellation up to 24h before.',
+    title: pick(locale, {
+      en: 'Private Transfers by Region | Europe, Asia, Americas | Titan Transfers',
+      es: 'Traslados privados por región | Europa, Asia, América | Titan Transfers',
+      ar: 'نقل خاص حسب المنطقة | أوروبا وآسيا والأمريكتين | تايتن ترانسفرز',
+    }),
+    description: pick(locale, {
+      en: 'Fixed-price private transfers in every region worldwide. Professional driver, door-to-door service and free cancellation up to 24h before.',
+      es: 'Traslados privados con precio fijo en todas las regiones del mundo. Conductor profesional, servicio puerta a puerta y cancelación gratuita.',
+      ar: 'نقل خاص بسعر ثابت في جميع المناطق حول العالم. سائق محترف، خدمة من الباب إلى الباب، وإلغاء مجاني حتى ٢٤ ساعة قبل الرحلة.',
+    }),
   }
 }
 
@@ -31,7 +35,6 @@ export default async function RegionsPage({ params }: { params: Promise<{ locale
   const { locale } = await params
   const regions = await sanityClient.fetch(allRegionsQuery)
   const t = await getTranslations({ locale, namespace: 'nav' })
-  const es = locale === 'es'
 
   // Group by country
   const grouped = regions.reduce((acc: Record<string, { slug: string; regions: any[] }>, region: any) => {
@@ -45,10 +48,28 @@ export default async function RegionsPage({ params }: { params: Promise<{ locale
   const totalRegions = regions.length
   const totalCountries = Object.keys(grouped).length
 
+  const labels = {
+    h1: pick(locale, { en: 'Regions', es: 'Regiones', ar: 'المناطق' }),
+    statRegions: pick(locale, { en: 'regions', es: 'regiones', ar: 'منطقة' }),
+    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة' }),
+    statRating: pick(locale, { en: 'rating', es: 'valoración', ar: 'تقييم' }),
+    regionsWord: pick(locale, { en: 'regions', es: 'regiones', ar: 'منطقة' }),
+    listName: pick(locale, {
+      en: 'Private transfers by region',
+      es: 'Traslados privados por región',
+      ar: 'نقل خاص حسب المنطقة',
+    }),
+    intro: pick(locale, {
+      en: `Covering ${totalRegions} regions across ${totalCountries} countries with fixed-price private transfers. Professional driver, door-to-door service and free cancellation up to 24h before.`,
+      es: `Cubre ${totalRegions} regiones en ${totalCountries} países con traslados privados a precio fijo. Conductor profesional, servicio puerta a puerta y cancelación gratuita hasta 24h antes.`,
+      ar: `يغطي ${totalRegions} منطقة في ${totalCountries} دولة مع نقل خاص بسعر ثابت. سائق محترف، خدمة من الباب إلى الباب، وإلغاء مجاني حتى ٢٤ ساعة قبل الرحلة.`,
+    }),
+  }
+
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: es ? 'Traslados privados por región' : 'Private transfers by region',
+    name: labels.listName,
     numberOfItems: totalRegions,
     itemListElement: regions.slice(0, 20).map((r: any, i: number) => ({
       '@type': 'ListItem',
@@ -69,20 +90,18 @@ export default async function RegionsPage({ params }: { params: Promise<{ locale
         <div style={{ marginTop: '1.5rem' }}>
           <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
           <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1rem' }}>
-            {es ? 'Regiones' : 'Regions'}
+            {labels.h1}
           </h1>
           <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '620px' }}>
-            {es
-              ? `Cubre ${totalRegions} regiones en ${totalCountries} países con traslados privados a precio fijo. Conductor profesional, servicio puerta a puerta y cancelación gratuita hasta 24h antes.`
-              : `Covering ${totalRegions} regions across ${totalCountries} countries with fixed-price private transfers. Professional driver, door-to-door service and free cancellation up to 24h before.`}
+            {labels.intro}
           </p>
 
           {/* Stats */}
           <div className="listing-stats-row" style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
             {[
-              { value: `${totalRegions}+`, label: es ? 'regiones' : 'regions' },
-              { value: `${totalCountries}+`, label: es ? 'países' : 'countries' },
-              { value: '4.8★', label: es ? 'valoración' : 'rating' },
+              { value: `${totalRegions}+`, label: labels.statRegions },
+              { value: `${totalCountries}+`, label: labels.statCountries },
+              { value: '4.8★', label: labels.statRating },
             ].map((s) => (
               <div key={s.label} style={{ flex: 1, background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1.5rem 1.75rem', transform: 'skewX(-6deg)', textAlign: 'center' }}>
                 <div style={{ transform: 'skewX(6deg)' }}>
@@ -104,7 +123,7 @@ export default async function RegionsPage({ params }: { params: Promise<{ locale
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                   {countrySlug ? (
-                    <Link href={(locale === 'es' ? `/traslados-privados-pais/${countrySlug}/` : `/private-transfers-country/${countrySlug}/`) as any} style={{ textDecoration: 'none' }}>
+                    <Link href={{ pathname: '/country/[slug]/', params: { slug: countrySlug } }} style={{ textDecoration: 'none' }}>
                       <span className={russoOne.className} style={{ fontSize: '1.1rem', color: '#6B8313', cursor: 'pointer' }}>
                         {country}
                       </span>
@@ -113,7 +132,7 @@ export default async function RegionsPage({ params }: { params: Promise<{ locale
                     <span className={russoOne.className} style={{ fontSize: '1.1rem', color: '#6B8313' }}>{country}</span>
                   )}
                   <span style={{ fontSize: '0.75rem', color: '#64748b' }}>
-                    {countryRegions.length} {es ? 'regiones' : 'regions'}
+                    {countryRegions.length} {labels.regionsWord}
                   </span>
                 </div>
                 <div style={{ flex: 1, height: '1px', background: '#e5e7eb' }} />

@@ -2,7 +2,8 @@ import type { ReactNode } from 'react'
 import type { Metadata } from 'next'
 import Script from 'next/script'
 import { getLocale } from 'next-intl/server'
-import { russoOne, archivo } from '@/lib/fonts'
+import { russoOne, archivo, cairo } from '@/lib/fonts'
+import { isRtlLocale } from '@/lib/i18n/config'
 import { CookieConsent } from '@/components/ui/CookieConsent'
 import { GtagLoader } from '@/components/analytics/GtagLoader'
 import '@/app/globals.css'
@@ -22,8 +23,13 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const locale = await getLocale()
+  const dir = isRtlLocale(locale) ? 'rtl' : 'ltr'
   return (
-    <html lang={locale} className={`${russoOne.variable} ${archivo.variable}`}>
+    <html
+      lang={locale}
+      dir={dir}
+      className={`${russoOne.variable} ${archivo.variable} ${cairo.variable}`}
+    >
       <head>
         {/* Warm up the connection to the WP booking origin so the iframe on
             /booking/ starts loading the moment the page navigates, instead of
@@ -50,7 +56,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             then. AEPD requires that no network request to GTM/GA fires before
             consent — even loading the script is considered tracking. */}
       </head>
-      <body className={`${archivo.className} min-h-screen bg-white antialiased`}>
+      <body className={`${dir === 'rtl' ? cairo.className : archivo.className} min-h-screen bg-white antialiased`}>
         {children}
         <CookieConsent locale={locale} />
         <GtagLoader ga4Id={GA4_ID} googleAdsId={GAds_ID} />

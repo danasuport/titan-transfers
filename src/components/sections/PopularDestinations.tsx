@@ -2,6 +2,9 @@ import { getTranslations } from 'next-intl/server'
 import { sanityClient } from '@/lib/sanity/client'
 import { urlFor } from '@/lib/sanity/image'
 import { PopularDestinationsCarousel } from './PopularDestinationsCarousel'
+import { getLocalizedPath } from '@/lib/utils/slugHelpers'
+import { pick } from '@/lib/i18n/pick'
+import type { Locale } from '@/lib/i18n/config'
 
 const FEATURED_SLUGS = [
   'spain', 'united-kingdom', 'france', 'italy', 'united-arab-emirates',
@@ -29,6 +32,7 @@ const STATIC_FALLBACK = [
 
 export async function PopularDestinations({ locale = 'en' }: { locale?: string }) {
   const t = await getTranslations({ locale, namespace: 'home' })
+  const linkPrefix = `/${getLocalizedPath('private-transfers-country', locale as Locale)}/`
 
   const countries = await sanityClient.fetch(
     `*[_type == "country" && slug.current in $slugs]{
@@ -56,7 +60,7 @@ export async function PopularDestinations({ locale = 'en' }: { locale?: string }
         country: undefined,
         localTitle: (locale !== 'en' && country.translations?.[locale]?.title) || country.title,
         localSlug: (locale !== 'en' && country.translations?.[locale]?.slug?.current) || country.slug.current,
-        linkPrefix: locale === 'es' ? '/traslados-privados-pais/' : '/private-transfers-country/',
+        linkPrefix,
       }))
     : STATIC_FALLBACK.map(c => ({
         _id: c.slug,
@@ -66,13 +70,17 @@ export async function PopularDestinations({ locale = 'en' }: { locale?: string }
         country: undefined,
         localTitle: c.title,
         localSlug: c.slug,
-        linkPrefix: locale === 'es' ? '/traslados-privados-pais/' : '/private-transfers-country/',
+        linkPrefix,
       }))
 
   return (
     <PopularDestinationsCarousel
       cities={mapped}
-      heading={locale === 'es' ? 'Transfers privados en los destinos más populares' : 'Private transfers in the most popular destinations'}
+      heading={pick(locale, {
+        en: 'Private transfers in the most popular destinations',
+        es: 'Transfers privados en los destinos más populares',
+        ar: 'نقل خاص في أكثر الوجهات شهرة',
+      })}
       subheading={t('popularDestinationsDesc')}
     />
   )

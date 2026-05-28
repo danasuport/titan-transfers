@@ -4,10 +4,13 @@ import { useState, useEffect, type ReactNode } from 'react'
 import { useLocale } from 'next-intl'
 import { Link, useRouter } from '@/lib/i18n/navigation'
 import { russoOne } from '@/lib/fonts'
+import { getLocalizedPath } from '@/lib/utils/slugHelpers'
+import { pick } from '@/lib/i18n/pick'
+import type { Locale } from '@/lib/i18n/config'
 
-interface Airport { _id: string; title: string; iataCode: string; slug: string; esSlug?: string; city?: string; country?: string; countrySlug?: string }
-interface City { _id: string; title: string; slug: string; esSlug?: string; country?: string; countrySlug?: string }
-interface Country { _id: string; title: string; slug: string; esSlug?: string; airportCount?: number; cityCount?: number }
+interface Airport { _id: string; title: string; iataCode: string; slug: string; esSlug?: string; arSlug?: string; arTitle?: string; city?: string; country?: string; countryAr?: string; countrySlug?: string }
+interface City { _id: string; title: string; slug: string; esSlug?: string; arSlug?: string; arTitle?: string; country?: string; countryAr?: string; countrySlug?: string }
+interface Country { _id: string; title: string; slug: string; esSlug?: string; arSlug?: string; arTitle?: string; airportCount?: number; cityCount?: number }
 interface MenuData { airports: Airport[]; cities: City[]; countries: Country[] }
 
 const COUNTRY_FLAGS: Record<string, string> = {
@@ -75,6 +78,7 @@ type Tab = 'airports' | 'cities' | 'countries'
 export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose: () => void; mobile?: boolean }) {
   const locale = useLocale()
   const es = locale === 'es'
+  const ar = locale === 'ar'
   const [data, setData] = useState<MenuData | null>(null)
   const [search, setSearch] = useState('')
 
@@ -82,34 +86,45 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
     fetch('/api/megamenu').then(r => r.json()).then(setData)
   }, [])
 
-  function slug(item: { slug: string; esSlug?: string }) {
-    return es && item.esSlug ? item.esSlug : item.slug
+  function slug(item: { slug: string; esSlug?: string; arSlug?: string }) {
+    if (ar && item.arSlug) return item.arSlug
+    if (es && item.esSlug) return item.esSlug
+    return item.slug
+  }
+
+  function title(item: { title: string; arTitle?: string }) {
+    return ar && item.arTitle ? item.arTitle : item.title
+  }
+
+  function countryName(item: { country?: string; countryAr?: string }) {
+    return ar && item.countryAr ? item.countryAr : (item.country ?? '')
   }
 
   const q = search.toLowerCase()
 
   const airports = (data?.airports ?? []).filter(a =>
-    !q || a.title.toLowerCase().includes(q) || (a.iataCode ?? '').toLowerCase().includes(q) || (a.city ?? '').toLowerCase().includes(q) || (a.country ?? '').toLowerCase().includes(q)
+    !q || a.title.toLowerCase().includes(q) || (a.arTitle ?? '').includes(search) || (a.iataCode ?? '').toLowerCase().includes(q) || (a.city ?? '').toLowerCase().includes(q) || (a.country ?? '').toLowerCase().includes(q) || (a.countryAr ?? '').includes(search)
   )
 
   const cities = (data?.cities ?? []).filter(c =>
-    !q || c.title.toLowerCase().includes(q) || (c.country ?? '').toLowerCase().includes(q)
+    !q || c.title.toLowerCase().includes(q) || (c.arTitle ?? '').includes(search) || (c.country ?? '').toLowerCase().includes(q) || (c.countryAr ?? '').includes(search)
   )
 
   const countries = (data?.countries ?? []).filter(c =>
-    !q || c.title.toLowerCase().includes(q)
+    !q || c.title.toLowerCase().includes(q) || (c.arTitle ?? '').includes(search)
   )
 
+  // Group by country — use Arabic name if available so the heading is in Arabic too
   const airportsByCountry: Record<string, Airport[]> = {}
   airports.forEach(a => {
-    const key = a.country ?? 'Other'
+    const key = countryName(a) || 'Other'
     if (!airportsByCountry[key]) airportsByCountry[key] = []
     airportsByCountry[key].push(a)
   })
 
   const citiesByCountry: Record<string, City[]> = {}
   cities.forEach(c => {
-    const key = c.country ?? 'Other'
+    const key = countryName(c) || 'Other'
     if (!citiesByCountry[key]) citiesByCountry[key] = []
     citiesByCountry[key].push(c)
   })
@@ -124,22 +139,26 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
     textDecoration: 'none',
   })
 
+  const airportSegment = getLocalizedPath('airport', locale as Locale)
+  const citySegment = getLocalizedPath('private-transfers', locale as Locale)
+  const countrySegment = getLocalizedPath('private-transfers-country', locale as Locale)
+
   function airportHref(a: Airport) {
-    return es ? `/traslados-aeropuerto-privados-taxi/${slug(a)}/` : `/airport-transfers-private-taxi/${slug(a)}/`
+    return `/${airportSegment}/${slug(a)}/`
   }
   function cityHref(c: City) {
-    return es ? `/traslados-privados-taxi/${slug(c)}/` : `/private-transfers/${slug(c)}/`
+    return `/${citySegment}/${slug(c)}/`
   }
   function countryHref(slugStr: string | undefined) {
-    return es ? `/traslados-privados-pais/${slugStr}/` : `/private-transfers-country/${slugStr}/`
+    return `/${countrySegment}/${slugStr}/`
   }
 
   if (mobile) {
     return (
-      <MegaMenuMobile type={type} onClose={onClose} es={es} data={data}
+      <MegaMenuMobile type={type} onClose={onClose} locale={locale} data={data}
         airports={airports} cities={cities} countries={countries}
         airportsByCountry={airportsByCountry} citiesByCountry={citiesByCountry}
-        slug={slug} airportHref={airportHref} cityHref={cityHref} countryHref={countryHref} />
+        slug={slug} title={title} airportHref={airportHref} cityHref={cityHref} countryHref={countryHref} />
     )
   }
 
@@ -150,7 +169,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
       {type === 'airports' && (
         <div>
           {!data && <Skeleton />}
-          {data && Object.keys(airportsByCountry).length === 0 && <Empty es={es} />}
+          {data && Object.keys(airportsByCountry).length === 0 && <Empty locale={locale} />}
           <div style={{ columns: '4', columnGap: '2rem' }}>
             {Object.entries(airportsByCountry).map(([country, items]) => (
               <div key={country} style={{ breakInside: 'avoid', marginBottom: '1.25rem' }}>
@@ -165,13 +184,13 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
                         {a.iataCode}
                       </span>
                     )}
-                    <span style={{ fontSize: '0.85rem', color: 'inherit' }}>{a.title}</span>
+                    <span style={{ fontSize: '0.85rem', color: 'inherit' }}>{title(a)}</span>
                   </HoverItem>
                 ))}
               </div>
             ))}
           </div>
-          <Footer href="/airports/" label={es ? 'Ver todos los aeropuertos' : 'Browse all airports'} onClose={onClose} />
+          <Footer href="/airports/" label={pick(locale, { en: 'Browse all airports', es: 'Ver todos los aeropuertos', ar: 'تصفّح كل المطارات' })} onClose={onClose} />
         </div>
       )}
 
@@ -179,7 +198,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
       {type === 'cities' && (
         <div>
           {!data && <Skeleton />}
-          {data && Object.keys(citiesByCountry).length === 0 && <Empty es={es} />}
+          {data && Object.keys(citiesByCountry).length === 0 && <Empty locale={locale} />}
           <div style={{ columns: '4', columnGap: '2rem' }}>
             {Object.entries(citiesByCountry).map(([country, items]) => (
               <div key={country} style={{ breakInside: 'avoid', marginBottom: '1.25rem' }}>
@@ -189,13 +208,13 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
                 </Link>
                 {items.map(c => (
                   <HoverItem key={c._id} href={cityHref(c)} onClose={onClose} style={itemStyle}>
-                    <span style={{ fontSize: '0.85rem', color: 'inherit' }}>{c.title}</span>
+                    <span style={{ fontSize: '0.85rem', color: 'inherit' }}>{title(c)}</span>
                   </HoverItem>
                 ))}
               </div>
             ))}
           </div>
-          <Footer href="/cities/" label={es ? 'Ver todas las ciudades' : 'Browse all cities'} onClose={onClose} />
+          <Footer href="/cities/" label={pick(locale, { en: 'Browse all cities', es: 'Ver todas las ciudades', ar: 'تصفّح كل المدن' })} onClose={onClose} />
         </div>
       )}
 
@@ -203,25 +222,25 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
       {type === 'countries' && (
         <div>
           {!data && <Skeleton />}
-          {data && countries.length === 0 && <Empty es={es} />}
+          {data && countries.length === 0 && <Empty locale={locale} />}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.5rem', marginBottom: '1.25rem' }}>
             {countries.map(c => (
               <HoverItem key={c._id} href={countryHref(slug(c))} onClose={onClose} style={itemStyle}>
                 <Flag countrySlug={c.slug} />
                 <div>
-                  <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'inherit' }}>{c.title}</div>
+                  <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'inherit' }}>{title(c)}</div>
                   {(c.airportCount || c.cityCount) ? (
                     <div style={{ fontSize: '0.7rem', color: 'inherit', opacity: 0.7 }}>
-                      {c.airportCount ? `${c.airportCount} ${es ? 'aeropuertos' : 'airports'}` : ''}
+                      {c.airportCount ? `${c.airportCount} ${pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار' })}` : ''}
                       {c.airportCount && c.cityCount ? ' · ' : ''}
-                      {c.cityCount ? `${c.cityCount} ${es ? 'ciudades' : 'cities'}` : ''}
+                      {c.cityCount ? `${c.cityCount} ${pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة' })}` : ''}
                     </div>
                   ) : null}
                 </div>
               </HoverItem>
             ))}
           </div>
-          <Footer href="/countries/" label={es ? 'Ver todos los países' : 'Browse all countries'} onClose={onClose} />
+          <Footer href="/countries/" label={pick(locale, { en: 'Browse all countries', es: 'Ver todos los países', ar: 'تصفّح كل الدول' })} onClose={onClose} />
         </div>
       )}
 
@@ -229,15 +248,18 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
   )
 }
 
-function MegaMenuMobile({ type, onClose, es, data, countries, airportsByCountry, citiesByCountry, airportHref, cityHref, countryHref }: {
-  type: Tab; onClose: () => void; es: boolean; data: MenuData | null
+function MegaMenuMobile({ type, onClose, locale, data, countries, airportsByCountry, citiesByCountry, title, airportHref, cityHref, countryHref }: {
+  type: Tab; onClose: () => void; locale: string; data: MenuData | null
   airports: Airport[]; cities: City[]; countries: Country[]
   airportsByCountry: Record<string, Airport[]>; citiesByCountry: Record<string, City[]>
-  slug: (item: { slug: string; esSlug?: string }) => string
+  slug: (item: { slug: string; esSlug?: string; arSlug?: string }) => string
+  title: (item: { title: string; arTitle?: string }) => string
   airportHref: (a: Airport) => string
   cityHref: (c: City) => string
   countryHref: (slug: string | undefined) => string
 }) {
+  const es = locale === 'es'
+  const ar = locale === 'ar'
   const [openCountry, setOpenCountry] = useState<string | null>(null)
 
   const groupStyle: React.CSSProperties = { borderBottom: '1px solid #f1f5f9' }
@@ -246,7 +268,7 @@ function MegaMenuMobile({ type, onClose, es, data, countries, airportsByCountry,
 
   return (
     <div style={{ padding: '0.5rem 0' }}>
-      {!data && <div style={{ padding: '1rem 0', color: '#64748b', fontSize: '0.85rem' }}>Cargando...</div>}
+      {!data && <div style={{ padding: '1rem 0', color: '#64748b', fontSize: '0.85rem' }}>{pick(locale, { en: 'Loading...', es: 'Cargando...', ar: 'جارٍ التحميل...' })}</div>}
 
       {/* AIRPORTS & CITIES — grouped by country accordion */}
       {(type === 'airports' || type === 'cities') && data && (
@@ -268,17 +290,17 @@ function MegaMenuMobile({ type, onClose, es, data, countries, airportsByCountry,
                 <div style={{ paddingBottom: '0.5rem' }}>
                   {/* Country page link header */}
                   <Link href={countryHref((items[0] as Airport | City)?.countrySlug) as never} onClick={onClose} style={{ display: 'block', padding: '0.5rem 0.75rem', fontSize: '0.78rem', color: '#6B8313', textDecoration: 'none', fontWeight: 600, borderBottom: '1px solid #f8fafc' }}>
-                    {es ? `Ver país: ${country} →` : `View country: ${country} →`}
+                    {ar ? `عرض الدولة: ${country} ←` : es ? `Ver país: ${country} →` : `View country: ${country} →`}
                   </Link>
                   {type === 'airports' && (items as Airport[]).map(a => (
                     <Link key={a._id} href={airportHref(a) as never} onClick={onClose} style={itemRowStyle}>
                       {a.iataCode && <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#6B8313', background: '#f0f4e3', padding: '1px 5px', flexShrink: 0 }}>{a.iataCode}</span>}
-                      <span style={{ fontSize: '0.875rem', color: '#242426' }}>{a.title}</span>
+                      <span style={{ fontSize: '0.875rem', color: '#242426' }}>{title(a)}</span>
                     </Link>
                   ))}
                   {type === 'cities' && (items as City[]).map(c => (
                     <Link key={c._id} href={cityHref(c) as never} onClick={onClose} style={itemRowStyle}>
-                      <span style={{ fontSize: '0.875rem', color: '#242426' }}>{c.title}</span>
+                      <span style={{ fontSize: '0.875rem', color: '#242426' }}>{title(c)}</span>
                     </Link>
                   ))}
                 </div>
@@ -288,7 +310,9 @@ function MegaMenuMobile({ type, onClose, es, data, countries, airportsByCountry,
           <div style={{ paddingTop: '1rem' }}>
             <Link href={(type === 'airports' ? '/airports/' : '/cities/') as never} onClick={onClose}
               style={{ display: 'block', textAlign: 'center', background: '#242426', color: '#ffffff', padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.8rem', textDecoration: 'none', fontFamily: 'inherit', width: '100%', boxSizing: 'border-box' }}>
-              {type === 'airports' ? (es ? 'Ver todos los aeropuertos →' : 'Browse all airports →') : (es ? 'Ver todas las ciudades →' : 'Browse all cities →')}
+              {type === 'airports'
+                ? pick(locale, { en: 'Browse all airports →', es: 'Ver todos los aeropuertos →', ar: '← تصفّح كل المطارات' })
+                : pick(locale, { en: 'Browse all cities →', es: 'Ver todas las ciudades →', ar: '← تصفّح كل المدن' })}
             </Link>
           </div>
         </>
@@ -299,14 +323,17 @@ function MegaMenuMobile({ type, onClose, es, data, countries, airportsByCountry,
         <>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.4rem', marginBottom: '1rem' }}>
             {countries.map(c => (
-              <Link key={c._id} href={countryHref(c.esSlug && es ? c.esSlug : c.slug) as never} onClick={onClose}
+              <Link key={c._id} href={countryHref(ar && c.arSlug ? c.arSlug : (es && c.esSlug ? c.esSlug : c.slug)) as never} onClick={onClose}
                 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', cursor: 'pointer', background: '#f8fafc', borderRadius: '4px', textDecoration: 'none' }}>
                 <Flag countrySlug={c.slug} />
                 <div>
-                  <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#242426', lineHeight: 1.2 }}>{c.title}</div>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#242426', lineHeight: 1.2 }}>{title(c)}</div>
                   {(c.airportCount || c.cityCount) && (
                     <div style={{ fontSize: '0.65rem', color: '#64748b' }}>
-                      {[c.airportCount && `${c.airportCount} ${es ? 'aerop.' : 'airports'}`, c.cityCount && `${c.cityCount} ${es ? 'ciud.' : 'cities'}`].filter(Boolean).join(' · ')}
+                      {[
+                        c.airportCount && `${c.airportCount} ${pick(locale, { en: 'airports', es: 'aerop.', ar: 'مطار' })}`,
+                        c.cityCount && `${c.cityCount} ${pick(locale, { en: 'cities', es: 'ciud.', ar: 'مدينة' })}`,
+                      ].filter(Boolean).join(' · ')}
                     </div>
                   )}
                 </div>
@@ -315,7 +342,7 @@ function MegaMenuMobile({ type, onClose, es, data, countries, airportsByCountry,
           </div>
           <Link href={'/countries/' as never} onClick={onClose}
             style={{ display: 'block', textAlign: 'center', background: '#242426', color: '#ffffff', padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.8rem', textDecoration: 'none', fontFamily: 'inherit', width: '100%', boxSizing: 'border-box' }}>
-            {es ? 'Ver todos los países →' : 'Browse all countries →'}
+            {pick(locale, { en: 'Browse all countries →', es: 'Ver todos los países →', ar: '← تصفّح كل الدول' })}
           </Link>
         </>
       )}
@@ -362,6 +389,6 @@ function Skeleton() {
   )
 }
 
-function Empty({ es }: { es: boolean }) {
-  return <p style={{ fontSize: '0.875rem', color: '#64748b', padding: '1rem 0' }}>{es ? 'Sin resultados' : 'No results'}</p>
+function Empty({ locale }: { locale: string }) {
+  return <p style={{ fontSize: '0.875rem', color: '#64748b', padding: '1rem 0' }}>{pick(locale, { en: 'No results', es: 'Sin resultados', ar: 'لا توجد نتائج' })}</p>
 }

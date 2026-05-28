@@ -1,8 +1,10 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { BookingWidget } from '@/components/booking/BookingWidget'
 import { Button } from '@/components/ui/Button'
+import { getLocalizedPath } from '@/lib/utils/slugHelpers'
+import type { Locale } from '@/lib/i18n/config'
 
 interface BookingCTABlockProps {
   ctaText?: string
@@ -30,6 +32,9 @@ export function BookingCTABlock({
   autoAirport,
 }: BookingCTABlockProps) {
   const t = useTranslations('common')
+  const locale = useLocale() as Locale
+  const airportSeg = getLocalizedPath('airport', locale)
+  const citySeg = getLocalizedPath('private-transfers', locale)
 
   const title = ctaText || t('bookNow')
 
@@ -41,13 +46,13 @@ export function BookingCTABlock({
     if (linkedRoute) {
       fromLocation = linkedRoute.etoFromLocation
       toLocation = linkedRoute.etoToLocation
-      linkHref = `/airport-transfers-private-taxi/${linkedRoute.origin?.slug?.current}/${linkedRoute.slug.current}/`
+      linkHref = `/${airportSeg}/${linkedRoute.origin?.slug?.current}/${linkedRoute.slug.current}/`
     } else if (linkedAirport) {
       fromLocation = linkedAirport.title
-      linkHref = `/airport-transfers-private-taxi/${linkedAirport.slug.current}/`
+      linkHref = `/${airportSeg}/${linkedAirport.slug.current}/`
     } else if (linkedCity) {
       toLocation = linkedCity.title
-      linkHref = `/private-transfers/${linkedCity.slug.current}/`
+      linkHref = `/${citySeg}/${linkedCity.slug.current}/`
     }
   } else {
     if (autoAirport) fromLocation = autoAirport

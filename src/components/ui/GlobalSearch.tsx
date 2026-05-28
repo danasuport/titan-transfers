@@ -3,6 +3,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from '@/lib/i18n/navigation'
 import { useLocale } from 'next-intl'
+import { getLocalizedPath } from '@/lib/utils/slugHelpers'
+import { pick } from '@/lib/i18n/pick'
+import type { Locale } from '@/lib/i18n/config'
 
 interface Result {
   _id: string
@@ -65,18 +68,19 @@ export function GlobalSearch() {
 
   function navigate(type: 'airport' | 'city' | 'country', item: Result) {
     const slug = getSlug(item)
-    const paths = {
-      airport: locale === 'es' ? `/traslados-aeropuerto-privados-taxi/${slug}/` : `/airport-transfers-private-taxi/${slug}/`,
-      city: locale === 'es' ? `/traslados-privados-taxi/${slug}/` : `/private-transfers/${slug}/`,
-      country: locale === 'es' ? `/traslados-privados-pais/${slug}/` : `/private-transfers-country/${slug}/`,
-    }
-    router.push(paths[type] as any)
+    const segmentKey = { airport: 'airport', city: 'private-transfers', country: 'private-transfers-country' }[type]
+    const segment = getLocalizedPath(segmentKey, locale as Locale)
+    router.push(`/${segment}/${slug}/` as any)
     setOpen(false)
     setQuery('')
   }
 
   const hasResults = results && (results.airports.length + results.cities.length + results.countries.length) > 0
-  const placeholder = locale === 'es' ? 'Buscar aeropuertos, ciudades, países...' : 'Search airports, cities, countries...'
+  const placeholder = locale === 'ar'
+    ? 'ابحث عن المطارات والمدن والدول...'
+    : locale === 'es'
+      ? 'Buscar aeropuertos, ciudades, países...'
+      : 'Search airports, cities, countries...'
 
   return (
     <div ref={containerRef} style={{ position: 'relative', flex: 1, maxWidth: '420px', minWidth: '180px' }}>
@@ -145,12 +149,12 @@ export function GlobalSearch() {
         }}>
           {!hasResults ? (
             <div style={{ padding: '1rem 1.25rem', fontSize: '0.875rem', color: '#64748b' }}>
-              {locale === 'es' ? 'Sin resultados' : 'No results found'}
+              {pick(locale, { en: 'No results found', es: 'Sin resultados', ar: 'لا توجد نتائج' })}
             </div>
           ) : (
             <>
               {results!.airports.length > 0 && (
-                <Section label={locale === 'es' ? 'Aeropuertos' : 'Airports'} icon="✈️">
+                <Section label={pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات' })} icon="✈️">
                   {results!.airports.map(item => (
                     <ResultRow
                       key={item._id}
@@ -162,7 +166,7 @@ export function GlobalSearch() {
                 </Section>
               )}
               {results!.cities.length > 0 && (
-                <Section label={locale === 'es' ? 'Ciudades' : 'Cities'} icon="🏙️">
+                <Section label={pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن' })} icon="🏙️">
                   {results!.cities.map(item => (
                     <ResultRow
                       key={item._id}
@@ -174,7 +178,7 @@ export function GlobalSearch() {
                 </Section>
               )}
               {results!.countries.length > 0 && (
-                <Section label={locale === 'es' ? 'Países' : 'Countries'} icon="🌍">
+                <Section label={pick(locale, { en: 'Countries', es: 'Países', ar: 'الدول' })} icon="🌍">
                   {results!.countries.map(item => (
                     <ResultRow
                       key={item._id}

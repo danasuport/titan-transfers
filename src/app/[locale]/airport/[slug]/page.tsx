@@ -18,6 +18,8 @@ import { Testimonials } from '@/components/sections/Testimonials'
 import { BookingPanel } from '@/components/ui/BookingPanel'
 import { PortableText } from '@portabletext/react'
 import type { Locale } from '@/lib/i18n/config'
+import { getAirportUrl, getCountryUrl } from '@/lib/utils/slugHelpers'
+import { pick } from '@/lib/i18n/pick'
 import { russoOne } from '@/lib/fonts'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
@@ -53,19 +55,16 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const cityTitle = airport.city?.title || ''
   const cityTitleMeta = (locale !== 'en' && airport.city?.translations?.[locale]?.title) || cityTitle
   const { title, description } = generateAirportMetadata(airport, locale as Locale, cityTitleMeta)
-  const enSlug = airport.slug?.current || slug
-  const esSlug = airport.translations?.es?.slug?.current || enSlug
-  const currentPath = locale === 'es'
-    ? `/es/traslados-aeropuerto-privados-taxi/${esSlug}/`
-    : `/airport-transfers-private-taxi/${enSlug}/`
+  const currentPath = `${locale === 'en' ? '' : `/${locale}`}${getAirportUrl(airport, locale as Locale)}`
   return generatePageMetadata({
     title,
     description,
     path: currentPath,
     locale: locale as Locale,
     alternates: [
-      { locale: 'en' as Locale, path: `/airport-transfers-private-taxi/${enSlug}/` },
-      { locale: 'es' as Locale, path: `/es/traslados-aeropuerto-privados-taxi/${esSlug}/` },
+      { locale: 'en' as Locale, path: getAirportUrl(airport, 'en') },
+      { locale: 'es' as Locale, path: `/es${getAirportUrl(airport, 'es')}` },
+      { locale: 'ar' as Locale, path: `/ar${getAirportUrl(airport, 'ar')}` },
     ],
   })
 }
@@ -115,7 +114,6 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
 
   const t = await getTranslations({ locale, namespace: 'airport' })
   const tc = await getTranslations({ locale, namespace: 'trust' })
-  const es = locale === 'es'
 
   const airportTitle = (locale !== 'en' && airport.translations?.[locale]?.title) || airport.title
   const description = (locale !== 'en' && airport.translations?.[locale]?.description) || airport.description
@@ -132,7 +130,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
   })).filter((g: { url: string | null }) => g.url)
 
   const breadcrumbs = [
-    { label: airport.country?.title || '', href: es ? `/traslados-privados-pais/${airport.country?.slug?.current}/` : `/private-transfers-country/${airport.country?.slug?.current}/` },
+    ...(airport.country ? [{ label: airport.country.title || '', href: getCountryUrl(airport.country, locale as Locale) }] : []),
     { label: airportTitle },
   ]
 
@@ -168,7 +166,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
 
   return (
     <>
-      <SchemaOrg data={generateTaxiServiceSchema({ name: `${airportTitle} ${t('transfers')}`, description: t('transferBestPriceDesc', { airport: airportTitle }), url: `/airport-transfers-private-taxi/${slug}/`, areaServed: cityName, rating: 4.8, reviewCount: 2500 })} />
+      <SchemaOrg data={generateTaxiServiceSchema({ name: `${airportTitle} ${t('transfers')}`, description: t('transferBestPriceDesc', { airport: airportTitle }), url: getAirportUrl(airport, 'en'), areaServed: cityName, rating: 4.8, reviewCount: 2500 })} />
 
       {/* ─── HERO ───────────────────────────────────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '720px' }}>
@@ -275,7 +273,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
                   { icon: <IconStar />, title: tc('meetGreet'), desc: tc('meetGreetDesc') },
                   { icon: <IconClock />, title: tc('support'), desc: tc('supportDesc') },
                   { icon: <IconCheck />, title: tc('rating'), desc: tc('ratingDesc') },
-                  { icon: <IconPlane />, title: es ? 'Conductor profesional' : 'Professional driver', desc: es ? 'Con cartel con tu nombre' : 'With name sign at arrivals' },
+                  { icon: <IconPlane />, title: pick(locale, { en: 'Professional driver', es: 'Conductor profesional', ar: 'سائق محترف' }), desc: pick(locale, { en: 'With name sign at arrivals', es: 'Con cartel con tu nombre', ar: 'يحمل لافتة باسمك عند الوصول' }) },
                 ].map((item, i) => (
                   <div key={i} style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1rem', transform: 'skewX(-6deg)' }}>
                     <div style={{ transform: 'skewX(6deg)' }}>
@@ -339,7 +337,11 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
             routes={airport.routes}
             airportSlug={slug}
             cityName={cityName}
-            title={es ? `Rutas populares desde ${airportTitle}` : `Popular routes from ${airportTitle}`}
+            title={pick(locale, {
+              en: `Popular routes from ${airportTitle}`,
+              es: `Rutas populares desde ${airportTitle}`,
+              ar: `مسارات شهيرة من ${airportTitle}`,
+            })}
           />
         </section>
       )}
@@ -358,7 +360,11 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
           <div className="resp-img-panel" style={{ position: 'relative', clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }}>
             <Image
               src="/services/city-to-city.png"
-              alt={es ? `Conductor profesional ${airportTitle}` : `Professional driver ${airportTitle}`}
+              alt={pick(locale, {
+                en: `Professional driver ${airportTitle}`,
+                es: `Conductor profesional ${airportTitle}`,
+                ar: `سائق محترف ${airportTitle}`,
+              })}
               fill
               style={{ objectFit: 'cover', objectPosition: 'center' }}
               sizes="50vw"
@@ -371,7 +377,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
               {t('joinDrivers', { airport: airportTitle })}
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, marginBottom: '2rem', maxWidth: '440px' }}>{t('joinDriversDesc')}</p>
-            <a href="/contact/" style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
+            <a href={`${locale === 'en' ? '' : `/${locale}`}/${pick(locale, { en: 'contact', es: 'contacto', ar: 'tawasul' })}/`} style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
               <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{tc('support')} →</span>
             </a>
           </div>

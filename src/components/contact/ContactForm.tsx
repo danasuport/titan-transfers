@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from '@/lib/i18n/navigation'
 import { useLocale } from 'next-intl'
+import { pick } from '@/lib/i18n/pick'
 
 interface Props {
   t: { name: string; email: string; message: string; send: string }
@@ -26,7 +27,11 @@ export function ContactForm({ t }: Props) {
       locale,
     }
     if (!data.name || !data.email || !data.message) {
-      setError(locale === 'es' ? 'Por favor rellena todos los campos.' : 'Please fill in all fields.')
+      setError(pick(locale, {
+        en: 'Please fill in all fields.',
+        es: 'Por favor rellena todos los campos.',
+        ar: 'يرجى ملء جميع الحقول.',
+      }))
       return
     }
     setSending(true)
@@ -39,9 +44,11 @@ export function ContactForm({ t }: Props) {
       if (!res.ok) throw new Error('send_failed')
       router.push('/contact/sent/' as any)
     } catch {
-      setError(locale === 'es'
-        ? 'No se pudo enviar el mensaje. Inténtalo de nuevo o escríbenos a info@titantransfers.com.'
-        : 'Could not send your message. Please try again or email info@titantransfers.com.')
+      setError(pick(locale, {
+        en: 'Could not send your message. Please try again or email info@titantransfers.com.',
+        es: 'No se pudo enviar el mensaje. Inténtalo de nuevo o escríbenos a info@titantransfers.com.',
+        ar: 'تعذّر إرسال رسالتك. حاول مرة أخرى أو راسلنا على info@titantransfers.com.',
+      }))
       setSending(false)
     }
   }
@@ -134,7 +141,7 @@ export function ContactForm({ t }: Props) {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} style={{ animation: 'spin 1s linear infinite' }}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                 </svg>
-                {locale === 'es' ? 'Enviando…' : 'Sending…'}
+                {pick(locale, { en: 'Sending…', es: 'Enviando…', ar: 'جارٍ الإرسال…' })}
               </>
             ) : (
               <>

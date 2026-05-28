@@ -32,6 +32,18 @@ export const port = defineType({
             defineField({ name: 'seoDescription', type: 'text', title: 'SEO Description' }),
           ],
         }),
+        defineField({
+          name: 'ar',
+          title: 'Arabic',
+          type: 'object',
+          fields: [
+            defineField({ name: 'title', type: 'string', title: 'Title' }),
+            defineField({ name: 'slug', type: 'slug', title: 'Slug' }),
+            defineField({ name: 'description', type: 'array', title: 'Description', of: [{ type: 'block' }] }),
+            defineField({ name: 'seoTitle', type: 'string', title: 'SEO Title' }),
+            defineField({ name: 'seoDescription', type: 'text', title: 'SEO Description' }),
+          ],
+        }),
       ],
     }),
   ],

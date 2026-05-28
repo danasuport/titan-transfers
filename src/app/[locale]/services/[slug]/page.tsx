@@ -15,6 +15,8 @@ import { CtaSection } from '@/components/sections/CtaSection'
 import { PortableText } from '@portabletext/react'
 import { Link } from '@/lib/i18n/navigation'
 import type { Locale } from '@/lib/i18n/config'
+import { pick } from '@/lib/i18n/pick'
+import { getLocalizedPath, getServiceUrl } from '@/lib/utils/slugHelpers'
 import { russoOne } from '@/lib/fonts'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
@@ -64,20 +66,24 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale, slug } = await params
   const service = await sanityClient.fetch(serviceBySlugQuery, { slug })
   if (!service) return {}
-  const seoTitle = (locale === 'es' && service.translations?.es?.seoTitle) || service.seoTitle || `Private ${service.title} Worldwide | Titan Transfers`
-  const seoDesc = (locale === 'es' && service.translations?.es?.seoDescription) || service.seoDescription || `Book private ${service.title.toLowerCase()} with fixed prices and 24/7 support.`
-  const esSlug = service.translations?.es?.slug?.current || slug
-  const enSlug = service.slug?.current || slug
+  const tr = service.translations?.[locale]
+  const seoTitle = tr?.seoTitle || service.seoTitle || `Private ${service.title} Worldwide | Titan Transfers`
+  const seoDesc = tr?.seoDescription || service.seoDescription || `Book private ${service.title.toLowerCase()} with fixed prices and 24/7 support.`
   const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://titantransfers.com'
+  const enPath = getServiceUrl(service, 'en')
+  const esPath = `/es${getServiceUrl(service, 'es')}`
+  const arPath = `/ar${getServiceUrl(service, 'ar')}`
+  const canonical = locale === 'en' ? `${SITE_URL}${enPath}` : locale === 'es' ? `${SITE_URL}${esPath}` : `${SITE_URL}${arPath}`
   return {
     title: seoTitle,
     description: seoDesc,
     alternates: {
-      canonical: locale === 'es' ? `${SITE_URL}/es/servicios/${esSlug}/` : `${SITE_URL}/services/${enSlug}/`,
+      canonical,
       languages: {
-        en: `${SITE_URL}/services/${enSlug}/`,
-        es: `${SITE_URL}/es/servicios/${esSlug}/`,
-        'x-default': `${SITE_URL}/services/${enSlug}/`,
+        en: `${SITE_URL}${enPath}`,
+        es: `${SITE_URL}${esPath}`,
+        ar: `${SITE_URL}${arPath}`,
+        'x-default': `${SITE_URL}${enPath}`,
       },
     },
   }
@@ -90,10 +96,11 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
 
   const t = await getTranslations({ locale, namespace: 'nav' })
   const tc = await getTranslations({ locale, namespace: 'trust' })
-  const es = locale === 'es'
 
-  const serviceTitle = (locale !== 'en' && service.translations?.[locale]?.title) || service.title
-  const description = (locale !== 'en' && service.translations?.[locale]?.description) || service.description
+  const tr = service.translations?.[locale]
+  const serviceTitle = tr?.title || service.title
+  const serviceTitleLower = serviceTitle.toLowerCase()
+  const description = tr?.description || service.description
   const heroImg = serviceImages[service.serviceType] || '/services/airport-transfers.jpg'
   const icon = serviceIcons[service.serviceType] || serviceIcons.airport
 
@@ -104,37 +111,57 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
     { icon: <IconShield />, label: tc('freeCancel'), desc: tc('freeCancelDesc') },
   ]
 
-  const benefits = es ? [
-    { icon: <IconTag />, title: 'Precios fijos', desc: 'Sin sorpresas ni cargos ocultos. El precio que ves es el que pagas.' },
-    { icon: <IconShield />, title: 'Cancelación gratuita', desc: 'Cancela hasta 24 horas antes sin coste alguno.' },
-    { icon: <IconStar />, title: 'Meet & greet', desc: 'Tu conductor te espera con un cartel con tu nombre.' },
-    { icon: <IconClock />, title: 'Soporte 24/7', desc: 'Nuestro equipo está disponible las 24 horas.' },
-    { icon: <IconCheck />, title: 'Conductores profesionales', desc: 'Licenciados, con experiencia y revisión de antecedentes.' },
-    { icon: <IconPlane />, title: 'Reserva fácil', desc: 'Reserva online en minutos. Confirmación instantánea.' },
-  ] : [
-    { icon: <IconTag />, title: 'Fixed prices', desc: 'No surprises or hidden charges. The price you see is the price you pay.' },
-    { icon: <IconShield />, title: 'Free cancellation', desc: 'Cancel up to 24 hours before your trip at no cost.' },
-    { icon: <IconStar />, title: 'Meet & greet', desc: 'Your driver waits with a name sign at arrivals.' },
-    { icon: <IconClock />, title: '24/7 support', desc: 'Our team is available around the clock.' },
-    { icon: <IconCheck />, title: 'Professional drivers', desc: 'Licensed, experienced and background-checked.' },
-    { icon: <IconPlane />, title: 'Easy booking', desc: 'Book online in minutes. Instant email confirmation.' },
-  ]
+  const benefits = pick(locale, {
+    en: [
+      { icon: <IconTag />, title: 'Fixed prices', desc: 'No surprises or hidden charges. The price you see is the price you pay.' },
+      { icon: <IconShield />, title: 'Free cancellation', desc: 'Cancel up to 24 hours before your trip at no cost.' },
+      { icon: <IconStar />, title: 'Meet & greet', desc: 'Your driver waits with a name sign at arrivals.' },
+      { icon: <IconClock />, title: '24/7 support', desc: 'Our team is available around the clock.' },
+      { icon: <IconCheck />, title: 'Professional drivers', desc: 'Licensed, experienced and background-checked.' },
+      { icon: <IconPlane />, title: 'Easy booking', desc: 'Book online in minutes. Instant email confirmation.' },
+    ],
+    es: [
+      { icon: <IconTag />, title: 'Precios fijos', desc: 'Sin sorpresas ni cargos ocultos. El precio que ves es el que pagas.' },
+      { icon: <IconShield />, title: 'Cancelación gratuita', desc: 'Cancela hasta 24 horas antes sin coste alguno.' },
+      { icon: <IconStar />, title: 'Meet & greet', desc: 'Tu conductor te espera con un cartel con tu nombre.' },
+      { icon: <IconClock />, title: 'Soporte 24/7', desc: 'Nuestro equipo está disponible las 24 horas.' },
+      { icon: <IconCheck />, title: 'Conductores profesionales', desc: 'Licenciados, con experiencia y revisión de antecedentes.' },
+      { icon: <IconPlane />, title: 'Reserva fácil', desc: 'Reserva online en minutos. Confirmación instantánea.' },
+    ],
+    ar: [
+      { icon: <IconTag />, title: 'أسعار ثابتة', desc: 'بدون مفاجآت أو رسوم خفية. السعر الذي تراه هو السعر الذي تدفعه.' },
+      { icon: <IconShield />, title: 'إلغاء مجاني', desc: 'ألغِ حتى ٢٤ ساعة قبل رحلتك دون أي تكلفة.' },
+      { icon: <IconStar />, title: 'استقبال شخصي', desc: 'سائقك ينتظرك بلافتة باسمك عند الوصول.' },
+      { icon: <IconClock />, title: 'دعم على مدار الساعة', desc: 'فريقنا متاح على مدار اليوم.' },
+      { icon: <IconCheck />, title: 'سائقون محترفون', desc: 'مرخصون وذوو خبرة وتم التحقق من خلفياتهم.' },
+      { icon: <IconPlane />, title: 'حجز سهل', desc: 'احجز عبر الإنترنت في دقائق. تأكيد فوري بالبريد الإلكتروني.' },
+    ],
+  })
 
-  const faqItems = es ? [
-    { question: `¿Cómo reservo un ${serviceTitle.toLowerCase()}?`, answer: 'Usa nuestro buscador para encontrar tu ruta, selecciona tu vehículo y confirma tu reserva. Recibirás confirmación instantánea por email.' },
-    { question: '¿Cuál es la diferencia con un taxi?', answer: 'Un traslado privado ofrece precios fijos, un conductor profesional esperándote con un cartel, y un vehículo cómodo pre-reservado. Sin colas ni taxímetros.' },
-    { question: '¿Puedo cancelar mi reserva?', answer: 'Sí, ofrecemos cancelación gratuita hasta 24 horas antes de tu viaje.' },
-    { question: '¿Qué pasa si mi vuelo se retrasa?', answer: 'Monitoreamos tu vuelo en tiempo real. Tu conductor ajustará su horario según la hora real de llegada sin coste adicional.' },
-  ] : [
-    { question: `How do I book a ${serviceTitle.toLowerCase()}?`, answer: 'Use our search tool to find your route, select your vehicle, and confirm your booking. You\'ll receive instant email confirmation.' },
-    { question: 'What\'s the difference from a regular taxi?', answer: 'A private transfer offers fixed prices, a professional driver waiting with a name sign, and a comfortable pre-booked vehicle. No queuing, no meters.' },
-    { question: 'Can I cancel my booking?', answer: 'Yes, we offer free cancellation up to 24 hours before your trip.' },
-    { question: 'What if my flight is delayed?', answer: 'We monitor your flight in real time. Your driver will adjust their schedule to your actual arrival time at no extra cost.' },
-  ]
+  const faqItems = pick(locale, {
+    en: [
+      { question: `How do I book a ${serviceTitleLower}?`, answer: "Use our search tool to find your route, select your vehicle, and confirm your booking. You'll receive instant email confirmation." },
+      { question: "What's the difference from a regular taxi?", answer: 'A private transfer offers fixed prices, a professional driver waiting with a name sign, and a comfortable pre-booked vehicle. No queuing, no meters.' },
+      { question: 'Can I cancel my booking?', answer: 'Yes, we offer free cancellation up to 24 hours before your trip.' },
+      { question: 'What if my flight is delayed?', answer: 'We monitor your flight in real time. Your driver will adjust their schedule to your actual arrival time at no extra cost.' },
+    ],
+    es: [
+      { question: `¿Cómo reservo un ${serviceTitleLower}?`, answer: 'Usa nuestro buscador para encontrar tu ruta, selecciona tu vehículo y confirma tu reserva. Recibirás confirmación instantánea por email.' },
+      { question: '¿Cuál es la diferencia con un taxi?', answer: 'Un traslado privado ofrece precios fijos, un conductor profesional esperándote con un cartel, y un vehículo cómodo pre-reservado. Sin colas ni taxímetros.' },
+      { question: '¿Puedo cancelar mi reserva?', answer: 'Sí, ofrecemos cancelación gratuita hasta 24 horas antes de tu viaje.' },
+      { question: '¿Qué pasa si mi vuelo se retrasa?', answer: 'Monitoreamos tu vuelo en tiempo real. Tu conductor ajustará su horario según la hora real de llegada sin coste adicional.' },
+    ],
+    ar: [
+      { question: `كيف أحجز ${serviceTitle}؟`, answer: 'استخدم أداة البحث لدينا للعثور على مسارك، اختر مركبتك، وأكد حجزك. ستتلقى تأكيداً فورياً بالبريد الإلكتروني.' },
+      { question: 'ما الفرق عن سيارة الأجرة العادية؟', answer: 'النقل الخاص يوفر أسعاراً ثابتة، وسائقاً محترفاً ينتظرك بلافتة باسمك، ومركبة مريحة محجوزة مسبقاً. بدون طوابير، بدون عدادات.' },
+      { question: 'هل يمكنني إلغاء حجزي؟', answer: 'نعم، نقدم إلغاءً مجانياً حتى ٢٤ ساعة قبل رحلتك.' },
+      { question: 'ماذا يحدث إذا تأخرت رحلتي؟', answer: 'نتابع رحلتك في الوقت الفعلي. سيعدّل سائقك جدوله وفقاً لوقت الوصول الفعلي دون أي تكلفة إضافية.' },
+    ],
+  })
 
   return (
     <>
-      <SchemaOrg data={generateTaxiServiceSchema({ name: `Private ${service.title}`, description: service.seoDescription || `Book private ${service.title.toLowerCase()}`, url: `/services/${slug}/`, rating: 4.8 })} />
+      <SchemaOrg data={generateTaxiServiceSchema({ name: `Private ${service.title}`, description: service.seoDescription || `Book private ${service.title.toLowerCase()}`, url: getServiceUrl(service, 'en'), rating: 4.8 })} />
 
       {/* ─── HERO ───────────────────────────────────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '720px' }}>
@@ -158,7 +185,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
               </svg>
             </div>
             <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#6B8313', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
-              {es ? 'Servicio premium' : 'Premium service'}
+              {pick(locale, { en: 'Premium service', es: 'Servicio premium', ar: 'خدمة متميزة' })}
             </span>
           </div>
 
@@ -167,7 +194,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
           </h1>
 
           <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '480px' }}>
-            {(es && service.translations?.es?.seoDescription) || service.seoDescription || `Book private ${serviceTitle.toLowerCase()} with fixed prices and professional drivers.`}
+            {tr?.seoDescription || service.seoDescription || `Book private ${serviceTitleLower} with fixed prices and professional drivers.`}
           </p>
         </div>
 
@@ -203,10 +230,18 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
           <div>
             <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
             <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)', color: '#242426', marginBottom: '1rem', textTransform: 'none' }}>
-              {es ? `¿Por qué elegir nuestro servicio de ${serviceTitle.toLowerCase()}?` : `Why choose our ${serviceTitle.toLowerCase()} service?`}
+              {pick(locale, {
+                en: `Why choose our ${serviceTitleLower} service?`,
+                es: `¿Por qué elegir nuestro servicio de ${serviceTitleLower}?`,
+                ar: `لماذا تختار خدمة ${serviceTitle} لدينا؟`,
+              })}
             </h2>
             <p style={{ color: '#475569', lineHeight: 1.75, marginBottom: '2rem' }}>
-              {es ? 'Todos nuestros servicios incluyen precio fijo, conductor profesional y cancelación gratuita.' : 'All our services include fixed prices, professional drivers and free cancellation.'}
+              {pick(locale, {
+                en: 'All our services include fixed prices, professional drivers and free cancellation.',
+                es: 'Todos nuestros servicios incluyen precio fijo, conductor profesional y cancelación gratuita.',
+                ar: 'تشمل جميع خدماتنا أسعاراً ثابتة وسائقين محترفين وإلغاءً مجانياً.',
+              })}
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
               {benefits.map((item, i) => (
@@ -238,7 +273,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
       {/* ─── FAQ ──────────────────────────────────────────────────────── */}
       <section style={{ background: '#ffffff', padding: '5rem 6vw' }}>
         <div style={{ maxWidth: '860px', margin: '0 auto' }}>
-          <FAQ items={faqItems} title={es ? 'Preguntas frecuentes' : 'Frequently asked questions'} />
+          <FAQ items={faqItems} title={pick(locale, { en: 'Frequently asked questions', es: 'Preguntas frecuentes', ar: 'الأسئلة الشائعة' })} />
         </div>
       </section>
 
@@ -246,14 +281,22 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
       <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
         <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
         <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', color: '#242426', marginBottom: '2rem' }}>
-          {es ? 'Explora más' : 'Explore more'}
+          {pick(locale, { en: 'Explore more', es: 'Explora más', ar: 'استكشف المزيد' })}
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
           {[
-            { href: '/airports/', n: '120+', label: es ? 'Aeropuertos' : 'Airports', desc: es ? 'Ver todos los aeropuertos' : 'Browse all airports' },
-            { href: '/cities/', n: '145+', label: es ? 'Ciudades' : 'Cities', desc: es ? 'Ver todas las ciudades' : 'Browse all cities' },
-            { href: '/countries/', n: '30+', label: es ? 'Países' : 'Countries', desc: es ? 'Ver todos los países' : 'Browse all countries' },
-            { href: '/services/', n: '4', label: es ? 'Servicios' : 'Services', desc: es ? 'Ver todos los servicios' : 'Browse all services' },
+            { href: '/airports/', n: '120+',
+              label: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات' }),
+              desc: pick(locale, { en: 'Browse all airports', es: 'Ver todos los aeropuertos', ar: 'تصفّح كل المطارات' }) },
+            { href: '/cities/', n: '145+',
+              label: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن' }),
+              desc: pick(locale, { en: 'Browse all cities', es: 'Ver todas las ciudades', ar: 'تصفّح كل المدن' }) },
+            { href: '/countries/', n: '30+',
+              label: pick(locale, { en: 'Countries', es: 'Países', ar: 'الدول' }),
+              desc: pick(locale, { en: 'Browse all countries', es: 'Ver todos los países', ar: 'تصفّح كل الدول' }) },
+            { href: '/services/', n: '4',
+              label: pick(locale, { en: 'Services', es: 'Servicios', ar: 'الخدمات' }),
+              desc: pick(locale, { en: 'Browse all services', es: 'Ver todos los servicios', ar: 'تصفّح كل الخدمات' }) },
           ].map(item => (
             <Link key={item.href} href={item.href as any} style={{ textDecoration: 'none', background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1.25rem', display: 'block', transition: 'border-color 0.15s' }}>
               <div className={russoOne.className} style={{ fontSize: '1.5rem', color: '#6B8313', lineHeight: 1 }}>{item.n}</div>
@@ -273,13 +316,21 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '4rem 6vw 4rem 5vw' }}>
             <div style={{ width: '48px', height: '3px', background: '#ffffff', marginBottom: '1.25rem' }} />
             <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', color: '#ffffff', marginBottom: '1rem' }}>
-              {es ? '¿Eres conductor profesional?' : 'Are you a professional driver?'}
+              {pick(locale, {
+                en: 'Are you a professional driver?',
+                es: '¿Eres conductor profesional?',
+                ar: 'هل أنت سائق محترف؟',
+              })}
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, marginBottom: '2rem', maxWidth: '440px' }}>
-              {es ? 'Únete a nuestra red de conductores y recibe reservas directas sin comisiones abusivas.' : 'Join our driver network and receive direct bookings with no excessive commissions.'}
+              {pick(locale, {
+                en: 'Join our driver network and receive direct bookings with no excessive commissions.',
+                es: 'Únete a nuestra red de conductores y recibe reservas directas sin comisiones abusivas.',
+                ar: 'انضم إلى شبكة سائقينا واحصل على حجوزات مباشرة دون عمولات مرتفعة.',
+              })}
             </p>
-            <a href="/contact/" style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
-              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{es ? 'Contactar →' : 'Get in touch →'}</span>
+            <a href={`${locale === 'en' ? '' : `/${locale}`}/${getLocalizedPath('contact', locale as Locale)}/`} style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
+              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{pick(locale, { en: 'Get in touch →', es: 'Contactar →', ar: '← تواصل معنا' })}</span>
             </a>
           </div>
         </div>

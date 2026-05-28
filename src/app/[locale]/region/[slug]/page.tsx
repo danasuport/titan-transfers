@@ -17,6 +17,8 @@ import { Testimonials } from '@/components/sections/Testimonials'
 import { CtaSection } from '@/components/sections/CtaSection'
 import { PortableText } from '@portabletext/react'
 import type { Locale } from '@/lib/i18n/config'
+import { getCountryUrl, getRegionUrl } from '@/lib/utils/slugHelpers'
+import { pick } from '@/lib/i18n/pick'
 import { russoOne } from '@/lib/fonts'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
@@ -34,10 +36,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const region = await sanityClient.fetch(regionBySlugQuery, { slug })
   if (!region) return {}
   const { title, description } = generateRegionMetadata(region, locale as Locale)
-  const enSlug = region.slug?.current || slug
-  const esSlug = region.translations?.es?.slug?.current || enSlug
-  const currentPath = locale === 'es' ? `/es/traslados-privados-region/${esSlug}/` : `/private-transfers-region/${enSlug}/`
-  return generatePageMetadata({ title, description, path: currentPath, locale: locale as Locale, alternates: [{ locale: 'en' as Locale, path: `/private-transfers-region/${enSlug}/` }, { locale: 'es' as Locale, path: `/es/traslados-privados-region/${esSlug}/` }] })
+  const currentPath = `${locale === 'en' ? '' : `/${locale}`}${getRegionUrl(region, locale as Locale)}`
+  const alternates: { locale: Locale; path: string }[] = [
+    { locale: 'en', path: getRegionUrl(region, 'en') },
+    { locale: 'es', path: `/es${getRegionUrl(region, 'es')}` },
+    { locale: 'ar', path: `/ar${getRegionUrl(region, 'ar')}` },
+  ]
+  return generatePageMetadata({ title, description, path: currentPath, locale: locale as Locale, alternates })
 }
 
 export default async function RegionPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
@@ -47,28 +52,36 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
 
   const t = await getTranslations({ locale, namespace: 'region' })
   const tc = await getTranslations({ locale, namespace: 'trust' })
-  const es = locale === 'es'
 
   const regionTitle = (locale !== 'en' && region.translations?.[locale]?.title) || region.title
   const description = (locale !== 'en' && region.translations?.[locale]?.description) || region.description
   const heroImg = urlFor(region.featuredImage)?.width(1920).height(900).quality(80).auto('format').url()
 
   const breadcrumbs = [
-    { label: region.country?.title || '', href: es ? `/traslados-privados-pais/${region.country?.slug?.current}/` : `/private-transfers-country/${region.country?.slug?.current}/` },
+    ...(region.country ? [{ label: region.country.title || '', href: getCountryUrl(region.country, locale as Locale) }] : []),
     { label: regionTitle },
   ]
 
-  const faqItems = es ? [
-    { question: `¿Cómo llego a ${regionTitle} desde el aeropuerto?`, answer: `Ofrecemos traslados privados desde todos los aeropuertos que dan servicio a ${regionTitle}. Usa nuestro formulario de reserva para encontrar las rutas disponibles.` },
-    { question: `¿Hay servicio de taxi privado en ${regionTitle}?`, answer: `Sí, ofrecemos servicio de taxi privado en toda la zona de ${regionTitle} con precios fijos y conductores profesionales.` },
-    { question: `¿Cuál es el aeropuerto más cercano a ${regionTitle}?`, answer: `Consulta la sección de aeropuertos más arriba para ver los aeropuertos más cercanos con servicio a ${regionTitle}.` },
-    { question: `¿Cuánto cuesta un traslado privado en ${regionTitle}?`, answer: `El precio depende de la ruta y el vehículo elegido. Consulta precios fijos al instante en nuestro formulario. Sin cargos ocultos ni sorpresas.` },
-  ] : [
-    { question: `How do I get to ${regionTitle} from the nearest airport?`, answer: `We offer private transfers from all airports serving ${regionTitle}. Use our booking form to find available routes.` },
-    { question: `Is there a private taxi service in ${regionTitle}?`, answer: `Yes, we offer private taxi services across ${regionTitle} with fixed prices and professional drivers.` },
-    { question: `Which airport is closest to ${regionTitle}?`, answer: `Check the airports section above for the nearest airports serving ${regionTitle}.` },
-    { question: `How much does a private transfer in ${regionTitle} cost?`, answer: `Prices depend on the route and vehicle selected. Get an instant fixed-price quote in our booking form. No hidden charges.` },
-  ]
+  const faqItems = pick(locale, {
+    en: [
+      { question: `How do I get to ${regionTitle} from the nearest airport?`, answer: `We offer private transfers from all airports serving ${regionTitle}. Use our booking form to find available routes.` },
+      { question: `Is there a private taxi service in ${regionTitle}?`, answer: `Yes, we offer private taxi services across ${regionTitle} with fixed prices and professional drivers.` },
+      { question: `Which airport is closest to ${regionTitle}?`, answer: `Check the airports section above for the nearest airports serving ${regionTitle}.` },
+      { question: `How much does a private transfer in ${regionTitle} cost?`, answer: `Prices depend on the route and vehicle selected. Get an instant fixed-price quote in our booking form. No hidden charges.` },
+    ],
+    es: [
+      { question: `¿Cómo llego a ${regionTitle} desde el aeropuerto?`, answer: `Ofrecemos traslados privados desde todos los aeropuertos que dan servicio a ${regionTitle}. Usa nuestro formulario de reserva para encontrar las rutas disponibles.` },
+      { question: `¿Hay servicio de taxi privado en ${regionTitle}?`, answer: `Sí, ofrecemos servicio de taxi privado en toda la zona de ${regionTitle} con precios fijos y conductores profesionales.` },
+      { question: `¿Cuál es el aeropuerto más cercano a ${regionTitle}?`, answer: `Consulta la sección de aeropuertos más arriba para ver los aeropuertos más cercanos con servicio a ${regionTitle}.` },
+      { question: `¿Cuánto cuesta un traslado privado en ${regionTitle}?`, answer: `El precio depende de la ruta y el vehículo elegido. Consulta precios fijos al instante en nuestro formulario. Sin cargos ocultos ni sorpresas.` },
+    ],
+    ar: [
+      { question: `كيف أصل إلى ${regionTitle} من أقرب مطار؟`, answer: `نقدم نقلاً خاصاً من جميع المطارات التي تخدم ${regionTitle}. استخدم نموذج الحجز لمعرفة المسارات المتاحة.` },
+      { question: `هل هناك خدمة سيارة أجرة خاصة في ${regionTitle}؟`, answer: `نعم، نقدم خدمات سيارة الأجرة الخاصة في جميع أنحاء ${regionTitle} بأسعار ثابتة وسائقين محترفين.` },
+      { question: `ما أقرب مطار إلى ${regionTitle}؟`, answer: `راجع قسم المطارات أعلاه لمعرفة أقرب المطارات التي تخدم ${regionTitle}.` },
+      { question: `كم تكلفة النقل الخاص في ${regionTitle}؟`, answer: `تعتمد الأسعار على المسار والمركبة المختارة. احصل على عرض سعر فوري ثابت في نموذج الحجز. بدون رسوم خفية.` },
+    ],
+  })
 
   const trustBadges = [
     { icon: '★', label: tc('rating'), desc: tc('ratingDesc') },
@@ -79,7 +92,7 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
 
   return (
     <>
-      <SchemaOrg data={generateTaxiServiceSchema({ name: `${regionTitle} Transfers`, description: `Private transfers in ${regionTitle}`, url: `/private-transfers/${slug}/`, areaServed: regionTitle, rating: 4.8 })} />
+      <SchemaOrg data={generateTaxiServiceSchema({ name: `${regionTitle} Transfers`, description: `Private transfers in ${regionTitle}`, url: getRegionUrl(region, 'en'), areaServed: regionTitle, rating: 4.8 })} />
 
       {/* ─── HERO ─────────────────────────────────────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '720px' }}>
@@ -89,7 +102,11 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
             {t('transfers', { region: regionTitle })}
           </h1>
           <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '480px' }}>
-            {es ? `Traslados privados en ${regionTitle} con precio fijo y conductor profesional.` : `Private transfers in ${regionTitle} at fixed prices with professional drivers.`}
+            {pick(locale, {
+              en: `Private transfers in ${regionTitle} at fixed prices with professional drivers.`,
+              es: `Traslados privados en ${regionTitle} con precio fijo y conductor profesional.`,
+              ar: `نقل خاص في ${regionTitle} بأسعار ثابتة وسائقين محترفين.`,
+            })}
           </p>
         </div>
 
@@ -179,13 +196,21 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '4rem 6vw 4rem 5vw' }}>
             <div style={{ width: '48px', height: '3px', background: '#ffffff', marginBottom: '1.25rem' }} />
             <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', color: '#ffffff', marginBottom: '1rem' }}>
-              {es ? `¿Eres conductor profesional en ${regionTitle}?` : `Are you a professional driver in ${regionTitle}?`}
+              {pick(locale, {
+                en: `Are you a professional driver in ${regionTitle}?`,
+                es: `¿Eres conductor profesional en ${regionTitle}?`,
+                ar: `هل أنت سائق محترف في ${regionTitle}؟`,
+              })}
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, marginBottom: '2rem', maxWidth: '440px' }}>
-              {es ? 'Únete a nuestra red de conductores y recibe reservas directas sin comisiones abusivas.' : 'Join our driver network and receive direct bookings with no excessive commissions.'}
+              {pick(locale, {
+                en: 'Join our driver network and receive direct bookings with no excessive commissions.',
+                es: 'Únete a nuestra red de conductores y recibe reservas directas sin comisiones abusivas.',
+                ar: 'انضم إلى شبكة سائقينا واحصل على حجوزات مباشرة دون عمولات مرتفعة.',
+              })}
             </p>
-            <a href="/contact/" style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
-              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{es ? 'Contactar →' : 'Get in touch →'}</span>
+            <a href={`${locale === 'en' ? '' : `/${locale}`}/${pick(locale, { en: 'contact', es: 'contacto', ar: 'tawasul' })}/`} style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
+              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{pick(locale, { en: 'Get in touch →', es: 'Contactar →', ar: '← تواصل معنا' })}</span>
             </a>
           </div>
         </div>

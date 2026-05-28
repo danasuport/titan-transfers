@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   images: {
     formats: ['image/avif', 'image/webp'],
+    // Next.js 16 strict-whitelists the quality param: any request for a
+    // quality not listed here gets a 400 from /_next/image. HeroSection
+    // asks for 85 and FleetShowcase for 80, so they need to be on the
+    // list. Default 75 stays for everything that does not pass quality={}.
+    qualities: [75, 80, 85],
     remotePatterns: [
       { protocol: 'https', hostname: 'cdn.sanity.io' },
       { protocol: 'https', hostname: '*.r2.cloudflarestorage.com' },

@@ -1,10 +1,15 @@
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { CustomerPortal } from '@/components/customer/CustomerPortal'
+import { pick } from '@/lib/i18n/pick'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
-    title: locale === 'es' ? 'Recuperar contraseña | Titan Transfers' : 'Forgot password | Titan Transfers',
+    title: pick(locale, {
+      en: 'Forgot password | Titan Transfers',
+      es: 'Recuperar contraseña | Titan Transfers',
+      ar: 'استعادة كلمة المرور | تايتن ترانسفرز',
+    }),
     description: '',
     robots: { index: false, follow: false },
   }
@@ -12,14 +17,16 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function ForgotPasswordPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const es = locale === 'es'
+  const title = pick(locale, {
+    en: 'Forgot password',
+    es: 'Recuperar contraseña',
+    ar: 'استعادة كلمة المرور',
+  })
 
   return (
     <div className="site-container px-4 py-8 sm:px-6 lg:px-8">
-      <Breadcrumbs items={[{ label: es ? 'Recuperar contraseña' : 'Forgot password' }]} />
-      <h1 className="mb-4 text-3xl font-bold text-heading sm:text-4xl">
-        {es ? 'Recuperar contraseña' : 'Forgot password'}
-      </h1>
+      <Breadcrumbs items={[{ label: title }]} />
+      <h1 className="mb-4 text-3xl font-bold text-heading sm:text-4xl">{title}</h1>
       <CustomerPortal />
     </div>
   )
