@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   description:
     'Private airport transfers and taxi service worldwide. 100+ destinations, fixed prices, meet & greet, 24/7 support. Book your door-to-door transfer online.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://titantransfers.com'),
+  verification: {
+    google: 'XUATHKIOSBeaCijFnW7LGaEWAnZZQIX2g8laoUltceE',
+  },
 }
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
