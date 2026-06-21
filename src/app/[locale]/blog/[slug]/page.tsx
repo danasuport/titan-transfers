@@ -46,6 +46,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       { locale: 'en' as Locale, path: getBlogUrl(post, 'en') },
       { locale: 'es' as Locale, path: `/es${getBlogUrl(post, 'es')}` },
       { locale: 'ar' as Locale, path: `/ar${getBlogUrl(post, 'ar')}` },
+      { locale: 'it' as Locale, path: `/it${getBlogUrl(post, 'it')}` },
     ],
   })
 }
@@ -54,7 +55,7 @@ function InlineBookingBlock({ locale }: { locale: string }) {
   return (
     <div style={{ margin: '2.5rem 0' }}>
       <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#6B8313', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
-        {pick(locale, { en: 'Book your transfer', es: 'Reserva tu transfer', ar: 'احجز رحلتك' })}
+        {pick(locale, { en: 'Book your transfer', es: 'Reserva tu transfer', ar: 'احجز رحلتك', it: 'Prenota il tuo trasferimento' })}
       </p>
       <div style={{ display: 'flex', justifyContent: 'center' }}><BookingPanel /></div>
     </div>

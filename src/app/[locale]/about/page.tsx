@@ -15,11 +15,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       en: 'About Us | Titan Transfers',
       es: 'Sobre Nosotros | Titan Transfers',
       ar: 'من نحن | تايتن ترانسفرز',
+      it: 'Chi Siamo | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Learn about Titan Transfers, your trusted partner for private transfers worldwide.',
       es: 'Conoce Titan Transfers, tu socio de confianza para traslados privados en todo el mundo.',
       ar: 'تعرّف على تايتن ترانسفرز، شريكك الموثوق لخدمات النقل الخاصة حول العالم.',
+      it: 'Scopri Titan Transfers, il tuo partner di fiducia per trasferimenti privati in tutto il mondo.',
     }),
   }
 }
@@ -33,13 +35,15 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       en: 'Titan Transfers is a leading private transfer service operating in over 100 destinations worldwide. We specialize in airport transfers, port transfers, train station transfers, and city-to-city transport.',
       es: 'Titan Transfers es un servicio líder de traslados privados que opera en más de 100 destinos en todo el mundo. Nos especializamos en traslados al aeropuerto, traslados al puerto, traslados desde estaciones de tren y transporte entre ciudades.',
       ar: 'تايتن ترانسفرز خدمة رائدة للنقل الخاص تعمل في أكثر من ١٠٠ وجهة حول العالم. نتخصص في نقل المطارات وموانئ السفن السياحية ومحطات القطار والنقل بين المدن.',
+      it: 'Titan Transfers è un servizio leader di trasferimenti privati che opera in oltre 100 destinazioni in tutto il mondo. Ci specializziamo in trasferimenti aeroportuali, trasferimenti portuali, trasferimenti da stazioni ferroviarie e trasporto tra città.',
     }),
     p2: pick(locale, {
       en: 'Our mission is to provide a premium, reliable, and affordable transfer experience for every traveler. With fixed prices, professional drivers, and 24/7 support, we ensure your journey is comfortable and stress-free.',
       es: 'Nuestra misión es ofrecer una experiencia de traslado premium, fiable y asequible a cada viajero. Con precios fijos, conductores profesionales y soporte 24/7, garantizamos un viaje cómodo y sin estrés.',
       ar: 'مهمتنا تقديم تجربة نقل متميزة وموثوقة وبأسعار معقولة لكل مسافر. بأسعار ثابتة وسائقين محترفين ودعم على مدار الساعة، نضمن أن تكون رحلتك مريحة وخالية من التوتر.',
+      it: 'La nostra missione è offrire un\'esperienza di trasferimento premium, affidabile e conveniente a ogni viaggiatore. Con tariffe fisse, autisti professionisti e supporto 24/7, garantiamo un viaggio confortevole e senza stress.',
     }),
-    valuesTitle: pick(locale, { en: 'Our Values', es: 'Nuestros Valores', ar: 'قيمنا' }),
+    valuesTitle: pick(locale, { en: 'Our Values', es: 'Nuestros Valores', ar: 'قيمنا', it: 'I nostri valori' }),
     values: [
       pick(locale, {
         en: ['Reliability', 'We monitor all flights and adjust pickup times automatically'] as const,

@@ -41,6 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     { locale: 'en', path: getRegionUrl(region, 'en') },
     { locale: 'es', path: `/es${getRegionUrl(region, 'es')}` },
     { locale: 'ar', path: `/ar${getRegionUrl(region, 'ar')}` },
+    { locale: 'it', path: `/it${getRegionUrl(region, 'it')}` },
   ]
   return generatePageMetadata({ title, description, path: currentPath, locale: locale as Locale, alternates })
 }
@@ -106,6 +107,7 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
               en: `Private transfers in ${regionTitle} at fixed prices with professional drivers.`,
               es: `Traslados privados en ${regionTitle} con precio fijo y conductor profesional.`,
               ar: `نقل خاص في ${regionTitle} بأسعار ثابتة وسائقين محترفين.`,
+              it: `Trasferimenti privati in ${regionTitle} con prezzo fisso e autista professionale.`,
             })}
           </p>
         </div>
@@ -200,6 +202,7 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
                 en: `Are you a professional driver in ${regionTitle}?`,
                 es: `¿Eres conductor profesional en ${regionTitle}?`,
                 ar: `هل أنت سائق محترف في ${regionTitle}؟`,
+                it: `Sei un autista professionista in ${regionTitle}?`,
               })}
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, marginBottom: '2rem', maxWidth: '440px' }}>
@@ -207,10 +210,11 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
                 en: 'Join our driver network and receive direct bookings with no excessive commissions.',
                 es: 'Únete a nuestra red de conductores y recibe reservas directas sin comisiones abusivas.',
                 ar: 'انضم إلى شبكة سائقينا واحصل على حجوزات مباشرة دون عمولات مرتفعة.',
+                it: 'Unisciti alla nostra rete di autisti e ricevi prenotazioni dirette senza commissioni abusive.',
               })}
             </p>
-            <a href={`${locale === 'en' ? '' : `/${locale}`}/${pick(locale, { en: 'contact', es: 'contacto', ar: 'tawasul' })}/`} style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
-              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{pick(locale, { en: 'Get in touch →', es: 'Contactar →', ar: '← تواصل معنا' })}</span>
+            <a href={`${locale === 'en' ? '' : `/${locale}`}/${pick(locale, { en: 'contact', es: 'contacto', ar: 'tawasul', it: 'contatto' })}/`} style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
+              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{pick(locale, { en: 'Get in touch →', es: 'Contactar →', ar: '← تواصل معنا', it: 'Contattaci →' })}</span>
             </a>
           </div>
         </div>

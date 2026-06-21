@@ -141,7 +141,7 @@ export function RoutesList({
             type="text"
             value={filter}
             onChange={e => setFilter(e.target.value)}
-            placeholder={pick(locale, { en: 'Filter destination...', es: 'Filtrar destino...', ar: 'تصفية الوجهة...' })}
+            placeholder={pick(locale, { en: 'Filter destination...', es: 'Filtrar destino...', ar: 'تصفية الوجهة...', it: 'Filtra destinazione...' })}
             style={{
               transform: 'skewX(8deg)',
               border: 'none', outline: 'none', background: 'transparent',
@@ -156,7 +156,7 @@ export function RoutesList({
         </div>
         {filter && (
           <span style={{ fontSize: '0.78rem', color: '#64748b' }}>
-            {filtered.length} {pick(locale, { en: 'results', es: 'resultados', ar: 'نتائج' })}
+            {filtered.length} {pick(locale, { en: 'results', es: 'resultados', ar: 'نتائج', it: 'risultati' })}
           </span>
         )}
       </div>
@@ -170,7 +170,7 @@ export function RoutesList({
 
       {filtered.length === 0 && (
         <p style={{ color: '#64748b', fontSize: '0.875rem', marginTop: '1rem' }}>
-          {pick(locale, { en: 'No results', es: 'Sin resultados', ar: 'لا توجد نتائج' })}
+          {pick(locale, { en: 'No results', es: 'Sin resultados', ar: 'لا توجد نتائج', it: 'Nessun risultato' })}
         </p>
       )}
     </section>

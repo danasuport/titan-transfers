@@ -63,12 +63,13 @@ export function CookieConsent({ locale }: { locale: string }) {
     en: '/cookies/',
     es: '/es/cookies/',
     ar: '/ar/siyasat-cookies/',
+    it: '/it/cookies/',
   })
 
   return (
     <div
       role="dialog"
-      aria-label={pick(locale, { en: 'Cookie notice', es: 'Aviso de cookies', ar: 'إشعار الكوكيز' })}
+      aria-label={pick(locale, { en: 'Cookie notice', es: 'Aviso de cookies', ar: 'إشعار الكوكيز', it: 'Avviso sui cookie' })}
       style={{
         position: 'fixed',
         left: 0,
@@ -97,9 +98,10 @@ export function CookieConsent({ locale }: { locale: string }) {
             en: 'We use necessary technical cookies and, with your consent, analytics and advertising cookies to improve our services. ',
             es: 'Usamos cookies técnicas necesarias y, si lo aceptas, cookies analíticas y publicitarias para mejorar nuestros servicios. ',
             ar: 'نستخدم كوكيز تقنية ضرورية، وبموافقتك، كوكيز تحليلية وإعلانية لتحسين خدماتنا. ',
+            it: 'Utilizziamo cookie tecnici necessari e, se accetti, cookie analitici e pubblicitari per migliorare i nostri servizi.',
           })}
           <Link href={policyHref as never} style={{ color: '#6B8313', textDecoration: 'underline' }}>
-            {pick(locale, { en: 'Cookie policy', es: 'Política de cookies', ar: 'سياسة الكوكيز' })}
+            {pick(locale, { en: 'Cookie policy', es: 'Política de cookies', ar: 'سياسة الكوكيز', it: 'Politica sui cookie' })}
           </Link>
         </p>
         <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
@@ -117,7 +119,7 @@ export function CookieConsent({ locale }: { locale: string }) {
               fontWeight: 500,
             }}
           >
-            {pick(locale, { en: 'Reject', es: 'Rechazar', ar: 'رفض' })}
+            {pick(locale, { en: 'Reject', es: 'Rechazar', ar: 'رفض', it: 'Rifiuta' })}
           </button>
           <button
             type="button"
@@ -133,7 +135,7 @@ export function CookieConsent({ locale }: { locale: string }) {
               fontWeight: 600,
             }}
           >
-            {pick(locale, { en: 'Accept', es: 'Aceptar', ar: 'قبول' })}
+            {pick(locale, { en: 'Accept', es: 'Aceptar', ar: 'قبول', it: 'Accetta' })}
           </button>
         </div>
       </div>

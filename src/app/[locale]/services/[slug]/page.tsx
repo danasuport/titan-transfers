@@ -185,7 +185,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
               </svg>
             </div>
             <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#6B8313', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
-              {pick(locale, { en: 'Premium service', es: 'Servicio premium', ar: 'خدمة متميزة' })}
+              {pick(locale, { en: 'Premium service', es: 'Servicio premium', ar: 'خدمة متميزة', it: 'Servizio premium' })}
             </span>
           </div>
 
@@ -234,6 +234,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
                 en: `Why choose our ${serviceTitleLower} service?`,
                 es: `¿Por qué elegir nuestro servicio de ${serviceTitleLower}?`,
                 ar: `لماذا تختار خدمة ${serviceTitle} لدينا؟`,
+                it: `Perché scegliere il nostro servizio di ${serviceTitleLower}?`,
               })}
             </h2>
             <p style={{ color: '#475569', lineHeight: 1.75, marginBottom: '2rem' }}>
@@ -241,6 +242,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
                 en: 'All our services include fixed prices, professional drivers and free cancellation.',
                 es: 'Todos nuestros servicios incluyen precio fijo, conductor profesional y cancelación gratuita.',
                 ar: 'تشمل جميع خدماتنا أسعاراً ثابتة وسائقين محترفين وإلغاءً مجانياً.',
+                it: 'Tutti i nostri servizi includono prezzo fisso, autista professionista e cancellazione gratuita.',
               })}
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
@@ -273,7 +275,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
       {/* ─── FAQ ──────────────────────────────────────────────────────── */}
       <section style={{ background: '#ffffff', padding: '5rem 6vw' }}>
         <div style={{ maxWidth: '860px', margin: '0 auto' }}>
-          <FAQ items={faqItems} title={pick(locale, { en: 'Frequently asked questions', es: 'Preguntas frecuentes', ar: 'الأسئلة الشائعة' })} />
+          <FAQ items={faqItems} title={pick(locale, { en: 'Frequently asked questions', es: 'Preguntas frecuentes', ar: 'الأسئلة الشائعة', it: 'Domande frequenti' })} />
         </div>
       </section>
 
@@ -281,22 +283,22 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
       <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
         <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
         <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', color: '#242426', marginBottom: '2rem' }}>
-          {pick(locale, { en: 'Explore more', es: 'Explora más', ar: 'استكشف المزيد' })}
+          {pick(locale, { en: 'Explore more', es: 'Explora más', ar: 'استكشف المزيد', it: 'Esplora di più' })}
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
           {[
             { href: '/airports/', n: '120+',
-              label: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات' }),
-              desc: pick(locale, { en: 'Browse all airports', es: 'Ver todos los aeropuertos', ar: 'تصفّح كل المطارات' }) },
+              label: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات', it: 'Aeroporti' }),
+              desc: pick(locale, { en: 'Browse all airports', es: 'Ver todos los aeropuertos', ar: 'تصفّح كل المطارات', it: 'Vedi tutti gli aeroporti' }) },
             { href: '/cities/', n: '145+',
-              label: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن' }),
-              desc: pick(locale, { en: 'Browse all cities', es: 'Ver todas las ciudades', ar: 'تصفّح كل المدن' }) },
+              label: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن', it: 'Città' }),
+              desc: pick(locale, { en: 'Browse all cities', es: 'Ver todas las ciudades', ar: 'تصفّح كل المدن', it: 'Vedi tutte le città' }) },
             { href: '/countries/', n: '30+',
-              label: pick(locale, { en: 'Countries', es: 'Países', ar: 'الدول' }),
-              desc: pick(locale, { en: 'Browse all countries', es: 'Ver todos los países', ar: 'تصفّح كل الدول' }) },
+              label: pick(locale, { en: 'Countries', es: 'Países', ar: 'الدول', it: 'Paesi' }),
+              desc: pick(locale, { en: 'Browse all countries', es: 'Ver todos los países', ar: 'تصفّح كل الدول', it: 'Vedi tutti i paesi' }) },
             { href: '/services/', n: '4',
-              label: pick(locale, { en: 'Services', es: 'Servicios', ar: 'الخدمات' }),
-              desc: pick(locale, { en: 'Browse all services', es: 'Ver todos los servicios', ar: 'تصفّح كل الخدمات' }) },
+              label: pick(locale, { en: 'Services', es: 'Servicios', ar: 'الخدمات', it: 'Servizi' }),
+              desc: pick(locale, { en: 'Browse all services', es: 'Ver todos los servicios', ar: 'تصفّح كل الخدمات', it: 'Vedi tutti i servizi' }) },
           ].map(item => (
             <Link key={item.href} href={item.href as any} style={{ textDecoration: 'none', background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1.25rem', display: 'block', transition: 'border-color 0.15s' }}>
               <div className={russoOne.className} style={{ fontSize: '1.5rem', color: '#6B8313', lineHeight: 1 }}>{item.n}</div>
@@ -320,6 +322,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
                 en: 'Are you a professional driver?',
                 es: '¿Eres conductor profesional?',
                 ar: 'هل أنت سائق محترف؟',
+                it: 'Sei un autista professionista?',
               })}
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, marginBottom: '2rem', maxWidth: '440px' }}>
@@ -327,10 +330,11 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
                 en: 'Join our driver network and receive direct bookings with no excessive commissions.',
                 es: 'Únete a nuestra red de conductores y recibe reservas directas sin comisiones abusivas.',
                 ar: 'انضم إلى شبكة سائقينا واحصل على حجوزات مباشرة دون عمولات مرتفعة.',
+                it: 'Unisciti alla nostra rete di autisti e ricevi prenotazioni dirette senza commissioni abusive.',
               })}
             </p>
             <a href={`${locale === 'en' ? '' : `/${locale}`}/${getLocalizedPath('contact', locale as Locale)}/`} style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
-              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{pick(locale, { en: 'Get in touch →', es: 'Contactar →', ar: '← تواصل معنا' })}</span>
+              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{pick(locale, { en: 'Get in touch →', es: 'Contactar →', ar: '← تواصل معنا', it: 'Contattaci →' })}</span>
             </a>
           </div>
         </div>

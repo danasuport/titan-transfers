@@ -16,11 +16,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       en: 'Contact | Titan Transfers',
       es: 'Contacto | Titan Transfers',
       ar: 'تواصل معنا | تايتن ترانسفرز',
+      it: 'Contatto | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Contact Titan Transfers. We are available 24/7 for bookings and inquiries.',
       es: 'Contacta con Titan Transfers. Estamos disponibles 24/7 para reservas y consultas.',
       ar: 'تواصل مع تايتن ترانسفرز. نحن متاحون على مدار الساعة للحجوزات والاستفسارات.',
+      it: 'Contatta Titan Transfers. Siamo disponibili 24/7 per prenotazioni e richieste.',
     }),
   }
 }

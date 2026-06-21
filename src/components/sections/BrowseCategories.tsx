@@ -30,6 +30,7 @@ export function BrowseCategories() {
               en: 'Browse by category',
               es: 'Explora por categoría',
               ar: 'تصفّح حسب الفئة',
+              it: 'Esplora per categoria',
             })}
           </h2>
           <p style={{ fontSize: '1rem', color: '#475569', maxWidth: '560px', margin: '0 auto' }}>
@@ -37,6 +38,7 @@ export function BrowseCategories() {
               en: 'Find your perfect transfer by browsing airports, cities, countries and services.',
               es: 'Encuentra tu traslado perfecto explorando aeropuertos, ciudades, países y servicios.',
               ar: 'اعثر على رحلتك المثالية بتصفّح المطارات والمدن والدول والخدمات.',
+              it: 'Trova il tuo trasferimento perfetto esplorando aeroporti, città, paesi e servizi.',
             })}
           </p>
         </div>

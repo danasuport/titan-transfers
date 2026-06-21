@@ -13,7 +13,7 @@ export function StickyHelp() {
   const [open, setOpen] = useState(false)
   const [hovered, setHovered] = useState<string | null>(null)
 
-  const label = pick(locale, { en: 'Help', es: 'Ayuda', ar: 'مساعدة' })
+  const label = pick(locale, { en: 'Help', es: 'Ayuda', ar: 'مساعدة', it: 'Aiuto' })
 
   const options = [
     {
@@ -30,7 +30,7 @@ export function StickyHelp() {
     },
     {
       key: 'phone',
-      label: pick(locale, { en: 'Phone', es: 'Teléfono', ar: 'الهاتف' }),
+      label: pick(locale, { en: 'Phone', es: 'Teléfono', ar: 'الهاتف', it: 'Telefono' }),
       href: PHONE,
       bg: '#242426',
       hoverBg: '#8BAA1D',

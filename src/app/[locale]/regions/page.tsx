@@ -22,11 +22,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       en: 'Private Transfers by Region | Europe, Asia, Americas | Titan Transfers',
       es: 'Traslados privados por región | Europa, Asia, América | Titan Transfers',
       ar: 'نقل خاص حسب المنطقة | أوروبا وآسيا والأمريكتين | تايتن ترانسفرز',
+      it: 'Trasferimenti privati per regione | Europa, Asia, America | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Fixed-price private transfers in every region worldwide. Professional driver, door-to-door service and free cancellation up to 24h before.',
       es: 'Traslados privados con precio fijo en todas las regiones del mundo. Conductor profesional, servicio puerta a puerta y cancelación gratuita.',
       ar: 'نقل خاص بسعر ثابت في جميع المناطق حول العالم. سائق محترف، خدمة من الباب إلى الباب، وإلغاء مجاني حتى ٢٤ ساعة قبل الرحلة.',
+      it: 'Trasferimenti privati a prezzo fisso in tutte le regioni del mondo. Autista professionale, servizio porta a porta e cancellazione gratuita.',
     }),
   }
 }
@@ -49,20 +51,22 @@ export default async function RegionsPage({ params }: { params: Promise<{ locale
   const totalCountries = Object.keys(grouped).length
 
   const labels = {
-    h1: pick(locale, { en: 'Regions', es: 'Regiones', ar: 'المناطق' }),
-    statRegions: pick(locale, { en: 'regions', es: 'regiones', ar: 'منطقة' }),
-    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة' }),
-    statRating: pick(locale, { en: 'rating', es: 'valoración', ar: 'تقييم' }),
-    regionsWord: pick(locale, { en: 'regions', es: 'regiones', ar: 'منطقة' }),
+    h1: pick(locale, { en: 'Regions', es: 'Regiones', ar: 'المناطق', it: 'Regioni' }),
+    statRegions: pick(locale, { en: 'regions', es: 'regiones', ar: 'منطقة', it: 'regioni' }),
+    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi' }),
+    statRating: pick(locale, { en: 'rating', es: 'valoración', ar: 'تقييم', it: 'valutazione' }),
+    regionsWord: pick(locale, { en: 'regions', es: 'regiones', ar: 'منطقة', it: 'regioni' }),
     listName: pick(locale, {
       en: 'Private transfers by region',
       es: 'Traslados privados por región',
       ar: 'نقل خاص حسب المنطقة',
+      it: 'Trasferimenti privati per regione',
     }),
     intro: pick(locale, {
       en: `Covering ${totalRegions} regions across ${totalCountries} countries with fixed-price private transfers. Professional driver, door-to-door service and free cancellation up to 24h before.`,
       es: `Cubre ${totalRegions} regiones en ${totalCountries} países con traslados privados a precio fijo. Conductor profesional, servicio puerta a puerta y cancelación gratuita hasta 24h antes.`,
       ar: `يغطي ${totalRegions} منطقة في ${totalCountries} دولة مع نقل خاص بسعر ثابت. سائق محترف، خدمة من الباب إلى الباب، وإلغاء مجاني حتى ٢٤ ساعة قبل الرحلة.`,
+      it: `Copre ${totalRegions} regioni in ${totalCountries} paesi con trasferimenti privati a prezzo fisso. Autista professionale, servizio porta a porta e cancellazione gratuita fino a 24 ore prima.`,
     }),
   }
 

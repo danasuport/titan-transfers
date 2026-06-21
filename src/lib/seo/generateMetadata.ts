@@ -46,7 +46,7 @@ export function generatePageMetadata({
       description,
       url,
       siteName: SITE_NAME,
-      locale: locale === 'es' ? 'es_ES' : 'en_GB',
+      locale: locale === 'es' ? 'es_ES' : locale === 'it' ? 'it_IT' : locale === 'ar' ? 'ar_AR' : 'en_GB',
       type,
       ...(image && { images: [{ url: image, width: 1200, height: 630 }] }),
       ...(publishedTime && { publishedTime }),
@@ -79,6 +79,9 @@ export function generateAirportMetadata(
   if (locale === 'es') {
     fallbackTitle = `Traslado aeropuerto ${city} — taxi privado precio fijo | ${SITE_NAME}`
     fallbackDesc = `Reserva tu traslado privado desde ${airportTitle}. Precio fijo, recogida en terminal con cartel, conductor profesional. Sin cargos ocultos.`
+  } else if (locale === 'it') {
+    fallbackTitle = `Trasferimenti aeroporto ${city} — taxi privato prezzo fisso | ${SITE_NAME}`
+    fallbackDesc = `Prenota il tuo trasferimento privato da ${airportTitle}. Prezzo fisso, accoglienza in terminal con cartello, autista professionale. Nessun costo nascosto.`
   } else {
     fallbackTitle = `${city} Airport Transfers — Private Taxi Fixed Price | ${SITE_NAME}`
     fallbackDesc = `Book private transfers from ${airportTitle}. Fixed price, meet & greet, 24/7 service. Door-to-door airport taxi service.`
@@ -90,9 +93,10 @@ export function generateAirportMetadata(
 }
 
 export function generateRouteMetadata(
-  route: { title: string; seoTitle?: string; seoDescription?: string; origin?: { title: string }; destination?: { title: string } },
+  route: { title: string; seoTitle?: string; seoDescription?: string; origin?: { title: string }; destination?: { title: string }; translations?: Record<string, { seoTitle?: string; seoDescription?: string }> },
   locale: Locale,
 ) {
+  const t = locale !== defaultLocale ? route.translations?.[locale] : undefined
   const origin = route.origin?.title || ''
   const destination = route.destination?.title || ''
 
@@ -102,69 +106,88 @@ export function generateRouteMetadata(
   if (locale === 'es') {
     fallbackTitle = `Transfer privado de ${origin} a ${destination} — taxi precio fijo | ${SITE_NAME}`
     fallbackDesc = `Reserva tu traslado privado de ${origin} a ${destination}. Precio fijo, conductor profesional, servicio puerta a puerta 24/7. Sin sorpresas.`
+  } else if (locale === 'it') {
+    fallbackTitle = `Transfer privato da ${origin} a ${destination} — taxi prezzo fisso | ${SITE_NAME}`
+    fallbackDesc = `Prenota il tuo trasferimento privato da ${origin} a ${destination}. Prezzo fisso, autista professionale, servizio porta a porta 24/7. Nessuna sorpresa.`
   } else {
     fallbackTitle = `Private Transfer from ${origin} to ${destination} | Fixed Price Taxi | ${SITE_NAME}`
     fallbackDesc = `Book your private transfer from ${origin} to ${destination}. Fixed price, meet & greet, 24/7 service.`
   }
 
-  const title = route.seoTitle || fallbackTitle
-  const description = route.seoDescription || fallbackDesc
+  const title = t?.seoTitle || route.seoTitle || fallbackTitle
+  const description = t?.seoDescription || route.seoDescription || fallbackDesc
   return { title, description }
 }
 
-export function generateCityMetadata(city: { title: string; seoTitle?: string; seoDescription?: string }, locale: Locale) {
+export function generateCityMetadata(city: { title: string; seoTitle?: string; seoDescription?: string; translations?: Record<string, { title?: string; seoTitle?: string; seoDescription?: string }> }, locale: Locale) {
+  const t = locale !== defaultLocale ? city.translations?.[locale] : undefined
+  const cityTitle = t?.title || city.title
   let fallbackTitle: string
   let fallbackDesc: string
 
   if (locale === 'es') {
-    fallbackTitle = `Traslados privados en ${city.title} — taxi aeropuerto y ciudad | ${SITE_NAME}`
-    fallbackDesc = `Transfers privados en ${city.title} con precio fijo. Traslado aeropuerto, puerto y ciudad a ciudad. Conductor profesional, reserva online al instante.`
+    fallbackTitle = `Traslados privados en ${cityTitle} — taxi aeropuerto y ciudad | ${SITE_NAME}`
+    fallbackDesc = `Transfers privados en ${cityTitle} con precio fijo. Traslado aeropuerto, puerto y ciudad a ciudad. Conductor profesional, reserva online al instante.`
+  } else if (locale === 'it') {
+    fallbackTitle = `Trasferimenti privati a ${cityTitle} — taxi aeroporto e città | ${SITE_NAME}`
+    fallbackDesc = `Trasferimenti privati a ${cityTitle} a prezzo fisso. Transfer aeroporto, porto e città. Autista professionale, prenotazione online immediata.`
   } else {
-    fallbackTitle = `Private Transfers in ${city.title} | Airport, Port & City Transfers | ${SITE_NAME}`
-    fallbackDesc = `Book private transfers in ${city.title}. Airport transfers, port transfers, and city-to-city service. Fixed price, professional driver.`
+    fallbackTitle = `Private Transfers in ${cityTitle} | Airport, Port & City Transfers | ${SITE_NAME}`
+    fallbackDesc = `Book private transfers in ${cityTitle}. Airport transfers, port transfers, and city-to-city service. Fixed price, professional driver.`
   }
 
-  const title = city.seoTitle || fallbackTitle
-  const description = city.seoDescription || fallbackDesc
+  const title = t?.seoTitle || city.seoTitle || fallbackTitle
+  const description = t?.seoDescription || city.seoDescription || fallbackDesc
   return { title, description }
 }
 
-export function generateCountryMetadata(country: { title: string; seoTitle?: string; seoDescription?: string }, locale: Locale) {
+export function generateCountryMetadata(country: { title: string; seoTitle?: string; seoDescription?: string; translations?: Record<string, { title?: string; seoTitle?: string; seoDescription?: string }> }, locale: Locale) {
+  const t = locale !== defaultLocale ? country.translations?.[locale] : undefined
+  const countryTitle = t?.title || country.title
   let fallbackTitle: string
   let fallbackDesc: string
 
   if (locale === 'es') {
-    fallbackTitle = `Traslados privados en ${country.title} — transfers aeropuerto taxi | ${SITE_NAME}`
-    fallbackDesc = `Reserva tu transfer privado en ${country.title}. Aeropuertos, ciudades y rutas con precio fijo y conductor profesional. Servicio 24/7.`
+    fallbackTitle = `Traslados privados en ${countryTitle} — transfers aeropuerto taxi | ${SITE_NAME}`
+    fallbackDesc = `Reserva tu transfer privado en ${countryTitle}. Aeropuertos, ciudades y rutas con precio fijo y conductor profesional. Servicio 24/7.`
+  } else if (locale === 'it') {
+    fallbackTitle = `Trasferimenti privati in ${countryTitle} — transfer aeroporto taxi | ${SITE_NAME}`
+    fallbackDesc = `Prenota il tuo transfer privato in ${countryTitle}. Aeroporti, città e tratte a prezzo fisso con autista professionale. Servizio 24/7.`
   } else {
-    fallbackTitle = `Private Transfers in ${country.title} | Airport & City Taxi | ${SITE_NAME}`
-    fallbackDesc = `Book private transfers across ${country.title}. Airport, port and city transfers with fixed prices and professional drivers.`
+    fallbackTitle = `Private Transfers in ${countryTitle} | Airport & City Taxi | ${SITE_NAME}`
+    fallbackDesc = `Book private transfers across ${countryTitle}. Airport, port and city transfers with fixed prices and professional drivers.`
   }
 
-  const title = country.seoTitle || fallbackTitle
-  const description = country.seoDescription || fallbackDesc
+  const title = t?.seoTitle || country.seoTitle || fallbackTitle
+  const description = t?.seoDescription || country.seoDescription || fallbackDesc
   return { title, description }
 }
 
-export function generateRegionMetadata(region: { title: string; seoTitle?: string; seoDescription?: string }, locale: Locale) {
+export function generateRegionMetadata(region: { title: string; seoTitle?: string; seoDescription?: string; translations?: Record<string, { title?: string; seoTitle?: string; seoDescription?: string }> }, locale: Locale) {
+  const t = locale !== defaultLocale ? region.translations?.[locale] : undefined
+  const regionTitle = t?.title || region.title
   let fallbackTitle: string
   let fallbackDesc: string
 
   if (locale === 'es') {
-    fallbackTitle = `Transfer privado en ${region.title} — traslados taxi aeropuerto | ${SITE_NAME}`
-    fallbackDesc = `Traslados privados en ${region.title} con precio fijo. Transfer aeropuerto, resort y ciudad a ciudad. Conductor profesional, cancelación gratuita.`
+    fallbackTitle = `Transfer privado en ${regionTitle} — traslados taxi aeropuerto | ${SITE_NAME}`
+    fallbackDesc = `Traslados privados en ${regionTitle} con precio fijo. Transfer aeropuerto, resort y ciudad a ciudad. Conductor profesional, cancelación gratuita.`
+  } else if (locale === 'it') {
+    fallbackTitle = `Transfer privato in ${regionTitle} — trasferimenti taxi aeroporto | ${SITE_NAME}`
+    fallbackDesc = `Trasferimenti privati in ${regionTitle} a prezzo fisso. Transfer aeroporto, resort e città. Autista professionale, cancellazione gratuita.`
   } else {
-    fallbackTitle = `Private Transfers in ${region.title} | Airport & Resort Taxi | ${SITE_NAME}`
-    fallbackDesc = `Book private transfers in ${region.title}. Airport to resort, city-to-city and more. Fixed price, professional driver.`
+    fallbackTitle = `Private Transfers in ${regionTitle} | Airport & Resort Taxi | ${SITE_NAME}`
+    fallbackDesc = `Book private transfers in ${regionTitle}. Airport to resort, city-to-city and more. Fixed price, professional driver.`
   }
 
-  const title = region.seoTitle || fallbackTitle
-  const description = region.seoDescription || fallbackDesc
+  const title = t?.seoTitle || region.seoTitle || fallbackTitle
+  const description = t?.seoDescription || region.seoDescription || fallbackDesc
   return { title, description }
 }
 
-export function generateBlogMetadata(post: { title: string; seoTitle?: string; seoDescription?: string; excerpt?: string }, locale: Locale) {
-  const title = post.seoTitle || `${post.title} | ${SITE_NAME} Blog`
-  const description = post.seoDescription || post.excerpt || post.title
+export function generateBlogMetadata(post: { title: string; seoTitle?: string; seoDescription?: string; excerpt?: string; translations?: Record<string, { title?: string; seoTitle?: string; seoDescription?: string }> }, locale: Locale) {
+  const t = locale !== defaultLocale ? post.translations?.[locale] : undefined
+  const title = t?.seoTitle || post.seoTitle || `${t?.title || post.title} | ${SITE_NAME} Blog`
+  const description = t?.seoDescription || post.seoDescription || post.excerpt || post.title
   return { title, description }
 }

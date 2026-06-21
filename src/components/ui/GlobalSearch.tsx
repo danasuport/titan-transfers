@@ -149,12 +149,12 @@ export function GlobalSearch() {
         }}>
           {!hasResults ? (
             <div style={{ padding: '1rem 1.25rem', fontSize: '0.875rem', color: '#64748b' }}>
-              {pick(locale, { en: 'No results found', es: 'Sin resultados', ar: 'لا توجد نتائج' })}
+              {pick(locale, { en: 'No results found', es: 'Sin resultados', ar: 'لا توجد نتائج', it: 'Nessun risultato' })}
             </div>
           ) : (
             <>
               {results!.airports.length > 0 && (
-                <Section label={pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات' })} icon="✈️">
+                <Section label={pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات', it: 'Aeroporti' })} icon="✈️">
                   {results!.airports.map(item => (
                     <ResultRow
                       key={item._id}
@@ -166,7 +166,7 @@ export function GlobalSearch() {
                 </Section>
               )}
               {results!.cities.length > 0 && (
-                <Section label={pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن' })} icon="🏙️">
+                <Section label={pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن', it: 'Città' })} icon="🏙️">
                   {results!.cities.map(item => (
                     <ResultRow
                       key={item._id}
@@ -178,7 +178,7 @@ export function GlobalSearch() {
                 </Section>
               )}
               {results!.countries.length > 0 && (
-                <Section label={pick(locale, { en: 'Countries', es: 'Países', ar: 'الدول' })} icon="🌍">
+                <Section label={pick(locale, { en: 'Countries', es: 'Países', ar: 'الدول', it: 'Paesi' })} icon="🌍">
                   {results!.countries.map(item => (
                     <ResultRow
                       key={item._id}

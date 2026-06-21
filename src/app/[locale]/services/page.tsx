@@ -95,11 +95,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       en: 'Private transfer services | Titan Transfers',
       es: 'Servicios de traslados privados | Titan Transfers',
       ar: 'خدمات النقل الخاص | تايتن ترانسفرز',
+      it: 'Servizi di trasferimenti privati | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Airport, port, train station and city-to-city private transfers. Fixed prices, professional drivers and 24/7 support.',
       es: 'Aeropuerto, puerto, estación de tren y ciudad a ciudad. Precios fijos, conductores profesionales y soporte 24/7.',
       ar: 'نقل خاص من المطار والميناء ومحطة القطار وبين المدن. أسعار ثابتة وسائقون محترفون ودعم على مدار الساعة.',
+      it: 'Aeroporto, porto, stazione ferroviaria e città a città. Prezzi fissi, autisti professionisti e supporto 24/7.',
     }),
   }
 }
@@ -127,19 +129,21 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
   })
 
   const labels = {
-    h1: pick(locale, { en: 'Our services', es: 'Nuestros servicios', ar: 'خدماتنا' }),
+    h1: pick(locale, { en: 'Our services', es: 'Nuestros servicios', ar: 'خدماتنا', it: 'I nostri servizi' }),
     intro: pick(locale, {
       en: 'Private transfers for every need. Fixed prices, professional drivers and 24/7 support across all our services.',
       es: 'Traslados privados para cada necesidad. Precios fijos, conductores profesionales y soporte 24/7 en todos nuestros servicios.',
       ar: 'نقل خاص لكل احتياج. أسعار ثابتة، سائقون محترفون، ودعم على مدار الساعة لكل خدماتنا.',
+      it: 'Trasferimenti privati per ogni esigenza. Prezzi fissi, autisti professionisti e supporto 24/7 in tutti i nostri servizi.',
     }),
-    statServices: pick(locale, { en: 'services', es: 'servicios', ar: 'خدمات' }),
-    statDestinations: pick(locale, { en: 'destinations', es: 'destinos', ar: 'وجهة' }),
-    statSupport: pick(locale, { en: 'support', es: 'soporte', ar: 'دعم' }),
+    statServices: pick(locale, { en: 'services', es: 'servicios', ar: 'خدمات', it: 'servizi' }),
+    statDestinations: pick(locale, { en: 'destinations', es: 'destinos', ar: 'وجهة', it: 'destinazioni' }),
+    statSupport: pick(locale, { en: 'support', es: 'soporte', ar: 'دعم', it: 'supporto' }),
     heroAlt: pick(locale, {
       en: 'Private transfer services',
       es: 'Servicios de traslados privados',
       ar: 'خدمات النقل الخاص',
+      it: 'Servizi di trasferimenti privati',
     }),
   }
 

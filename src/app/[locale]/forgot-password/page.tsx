@@ -9,6 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       en: 'Forgot password | Titan Transfers',
       es: 'Recuperar contraseña | Titan Transfers',
       ar: 'استعادة كلمة المرور | تايتن ترانسفرز',
+      it: 'Recupera password | Titan Transfers',
     }),
     description: '',
     robots: { index: false, follow: false },
@@ -21,6 +22,7 @@ export default async function ForgotPasswordPage({ params }: { params: Promise<{
     en: 'Forgot password',
     es: 'Recuperar contraseña',
     ar: 'استعادة كلمة المرور',
+    it: 'Recupera password',
   })
 
   return (

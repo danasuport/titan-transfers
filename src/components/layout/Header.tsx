@@ -130,7 +130,7 @@ export function Header() {
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'skewX(12deg)', flexShrink: 0 }}>
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
                 </svg>
-                <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{pick(locale, { en: 'Login', es: 'Acceder', ar: 'دخول' })}</span>
+                <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{pick(locale, { en: 'Login', es: 'Acceder', ar: 'دخول', it: 'Accedi' })}</span>
               </Link>
             </div>
           </div>
@@ -163,7 +163,7 @@ export function Header() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <LanguageSwitcher />
             <Link href="/login/"
-              aria-label={pick(locale, { en: 'Login', es: 'Acceder', ar: 'دخول' })}
+              aria-label={pick(locale, { en: 'Login', es: 'Acceder', ar: 'دخول', it: 'Accedi' })}
               style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', textDecoration: 'none', width: '34px', height: '34px', background: '#242426', border: '2px solid #242426', transform: 'skewX(-12deg)', flexShrink: 0 }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'skewX(12deg)' }}>
@@ -267,7 +267,7 @@ export function Header() {
             </Link>
             <Link href="/login/" onClick={() => setMobileMenuOpen(false)}
               style={{ flex: 1, background: '#242426', color: '#ffffff', padding: '0.7rem 1rem', fontWeight: 700, fontSize: '0.875rem', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
-              {pick(locale, { en: 'Login', es: 'Acceder', ar: 'دخول' })}
+              {pick(locale, { en: 'Login', es: 'Acceder', ar: 'دخول', it: 'Accedi' })}
             </Link>
           </div>
         </div>

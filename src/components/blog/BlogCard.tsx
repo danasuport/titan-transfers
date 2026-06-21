@@ -72,7 +72,7 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
 
             <div style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: hovered ? '#8BAA1D' : '#242426', color: '#ffffff', padding: '0.6rem 1.5rem', transform: 'skewX(-8deg)', transition: 'background 0.15s', fontSize: '0.8rem', fontWeight: 700 }}>
               <span style={{ transform: 'skewX(8deg)', display: 'inline-block' }}>
-                {pick(locale, { en: 'Read more →', es: 'Leer más →', ar: '← اقرأ المزيد' })}
+                {pick(locale, { en: 'Read more →', es: 'Leer más →', ar: '← اقرأ المزيد', it: 'Leggi di più →' })}
               </span>
             </div>
           </div>
@@ -130,7 +130,7 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
           <div style={{ marginTop: 'auto', paddingTop: '1rem' }}>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: hovered ? '#8BAA1D' : '#242426', color: '#ffffff', padding: '0.4rem 1rem', transform: 'skewX(-8deg)', transition: 'background 0.15s', fontSize: '0.75rem', fontWeight: 700 }}>
               <span style={{ transform: 'skewX(8deg)', display: 'inline-block' }}>
-                {pick(locale, { en: 'Read more →', es: 'Leer más →', ar: '← اقرأ المزيد' })}
+                {pick(locale, { en: 'Read more →', es: 'Leer más →', ar: '← اقرأ المزيد', it: 'Leggi di più →' })}
               </span>
             </span>
           </div>

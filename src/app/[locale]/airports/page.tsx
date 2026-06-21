@@ -22,11 +22,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       en: 'Airports | Titan Transfers',
       es: 'Aeropuertos | Titan Transfers',
       ar: 'المطارات | تايتن ترانسفرز',
+      it: 'Aeroporti | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Private transfers from 124 airports worldwide. Fixed prices, professional driver, 24/7 service.',
       es: 'Traslados privados desde 124 aeropuertos en todo el mundo. Precios fijos, conductor profesional, servicio 24/7.',
       ar: 'نقل خاص من ١٢٤ مطاراً حول العالم. أسعار ثابتة، سائق محترف، خدمة على مدار الساعة.',
+      it: 'Trasferimenti privati da 124 aeroporti in tutto il mondo. Prezzi fissi, autista professionale, servizio 24/7.',
     }),
   }
 }
@@ -36,16 +38,17 @@ export default async function AirportsPage({ params }: { params: Promise<{ local
   const airports = await sanityClient.fetch(allAirportsQuery)
 
   const labels = {
-    breadcrumb: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات' }),
-    h1: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات' }),
+    breadcrumb: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات', it: 'Aeroporti' }),
+    h1: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات', it: 'Aeroporti' }),
     intro: pick(locale, {
       en: 'Private transfers from major airports worldwide. Professional driver, fixed price and flight monitoring included.',
       es: 'Traslados privados desde los principales aeropuertos del mundo. Conductor profesional, precio fijo y seguimiento de vuelo incluido.',
       ar: 'نقل خاص من المطارات الكبرى حول العالم. سائق محترف، سعر ثابت، ومتابعة الرحلة شاملة.',
+      it: 'Trasferimenti privati dai principali aeroporti del mondo. Autista professionale, prezzo fisso e monitoraggio del volo inclusi.',
     }),
-    statAirports: pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار' }),
-    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة' }),
-    statSupport: pick(locale, { en: 'support', es: 'soporte', ar: 'دعم' }),
+    statAirports: pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار', it: 'aeroporti' }),
+    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi' }),
+    statSupport: pick(locale, { en: 'support', es: 'soporte', ar: 'دعم', it: 'supporto' }),
   }
 
   const grouped: Record<string, any[]> = {}

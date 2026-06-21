@@ -31,6 +31,7 @@ export function ContactForm({ t }: Props) {
         en: 'Please fill in all fields.',
         es: 'Por favor rellena todos los campos.',
         ar: 'يرجى ملء جميع الحقول.',
+        it: 'Per favore compila tutti i campi.',
       }))
       return
     }
@@ -48,6 +49,7 @@ export function ContactForm({ t }: Props) {
         en: 'Could not send your message. Please try again or email info@titantransfers.com.',
         es: 'No se pudo enviar el mensaje. Inténtalo de nuevo o escríbenos a info@titantransfers.com.',
         ar: 'تعذّر إرسال رسالتك. حاول مرة أخرى أو راسلنا على info@titantransfers.com.',
+        it: 'Impossibile inviare il messaggio. Riprova o scrivici a info@titantransfers.com.',
       }))
       setSending(false)
     }
@@ -141,7 +143,7 @@ export function ContactForm({ t }: Props) {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} style={{ animation: 'spin 1s linear infinite' }}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                 </svg>
-                {pick(locale, { en: 'Sending…', es: 'Enviando…', ar: 'جارٍ الإرسال…' })}
+                {pick(locale, { en: 'Sending…', es: 'Enviando…', ar: 'جارٍ الإرسال…', it: 'Invio in corso…' })}
               </>
             ) : (
               <>

@@ -14,11 +14,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       en: 'Legal Notice | Titan Transfers',
       es: 'Aviso legal | Titan Transfers',
       ar: 'الإشعار القانوني | تايتن ترانسفرز',
+      it: 'Avviso legale | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Legal Notice for Titan Transfers — Uep Tech And Solutions Fzco.',
       es: 'Aviso legal de Titan Transfers — Uep Tech And Solutions Fzco.',
       ar: 'الإشعار القانوني لتايتن ترانسفرز — Uep Tech And Solutions Fzco.',
+      it: 'Avviso legale di Titan Transfers — Uep Tech And Solutions Fzco.',
     }),
     robots: { index: true, follow: true },
   }
@@ -30,6 +32,7 @@ export default async function LegalPage({ params }: { params: Promise<{ locale: 
     en: 'Legal Notice',
     es: 'Aviso legal',
     ar: 'الإشعار القانوني',
+    it: 'Avviso legale',
   })
 
   return (

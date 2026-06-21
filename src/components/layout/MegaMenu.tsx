@@ -190,7 +190,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
               </div>
             ))}
           </div>
-          <Footer href="/airports/" label={pick(locale, { en: 'Browse all airports', es: 'Ver todos los aeropuertos', ar: 'تصفّح كل المطارات' })} onClose={onClose} />
+          <Footer href="/airports/" label={pick(locale, { en: 'Browse all airports', es: 'Ver todos los aeropuertos', ar: 'تصفّح كل المطارات', it: 'Vedi tutti gli aeroporti' })} onClose={onClose} />
         </div>
       )}
 
@@ -214,7 +214,7 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
               </div>
             ))}
           </div>
-          <Footer href="/cities/" label={pick(locale, { en: 'Browse all cities', es: 'Ver todas las ciudades', ar: 'تصفّح كل المدن' })} onClose={onClose} />
+          <Footer href="/cities/" label={pick(locale, { en: 'Browse all cities', es: 'Ver todas las ciudades', ar: 'تصفّح كل المدن', it: 'Vedi tutte le città' })} onClose={onClose} />
         </div>
       )}
 
@@ -231,16 +231,16 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
                   <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'inherit' }}>{title(c)}</div>
                   {(c.airportCount || c.cityCount) ? (
                     <div style={{ fontSize: '0.7rem', color: 'inherit', opacity: 0.7 }}>
-                      {c.airportCount ? `${c.airportCount} ${pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار' })}` : ''}
+                      {c.airportCount ? `${c.airportCount} ${pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار', it: 'aeroporti' })}` : ''}
                       {c.airportCount && c.cityCount ? ' · ' : ''}
-                      {c.cityCount ? `${c.cityCount} ${pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة' })}` : ''}
+                      {c.cityCount ? `${c.cityCount} ${pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة', it: 'città' })}` : ''}
                     </div>
                   ) : null}
                 </div>
               </HoverItem>
             ))}
           </div>
-          <Footer href="/countries/" label={pick(locale, { en: 'Browse all countries', es: 'Ver todos los países', ar: 'تصفّح كل الدول' })} onClose={onClose} />
+          <Footer href="/countries/" label={pick(locale, { en: 'Browse all countries', es: 'Ver todos los países', ar: 'تصفّح كل الدول', it: 'Vedi tutti i paesi' })} onClose={onClose} />
         </div>
       )}
 
@@ -268,7 +268,7 @@ function MegaMenuMobile({ type, onClose, locale, data, countries, airportsByCoun
 
   return (
     <div style={{ padding: '0.5rem 0' }}>
-      {!data && <div style={{ padding: '1rem 0', color: '#64748b', fontSize: '0.85rem' }}>{pick(locale, { en: 'Loading...', es: 'Cargando...', ar: 'جارٍ التحميل...' })}</div>}
+      {!data && <div style={{ padding: '1rem 0', color: '#64748b', fontSize: '0.85rem' }}>{pick(locale, { en: 'Loading...', es: 'Cargando...', ar: 'جارٍ التحميل...', it: 'Caricamento...' })}</div>}
 
       {/* AIRPORTS & CITIES — grouped by country accordion */}
       {(type === 'airports' || type === 'cities') && data && (
@@ -311,8 +311,8 @@ function MegaMenuMobile({ type, onClose, locale, data, countries, airportsByCoun
             <Link href={(type === 'airports' ? '/airports/' : '/cities/') as never} onClick={onClose}
               style={{ display: 'block', textAlign: 'center', background: '#242426', color: '#ffffff', padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.8rem', textDecoration: 'none', fontFamily: 'inherit', width: '100%', boxSizing: 'border-box' }}>
               {type === 'airports'
-                ? pick(locale, { en: 'Browse all airports →', es: 'Ver todos los aeropuertos →', ar: '← تصفّح كل المطارات' })
-                : pick(locale, { en: 'Browse all cities →', es: 'Ver todas las ciudades →', ar: '← تصفّح كل المدن' })}
+                ? pick(locale, { en: 'Browse all airports →', es: 'Ver todos los aeropuertos →', ar: '← تصفّح كل المطارات', it: 'Vedi tutti gli aeroporti →' })
+                : pick(locale, { en: 'Browse all cities →', es: 'Ver todas las ciudades →', ar: '← تصفّح كل المدن', it: 'Vedi tutte le città →' })}
             </Link>
           </div>
         </>
@@ -331,8 +331,8 @@ function MegaMenuMobile({ type, onClose, locale, data, countries, airportsByCoun
                   {(c.airportCount || c.cityCount) && (
                     <div style={{ fontSize: '0.65rem', color: '#64748b' }}>
                       {[
-                        c.airportCount && `${c.airportCount} ${pick(locale, { en: 'airports', es: 'aerop.', ar: 'مطار' })}`,
-                        c.cityCount && `${c.cityCount} ${pick(locale, { en: 'cities', es: 'ciud.', ar: 'مدينة' })}`,
+                        c.airportCount && `${c.airportCount} ${pick(locale, { en: 'airports', es: 'aerop.', ar: 'مطار', it: 'aeroporto' })}`,
+                        c.cityCount && `${c.cityCount} ${pick(locale, { en: 'cities', es: 'ciud.', ar: 'مدينة', it: 'città' })}`,
                       ].filter(Boolean).join(' · ')}
                     </div>
                   )}
@@ -342,7 +342,7 @@ function MegaMenuMobile({ type, onClose, locale, data, countries, airportsByCoun
           </div>
           <Link href={'/countries/' as never} onClick={onClose}
             style={{ display: 'block', textAlign: 'center', background: '#242426', color: '#ffffff', padding: '0.6rem 1.25rem', fontWeight: 700, fontSize: '0.8rem', textDecoration: 'none', fontFamily: 'inherit', width: '100%', boxSizing: 'border-box' }}>
-            {pick(locale, { en: 'Browse all countries →', es: 'Ver todos los países →', ar: '← تصفّح كل الدول' })}
+            {pick(locale, { en: 'Browse all countries →', es: 'Ver todos los países →', ar: '← تصفّح كل الدول', it: 'Vedi tutti i paesi →' })}
           </Link>
         </>
       )}
@@ -390,5 +390,5 @@ function Skeleton() {
 }
 
 function Empty({ locale }: { locale: string }) {
-  return <p style={{ fontSize: '0.875rem', color: '#64748b', padding: '1rem 0' }}>{pick(locale, { en: 'No results', es: 'Sin resultados', ar: 'لا توجد نتائج' })}</p>
+  return <p style={{ fontSize: '0.875rem', color: '#64748b', padding: '1rem 0' }}>{pick(locale, { en: 'No results', es: 'Sin resultados', ar: 'لا توجد نتائج', it: 'Nessun risultato' })}</p>
 }
