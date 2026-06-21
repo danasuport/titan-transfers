@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useLocale } from 'next-intl'
 import { russoOne } from '@/lib/fonts'
+import { pick } from '@/lib/i18n/pick'
 
 const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || ''
 const ETO_BASE = '/booking/'
@@ -342,7 +343,6 @@ function CounterField({ icon, label, value, onChange, min = 0, max = 16 }: {
 
 export function BookingPanel() {
   const locale = useLocale()
-  const es = locale === 'es'
 
   const [mode, setMode] = useState<'transfer' | 'hourly'>('transfer')
   const [pickup, setPickup] = useState('')
@@ -470,7 +470,7 @@ export function BookingPanel() {
       {/* Header */}
       <div style={{ background: '#8BAA1D', padding: '1.1rem 1.5rem', textAlign: 'center' }}>
         <h2 className={russoOne.className} style={{ color: '#ffffff', fontSize: '1.25rem', margin: 0, letterSpacing: '0.02em' }}>
-          {es ? 'Reserva tu transfer' : 'Make a booking'}
+          {pick(locale, { en: 'Make a booking', es: 'Reserva tu transfer', it: 'Prenota il tuo transfer' })}
         </h2>
       </div>
 
@@ -479,18 +479,18 @@ export function BookingPanel() {
         {/* Tabs */}
         <div style={{ display: 'flex', background: '#f1f5f9', borderRadius: '6px', marginBottom: '1.1rem', overflow: 'hidden' }}>
           <button type="button" onClick={() => setMode('transfer')} style={tabActive(mode === 'transfer')}>
-            {es ? 'Transfer' : 'Transfer'}
+            {pick(locale, { en: 'Transfer', es: 'Transfer', it: 'Transfer' })}
           </button>
           <button type="button" onClick={() => setMode('hourly')} style={tabActive(mode === 'hourly')}>
-            {es ? 'Por hora' : 'By Hour'}
+            {pick(locale, { en: 'By Hour', es: 'Por hora', it: 'A ore' })}
           </button>
         </div>
 
         {/* Pickup */}
         <div style={{ marginBottom: '0.65rem' }}>
           <PlaceInput
-            placeholder={es ? 'Dirección de origen completa' : 'Enter full pickup address'}
-            ariaLabel={es ? 'Origen' : 'Pickup'}
+            placeholder={pick(locale, { en: 'Enter full pickup address', es: 'Dirección de origen completa', it: 'Inserisci l\'indirizzo di partenza completo' })}
+            ariaLabel={pick(locale, { en: 'Pickup', es: 'Origen', it: 'Partenza' })}
             value={pickup}
             onChange={setPickup}
             onSelect={(addr, lat, lng, pid) => { setPickup(addr); setPickupLat(lat); setPickupLng(lng); setPickupPlaceId(pid) }}
@@ -506,8 +506,8 @@ export function BookingPanel() {
         {mode === 'transfer' ? (
           <div style={{ marginBottom: '0.65rem' }}>
             <PlaceInput
-              placeholder={es ? 'Dirección de destino completa' : 'Enter full destination address'}
-              ariaLabel={es ? 'Destino' : 'Destination'}
+              placeholder={pick(locale, { en: 'Enter full destination address', es: 'Dirección de destino completa', it: 'Inserisci l\'indirizzo di destinazione completo' })}
+              ariaLabel={pick(locale, { en: 'Destination', es: 'Destino', it: 'Destinazione' })}
               value={dest}
               onChange={setDest}
               onSelect={(addr, lat, lng, pid) => { setDest(addr); setDestLat(lat); setDestLng(lng); setDestPlaceId(pid) }}
@@ -534,7 +534,7 @@ export function BookingPanel() {
                   <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
                 </svg>
               }
-              label={hours === 1 ? (es ? 'Hora' : 'Hour') : (es ? 'Horas' : 'Hours')}
+              label={hours === 1 ? pick(locale, { en: 'Hour', es: 'Hora', it: 'Ora' }) : pick(locale, { en: 'Hours', es: 'Horas', it: 'Ore' })}
               value={hours}
               onChange={setHours}
               min={2}
@@ -558,9 +558,9 @@ export function BookingPanel() {
             type="date"
             value={date}
             onChange={setDate}
-            placeholder={es ? 'Fecha' : 'Pickup date'}
-            displayValue={date ? new Date(date + 'T00:00:00').toLocaleDateString(es ? 'es-ES' : 'en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : ''}
-            ariaLabel={es ? 'Fecha de recogida' : 'Pickup date'}
+            placeholder={pick(locale, { en: 'Pickup date', es: 'Fecha', it: 'Data' })}
+            displayValue={date ? new Date(date + 'T00:00:00').toLocaleDateString(pick(locale, { en: 'en-GB', es: 'es-ES', it: 'it-IT' }), { day: '2-digit', month: 'short', year: 'numeric' }) : ''}
+            ariaLabel={pick(locale, { en: 'Pickup date', es: 'Fecha de recogida', it: 'Data di ritiro' })}
           />
           <TimeField
             icon={
@@ -570,8 +570,8 @@ export function BookingPanel() {
             }
             value={time}
             onChange={setTime}
-            placeholder={es ? 'Hora' : 'Time'}
-            ariaLabel={es ? 'Hora de recogida' : 'Pickup time'}
+            placeholder={pick(locale, { en: 'Time', es: 'Hora', it: 'Ora' })}
+            ariaLabel={pick(locale, { en: 'Pickup time', es: 'Hora de recogida', it: 'Ora di ritiro' })}
           />
         </div>
 
@@ -587,7 +587,7 @@ export function BookingPanel() {
                 <path d="M17 12.5c-1 0-1.9.2-2.6.5 1.4.9 2.3 2.2 2.6 3.5h5v-1.5c0-1.5-2-2.5-5-2.5z"/>
               </svg>
             }
-            label={pax === 1 ? (es ? 'Pasajero' : 'Passenger') : (es ? 'Pasajeros' : 'Passengers')}
+            label={pax === 1 ? pick(locale, { en: 'Passenger', es: 'Pasajero', it: 'Passeggero' }) : pick(locale, { en: 'Passengers', es: 'Pasajeros', it: 'Passeggeri' })}
             value={pax}
             onChange={setPax}
             min={1}
@@ -601,7 +601,7 @@ export function BookingPanel() {
                 <path d="M11 10v7M13 10v7" stroke="#F8FAF0" strokeWidth="1"/>
               </svg>
             }
-            label={lug === 1 ? (es ? 'Maleta' : 'Bag') : (es ? 'Maletas' : 'Bags')}
+            label={lug === 1 ? pick(locale, { en: 'Bag', es: 'Maleta', it: 'Valigia' }) : pick(locale, { en: 'Bags', es: 'Maletas', it: 'Valigie' })}
             value={lug}
             onChange={setLug}
             min={0}
@@ -621,7 +621,7 @@ export function BookingPanel() {
               <path d="M21 16H7"/>
             </svg>
             <span style={{ fontSize: '0.875rem', color: '#242426', fontWeight: 500 }}>
-              {es ? '¿Reservar vuelta?' : 'Book a return?'}
+              {pick(locale, { en: 'Book a return?', es: '¿Reservar vuelta?', it: 'Prenotare il ritorno?' })}
             </span>
           </label>
         )}
@@ -645,7 +645,7 @@ export function BookingPanel() {
             <line x1="12" y1="19" x2="12" y2="19"/>
             <line x1="16" y1="19" x2="16" y2="19"/>
           </svg>
-          {es ? 'Calcular precio' : 'Calculate price'}
+          {pick(locale, { en: 'Calculate price', es: 'Calcular precio', it: 'Calcola prezzo' })}
         </button>
       </div>
     </form>
