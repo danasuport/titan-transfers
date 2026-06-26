@@ -126,6 +126,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
 
   const postTitle = (locale !== 'en' && post.translations?.[locale]?.title) || post.title
   const content = (locale !== 'en' && post.translations?.[locale]?.content) || post.content
+  const postExcerpt = (locale !== 'en' && post.translations?.[locale]?.excerpt) || post.excerpt
 
   const relatedLinks = [
     ...(post.relatedAirports || []).map((a: any) => ({
@@ -142,7 +143,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
 
   return (
     <>
-      <SchemaOrg data={generateBlogPostingSchema({ title: postTitle, description: post.excerpt || postTitle, url: getBlogUrl(post, 'en'), image: post.featuredImage?.asset?.url, publishDate: post.publishDate })} />
+      <SchemaOrg data={generateBlogPostingSchema({ title: postTitle, description: postExcerpt || postTitle, url: getBlogUrl(post, 'en'), image: post.featuredImage?.asset?.url, publishDate: post.publishDate })} />
 
       {/* ─── HERO — split grid like airport pages ─────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '480px' }}>
@@ -166,9 +167,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
             {postTitle}
           </h1>
 
-          {post.excerpt && (
+          {postExcerpt && (
             <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '480px' }}>
-              {post.excerpt}
+              {postExcerpt}
             </p>
           )}
         </div>
