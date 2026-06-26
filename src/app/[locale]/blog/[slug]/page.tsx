@@ -90,6 +90,19 @@ const portableTextComponents = {
   },
   marks: {
     strong: ({ children }: any) => <span style={{ fontWeight: 400 }}>{children}</span>,
+    link: ({ children, value }: any) => {
+      const href = value?.href || '#'
+      const external = /^https?:\/\//i.test(href)
+      return (
+        <a
+          href={href}
+          style={{ color: '#6B8313', textDecoration: 'underline', textUnderlineOffset: '2px' }}
+          {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          {children}
+        </a>
+      )
+    },
   },
   types: {
     bookingCTA: () => null,
