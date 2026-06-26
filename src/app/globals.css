@@ -622,3 +622,22 @@ html[dir="rtl"] .font-russo {
     scroll-snap-align: start;
   }
 }
+
+/* Mobile: stack the featured blog card (image on top, content below) like a
+   normal blog card — drop the diagonal skew that made it narrow and cramped. */
+@media (max-width: 768px) {
+  .blog-featured-card {
+    grid-template-columns: 1fr !important;
+    min-height: unset !important;
+    transform: none !important;
+  }
+  .blog-featured-img {
+    aspect-ratio: 16 / 10;
+    min-height: 200px;
+  }
+  .blog-featured-body {
+    transform: none !important;
+    justify-content: flex-start !important;
+    padding: 1.5rem 1.5rem 1.75rem !important;
+  }
+}

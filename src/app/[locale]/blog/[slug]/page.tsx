@@ -11,7 +11,6 @@ import { BookingCTABlock } from '@/components/blog/BookingCTABlock'
 import { BookingPanel } from '@/components/ui/BookingPanel'
 import { FleetCompact } from '@/components/blog/FleetCompact'
 import { RouteInlineBlock } from '@/components/blog/RouteCard'
-import { formatDate } from '@/lib/utils/formatters'
 import Image from 'next/image'
 import { Link } from '@/lib/i18n/navigation'
 import type { Locale } from '@/lib/i18n/config'
@@ -158,9 +157,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
               <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#6B8313', background: '#e8f0c4', padding: '3px 10px', textTransform: 'uppercase', letterSpacing: '0.08em', transform: 'skewX(-6deg)', display: 'inline-block' }}>
                 {getCategoryLabel(post.category, locale as Locale)}
               </span>
-            )}
-            {post.publishDate && (
-              <time style={{ fontSize: '0.8rem', color: '#64748b' }}>{formatDate(post.publishDate, locale)}</time>
             )}
           </div>
 

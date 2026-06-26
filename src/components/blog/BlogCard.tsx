@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useLocale } from 'next-intl'
 import { Link } from '@/lib/i18n/navigation'
 import Image from 'next/image'
-import { formatDate } from '@/lib/utils/formatters'
 import { getBlogUrl, getTranslatedTitle } from '@/lib/utils/slugHelpers'
 import { pick } from '@/lib/i18n/pick'
 import { getCategoryLabel } from '@/lib/blog/categories'
@@ -38,27 +37,25 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
         <article
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
+          className="blog-featured-card"
           style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '360px', border: '1.5px solid', borderColor: hovered ? '#8BAA1D' : '#e5e7eb', transition: 'border-color 0.15s', background: '#ffffff', transform: 'skewX(-4deg)', overflow: 'hidden' }}
         >
           {/* Image */}
-          <div style={{ position: 'relative', overflow: 'hidden' }}>
+          <div className="blog-featured-img" style={{ position: 'relative', overflow: 'hidden' }}>
             {post.featuredImage?.asset?.url ? (
-              <Image src={post.featuredImage.asset.url} alt={title} fill style={{ objectFit: 'cover' }} sizes="50vw" />
+              <Image src={post.featuredImage.asset.url} alt={title} fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 100vw, 50vw" />
             ) : (
               <div style={{ position: 'absolute', inset: 0, background: '#242426' }} />
             )}
           </div>
 
           {/* Content */}
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '3rem 3rem 3rem 4rem', transform: 'skewX(4deg)' }}>
+          <div className="blog-featured-body" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '3rem 3rem 3rem 4rem', transform: 'skewX(4deg)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
               {categoryLabel && (
                 <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#6B8313', background: '#f0f4e3', padding: '2px 8px', textTransform: 'uppercase', letterSpacing: '0.08em', transform: 'skewX(-6deg)', display: 'inline-block' }}>
                   {categoryLabel}
                 </span>
-              )}
-              {post.publishDate && (
-                <span style={{ fontSize: '0.72rem', color: '#64748b' }}>{formatDate(post.publishDate, locale)}</span>
               )}
             </div>
 
@@ -113,9 +110,6 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
               <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#6B8313', background: '#f0f4e3', padding: '2px 7px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 {categoryLabel}
               </span>
-            )}
-            {post.publishDate && (
-              <span style={{ fontSize: '0.7rem', color: '#64748b' }}>{formatDate(post.publishDate, locale)}</span>
             )}
           </div>
 
