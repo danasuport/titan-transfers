@@ -16,6 +16,7 @@ import Image from 'next/image'
 import { Link } from '@/lib/i18n/navigation'
 import type { Locale } from '@/lib/i18n/config'
 import { getAirportUrl, getCityUrl, getBlogUrl, getTranslatedTitle } from '@/lib/utils/slugHelpers'
+import { getCategoryLabel } from '@/lib/blog/categories'
 import { pick } from '@/lib/i18n/pick'
 import { russoOne } from '@/lib/fonts'
 
@@ -153,9 +154,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
           <Breadcrumbs items={[{ label: 'Blog', href: '/blog/' }, { label: postTitle }]} variant="light" />
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '1.25rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
-            {post.category && (
+            {getCategoryLabel(post.category, locale as Locale) && (
               <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#6B8313', background: '#e8f0c4', padding: '3px 10px', textTransform: 'uppercase', letterSpacing: '0.08em', transform: 'skewX(-6deg)', display: 'inline-block' }}>
-                {post.category}
+                {getCategoryLabel(post.category, locale as Locale)}
               </span>
             )}
             {post.publishDate && (

@@ -583,3 +583,42 @@ html[dir="rtl"] .font-russo {
   .resp-4col-sm { grid-template-columns: 1fr !important; }
   .resp-photo-grid { grid-template-columns: 1fr !important; }
 }
+
+/* ─── Blog listing: responsive card grid + category filter bar ─────────── */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.blog-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2.5rem;
+}
+/* Hide native scrollbar on the mobile filter rail */
+.blog-filter-bar::-webkit-scrollbar { display: none; }
+
+@media (max-width: 768px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  /* Mobile: turn the filter into a full-bleed, swipeable rail with snap */
+  .blog-filter-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-left: -6vw;
+    margin-right: -6vw;
+    padding: 0.25rem 6vw 0.75rem;
+    margin-bottom: 1.75rem;
+  }
+  .blog-filter-chip {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+}

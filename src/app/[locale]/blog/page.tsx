@@ -2,20 +2,15 @@ import { getTranslations } from 'next-intl/server'
 import { sanityClient } from '@/lib/sanity/client'
 import { allBlogPostsQuery } from '@/lib/sanity/queries'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
-import { BlogCard } from '@/components/blog/BlogCard'
-import { BlogPagination } from '@/components/blog/BlogPagination'
+import { BlogListing } from '@/components/blog/BlogListing'
 import { SchemaOrg } from '@/components/seo/SchemaOrg'
 import { russoOne } from '@/lib/fonts'
 import { pick } from '@/lib/i18n/pick'
-import { getLocalizedPath } from '@/lib/utils/slugHelpers'
-import type { Locale } from '@/lib/i18n/config'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
 // stay cached so navigation feels instant; new content shows up within 1h
 // or immediately via /api/revalidate.
 export const revalidate = 3600
-
-const PER_PAGE = 20
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -37,14 +32,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function BlogPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ locale: string }>
-  searchParams: Promise<{ page?: string }>
 }) {
   const { locale } = await params
-  const { page: pageParam } = await searchParams
-  const currentPage = Math.max(1, parseInt(pageParam || '1', 10))
 
   const posts = await sanityClient.fetch(allBlogPostsQuery)
   const t = await getTranslations({ locale, namespace: 'blog' })
@@ -71,9 +62,6 @@ export default async function BlogPage({
     }),
   }
 
-  const totalPages = Math.ceil(posts.length / PER_PAGE)
-  const pagePosts = posts.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE)
-
   const blogListSchema = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
@@ -86,10 +74,6 @@ export default async function BlogPage({
       datePublished: p.publishDate,
     })),
   }
-
-  const blogSegment = getLocalizedPath('blog', locale as Locale)
-  const localePrefix = locale === 'en' ? '' : `/${locale}`
-  const basePath = `${localePrefix}/${blogSegment}/`
 
   return (
     <>
@@ -108,15 +92,9 @@ export default async function BlogPage({
         </div>
       </section>
 
-      {/* ─── GRID ─────────────────────────────────────────────────────────── */}
-      <section style={{ background: '#ffffff', padding: '4rem 6vw 5rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem' }}>
-          {pagePosts.map((post: any) => (
-            <BlogCard key={post._id} post={post} featured />
-          ))}
-        </div>
-
-        <BlogPagination currentPage={currentPage} totalPages={totalPages} basePath={basePath} />
+      {/* ─── GRID + AJAX CATEGORY FILTER ──────────────────────────────────── */}
+      <section style={{ background: '#ffffff', padding: '3rem 6vw 5rem' }}>
+        <BlogListing posts={posts} />
       </section>
     </>
   )

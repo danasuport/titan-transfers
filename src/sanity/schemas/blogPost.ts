@@ -11,7 +11,18 @@ export const blogPost = defineType({
       name: 'category',
       title: 'Category',
       type: 'string',
-      options: { list: ['event', 'guide', 'news', 'tips'] },
+      // Keep in sync with BLOG_CATEGORIES in src/lib/blog/categories.ts
+      options: {
+        list: [
+          { title: 'Events', value: 'events' },
+          { title: 'Gastronomy', value: 'gastronomy' },
+          { title: 'Places', value: 'places' },
+          { title: 'Monuments', value: 'monuments' },
+          { title: 'Beaches', value: 'beaches' },
+          { title: 'Sports', value: 'sports' },
+          { title: 'Guides', value: 'guides' },
+        ],
+      },
     }),
     defineField({
       name: 'content',
