@@ -15,7 +15,7 @@ import type { Locale } from '@/lib/i18n/config'
 // or immediately via /api/revalidate.
 export const revalidate = 3600
 
-const PER_PAGE = 8
+const PER_PAGE = 20
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
