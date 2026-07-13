@@ -25,6 +25,7 @@ export const airportBySlugQuery = groq`*[_type == "airport" && (
   translations.es.slug.current == $slug ||
   translations.ar.slug.current == $slug ||
   translations.it.slug.current == $slug ||
+  translations.de.slug.current == $slug ||
   city->slug.current + "-airport-transfers" == $slug
 )][0] {
   _id, title, slug, iataCode,
@@ -46,7 +47,7 @@ export const airportBySlugQuery = groq`*[_type == "airport" && (
 }`
 
 // Route queries
-export const routeBySlugQuery = groq`*[_type == "route" && (slug.current == $routeSlug || translations.es.slug.current == $routeSlug || translations.ar.slug.current == $routeSlug || translations.it.slug.current == $routeSlug) && (origin->slug.current == $originSlug || origin->translations.es.slug.current == $originSlug || origin->translations.ar.slug.current == $originSlug || origin->translations.it.slug.current == $originSlug)][0] {
+export const routeBySlugQuery = groq`*[_type == "route" && (slug.current == $routeSlug || translations.es.slug.current == $routeSlug || translations.ar.slug.current == $routeSlug || translations.it.slug.current == $routeSlug || translations.de.slug.current == $routeSlug) && (origin->slug.current == $originSlug || origin->translations.es.slug.current == $originSlug || origin->translations.ar.slug.current == $originSlug || origin->translations.it.slug.current == $originSlug || origin->translations.de.slug.current == $originSlug)][0] {
   _id, title, slug,
   origin->{
     _id, _type, title, slug, iataCode,
@@ -71,6 +72,14 @@ export const routeBySlugQuery = groq`*[_type == "route" && (slug.current == $rou
     ar{
       title, slug, description, seoTitle, seoDescription,
       contentSections[]{ title, body, imagePosition, imageAlt, image{ asset->{ url } } }
+    },
+    it{
+      title, slug, description, seoTitle, seoDescription,
+      contentSections[]{ title, body, imagePosition, imageAlt, image{ asset->{ url } } }
+    },
+    de{
+      title, slug, description, seoTitle, seoDescription,
+      contentSections[]{ title, body, imagePosition, imageAlt, image{ asset->{ url } } }
     }
   }
 }`
@@ -85,7 +94,7 @@ export const allCitiesQuery = groq`*[_type == "city"] | order(title asc) {
   translations
 }`
 
-export const cityBySlugQuery = groq`*[_type == "city" && (slug.current == $slug || translations.es.slug.current == $slug || translations.ar.slug.current == $slug || translations.it.slug.current == $slug)][0] {
+export const cityBySlugQuery = groq`*[_type == "city" && (slug.current == $slug || translations.es.slug.current == $slug || translations.ar.slug.current == $slug || translations.it.slug.current == $slug || translations.de.slug.current == $slug)][0] {
   _id, title, slug,
   country->{ _id, title, slug, translations },
   region->{ _id, title, slug, translations },
@@ -120,7 +129,7 @@ export const allCountriesQuery = groq`*[_type == "country"] | order(title asc) {
   translations
 }`
 
-export const countryBySlugQuery = groq`*[_type == "country" && (slug.current == $slug || translations.es.slug.current == $slug || translations.ar.slug.current == $slug || translations.it.slug.current == $slug)][0] {
+export const countryBySlugQuery = groq`*[_type == "country" && (slug.current == $slug || translations.es.slug.current == $slug || translations.ar.slug.current == $slug || translations.it.slug.current == $slug || translations.de.slug.current == $slug)][0] {
   _id, title, slug,
   description,
   seoTitle, seoDescription,
@@ -146,7 +155,7 @@ export const allRegionsQuery = groq`*[_type == "region"] | order(title asc) {
   translations
 }`
 
-export const regionBySlugQuery = groq`*[_type == "region" && (slug.current == $slug || translations.es.slug.current == $slug || translations.ar.slug.current == $slug || translations.it.slug.current == $slug)][0] {
+export const regionBySlugQuery = groq`*[_type == "region" && (slug.current == $slug || translations.es.slug.current == $slug || translations.ar.slug.current == $slug || translations.it.slug.current == $slug || translations.de.slug.current == $slug)][0] {
   _id, title, slug,
   country->{ _id, title, slug, translations },
   description,
@@ -175,7 +184,7 @@ export const allServicesQuery = groq`*[_type == "servicePage"] | order(title asc
   translations
 }`
 
-export const serviceBySlugQuery = groq`*[_type == "servicePage" && (slug.current == $slug || translations.es.slug.current == $slug || translations.ar.slug.current == $slug || translations.it.slug.current == $slug)][0] {
+export const serviceBySlugQuery = groq`*[_type == "servicePage" && (slug.current == $slug || translations.es.slug.current == $slug || translations.ar.slug.current == $slug || translations.it.slug.current == $slug || translations.de.slug.current == $slug)][0] {
   _id, title, slug, serviceType,
   description,
   seoTitle, seoDescription,
@@ -192,7 +201,7 @@ export const allBlogPostsQuery = groq`*[_type == "blogPost"] | order(publishDate
   translations
 }`
 
-export const blogPostBySlugQuery = groq`*[_type == "blogPost" && (slug.current == $slug || translations.es.slug.current == $slug || translations.ar.slug.current == $slug || translations.it.slug.current == $slug)][0] {
+export const blogPostBySlugQuery = groq`*[_type == "blogPost" && (slug.current == $slug || translations.es.slug.current == $slug || translations.ar.slug.current == $slug || translations.it.slug.current == $slug || translations.de.slug.current == $slug)][0] {
   _id, title, slug, category, content, excerpt, publishDate,
   featuredImage { asset->{ url } },
   seoTitle, seoDescription,
@@ -222,7 +231,7 @@ export const relatedBlogPostsQuery = groq`*[_type == "blogPost" && (
 }`
 
 // Page queries
-export const pageBySlugQuery = groq`*[_type == "page" && (slug.current == $slug || translations.es.slug.current == $slug || translations.ar.slug.current == $slug || translations.it.slug.current == $slug)][0] {
+export const pageBySlugQuery = groq`*[_type == "page" && (slug.current == $slug || translations.es.slug.current == $slug || translations.ar.slug.current == $slug || translations.it.slug.current == $slug || translations.de.slug.current == $slug)][0] {
   _id, title, slug, content,
   seoTitle, seoDescription,
   translations

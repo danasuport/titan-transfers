@@ -22,12 +22,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       es: 'Países | Titan Transfers',
       ar: 'الدول | تايتن ترانسفرز',
       it: 'Paesi | Titan Transfers',
+      de: 'Länder | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Private transfers in 30 countries. Global coverage with fixed prices and professional service.',
       es: 'Traslados privados en 30 países. Cobertura global con precios fijos y servicio profesional.',
       ar: 'نقل خاص في ٣٠ دولة. تغطية عالمية بأسعار ثابتة وخدمة احترافية.',
       it: 'Trasferimenti privati in 30 paesi. Copertura globale con prezzi fissi e servizio professionale.',
+      de: 'Private Transfers in 30 Ländern. Weltweite Abdeckung mit Festpreisen und professionellem Service.',
     }),
   }
 }
@@ -37,17 +39,18 @@ export default async function CountriesPage({ params }: { params: Promise<{ loca
   const countries = await sanityClient.fetch(allCountriesQuery)
 
   const labels = {
-    breadcrumb: pick(locale, { en: 'Countries', es: 'Países', ar: 'الدول', it: 'Paesi' }),
-    h1: pick(locale, { en: 'Countries', es: 'Países', ar: 'الدول', it: 'Paesi' }),
+    breadcrumb: pick(locale, { en: 'Countries', es: 'Países', ar: 'الدول', it: 'Paesi', de: 'Länder' }),
+    h1: pick(locale, { en: 'Countries', es: 'Países', ar: 'الدول', it: 'Paesi', de: 'Länder' }),
     intro: pick(locale, {
       en: 'Coverage in 30 countries with fixed prices, professional driver and door-to-door service available 24/7.',
       es: 'Cobertura en 30 países con precios fijos, conductor profesional y servicio puerta a puerta disponible 24/7.',
       ar: 'تغطية في ٣٠ دولة بأسعار ثابتة، سائق محترف، وخدمة من الباب إلى الباب على مدار الساعة.',
       it: 'Copertura in 30 paesi con prezzi fissi, autista professionale e servizio porta a porta disponibile 24/7.',
+      de: 'Abdeckung in 30 Ländern mit Festpreisen, professionellem Fahrer und Tür-zu-Tür-Service rund um die Uhr verfügbar.',
     }),
-    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi' }),
-    statAirports: pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار', it: 'aeroporti' }),
-    statCities: pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة', it: 'città' }),
+    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'länder' }),
+    statAirports: pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار', it: 'aeroporti', de: 'flughäfen' }),
+    statCities: pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة', it: 'città', de: 'städte' }),
   }
 
   const items = countries.map((c: any) => ({

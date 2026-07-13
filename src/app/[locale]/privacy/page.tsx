@@ -15,12 +15,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       es: 'Política de privacidad | Titan Transfers',
       ar: 'سياسة الخصوصية | تايتن ترانسفرز',
       it: 'Informativa sulla privacy | Titan Transfers',
+      de: 'Datenschutzrichtlinie | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Privacy Policy of Titan Transfers. How we handle and protect your personal data.',
       es: 'Política de privacidad de Titan Transfers. Cómo tratamos y protegemos tus datos personales.',
       ar: 'سياسة الخصوصية لتايتن ترانسفرز. كيف نتعامل مع بياناتك الشخصية ونحميها.',
       it: 'Informativa sulla privacy di Titan Transfers. Come trattiamo e proteggiamo i tuoi dati personali.',
+      de: 'Datenschutzrichtlinie von Titan Transfers. Wie wir Ihre persönlichen Daten behandeln und schützen.',
     }),
     robots: { index: true, follow: true },
   }
@@ -33,6 +35,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
     es: 'Política de privacidad',
     ar: 'سياسة الخصوصية',
     it: 'Informativa sulla privacy',
+    de: 'Datenschutzrichtlinie',
   })
 
   return (

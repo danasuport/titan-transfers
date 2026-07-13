@@ -10,12 +10,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       es: 'Crear cuenta | Titan Transfers',
       ar: 'إنشاء حساب | تايتن ترانسفرز',
       it: 'Crea un account | Titan Transfers',
+      de: 'Konto erstellen | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Create your Titan Transfers account and manage your bookings easily.',
       es: 'Crea tu cuenta en Titan Transfers y gestiona tus reservas fácilmente.',
       ar: 'أنشئ حسابك في تايتن ترانسفرز وأدر حجوزاتك بسهولة.',
       it: 'Crea il tuo account su Titan Transfers e gestisci facilmente le tue prenotazioni.',
+      de: 'Erstellen Sie Ihr Titan Transfers-Konto und verwalten Sie Ihre Buchungen einfach.',
     }),
     robots: { index: false, follow: false },
   }
@@ -24,12 +26,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function RegisterPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const labels = {
-    title: pick(locale, { en: 'Create account', es: 'Crear cuenta', ar: 'إنشاء حساب', it: 'Crea un account' }),
+    title: pick(locale, { en: 'Create account', es: 'Crear cuenta', ar: 'إنشاء حساب', it: 'Crea un account', de: 'Konto erstellen' }),
     subtitle: pick(locale, {
       en: 'Register to manage your bookings and access your transfer history.',
       es: 'Regístrate para gestionar tus reservas y acceder a tu historial de traslados.',
       ar: 'سجّل لإدارة حجوزاتك والاطلاع على تاريخ رحلاتك.',
       it: 'Registrati per gestire le tue prenotazioni e accedere alla tua cronologia dei trasferimenti.',
+      de: 'Registrieren Sie sich, um Ihre Buchungen zu verwalten und auf Ihre Transferhistorie zuzugreifen.',
     }),
   }
 

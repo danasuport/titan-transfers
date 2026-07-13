@@ -190,8 +190,9 @@ export function BookingForm() {
                   es: 'Origen — aeropuerto, hotel...',
                   ar: 'الاستلام — المطار، الفندق...',
                   it: 'Origine — aeroporto, hotel...',
+                  de: 'Abholung — Flughafen, Hotel...',
                 })}
-                ariaLabel={pick(locale, { en: 'Pickup location', es: 'Lugar de origen', ar: 'موقع الاستلام', it: 'Luogo di origine' })}
+                ariaLabel={pick(locale, { en: 'Pickup location', es: 'Lugar de origen', ar: 'موقع الاستلام', it: 'Luogo di origine', de: 'Abholort' })}
                 value={pickup}
                 onChange={setPickup}
                 onSelect={(addr, _pid, lat, lng) => { setPickup(addr); setPickupLat(lat); setPickupLng(lng) }}
@@ -211,8 +212,9 @@ export function BookingForm() {
                   es: 'Destino — hotel, aeropuerto...',
                   ar: 'الوجهة — الفندق، المطار...',
                   it: 'Destinazione — hotel, aeroporto...',
+                  de: 'Zielort — Hotel, Flughafen...',
                 })}
-                ariaLabel={pick(locale, { en: 'Drop-off location', es: 'Lugar de destino', ar: 'موقع الوجهة', it: 'Luogo di destinazione' })}
+                ariaLabel={pick(locale, { en: 'Drop-off location', es: 'Lugar de destino', ar: 'موقع الوجهة', it: 'Luogo di destinazione', de: 'Zielort' })}
                 value={dest}
                 onChange={setDest}
                 onSelect={(addr, _pid, lat, lng) => { setDest(addr); setDestLat(lat); setDestLng(lng) }}
@@ -226,7 +228,7 @@ export function BookingForm() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={iconColor} strokeWidth="2" style={{ flexShrink: 0 }}>
                 <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
               </svg>
-              <input type="datetime-local" value={datetime} onChange={e => setDatetime(e.target.value)} aria-label={pick(locale, { en: 'Pickup date and time', es: 'Fecha y hora de recogida', ar: 'تاريخ ووقت الاستلام', it: 'Data e ora di prelievo' })} style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: '0.875rem', color: datetime ? '#242426' : '#64748b', fontFamily: 'inherit', width: '100%' }} />
+              <input type="datetime-local" value={datetime} onChange={e => setDatetime(e.target.value)} aria-label={pick(locale, { en: 'Pickup date and time', es: 'Fecha y hora de recogida', ar: 'تاريخ ووقت الاستلام', it: 'Data e ora di prelievo', de: 'Abholdatum und -uhrzeit' })} style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: '0.875rem', color: datetime ? '#242426' : '#64748b', fontFamily: 'inherit', width: '100%' }} />
             </div>
           </div>
 
@@ -236,8 +238,8 @@ export function BookingForm() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={iconColor} strokeWidth="2" style={{ flexShrink: 0 }}>
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
               </svg>
-              <select value={pax} onChange={e => setPax(Number(e.target.value))} aria-label={pick(locale, { en: 'Number of passengers', es: 'Número de pasajeros', ar: 'عدد الركاب', it: 'Numero di passeggeri' })} style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: '0.875rem', color: '#242426', fontFamily: 'inherit', cursor: 'pointer' }}>
-                {[...Array(16)].map((_, i) => <option key={i+1} value={i+1}>{i+1} {pick(locale, { en: 'pax', es: 'pax', ar: 'راكب', it: 'pax' })}</option>)}
+              <select value={pax} onChange={e => setPax(Number(e.target.value))} aria-label={pick(locale, { en: 'Number of passengers', es: 'Número de pasajeros', ar: 'عدد الركاب', it: 'Numero di passeggeri', de: 'Anzahl der Passagiere' })} style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: '0.875rem', color: '#242426', fontFamily: 'inherit', cursor: 'pointer' }}>
+                {[...Array(16)].map((_, i) => <option key={i+1} value={i+1}>{i+1} {pick(locale, { en: 'pax', es: 'pax', ar: 'راكب', it: 'pax', de: 'Pax' })}</option>)}
               </select>
             </div>
           </div>
@@ -248,7 +250,7 @@ export function BookingForm() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={iconColor} strokeWidth="2" style={{ flexShrink: 0 }}>
                 <rect x="6" y="4" width="12" height="16" rx="2"/><path d="M10 4V2h4v2M8 11h8"/>
               </svg>
-              <select value={lug} onChange={e => setLug(Number(e.target.value))} aria-label={pick(locale, { en: 'Number of bags', es: 'Número de maletas', ar: 'عدد الحقائب', it: 'Numero di valigie' })} style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: '0.875rem', color: '#242426', fontFamily: 'inherit', cursor: 'pointer' }}>
+              <select value={lug} onChange={e => setLug(Number(e.target.value))} aria-label={pick(locale, { en: 'Number of bags', es: 'Número de maletas', ar: 'عدد الحقائب', it: 'Numero di valigie', de: 'Anzahl der Gepäckstücke' })} style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: '0.875rem', color: '#242426', fontFamily: 'inherit', cursor: 'pointer' }}>
                 {[...Array(11)].map((_, i) => <option key={i} value={i}>{i} {pick(locale, {
                   en: i === 1 ? 'bag' : 'bags',
                   es: i === 1 ? 'maleta' : 'maletas',
@@ -259,13 +261,13 @@ export function BookingForm() {
           </div>
 
           {/* Submit */}
-          <button type="submit" aria-label={pick(locale, { en: 'Get a price', es: 'Calcular precio', ar: 'احسب السعر', it: 'Calcola prezzo' })} style={{ background: '#242426', border: 'none', cursor: 'pointer', padding: '0 1.5rem', transform: 'skewX(-8deg)', flexShrink: 0, display: 'flex', alignItems: 'center' }}>
+          <button type="submit" aria-label={pick(locale, { en: 'Get a price', es: 'Calcular precio', ar: 'احسب السعر', it: 'Calcola prezzo', de: 'Preis anfragen' })} style={{ background: '#242426', border: 'none', cursor: 'pointer', padding: '0 1.5rem', transform: 'skewX(-8deg)', flexShrink: 0, display: 'flex', alignItems: 'center' }}>
             <span style={{ transform: 'skewX(8deg)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
               <span className="booking-btn-text" style={{ display: 'none', color: '#ffffff', fontSize: '0.95rem', fontWeight: 700, letterSpacing: '0.02em' }}>
-                {pick(locale, { en: 'Get a price', es: 'Calcular precio', ar: 'احسب السعر', it: 'Calcola prezzo' })}
+                {pick(locale, { en: 'Get a price', es: 'Calcular precio', ar: 'احسب السعر', it: 'Calcola prezzo', de: 'Preis anfragen' })}
               </span>
             </span>
           </button>

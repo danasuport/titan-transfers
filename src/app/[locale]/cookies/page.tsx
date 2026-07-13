@@ -15,12 +15,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       es: 'Política de cookies | Titan Transfers',
       ar: 'سياسة الكوكيز | تايتن ترانسفرز',
       it: 'Politica sui cookie | Titan Transfers',
+      de: 'Cookie-Richtlinie | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Cookie Policy of Titan Transfers. What cookies we use and how to manage them.',
       es: 'Política de cookies de Titan Transfers. Qué cookies usamos y cómo gestionarlas.',
       ar: 'سياسة الكوكيز لتايتن ترانسفرز. الكوكيز التي نستخدمها وكيفية إدارتها.',
       it: 'Politica sui cookie di Titan Transfers. Quali cookie utilizziamo e come gestirli.',
+      de: 'Cookie-Richtlinie von Titan Transfers. Welche Cookies wir verwenden und wie Sie sie verwalten können.',
     }),
     robots: { index: true, follow: true },
   }
@@ -33,6 +35,7 @@ export default async function CookiesPage({ params }: { params: Promise<{ locale
     es: 'Política de cookies',
     ar: 'سياسة الكوكيز',
     it: 'Politica sui cookie',
+    de: 'Cookie-Richtlinie',
   })
 
   return (

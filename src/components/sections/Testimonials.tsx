@@ -99,6 +99,21 @@ const testimonialsAr = [
   { platform: 'trustedshops' as const, name: 'طارق ف.', location: 'تونس', rating: 5, text: 'حجزت من المطار إلى الفندق. ملتزم بالمواعيد، احترافي وبسعر تنافسي جداً. سأكرر التجربة.' },
 ]
 
+const testimonialsDe = [
+  { platform: 'trustpilot' as const, name: 'Julia M.', location: 'München, Deutschland', rating: 5, text: 'Ausgezeichneter Service vom Flughafen Barcelona. Der Fahrer wartete mit einem Schild und das Auto war makellos. Sehr empfehlenswert!' },
+  { platform: 'google' as const, name: 'Stefan R.', location: 'Wien, Österreich', rating: 5, text: 'Titan für unsere Familienreise nach Málaga genutzt. Der Minivan war perfekt für uns und die Kinder. Auch preislich top.' },
+  { platform: 'trustedshops' as const, name: 'Anna K.', location: 'Berlin, Deutschland', rating: 5, text: 'Sehr professioneller Transfer vom Flughafen Palma zum Hotel. Pünktlich, freundlicher Fahrer, fairer Preis. Klare Empfehlung.' },
+  { platform: 'trustpilot' as const, name: 'Michael T.', location: 'Zürich, Schweiz', rating: 5, text: 'Bester Flughafentransfer, den wir in Europa genutzt haben. Die Buchung war einfach und der Fahrer absolut pünktlich.' },
+  { platform: 'google' as const, name: 'Laura F.', location: 'Hamburg, Deutschland', rating: 5, text: 'Unglaublicher Service. Der Fahrer war pünktlich und das Auto in einwandfreiem Zustand. Ich buche auf jeden Fall wieder.' },
+  { platform: 'trustedshops' as const, name: 'Thomas B.', location: 'Frankfurt, Deutschland', rating: 5, text: 'Von Anfang bis Ende reibungslos. Die App war einfach zu bedienen, der Fahrer freundlich und professionell.' },
+  { platform: 'google' as const, name: 'Elena V.', location: 'Köln, Deutschland', rating: 5, text: 'Perfekter Transfer vom Flughafen. Pünktlicher Fahrer, sauberes Fahrzeug, korrekter Preis. Sehr zu empfehlen.' },
+  { platform: 'trustpilot' as const, name: 'David O.', location: 'Salzburg, Österreich', rating: 5, text: 'Erstklassige Erfahrung. Der Fahrer wartete am Ankunftsbereich und half mit dem gesamten Gepäck. Hochprofessionell.' },
+  { platform: 'trustedshops' as const, name: 'Marta S.', location: 'Stuttgart, Deutschland', rating: 5, text: 'Titan für den Flughafen Barcelona-El Prat genutzt. Alles perfekt, der Fahrer super freundlich und wir kamen früher an als geplant.' },
+  { platform: 'google' as const, name: 'Kevin L.', location: 'Düsseldorf, Deutschland', rating: 5, text: 'Titan von Heathrow ins Zentrum von London genutzt. Ausgezeichnete Kommunikation, pünktlich und tolles Auto. Ich buche wieder.' },
+  { platform: 'trustpilot' as const, name: 'Sophie M.', location: 'Bern, Schweiz', rating: 5, text: 'Für unseren Hochzeitstransfer gebucht. Alles war perfekt — makelloses Auto, freundlicher Fahrer, absolut stressfrei.' },
+  { platform: 'trustedshops' as const, name: 'Carlos P.', location: 'Leipzig, Deutschland', rating: 5, text: 'Vom Hotel zum Flughafen gebucht. Pünktlich, professionell und zu einem sehr wettbewerbsfähigen Preis. Gerne wieder.' },
+]
+
 const PER_PAGE = 4
 const PAGES = Math.ceil(testimonials.length / PER_PAGE)
 const AUTO_MS = 5000
@@ -122,7 +137,7 @@ export function Testimonials() {
     return () => clearTimeout(t)
   }, [page])
 
-  const list = locale === 'ar' ? testimonialsAr : testimonials
+  const list = locale === 'ar' ? testimonialsAr : locale === 'de' ? testimonialsDe : testimonials
   const visible = list.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
 
   return (
@@ -137,6 +152,7 @@ export function Testimonials() {
               es: 'Lo que dicen nuestros clientes',
               ar: 'ماذا يقول عملاؤنا',
               it: 'Cosa dicono i nostri clienti',
+              de: 'Was unsere Kunden sagen',
             })}
           </h2>
 
@@ -147,7 +163,7 @@ export function Testimonials() {
               <span style={{ fontSize: '1rem', color: '#6b7280' }}>/5</span>
               <Stars count={5} />
               <span style={{ fontSize: '0.875rem', color: '#6b7280', marginLeft: '0.25rem' }}>
-                {pick(locale, { en: '2,500+ reviews', es: '+2.500 reseñas', ar: '+٢٬٥٠٠ تقييم', it: '+2.500 recensioni' })}
+                {pick(locale, { en: '2,500+ reviews', es: '+2.500 reseñas', ar: '+٢٬٥٠٠ تقييم', it: '+2.500 recensioni', de: 'Über 2.500 Bewertungen' })}
               </span>
             </div>
             <div style={{ width: '1px', height: '28px', background: '#e5e7eb' }} />

@@ -14,7 +14,7 @@ export function WhyChooseUs() {
   const stats = [
     { value: '+120', label: tTrust('airports'), icon: '/icon-airplane.svg' },
     { value: '+30', label: tTrust('countries'), icon: '/icon-map.svg' },
-    { value: '24/7', label: pick(locale, { en: 'Support', es: 'Soporte', ar: 'دعم', it: 'Supporto' }), icon: '/icon-countries.svg' },
+    { value: '24/7', label: pick(locale, { en: 'Support', es: 'Soporte', ar: 'دعم', it: 'Supporto', de: 'Support' }), icon: '/icon-countries.svg' },
   ]
 
   return (

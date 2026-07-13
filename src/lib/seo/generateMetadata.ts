@@ -46,7 +46,7 @@ export function generatePageMetadata({
       description,
       url,
       siteName: SITE_NAME,
-      locale: locale === 'es' ? 'es_ES' : locale === 'it' ? 'it_IT' : locale === 'ar' ? 'ar_AR' : 'en_GB',
+      locale: locale === 'es' ? 'es_ES' : locale === 'it' ? 'it_IT' : locale === 'ar' ? 'ar_AR' : locale === 'de' ? 'de_DE' : 'en_GB',
       type,
       ...(image && { images: [{ url: image, width: 1200, height: 630 }] }),
       ...(publishedTime && { publishedTime }),
@@ -82,6 +82,9 @@ export function generateAirportMetadata(
   } else if (locale === 'it') {
     fallbackTitle = `Trasferimenti aeroporto ${city} — taxi privato prezzo fisso | ${SITE_NAME}`
     fallbackDesc = `Prenota il tuo trasferimento privato da ${airportTitle}. Prezzo fisso, accoglienza in terminal con cartello, autista professionale. Nessun costo nascosto.`
+  } else if (locale === 'de') {
+    fallbackTitle = `Flughafentransfer ${city} — Privattaxi zum Festpreis | ${SITE_NAME}`
+    fallbackDesc = `Buchen Sie Ihren privaten Transfer ab ${airportTitle}. Festpreis, Empfang am Terminal mit Namensschild, professioneller Fahrer. Keine versteckten Kosten.`
   } else {
     fallbackTitle = `${city} Airport Transfers — Private Taxi Fixed Price | ${SITE_NAME}`
     fallbackDesc = `Book private transfers from ${airportTitle}. Fixed price, meet & greet, 24/7 service. Door-to-door airport taxi service.`
@@ -109,6 +112,9 @@ export function generateRouteMetadata(
   } else if (locale === 'it') {
     fallbackTitle = `Transfer privato da ${origin} a ${destination} — taxi prezzo fisso | ${SITE_NAME}`
     fallbackDesc = `Prenota il tuo trasferimento privato da ${origin} a ${destination}. Prezzo fisso, autista professionale, servizio porta a porta 24/7. Nessuna sorpresa.`
+  } else if (locale === 'de') {
+    fallbackTitle = `Privater Transfer von ${origin} nach ${destination} — Taxi zum Festpreis | ${SITE_NAME}`
+    fallbackDesc = `Buchen Sie Ihren privaten Transfer von ${origin} nach ${destination}. Festpreis, professioneller Fahrer, 24/7 Tür-zu-Tür-Service. Keine Überraschungen.`
   } else {
     fallbackTitle = `Private Transfer from ${origin} to ${destination} | Fixed Price Taxi | ${SITE_NAME}`
     fallbackDesc = `Book your private transfer from ${origin} to ${destination}. Fixed price, meet & greet, 24/7 service.`
@@ -131,6 +137,9 @@ export function generateCityMetadata(city: { title: string; seoTitle?: string; s
   } else if (locale === 'it') {
     fallbackTitle = `Trasferimenti privati a ${cityTitle} — taxi aeroporto e città | ${SITE_NAME}`
     fallbackDesc = `Trasferimenti privati a ${cityTitle} a prezzo fisso. Transfer aeroporto, porto e città. Autista professionale, prenotazione online immediata.`
+  } else if (locale === 'de') {
+    fallbackTitle = `Private Transfers in ${cityTitle} — Flughafen- und Stadttaxi | ${SITE_NAME}`
+    fallbackDesc = `Private Transfers in ${cityTitle} zum Festpreis. Flughafen-, Hafen- und Stadt-zu-Stadt-Transfers. Professioneller Fahrer, sofortige Online-Buchung.`
   } else {
     fallbackTitle = `Private Transfers in ${cityTitle} | Airport, Port & City Transfers | ${SITE_NAME}`
     fallbackDesc = `Book private transfers in ${cityTitle}. Airport transfers, port transfers, and city-to-city service. Fixed price, professional driver.`
@@ -153,6 +162,9 @@ export function generateCountryMetadata(country: { title: string; seoTitle?: str
   } else if (locale === 'it') {
     fallbackTitle = `Trasferimenti privati in ${countryTitle} — transfer aeroporto taxi | ${SITE_NAME}`
     fallbackDesc = `Prenota il tuo transfer privato in ${countryTitle}. Aeroporti, città e tratte a prezzo fisso con autista professionale. Servizio 24/7.`
+  } else if (locale === 'de') {
+    fallbackTitle = `Private Transfers in ${countryTitle} — Flughafentaxi & Transfers | ${SITE_NAME}`
+    fallbackDesc = `Buchen Sie Ihren privaten Transfer in ${countryTitle}. Flughäfen, Städte und Strecken zum Festpreis mit professionellem Fahrer. 24/7 Service.`
   } else {
     fallbackTitle = `Private Transfers in ${countryTitle} | Airport & City Taxi | ${SITE_NAME}`
     fallbackDesc = `Book private transfers across ${countryTitle}. Airport, port and city transfers with fixed prices and professional drivers.`
@@ -175,6 +187,9 @@ export function generateRegionMetadata(region: { title: string; seoTitle?: strin
   } else if (locale === 'it') {
     fallbackTitle = `Transfer privato in ${regionTitle} — trasferimenti taxi aeroporto | ${SITE_NAME}`
     fallbackDesc = `Trasferimenti privati in ${regionTitle} a prezzo fisso. Transfer aeroporto, resort e città. Autista professionale, cancellazione gratuita.`
+  } else if (locale === 'de') {
+    fallbackTitle = `Private Transfers in ${regionTitle} — Flughafen- & Resort-Taxi | ${SITE_NAME}`
+    fallbackDesc = `Private Transfers in ${regionTitle} zum Festpreis. Flughafen zu Resort, Stadt-zu-Stadt und mehr. Professioneller Fahrer, kostenlose Stornierung.`
   } else {
     fallbackTitle = `Private Transfers in ${regionTitle} | Airport & Resort Taxi | ${SITE_NAME}`
     fallbackDesc = `Book private transfers in ${regionTitle}. Airport to resort, city-to-city and more. Fixed price, professional driver.`

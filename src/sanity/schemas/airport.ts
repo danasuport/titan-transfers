@@ -60,6 +60,18 @@ export const airport = defineType({
             defineField({ name: 'seoDescription', type: 'text', title: 'SEO Description' }),
           ],
         }),
+        defineField({
+          name: 'de',
+          title: 'German',
+          type: 'object',
+          fields: [
+            defineField({ name: 'title', type: 'string', title: 'Title' }),
+            defineField({ name: 'slug', type: 'slug', title: 'Slug' }),
+            defineField({ name: 'description', type: 'array', title: 'Description', of: [{ type: 'block' }] }),
+            defineField({ name: 'seoTitle', type: 'string', title: 'SEO Title' }),
+            defineField({ name: 'seoDescription', type: 'text', title: 'SEO Description' }),
+          ],
+        }),
       ],
     }),
   ],

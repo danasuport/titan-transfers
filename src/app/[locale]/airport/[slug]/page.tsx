@@ -66,6 +66,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       { locale: 'es' as Locale, path: `/es${getAirportUrl(airport, 'es')}` },
       { locale: 'ar' as Locale, path: `/ar${getAirportUrl(airport, 'ar')}` },
       { locale: 'it' as Locale, path: `/it${getAirportUrl(airport, 'it')}` },
+      { locale: 'de' as Locale, path: `/de${getAirportUrl(airport, 'de')}` },
     ],
   })
 }
@@ -274,7 +275,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
                   { icon: <IconStar />, title: tc('meetGreet'), desc: tc('meetGreetDesc') },
                   { icon: <IconClock />, title: tc('support'), desc: tc('supportDesc') },
                   { icon: <IconCheck />, title: tc('rating'), desc: tc('ratingDesc') },
-                  { icon: <IconPlane />, title: pick(locale, { en: 'Professional driver', es: 'Conductor profesional', ar: 'سائق محترف', it: 'Autista professionale' }), desc: pick(locale, { en: 'With name sign at arrivals', es: 'Con cartel con tu nombre', ar: 'يحمل لافتة باسمك عند الوصول', it: 'Con cartello con il tuo nome' }) },
+                  { icon: <IconPlane />, title: pick(locale, { en: 'Professional driver', es: 'Conductor profesional', ar: 'سائق محترف', it: 'Autista professionale', de: 'Professioneller Fahrer' }), desc: pick(locale, { en: 'With name sign at arrivals', es: 'Con cartel con tu nombre', ar: 'يحمل لافتة باسمك عند الوصول', it: 'Con cartello con il tuo nome', de: 'Mit Namensschild bei der Ankunft' }) },
                 ].map((item, i) => (
                   <div key={i} style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1rem', transform: 'skewX(-6deg)' }}>
                     <div style={{ transform: 'skewX(6deg)' }}>
@@ -343,6 +344,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
               es: `Rutas populares desde ${airportTitle}`,
               ar: `مسارات شهيرة من ${airportTitle}`,
               it: `Percorsi popolari da ${airportTitle}`,
+              de: `Beliebte Strecken von ${airportTitle}`,
             })}
           />
         </section>
@@ -367,6 +369,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
                 es: `Conductor profesional ${airportTitle}`,
                 ar: `سائق محترف ${airportTitle}`,
                 it: `Autista professionale ${airportTitle}`,
+                de: `Professioneller Fahrer ${airportTitle}`,
               })}
               fill
               style={{ objectFit: 'cover', objectPosition: 'center' }}
@@ -380,7 +383,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
               {t('joinDrivers', { airport: airportTitle })}
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, marginBottom: '2rem', maxWidth: '440px' }}>{t('joinDriversDesc')}</p>
-            <a href={`${locale === 'en' ? '' : `/${locale}`}/${pick(locale, { en: 'contact', es: 'contacto', ar: 'tawasul', it: 'contatto' })}/`} style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
+            <a href={`${locale === 'en' ? '' : `/${locale}`}/${pick(locale, { en: 'contact', es: 'contacto', ar: 'tawasul', it: 'contatto', de: 'Kontakt' })}/`} style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
               <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{tc('support')} →</span>
             </a>
           </div>

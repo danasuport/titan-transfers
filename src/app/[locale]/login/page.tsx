@@ -11,12 +11,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       es: 'Area de Cliente | Titan Transfers',
       ar: 'منطقة العميل | تايتن ترانسفرز',
       it: 'Area Clienti | Titan Transfers',
+      de: 'Kundenbereich | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Access your bookings and manage your transfers.',
       es: 'Accede a tus reservas y gestiona tus traslados.',
       ar: 'ادخل إلى حجوزاتك وأدر رحلاتك.',
       it: 'Accedi alle tue prenotazioni e gestisci i tuoi trasferimenti.',
+      de: 'Zugriff auf Ihre Buchungen und Verwaltung Ihrer Transfers.',
     }),
     robots: { index: false, follow: false },
   }

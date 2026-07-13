@@ -81,6 +81,7 @@ export async function PopularDestinations({ locale = 'en' }: { locale?: string }
         es: 'Transfers privados en los destinos más populares',
         ar: 'نقل خاص في أكثر الوجهات شهرة',
         it: 'Transfers privati nelle destinazioni più popolari',
+        de: 'Private Transfers in den beliebtesten Reisezielen',
       })}
       subheading={t('popularDestinationsDesc')}
     />

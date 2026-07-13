@@ -62,10 +62,10 @@ export function PopularDestinationsCarousel({ cities, heading, subheading }: {
           </p>
           {(() => {
             const cityPath = `/${getLocalizedPath('private-transfers', locale as Locale)}/`
-            const barcelona = <Link href={`${cityPath}barcelona/` as any} style={{ color: '#6B8313', textDecoration: 'none', fontWeight: 500 }}>{pick(locale, { en: 'Barcelona', es: 'Barcelona', ar: 'برشلونة', it: 'Barcellona' })}</Link>
-            const london = <Link href={`${cityPath}london/` as any} style={{ color: '#6B8313', textDecoration: 'none', fontWeight: 500 }}>{pick(locale, { en: 'London', es: 'Londres', ar: 'لندن', it: 'Londra' })}</Link>
-            const paris = <Link href={`${cityPath}paris/` as any} style={{ color: '#6B8313', textDecoration: 'none', fontWeight: 500 }}>{pick(locale, { en: 'Paris', es: 'París', ar: 'باريس', it: 'Parigi' })}</Link>
-            const dubai = <Link href={`${cityPath}dubai/` as any} style={{ color: '#6B8313', textDecoration: 'none', fontWeight: 500 }}>{pick(locale, { en: 'Dubai', es: 'Dubái', ar: 'دبي', it: 'Dubai' })}</Link>
+            const barcelona = <Link href={`${cityPath}barcelona/` as any} style={{ color: '#6B8313', textDecoration: 'none', fontWeight: 500 }}>{pick(locale, { en: 'Barcelona', es: 'Barcelona', ar: 'برشلونة', it: 'Barcellona', de: 'Barcelona' })}</Link>
+            const london = <Link href={`${cityPath}london/` as any} style={{ color: '#6B8313', textDecoration: 'none', fontWeight: 500 }}>{pick(locale, { en: 'London', es: 'Londres', ar: 'لندن', it: 'Londra', de: 'London' })}</Link>
+            const paris = <Link href={`${cityPath}paris/` as any} style={{ color: '#6B8313', textDecoration: 'none', fontWeight: 500 }}>{pick(locale, { en: 'Paris', es: 'París', ar: 'باريس', it: 'Parigi', de: 'Paris' })}</Link>
+            const dubai = <Link href={`${cityPath}dubai/` as any} style={{ color: '#6B8313', textDecoration: 'none', fontWeight: 500 }}>{pick(locale, { en: 'Dubai', es: 'Dubái', ar: 'دبي', it: 'Dubai', de: 'Dubai' })}</Link>
             return (
               <p style={{ fontSize: '0.9rem', color: '#64748b', maxWidth: '700px', margin: '0 auto', lineHeight: 1.7 }}>
                 {locale === 'ar' ? (

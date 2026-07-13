@@ -71,6 +71,7 @@ export function Footer() {
                 es: 'Transfers privados en más de 100 destinos. Precio fijo, conductor profesional y soporte 24/7.',
                 ar: 'نقل خاص في أكثر من ١٠٠ وجهة. أسعار ثابتة، سائق محترف، ودعم على مدار الساعة.',
                 it: 'Transfers privati in oltre 100 destinazioni. Prezzo fisso, autista professionista e supporto 24/7.',
+                de: 'Private Transfers in über 100 Zielen. Festpreise, professioneller Fahrer und 24/7 Support.',
               })}
             </p>
             <div style={{ display: 'flex', gap: '0.75rem' }}>
@@ -124,13 +125,13 @@ export function Footer() {
           </AccordionCol>
 
           {/* Contact */}
-          <AccordionCol title={pick(locale, { en: 'Contact info', es: 'Contacto', ar: 'بيانات التواصل', it: 'Contatto' })}>
+          <AccordionCol title={pick(locale, { en: 'Contact info', es: 'Contacto', ar: 'بيانات التواصل', it: 'Contatto', de: 'Kontaktinformationen' })}>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
               {[
                 { href: `tel:+34930477712`, label: '+34 930 47 77 12' },
                 { href: `tel:+16465030394`, label: '+1 (646) 503-0394' },
                 { href: 'mailto:info@titantransfers.com', label: 'info@titantransfers.com' },
-                { href: `/${locale}/${getLocalizedPath('contact', locale as Locale)}/`, label: pick(locale, { en: 'Contact form', es: 'Formulario de contacto', ar: 'نموذج التواصل', it: 'Modulo di contatto' }) },
+                { href: `/${locale}/${getLocalizedPath('contact', locale as Locale)}/`, label: pick(locale, { en: 'Contact form', es: 'Formulario de contacto', ar: 'نموذج التواصل', it: 'Modulo di contatto', de: 'Kontaktformular' }) },
               ].map(item => (
                 <li key={item.href}>
                   <a href={item.href} style={linkStyle}
@@ -143,10 +144,10 @@ export function Footer() {
           </AccordionCol>
 
           {/* Reviews */}
-          <AccordionCol title={pick(locale, { en: 'Reviews', es: 'Opiniones', ar: 'التقييمات', it: 'Recensioni' })}>
+          <AccordionCol title={pick(locale, { en: 'Reviews', es: 'Opiniones', ar: 'التقييمات', it: 'Recensioni', de: 'Bewertungen' })}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {(() => {
-                const reviewsWord = pick(locale, { en: 'reviews', es: 'opiniones', ar: 'تقييم', it: 'recensioni' })
+                const reviewsWord = pick(locale, { en: 'reviews', es: 'opiniones', ar: 'تقييم', it: 'recensioni', de: 'Bewertungen' })
                 return [
                   { href: 'https://ie.trustpilot.com/review/titantransfers.com', name: 'Trustpilot', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="#00B67A"><path d="M12 0l3.09 9.26H24l-7.85 5.7 3.09 9.26L12 18.52l-7.24 5.7 3.09-9.26L0 9.26h8.91z"/></svg>, starColor: '#00B67A', score: `4.9 / 5 · +500 ${reviewsWord}` },
                   { href: 'https://www.trustedshops.eu/buyerrating/info_X39CC0944707618A0C37EAA21E972D649.html', name: 'Trusted Shops', icon: <Image src="/logo-trusted-shops.png" alt="Trusted Shops" width={16} height={16} style={{ objectFit: 'contain' }} />, starColor: '#FFDC0F', score: `4.9 / 5 · +1.800 ${reviewsWord}` },
@@ -195,7 +196,7 @@ export function Footer() {
               { href: '/privacy/', label: t('privacy') },
               { href: '/terms/', label: t('terms') },
               { href: '/cookies/', label: t('cookies') },
-              { href: '/sitemap-page/', label: pick(locale, { en: 'Sitemap', es: 'Mapa del sitio', ar: 'خريطة الموقع', it: 'Mappa del sito' }) },
+              { href: '/sitemap-page/', label: pick(locale, { en: 'Sitemap', es: 'Mapa del sitio', ar: 'خريطة الموقع', it: 'Mappa del sito', de: 'Sitemap' }) },
             ].map(item => (
               <Link key={item.href} href={item.href as any} style={{ ...linkStyle, fontSize: '0.8rem', color: '#64748b' }}
                 onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = '#8BAA1D')}

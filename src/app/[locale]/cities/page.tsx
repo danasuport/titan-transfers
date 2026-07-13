@@ -22,12 +22,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       es: 'Ciudades | Titan Transfers',
       ar: 'المدن | تايتن ترانسفرز',
       it: 'Città | Titan Transfers',
+      de: 'Städte | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Private transfers to 186 cities worldwide. Fixed prices, professional driver, 24/7 service.',
       es: 'Traslados privados a 186 ciudades en todo el mundo. Precios fijos, conductor profesional, servicio 24/7.',
       ar: 'نقل خاص إلى ١٨٦ مدينة حول العالم. أسعار ثابتة، سائق محترف، خدمة على مدار الساعة.',
       it: 'Trasferimenti privati in 186 città in tutto il mondo. Prezzi fissi, autista professionale, servizio 24/7.',
+      de: 'Private Transfers zu 186 Städten weltweit. Festpreise, professioneller Fahrer, 24/7 Service.',
     }),
   }
 }
@@ -37,17 +39,18 @@ export default async function CitiesPage({ params }: { params: Promise<{ locale:
   const cities = await sanityClient.fetch(allCitiesQuery)
 
   const labels = {
-    breadcrumb: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن', it: 'Città' }),
-    h1: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن', it: 'Città' }),
+    breadcrumb: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن', it: 'Città', de: 'Städte' }),
+    h1: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن', it: 'Città', de: 'Städte' }),
     intro: pick(locale, {
       en: 'Private transfers to major cities worldwide. Door-to-door service with professional driver and fixed price.',
       es: 'Traslados privados a las principales ciudades del mundo. Servicio puerta a puerta con conductor profesional y precio fijo.',
       ar: 'نقل خاص إلى المدن الكبرى حول العالم. خدمة من الباب إلى الباب مع سائق محترف وسعر ثابت.',
       it: 'Trasferimenti privati nelle principali città del mondo. Servizio porta a porta con autista professionale e prezzo fisso.',
+      de: 'Private Transfers zu großen Städten weltweit. Tür-zu-Tür-Service mit professionellem Fahrer und Festpreis.',
     }),
-    statCities: pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة', it: 'città' }),
-    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi' }),
-    statRating: pick(locale, { en: 'rating', es: 'valoración', ar: 'تقييم', it: 'valutazione' }),
+    statCities: pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة', it: 'città', de: 'städte' }),
+    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'länder' }),
+    statRating: pick(locale, { en: 'rating', es: 'valoración', ar: 'تقييم', it: 'valutazione', de: 'bewertung' }),
   }
 
   const grouped: Record<string, any[]> = {}

@@ -10,6 +10,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       es: 'Restablecer contraseña | Titan Transfers',
       ar: 'إعادة تعيين كلمة المرور | تايتن ترانسفرز',
       it: 'Reimposta password | Titan Transfers',
+      de: 'Passwort zurücksetzen | Titan Transfers',
     }),
     description: '',
     robots: { index: false, follow: false },
@@ -23,6 +24,7 @@ export default async function ResetPasswordPage({ params }: { params: Promise<{ 
     es: 'Restablecer contraseña',
     ar: 'إعادة تعيين كلمة المرور',
     it: 'Reimposta password',
+    de: 'Passwort zurücksetzen',
   })
 
   return (
