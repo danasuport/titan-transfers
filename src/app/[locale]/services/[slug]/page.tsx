@@ -141,6 +141,22 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
       { icon: <IconCheck />, title: 'سائقون محترفون', desc: 'مرخصون وذوو خبرة وتم التحقق من خلفياتهم.' },
       { icon: <IconPlane />, title: 'حجز سهل', desc: 'احجز عبر الإنترنت في دقائق. تأكيد فوري بالبريد الإلكتروني.' },
     ],
+    it: [
+      { icon: <IconTag />, title: 'Prezzi fissi', desc: 'Nessuna sorpresa né costi nascosti. Il prezzo che vedi è quello che paghi.' },
+      { icon: <IconShield />, title: 'Cancellazione gratuita', desc: 'Cancella fino a 24 ore prima del viaggio senza costi.' },
+      { icon: <IconStar />, title: 'Meet & greet', desc: 'Il tuo autista ti aspetta con un cartello col tuo nome agli arrivi.' },
+      { icon: <IconClock />, title: 'Assistenza 24/7', desc: 'Il nostro team è disponibile 24 ore su 24.' },
+      { icon: <IconCheck />, title: 'Autisti professionisti', desc: 'Con licenza, esperti e con verifica dei precedenti.' },
+      { icon: <IconPlane />, title: 'Prenotazione facile', desc: 'Prenota online in pochi minuti. Conferma immediata via email.' },
+    ],
+    de: [
+      { icon: <IconTag />, title: 'Festpreise', desc: 'Keine Überraschungen oder versteckten Kosten. Der angezeigte Preis ist der Endpreis.' },
+      { icon: <IconShield />, title: 'Kostenlose Stornierung', desc: 'Stornieren Sie bis zu 24 Stunden vor der Fahrt kostenlos.' },
+      { icon: <IconStar />, title: 'Meet & Greet', desc: 'Ihr Fahrer erwartet Sie mit einem Namensschild am Ankunftsbereich.' },
+      { icon: <IconClock />, title: '24/7 Support', desc: 'Unser Team ist rund um die Uhr erreichbar.' },
+      { icon: <IconCheck />, title: 'Professionelle Fahrer', desc: 'Lizenziert, erfahren und überprüft.' },
+      { icon: <IconPlane />, title: 'Einfache Buchung', desc: 'Buchen Sie online in wenigen Minuten. Sofortige Bestätigung per E-Mail.' },
+    ],
   })
 
   const faqItems = pick(locale, {
@@ -161,6 +177,18 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
       { question: 'ما الفرق عن سيارة الأجرة العادية؟', answer: 'النقل الخاص يوفر أسعاراً ثابتة، وسائقاً محترفاً ينتظرك بلافتة باسمك، ومركبة مريحة محجوزة مسبقاً. بدون طوابير، بدون عدادات.' },
       { question: 'هل يمكنني إلغاء حجزي؟', answer: 'نعم، نقدم إلغاءً مجانياً حتى ٢٤ ساعة قبل رحلتك.' },
       { question: 'ماذا يحدث إذا تأخرت رحلتي؟', answer: 'نتابع رحلتك في الوقت الفعلي. سيعدّل سائقك جدوله وفقاً لوقت الوصول الفعلي دون أي تكلفة إضافية.' },
+    ],
+    it: [
+      { question: `Come prenoto un ${serviceTitleLower}?`, answer: `Usa il nostro strumento di ricerca per trovare la tua tratta, seleziona il veicolo e conferma la prenotazione. Riceverai conferma immediata via email.` },
+      { question: `Qual è la differenza rispetto a un taxi normale?`, answer: `Un transfer privato offre prezzi fissi, un autista professionista che ti aspetta con un cartello col tuo nome e un veicolo comodo prenotato in anticipo. Niente code, niente tassametri.` },
+      { question: `Posso cancellare la mia prenotazione?`, answer: `Sì, offriamo cancellazione gratuita fino a 24 ore prima del viaggio.` },
+      { question: `Cosa succede se il mio volo è in ritardo?`, answer: `Monitoriamo il tuo volo in tempo reale. Il tuo autista adatterà l'orario all'ora effettiva di arrivo senza costi aggiuntivi.` },
+    ],
+    de: [
+      { question: `Wie buche ich einen ${serviceTitleLower}?`, answer: `Nutzen Sie unser Suchtool, um Ihre Strecke zu finden, wählen Sie Ihr Fahrzeug und bestätigen Sie Ihre Buchung. Sie erhalten sofort eine Bestätigung per E-Mail.` },
+      { question: `Was ist der Unterschied zu einem normalen Taxi?`, answer: `Ein privater Transfer bietet Festpreise, einen professionellen Fahrer, der Sie mit einem Namensschild erwartet, und ein komfortables, vorab gebuchtes Fahrzeug. Kein Anstehen, keine Taxameter.` },
+      { question: `Kann ich meine Buchung stornieren?`, answer: `Ja, wir bieten kostenlose Stornierung bis zu 24 Stunden vor Ihrer Fahrt.` },
+      { question: `Was passiert, wenn mein Flug Verspätung hat?`, answer: `Wir überwachen Ihren Flug in Echtzeit. Ihr Fahrer passt seinen Zeitplan an Ihre tatsächliche Ankunftszeit an – ohne Aufpreis.` },
     ],
   })
 

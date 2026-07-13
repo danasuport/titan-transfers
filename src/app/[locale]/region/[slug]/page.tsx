@@ -83,6 +83,18 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
       { question: `ما أقرب مطار إلى ${regionTitle}؟`, answer: `راجع قسم المطارات أعلاه لمعرفة أقرب المطارات التي تخدم ${regionTitle}.` },
       { question: `كم تكلفة النقل الخاص في ${regionTitle}؟`, answer: `تعتمد الأسعار على المسار والمركبة المختارة. احصل على عرض سعر فوري ثابت في نموذج الحجز. بدون رسوم خفية.` },
     ],
+    it: [
+      { question: `Come arrivo a ${regionTitle} dall'aeroporto più vicino?`, answer: `Offriamo transfer privati da tutti gli aeroporti che servono ${regionTitle}. Usa il nostro modulo di prenotazione per trovare le tratte disponibili.` },
+      { question: `C'è un servizio di taxi privato in ${regionTitle}?`, answer: `Sì, offriamo servizi di taxi privato in tutta la zona di ${regionTitle} con prezzi fissi e autisti professionisti.` },
+      { question: `Qual è l'aeroporto più vicino a ${regionTitle}?`, answer: `Consulta la sezione aeroporti qui sopra per vedere gli aeroporti più vicini che servono ${regionTitle}.` },
+      { question: `Quanto costa un transfer privato in ${regionTitle}?`, answer: `I prezzi dipendono dalla tratta e dal veicolo scelto. Ottieni subito un preventivo a prezzo fisso nel nostro modulo. Nessun costo nascosto.` },
+    ],
+    de: [
+      { question: `Wie komme ich vom nächsten Flughafen nach ${regionTitle}?`, answer: `Wir bieten private Transfers von allen Flughäfen, die ${regionTitle} bedienen. Nutzen Sie unser Buchungsformular, um verfügbare Strecken zu finden.` },
+      { question: `Gibt es einen privaten Taxiservice in ${regionTitle}?`, answer: `Ja, wir bieten privaten Taxiservice in ganz ${regionTitle} zu Festpreisen und mit professionellen Fahrern.` },
+      { question: `Welcher Flughafen liegt ${regionTitle} am nächsten?`, answer: `Im Abschnitt Flughäfen weiter oben finden Sie die nächstgelegenen Flughäfen, die ${regionTitle} bedienen.` },
+      { question: `Wie viel kostet ein privater Transfer in ${regionTitle}?`, answer: `Die Preise hängen von der gewählten Strecke und dem Fahrzeug ab. Erhalten Sie sofort ein Angebot zum Festpreis in unserem Buchungsformular. Keine versteckten Kosten.` },
+    ],
   })
 
   const trustBadges = [

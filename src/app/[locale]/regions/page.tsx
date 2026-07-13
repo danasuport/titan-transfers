@@ -54,10 +54,10 @@ export default async function RegionsPage({ params }: { params: Promise<{ locale
 
   const labels = {
     h1: pick(locale, { en: 'Regions', es: 'Regiones', ar: 'المناطق', it: 'Regioni', de: 'Regionen' }),
-    statRegions: pick(locale, { en: 'regions', es: 'regiones', ar: 'منطقة', it: 'regioni', de: 'regionen' }),
-    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'länder' }),
-    statRating: pick(locale, { en: 'rating', es: 'valoración', ar: 'تقييم', it: 'valutazione', de: 'bewertung' }),
-    regionsWord: pick(locale, { en: 'regions', es: 'regiones', ar: 'منطقة', it: 'regioni', de: 'regionen' }),
+    statRegions: pick(locale, { en: 'regions', es: 'regiones', ar: 'منطقة', it: 'regioni', de: 'Regionen' }),
+    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'Länder' }),
+    statRating: pick(locale, { en: 'rating', es: 'valoración', ar: 'تقييم', it: 'valutazione', de: 'Bewertung' }),
+    regionsWord: pick(locale, { en: 'regions', es: 'regiones', ar: 'منطقة', it: 'regioni', de: 'Regionen' }),
     listName: pick(locale, {
       en: 'Private transfers by region',
       es: 'Traslados privados por región',

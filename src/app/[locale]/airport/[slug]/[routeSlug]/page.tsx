@@ -90,8 +90,25 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
 
   const heroImg = route.featuredImage?.asset?.url || null
 
+  // Images and layout (imagePosition, imageAlt) are locale-independent, so they
+  // always come from the English source. The translation only supplies text
+  // (title, body). We drive the section list off the English structure and
+  // overlay translated text by index — this keeps every image and the full
+  // section count even when a translation collapsed sections or dropped images.
+  const enSections = route.contentSections || []
+  const trSections = (locale !== 'en' && route.translations?.[locale]?.contentSections) || []
+  const baseSections = enSections.length ? enSections : trSections
   const contentSections: { title: string; body: any[]; imagePosition: 'left' | 'right'; imageAlt: string; image?: { asset?: { url?: string } } }[] =
-    ((locale !== 'en' && route.translations?.[locale]?.contentSections) || route.contentSections || []).slice(0, 3)
+    baseSections.slice(0, 3).map((en: any, i: number) => {
+      const tr = locale !== 'en' ? trSections[i] : undefined
+      return {
+        title: tr?.title || en.title,
+        body: (tr?.body && tr.body.length) ? tr.body : en.body,
+        image: en.image,
+        imagePosition: en.imagePosition || 'left',
+        imageAlt: en.imageAlt || '',
+      }
+    })
 
   const breadcrumbs = [
     ...(route.country ? [{ label: route.country.title || '', href: getCountryUrl(route.country, locale as Locale) }] : []),

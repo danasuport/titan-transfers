@@ -48,9 +48,9 @@ export default async function CountriesPage({ params }: { params: Promise<{ loca
       it: 'Copertura in 30 paesi con prezzi fissi, autista professionale e servizio porta a porta disponibile 24/7.',
       de: 'Abdeckung in 30 Ländern mit Festpreisen, professionellem Fahrer und Tür-zu-Tür-Service rund um die Uhr verfügbar.',
     }),
-    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'länder' }),
-    statAirports: pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار', it: 'aeroporti', de: 'flughäfen' }),
-    statCities: pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة', it: 'città', de: 'städte' }),
+    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'Länder' }),
+    statAirports: pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار', it: 'aeroporti', de: 'Flughäfen' }),
+    statCities: pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة', it: 'città', de: 'Städte' }),
   }
 
   const items = countries.map((c: any) => ({

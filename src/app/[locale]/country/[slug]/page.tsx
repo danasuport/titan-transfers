@@ -81,6 +81,18 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
       { question: `هل سيارة الأجرة الخاصة متاحة في جميع مدن ${countryTitle}؟`, answer: `نقدم خدمات سيارة الأجرة الخاصة في المدن الرئيسية والوجهات السياحية في ${countryTitle}، بخدمة من الباب إلى الباب.` },
       { question: `كم تكلفة نقل المطار في ${countryTitle}؟`, answer: `تختلف الأسعار حسب المسار ونوع المركبة. استخدم نظام الحجز للحصول على عروض أسعار فورية بأسعار ثابتة دون رسوم خفية.` },
     ],
+    it: [
+      { question: `Come prenoto un transfer privato in ${countryTitle}?`, answer: `Usa il nostro modulo di prenotazione per cercare transfer in tutto ${countryTitle}. Inserisci punto di ritiro e destinazione per ottenere subito un preventivo a prezzo fisso.` },
+      { question: `Quali aeroporti coprite in ${countryTitle}?`, answer: `Copriamo ${airportCount > 0 ? airportCount : 'tutti i principali'} aeroporti in ${countryTitle}, sia internazionali che regionali. Consulta l'elenco completo qui sopra.` },
+      { question: `È disponibile un taxi privato in tutte le città di ${countryTitle}?`, answer: `Offriamo servizi di taxi privato nelle principali città e destinazioni turistiche di ${countryTitle}, con servizio porta a porta.` },
+      { question: `Quanto costa un transfer aeroportuale in ${countryTitle}?`, answer: `I prezzi variano in base alla tratta e al tipo di veicolo. Usa il nostro sistema di prenotazione per preventivi immediati a prezzo fisso, senza costi nascosti.` },
+    ],
+    de: [
+      { question: `Wie buche ich einen privaten Transfer in ${countryTitle}?`, answer: `Nutzen Sie unser Buchungsformular, um Transfers in ganz ${countryTitle} zu suchen. Geben Sie Abhol- und Zielort ein und erhalten Sie sofort ein Angebot zum Festpreis.` },
+      { question: `Welche Flughäfen in ${countryTitle} decken Sie ab?`, answer: `Wir bedienen ${airportCount > 0 ? airportCount : 'alle wichtigen'} Flughäfen in ${countryTitle}, sowohl internationale als auch regionale. Die vollständige Liste finden Sie oben.` },
+      { question: `Gibt es in allen Städten von ${countryTitle} ein privates Taxi?`, answer: `Wir bieten privaten Taxiservice in den wichtigsten Städten und Reisezielen in ganz ${countryTitle} – mit Tür-zu-Tür-Service.` },
+      { question: `Wie viel kostet ein Flughafentransfer in ${countryTitle}?`, answer: `Die Preise variieren je nach Strecke und Fahrzeugtyp. Nutzen Sie unser Buchungssystem für sofortige Angebote zum Festpreis, ohne versteckte Kosten.` },
+    ],
   })
 
   const trustBadges = [
@@ -104,12 +116,12 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
           <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
             {airportCount > 0 && (
               <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#6B8313', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
-                {airportCount} {pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار', it: 'aeroporti', de: 'flughäfen' })}
+                {airportCount} {pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار', it: 'aeroporti', de: 'Flughäfen' })}
               </span>
             )}
             {cityCount > 0 && (
               <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#6B8313', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
-                {cityCount} {pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة', it: 'città', de: 'städte' })}
+                {cityCount} {pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة', it: 'città', de: 'Städte' })}
               </span>
             )}
           </div>

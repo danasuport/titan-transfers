@@ -51,7 +51,9 @@ const args = Object.fromEntries(
 
 const TYPES = (args.type || 'country,region,city,airport,port,trainStation,servicePage,route,blogPost,page').split(',')
 const LIMIT = args.limit ? Number(args.limit) : Infinity
-const FORCE = !!args.force
+// Optional: restrict to specific document _ids (comma-separated). Implies re-run.
+const IDS = args.ids ? String(args.ids).split(',').map(s => s.trim()).filter(Boolean) : null
+const FORCE = !!args.force || !!IDS
 const DRY_RUN = !!args['dry-run']
 const MODEL = args.model || 'gpt-4o-mini'
 // Optional sharding for parallel runs: --shard=INDEX/TOTAL (0-based index).
@@ -177,12 +179,16 @@ function buildPrompt(doc) {
     page: 'static page',
   })[doc._type] || doc._type
 
+  const secNote = Array.isArray(payload.contentSections) && payload.contentSections.length
+    ? `\nThe "contentSections" array has EXACTLY ${payload.contentSections.length} items. Return the SAME number of items, in the SAME order — never merge, split, drop or add sections.`
+    : ''
+
   return `Translate this ${docKind} from English to German.
 
 Input JSON (English source):
 ${JSON.stringify(payload, null, 2)}
 
-Return the translated JSON with the SAME shape. Every text field must be in German. Do not include a "slug" field.`
+Return the translated JSON with the SAME shape. Every text field must be in German. Do not include a "slug" field.${secNote}`
 }
 
 function parseJSON(raw) {
@@ -264,13 +270,26 @@ async function translateDoc(doc) {
   if (translated.excerpt) de.excerpt = translated.excerpt
   if (translated.description) de.description = flattenedToPortableText(translated.description)
   if (translated.content) de.content = flattenedToPortableText(translated.content)
-  if (translated.contentSections) {
-    de.contentSections = translated.contentSections.map(s => ({
-      _key: randomUUID().slice(0, 12),
-      title: s.title || '',
-      body: flattenedToPortableText(s.body),
-      imagePosition: 'left',
-    }))
+  if (doc.contentSections && doc.contentSections.length) {
+    // Drive off the SOURCE sections so the count, images and layout are always
+    // preserved even if the model collapsed or reordered sections. Overlay the
+    // translated text by index; fall back to the source text if the model
+    // returned fewer sections. Images are copied verbatim from the source.
+    const srcSecs = doc.contentSections
+    const trSecs = Array.isArray(translated.contentSections) ? translated.contentSections : []
+    de.contentSections = srcSecs.map((src, i) => {
+      const tr = trSecs[i] || {}
+      const bodyItems = (Array.isArray(tr.body) && tr.body.length) ? tr.body : flattenPortableText(src.body)
+      const section = {
+        _key: randomUUID().slice(0, 12),
+        title: tr.title || src.title || '',
+        body: flattenedToPortableText(bodyItems),
+        imagePosition: src.imagePosition || 'left',
+      }
+      if (src.imageAlt) section.imageAlt = src.imageAlt
+      if (src.image) section.image = src.image
+      return section
+    })
   }
 
   return de
@@ -325,6 +344,10 @@ async function run() {
     }`
     console.log(`\n━━━ ${type.toUpperCase()} ━━━`)
     let docs = await client.fetch(query)
+    if (IDS) {
+      docs = docs.filter(d => IDS.includes(d._id))
+      console.log(`Filtered to ${docs.length} document(s) by --ids`)
+    }
     if (SHARD_N > 1) {
       docs = docs.filter((_, idx) => idx % SHARD_N === SHARD_I)
       console.log(`Shard ${SHARD_I + 1}/${SHARD_N}: ${docs.length} of this type`)

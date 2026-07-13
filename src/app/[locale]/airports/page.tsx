@@ -49,9 +49,9 @@ export default async function AirportsPage({ params }: { params: Promise<{ local
       it: 'Trasferimenti privati dai principali aeroporti del mondo. Autista professionale, prezzo fisso e monitoraggio del volo inclusi.',
       de: 'Private Transfers von großen Flughäfen weltweit. Professioneller Fahrer, Festpreis und Flugüberwachung inklusive.',
     }),
-    statAirports: pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار', it: 'aeroporti', de: 'flughäfen' }),
-    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'länder' }),
-    statSupport: pick(locale, { en: 'support', es: 'soporte', ar: 'دعم', it: 'supporto', de: 'support' }),
+    statAirports: pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار', it: 'aeroporti', de: 'Flughäfen' }),
+    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'Länder' }),
+    statSupport: pick(locale, { en: 'support', es: 'soporte', ar: 'دعم', it: 'supporto', de: 'Support' }),
   }
 
   const grouped: Record<string, any[]> = {}

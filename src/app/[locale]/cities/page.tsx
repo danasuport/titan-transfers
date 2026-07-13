@@ -48,9 +48,9 @@ export default async function CitiesPage({ params }: { params: Promise<{ locale:
       it: 'Trasferimenti privati nelle principali città del mondo. Servizio porta a porta con autista professionale e prezzo fisso.',
       de: 'Private Transfers zu großen Städten weltweit. Tür-zu-Tür-Service mit professionellem Fahrer und Festpreis.',
     }),
-    statCities: pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة', it: 'città', de: 'städte' }),
-    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'länder' }),
-    statRating: pick(locale, { en: 'rating', es: 'valoración', ar: 'تقييم', it: 'valutazione', de: 'bewertung' }),
+    statCities: pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة', it: 'città', de: 'Städte' }),
+    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'Länder' }),
+    statRating: pick(locale, { en: 'rating', es: 'valoración', ar: 'تقييم', it: 'valutazione', de: 'Bewertung' }),
   }
 
   const grouped: Record<string, any[]> = {}

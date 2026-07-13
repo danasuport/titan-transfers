@@ -84,6 +84,18 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
       { question: 'هل تقدمون رحلات ذهاب وعودة؟', answer: 'نعم، يمكنك حجز رحلات ذهاب فقط أو ذهاب وعودة مباشرة عبر نظام الحجز لدينا.' },
       { question: `ما المناطق التي تغطونها في ${cityTitle}؟`, answer: `نغطي جميع مناطق ${cityTitle} والمناطق المحيطة بما في ذلك المطارات والموانئ ومحطات القطار والفنادق. إذا لم تكن وجهتك مدرجة، تواصل معنا للحصول على عرض سعر مخصص.` },
     ],
+    it: [
+      { question: `Come prenoto un transfer privato a ${cityTitle}?`, answer: `Usa il nostro modulo di prenotazione per cercare e confermare subito il tuo transfer. Scegli ritiro e destinazione, seleziona il veicolo e conferma a prezzo fisso.` },
+      { question: `Quanto costa un taxi privato a ${cityTitle}?`, answer: `I nostri transfer privati a ${cityTitle} hanno un prezzo fisso concordato prima della partenza. Nessun costo nascosto né sorprese. Consulta il tuo prezzo subito nel modulo.` },
+      { question: `Offrite transfer di andata e ritorno?`, answer: `Sì, puoi prenotare transfer di sola andata o andata e ritorno direttamente dal nostro sistema di prenotazione.` },
+      { question: `Quali zone di ${cityTitle} coprite?`, answer: `Copriamo tutte le zone di ${cityTitle} e dintorni: aeroporti, porti, stazioni ferroviarie e hotel. Se la tua destinazione non è elencata, contattaci per un preventivo personalizzato.` },
+    ],
+    de: [
+      { question: `Wie buche ich einen privaten Transfer in ${cityTitle}?`, answer: `Nutzen Sie unser Buchungsformular, um Ihren privaten Transfer sofort zu suchen und zu buchen. Wählen Sie Abhol- und Zielort, Ihr Fahrzeug und bestätigen Sie zum Festpreis.` },
+      { question: `Wie viel kostet ein privates Taxi in ${cityTitle}?`, answer: `Unsere privaten Transfers in ${cityTitle} haben einen festen Preis, der vor der Fahrt vereinbart wird. Keine versteckten Kosten, keine Überraschungen. Sehen Sie Ihren Preis sofort im Formular.` },
+      { question: `Bieten Sie Hin- und Rückfahrten an?`, answer: `Ja, Sie können sowohl einfache Fahrten als auch Hin- und Rückfahrten direkt über unser Buchungssystem buchen.` },
+      { question: `Welche Gebiete von ${cityTitle} decken Sie ab?`, answer: `Wir decken alle Gebiete von ${cityTitle} und Umgebung ab, einschließlich Flughäfen, Häfen, Bahnhöfen und Hotels. Wenn Ihr Ziel nicht aufgeführt ist, kontaktieren Sie uns für ein individuelles Angebot.` },
+    ],
   })
 
   const trustBadges = [
