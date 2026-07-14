@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server'
+import { staticPageAlternates } from '@/lib/seo/generateMetadata'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { TrustSignals } from '@/components/sections/TrustSignals'
 import { pick } from '@/lib/i18n/pick'
@@ -11,6 +12,7 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
+    alternates: staticPageAlternates('/about/', locale),
     title: pick(locale, {
       en: 'About Us | Titan Transfers',
       es: 'Sobre Nosotros | Titan Transfers',

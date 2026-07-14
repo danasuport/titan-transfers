@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { staticPageAlternates } from '@/lib/seo/generateMetadata'
 import { sanityClient } from '@/lib/sanity/client'
 import { allCountriesQuery } from '@/lib/sanity/queries'
 import { urlFor } from '@/lib/sanity/image'
@@ -17,6 +18,7 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
+    alternates: staticPageAlternates('/countries/', locale),
     title: pick(locale, {
       en: 'Countries | Titan Transfers',
       es: 'Países | Titan Transfers',

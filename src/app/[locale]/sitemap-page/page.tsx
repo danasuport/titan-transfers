@@ -1,4 +1,5 @@
 import { sanityClient } from '@/lib/sanity/client'
+import { staticPageAlternates } from '@/lib/seo/generateMetadata'
 import {
   sitemapAirportsQuery,
   sitemapRoutesQuery,
@@ -18,6 +19,7 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
+    alternates: staticPageAlternates('/sitemap-page/', locale),
     title: pick(locale, {
       en: 'Sitemap | Titan Transfers',
       es: 'Mapa del sitio | Titan Transfers',

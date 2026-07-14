@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server'
+import { staticPageAlternates } from '@/lib/seo/generateMetadata'
 import { sanityClient } from '@/lib/sanity/client'
 import { allRegionsQuery } from '@/lib/sanity/queries'
 import { getRegionUrl, getTranslatedTitle } from '@/lib/utils/slugHelpers'
@@ -18,6 +19,7 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
+    alternates: staticPageAlternates('/regions/', locale),
     title: pick(locale, {
       en: 'Private Transfers by Region | Europe, Asia, Americas | Titan Transfers',
       es: 'Traslados privados por región | Europa, Asia, América | Titan Transfers',

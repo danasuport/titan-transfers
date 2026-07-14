@@ -10,7 +10,9 @@ import { CtaSection } from '@/components/sections/CtaSection'
 import { BrowseCategories } from '@/components/sections/BrowseCategories'
 import { SchemaOrg } from '@/components/seo/SchemaOrg'
 import { generateLocalBusinessSchema } from '@/lib/seo/schemaOrg'
+import { generatePageMetadata } from '@/lib/seo/generateMetadata'
 import { pick } from '@/lib/i18n/pick'
+import type { Locale } from '@/lib/i18n/config'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
 // stay cached so navigation feels instant; new content shows up within 1h
@@ -20,10 +22,26 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'home' })
-  return {
-    title: 'Private Airport Transfers Worldwide | Titan Transfers',
+  const title = pick(locale, {
+    en: 'Private Airport Transfers Worldwide | Titan Transfers',
+    es: 'Traslados privados de aeropuerto en todo el mundo | Titan Transfers',
+    ar: 'خدمات النقل الخاص من المطار حول العالم | Titan Transfers',
+    it: 'Transfer privati aeroportuali in tutto il mondo | Titan Transfers',
+    de: 'Private Flughafentransfers weltweit | Titan Transfers',
+  })
+  return generatePageMetadata({
+    title,
     description: t('heroSubtitle'),
-  }
+    path: locale === 'en' ? '/' : `/${locale}/`,
+    locale: locale as Locale,
+    alternates: [
+      { locale: 'en', path: '/' },
+      { locale: 'es', path: '/es/' },
+      { locale: 'ar', path: '/ar/' },
+      { locale: 'it', path: '/it/' },
+      { locale: 'de', path: '/de/' },
+    ],
+  })
 }
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {

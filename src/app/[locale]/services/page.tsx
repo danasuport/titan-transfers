@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { staticPageAlternates } from '@/lib/seo/generateMetadata'
 import { getTranslations } from 'next-intl/server'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { BookingPanel } from '@/components/ui/BookingPanel'
@@ -91,6 +92,7 @@ function localeKey(locale: string): keyof LocaleString {
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
+    alternates: staticPageAlternates('/services/', locale),
     title: pick(locale, {
       en: 'Private transfer services | Titan Transfers',
       es: 'Servicios de traslados privados | Titan Transfers',

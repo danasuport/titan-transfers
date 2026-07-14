@@ -1,4 +1,5 @@
 import { russoOne } from '@/lib/fonts'
+import { staticPageAlternates } from '@/lib/seo/generateMetadata'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { pick } from '@/lib/i18n/pick'
 
@@ -10,6 +11,7 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
+    alternates: staticPageAlternates('/cookies/', locale),
     title: pick(locale, {
       en: 'Cookie Policy | Titan Transfers',
       es: 'Política de cookies | Titan Transfers',

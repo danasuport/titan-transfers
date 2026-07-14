@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server'
+import { staticPageAlternates } from '@/lib/seo/generateMetadata'
 import Image from 'next/image'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { ContactForm } from '@/components/contact/ContactForm'
@@ -12,6 +13,7 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
+    alternates: staticPageAlternates('/contact/', locale),
     title: pick(locale, {
       en: 'Contact | Titan Transfers',
       es: 'Contacto | Titan Transfers',

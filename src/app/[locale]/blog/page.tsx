@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server'
+import { staticPageAlternates } from '@/lib/seo/generateMetadata'
 import { sanityClient } from '@/lib/sanity/client'
 import { allBlogPostsQuery } from '@/lib/sanity/queries'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
@@ -15,6 +16,7 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
+    alternates: staticPageAlternates('/blog/', locale),
     title: pick(locale, {
       en: 'Travel guides, airport tips & transfer news | Titan Transfers',
       es: 'Blog de viajes y traslados | Titan Transfers',

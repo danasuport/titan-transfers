@@ -1,8 +1,31 @@
 import type { Metadata } from 'next'
-import { defaultLocale, type Locale } from '@/lib/i18n/config'
+import { defaultLocale, locales, type Locale } from '@/lib/i18n/config'
+import { routing } from '@/lib/i18n/routing'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://titantransfers.com'
 const SITE_NAME = 'Titan Transfers'
+
+/**
+ * Builds the `alternates` metadata (self-canonical + hreflang languages) for a
+ * static/listing page from its routing key (e.g. '/airports/'). Static pages
+ * previously shipped with no canonical or hreflang, so Google treated the
+ * localized variants as duplicates and left them unindexed.
+ */
+export function staticPageAlternates(routeKey: string, locale: string) {
+  const map = (routing.pathnames as Record<string, unknown>)[routeKey]
+  const localized = (l: Locale): string =>
+    (typeof map === 'object' && map ? (map as Record<string, string>)[l] : undefined) || routeKey
+  const pathFor = (l: Locale): string => (l === defaultLocale ? localized(l) : `/${l}${localized(l)}`)
+
+  const languages: Record<string, string> = {}
+  for (const l of locales) languages[l] = `${SITE_URL}${pathFor(l)}`
+  languages['x-default'] = `${SITE_URL}${pathFor(defaultLocale)}`
+
+  return {
+    canonical: `${SITE_URL}${pathFor(locale as Locale)}`,
+    languages,
+  }
+}
 
 interface MetadataParams {
   title: string

@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { staticPageAlternates } from '@/lib/seo/generateMetadata'
 import { sanityClient } from '@/lib/sanity/client'
 import { allAirportsQuery } from '@/lib/sanity/queries'
 import { urlFor } from '@/lib/sanity/image'
@@ -18,6 +19,7 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
+    alternates: staticPageAlternates('/airports/', locale),
     title: pick(locale, {
       en: 'Airports | Titan Transfers',
       es: 'Aeropuertos | Titan Transfers',
