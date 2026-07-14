@@ -1,10 +1,12 @@
 import { BookingPageShell } from '@/components/booking/BookingPageShell'
 import { TaxiBookingIframe } from '@/components/booking/TaxiBookingIframe'
+import { staticPageAlternates } from '@/lib/seo/generateMetadata'
 import { pick } from '@/lib/i18n/pick'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   return {
+    alternates: staticPageAlternates('/booking/', locale),
     title: pick(locale, {
       en: 'Book a private transfer | Titan Transfers',
       es: 'Reservar traslado privado | Titan Transfers',
