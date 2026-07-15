@@ -22,13 +22,42 @@ function norm(s: string | null | undefined): string {
     .trim()
 }
 
-/** "BCN|cubelles" for every airport→city route in Sanity. */
+/**
+ * "BCN|cubelles" for every airport→city route in Sanity — indexed under EVERY
+ * name we know the city by.
+ *
+ * Why: Google's `locality` is inconsistent. For a city's own place_id it returns
+ * the English exonym ("Rome"), but for an address INSIDE that city — which is
+ * what visitors actually search, a hotel or a street — it returns the local name
+ * ("Roma"). Passing language=en does NOT fix it (checked: Roma, Milano, Firenze
+ * and München all stay local). Matching on the English title alone therefore
+ * reported routes we do have as missing, for every city with an exonym.
+ *
+ * Since every city is already translated into all 5 locales, indexing those
+ * names too makes the match work whichever name Google hands back.
+ */
 async function loadRouteIndex(): Promise<Set<string>> {
-  const routes: { iata: string; dest: string }[] = await sanityClient.fetch(
+  interface RouteRow {
+    iata: string
+    dest: string
+    destTr?: Record<string, { title?: string } | undefined>
+  }
+  const routes: RouteRow[] = await sanityClient.fetch(
     `*[_type == "route" && defined(origin->iataCode) && defined(destination->title)]{
-       "iata": origin->iataCode, "dest": destination->title }`
+       "iata": origin->iataCode,
+       "dest": destination->title,
+       "destTr": destination->translations }`
   )
-  return new Set(routes.map(r => `${r.iata}|${norm(r.dest)}`))
+
+  const index = new Set<string>()
+  for (const r of routes) {
+    const names = [r.dest, ...Object.values(r.destTr || {}).map(t => t?.title)]
+    for (const name of names) {
+      const key = norm(name)
+      if (key) index.add(`${r.iata}|${key}`)
+    }
+  }
+  return index
 }
 
 export async function runEnrichment(opts: { limit?: number; force?: boolean } = {}): Promise<EnrichResult> {

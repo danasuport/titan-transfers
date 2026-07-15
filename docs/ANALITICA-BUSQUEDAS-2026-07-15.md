@@ -120,6 +120,10 @@ PORT=3001 pnpm dev                     # panel en http://localhost:3001/admin/se
 3. **Bug ya arreglado:** el caché no guardaba el `iata` → el cruce se rompía en silencio en cuanto un sitio se cacheaba (el caso normal). Si tocas `place_cache`, mantén la columna `iata`.
 4. **Criterio ya corregido:** el primer intento marcaba "✅ tenemos" rutas ciudad→ciudad que no existen. Ver decisión de `route_exists = NULL`.
 5. `/admin` debe seguir **excluido del matcher del middleware**, o el i18n lo prefijará con idioma.
+6. **Los redirects deben ser relativos.** Detrás del proxy de Coolify la app solo ve su dirección interna, así que `NextResponse.redirect(new URL(path, req.url))` manda al navegador a `https://0.0.0.0:3000/…`. Usa `new NextResponse(null, {status:303, headers:{Location:'/ruta/'}})`.
+7. **Horas: `created_at` es `timestamptz` y el servidor va en UTC.** Todo lo que lea el cliente debe convertirse con `AT TIME ZONE 'Europe/Madrid'` — texto Y rangos de fecha (si no, un "día" va de 02:00 a 02:00). No sumes 2h a mano: se rompería en invierno.
+8. **Google devuelve el nombre LOCAL de la ciudad para direcciones.** Para el `place_id` de la ciudad devuelve el exónimo inglés ("Rome"), pero para una dirección DENTRO de ella (un hotel — que es lo que busca la gente) devuelve el local ("Roma"). `language=en` **NO lo arregla** (comprobado: Roma, Milano, Firenze, München siguen en local). Por eso `loadRouteIndex()` indexa la ciudad destino bajo **todos sus nombres traducidos** en Sanity. Si tocas eso, romperás el cruce de toda ciudad con exónimo.
+9. Las tablas de rutas del panel **solo muestran filas enriquecidas**: una fila sin enriquecer no tiene etiqueta y agruparía bajo una clave distinta que la misma ruta ya enriquecida, partiendo una ruta en dos filas y falseando los recuentos.
 
 ---
 
