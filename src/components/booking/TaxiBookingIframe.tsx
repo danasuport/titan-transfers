@@ -15,11 +15,50 @@ export function TaxiBookingIframe() {
   const [iframeUrl, setIframeUrl] = useState<string | null>(null)
   const [height, setHeight] = useState<number>(720)
   const iframeRef = useRef<HTMLIFrameElement>(null)
+  const loggedRef = useRef(false)
 
   useEffect(() => {
     const sp = new URLSearchParams(window.location.search)
     sp.set('embed', '1')
     setIframeUrl(`${WP_ORIGIN}/booking/?${sp.toString()}`)
+  }, [])
+
+  // Record the search for the internal demand report (which countries, cities,
+  // airports and routes people ask for). Fire-and-forget: never blocks or
+  // affects the booking flow. StrictMode double-invokes effects in dev, hence
+  // the ref guard.
+  useEffect(() => {
+    if (loggedRef.current) return
+    const sp = new URLSearchParams(window.location.search)
+    const pickup = sp.get('pickup')
+    const dest = sp.get('dest')
+    if (!pickup || !dest) return
+    loggedRef.current = true
+
+    const payload = {
+      pickup,
+      pickup_lat: sp.get('pickup_lat'),
+      pickup_lng: sp.get('pickup_lng'),
+      pickup_pid: sp.get('pickup_pid'),
+      dest,
+      dest_lat: sp.get('dest_lat'),
+      dest_lng: sp.get('dest_lng'),
+      dest_pid: sp.get('dest_pid'),
+      date: sp.get('date'),
+      time: sp.get('time'),
+      pax: sp.get('pax'),
+      lug: sp.get('lug'),
+      locale: document.documentElement.lang || undefined,
+    }
+
+    // Trailing slash matches next.config's trailingSlash:true — without it the
+    // POST eats a 308 redirect before reaching the route.
+    fetch('/api/search-log/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    }).catch(() => { /* analytics must never surface an error to the user */ })
   }, [])
 
   // Listen for height messages posted by the MU-plugin's child snippet.

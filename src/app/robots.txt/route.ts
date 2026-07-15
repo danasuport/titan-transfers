@@ -17,6 +17,7 @@ const PROD_BODY = `User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /studio/
+Disallow: /admin/
 Disallow: /_next/
 Disallow: /login/
 Disallow: /es/acceso/
