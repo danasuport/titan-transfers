@@ -406,12 +406,12 @@
   },
   {
     "source": "/rutas/transfer-zayed-international-airport-auh-to-abu-dhabi-2/",
-    "destination": "/airport-transfers-private-taxi/abu-dhabi/transfer-zayed-international-airport-auh-to-abu-dhabi-2/",
+    "destination": "/airport-transfers-private-taxi/abu-dhabi/transfer-zayed-international-airport-auh-to-abu-dhabi/",
     "permanent": true
   },
   {
     "source": "/es/rutas/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-abu-dabi-2/",
-    "destination": "/es/traslados-aeropuerto-privados-taxi/abu-dhabi/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-abu-dabi-2/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/abu-dhabi/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-abu-dabi/",
     "permanent": true
   },
   {

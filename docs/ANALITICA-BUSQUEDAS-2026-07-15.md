@@ -91,6 +91,9 @@ scripts/enrich-searches.mjs    → Google Geocoding (place_id → país/ciudad/�
 | `src/app/api/admin/export/route.ts` | Export CSV (`;` + BOM → Excel español) |
 | `scripts/db-init.mjs` | Crea/verifica el esquema |
 | `scripts/enrich-searches.mjs` | **El enriquecedor** (`--limit`, `--force`) |
+| `scripts/lib/routes-sheet.mjs` | Lee la hoja de tarifas desde scripts (espejo de `catalog.ts` + `route-key.ts`) |
+| `scripts/publish-routes.mjs` | **Publica rutas de la hoja** (`--airport=`, `--country=`, `--route=`, `--limit=`, `--apply`) |
+| `scripts/dedupe-routes.mjs` | Fusiona y borra rutas duplicadas + genera sus 301 (`--apply`) |
 | `src/middleware.ts` | `admin` excluido del i18n (como `studio`) |
 | `src/app/robots.txt/route.ts` | `Disallow: /admin/` |
 
@@ -137,7 +140,11 @@ PORT=3001 pnpm dev                     # panel en http://localhost:3001/admin/se
 11. **Los dos catálogos se leen en vivo, no desde `route_exists`.** `route_exists` se congela al enriquecer la búsqueda: una ruta publicada hoy seguiría saliendo como ausente en toda búsqueda anterior. El panel y el export usan `getSheetIndex()` / `getWebIndex()` (caché de 1 h).
 12. **Si un catálogo no se puede leer, el veredicto es `null`, nunca `false`.** Un "No" inventado es peor que un "—": manda al cliente a crear una tarifa que ya tiene. `sanityClient.fetch` se traga sus errores y devuelve `[]`, así que `getWebIndex()` trata "0 rutas" como caída (el catálogo nunca está legítimamente vacío).
 13. **La URL de la hoja va como argumento de `unstable_cache`, no como constante capturada.** Si no, la clave de caché no depende de ella y repuntar `ROUTES_SHEET_CSV_URL` a otra hoja seguiría sirviendo la anterior una hora. Ya pasó una vez, en pruebas.
-14. **El cruce con la hoja es por texto libre** (`Airport` + `Resort`), así que falla en algunos nombres (`Kadiköy` en la hoja vs. `Kadıköy` de Google — la `ı` turca no la arregla quitar acentos). Son pocos y salen como "no tenemos" siendo falso. Si renombran esas columnas en Drive o dejan de compartir la hoja, salta el aviso rojo del panel y todo pasa a "—".
+14. **Nunca deduplicar rutas por texto.** `create-missing-routes.mjs` comparaba el `resort` del CSV contra el `title` de la ciudad, pero buscaba la ciudad por *slug*: slugify quita acentos y la comparación de títulos no. "Mataro" en la hoja encontraba `city-mataro`, no reconocía la ruta "BCN|Mataró" existente y creaba una segunda ruta sobre la misma ciudad → **43 duplicados**. `publish-routes.mjs` deduplica por `origin._id + '|' + destination._id` y usa `_id` determinista. Ese script y su `excel_routes.csv` ya no existen.
+15. **Un IATA que falte en `AIRPORT_NAMES` bloquea TODAS las rutas de ese aeropuerto, en silencio.** Así es como **Valencia (VLC), el 2º aeropuerto del cliente con 319 rutas, nunca llegó a publicarse**. `KIX` estaba escrito `KIK` por lo mismo. `publish-routes.mjs` ahora lo lista alto y por aeropuerto en vez de soltar una línea perdida.
+16. **Si Claude falla, no se crea nada.** El script viejo capturaba el error y publicaba igual con `contentSections: []` → página con hero + widget y nada más, indexable y en silencio. Ahora el contenido se genera *antes* de tocar Sanity y un fallo aborta la ruta entera, que se reintenta relanzando el mismo comando.
+17. **La columna `Country` de la hoja es la del AEROPUERTO, no la del destino.** Al crear una ciudad nueva se le asigna ese país, lo cual falla al cruzar fronteras (BCN → Andorra la Vella crearía Andorra la Vella en España). Esas hay que hacerlas a mano.
+18. **El cruce con la hoja es por texto libre** (`Airport` + `Resort`), así que falla en algunos nombres (`Kadiköy` en la hoja vs. `Kadıköy` de Google — la `ı` turca no la arregla quitar acentos). Son pocos y salen como "no tenemos" siendo falso. Si renombran esas columnas en Drive o dejan de compartir la hoja, salta el aviso rojo del panel y todo pasa a "—".
 
 ---
 

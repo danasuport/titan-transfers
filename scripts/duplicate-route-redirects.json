@@ -1,0 +1,947 @@
+[
+  {
+    "source": "/airport-transfers-private-taxi/cancun/transfer-cancun-to-chiquila/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-chiquila/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-cancun-a-chiquila/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-chiquila/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/cancun/transfer-cancun-to-chiquila/",
+    "destination": "/ar/nakl-mataar/cancun/nakl-khass-matar-cancun-aldawli-ila-chiquila/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-cancun/trasferimento-dall-aeroporto-internazionale-di-cancun-a-chiquila/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-cancun/aeroporto-di-cancun-a-chiquila/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/cancun-international-airport/transfer-vom-flughafen-cancun-nach-chiquila/",
+    "destination": "/de/flughafentransfer-privat-taxi/cancun-international-airport/oekologie-und-das-yum-balam-reservat/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/cozumel/transfer-cozumel-to-zona-2-secrets-aura-cozumel/",
+    "destination": "/airport-transfers-private-taxi/cozumel/transfer-cozumel-international-airport-czm-to-zona-2-secrets-aura-cozumel/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/cozumel/traslado-cozumel-a-zona-2-secrets-aura-cozumel/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cozumel/traslado-aeropuerto-cozumel-a-zona-2-secrets-aura-cozumel/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/cozumel/transfer-cozumel-to-zona-2-secrets-aura-cozumel/",
+    "destination": "/ar/nakl-mataar/cozumel/nakl-khass-matar-kuzumil-international-czm-ila-mintaqa-2-sikrits-aura-kuzumil/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-cozumel/trasferimento-dall-aeroporto-internazionale-di-cozumel-a-zona-2-secrets-aura-cozumel/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-cozumel/aeroporto-di-cozumel-a-zona-2-secrets-aura/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/barcelona/transfer-barcelona-el-prat-to-mataro/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-mataro/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslado-barcelona-el-prat-a-mataro/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-mataro/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/barcelona/transfer-barcelona-el-prat-to-mataro/",
+    "destination": "/ar/nakl-mataar/barcelona/nakl-khass-min-mataro-ila-mataro/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-to-fatih/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-fatih/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-istanbul-a-fatih/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-fatih/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/istanbul/transfer-istanbul-to-fatih/",
+    "destination": "/ar/nakl-mataar/istanbul/nakl-khass-matar-istanbul-ist-ila-fath/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul/trasferimento-dall-aeroporto-di-istanbul-a-fatih/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul/architettura-ottomana-e-patrimonio-bizantino/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-to-kadikoy/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-kadikoy/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-istanbul-a-kadikoy/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-kadikoy/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/istanbul/nakl-istanbul-ila-kadikoy/",
+    "destination": "/ar/nakl-mataar/istanbul/naql-istambul-airport-ist-ila-kadikoy/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul/trasferimento-dall-aeroporto-di-istanbul-a-kad-koy/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul/aeroporto-di-istanbul-a-kad-koy/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/istanbul-flughafen/transfer-vom-flughafen-istanbul-nach-kad-koey/",
+    "destination": "/de/flughafentransfer-privat-taxi/istanbul-flughafen/flughafen-istanbul-nach-kad-koey/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-to-umraniye/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-umraniye/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-istanbul-a-umraniye/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-umraniye/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/istanbul/nakl-istanbul-to-umraniye/",
+    "destination": "/ar/nakl-mataar/istanbul/transfer-istanbul-airport-ist-to-umraniye/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul/transfer-dall-aeroporto-di-istanbul-a-umraniye/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul/aeroporto-di-istanbul-a-umraniye/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/istanbul-flughafen/transfer-vom-flughafen-istanbul-nach-umraniye/",
+    "destination": "/de/flughafentransfer-privat-taxi/istanbul-flughafen/flughafen-istanbul-nach-uemraniye/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-to-besiktas/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-besiktas/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-istanbul-sabiha-gokcen-a-besiktas/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-besiktas/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/istanbul-sabiha-gokcen/nakl-istanbul-sabiha-gokcen-to-besiktas/",
+    "destination": "/ar/nakl-mataar/istanbul-sabiha-gokcen/nakl-istanbul-sabiha-gokcen-international-airport-saw-to-besiktas/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul-sabiha-gokcen/trasferimento-dall-aeroporto-di-istanbul-sabiha-gokcen-a-besiktas/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul-sabiha-gokcen/aeroporto-di-istanbul-sabiha-gokcen-a-besiktas/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/istanbul-sabiha-goekcen-flughafen/transfer-vom-flughafen-istanbul-sabiha-goekcen-nach-besiktas/",
+    "destination": "/de/flughafentransfer-privat-taxi/istanbul-sabiha-goekcen-flughafen/flughafen-istanbul-sabiha-goekcen-nach-besiktas/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-to-fatih/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-fatih/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-istanbul-sabiha-gokcen-a-fatih/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-fatih/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-to-fatih/",
+    "destination": "/ar/nakl-mataar/istanbul-sabiha-gokcen/nakl-khass-istanbul-sabiha-gokcen-international-airport-saw-to-fatih/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul-sabiha-gokcen/trasferimento-dall-aeroporto-di-istanbul-sabiha-gokcen-a-fatih/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul-sabiha-gokcen/aeroporto-di-istanbul-sabiha-gokcen-a-fatih/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-to-kadikoy/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-kadikoy/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-istanbul-sabiha-gokcen-a-kadikoy/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-kadikoy/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul-sabiha-gokcen/trasferimento-dall-aeroporto-di-istanbul-sabiha-gokcen-a-kad-koy/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul-sabiha-gokcen/aeroporto-di-istanbul-sabiha-gokcen-a-kad-koy/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/buffalo/transfer-buffalo-niagara-to-niagara-falls-usa/",
+    "destination": "/airport-transfers-private-taxi/buffalo/transfer-buffalo-niagara-international-airport-buf-to-niagara-falls-usa/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/buffalo/traslado-buffalo-niagara-a-niagara-falls-usa/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/buffalo/traslado-aeropuerto-buffalo-a-cataratas-niagara-usa/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/buffalo/transfer-buffalo-niagara-to-niagara-falls-usa/",
+    "destination": "/ar/nakl-mataar/buffalo/nakl-khass-buf-to-niagara-falls-usa/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-buffalo-niagara/trasferimento-dall-aeroporto-internazionale-di-buffalo-niagara-alle-cascate-del-niagara-usa/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-buffalo-niagara/aeroporto-di-buffalo-a-cascate-del-niagara-usa/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/buffalo-niagara-international-airport/transfer-vom-buffalo-niagara-international-airport-zu-den-niagara-faellen-usa/",
+    "destination": "/de/flughafentransfer-privat-taxi/buffalo-niagara-international-airport/geschichte-in-stein-und-wasser-gemeisselt/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/baltimore/transfer-baltimore-washington-to-washington-dc/",
+    "destination": "/airport-transfers-private-taxi/baltimore/transfer-baltimore-washington-international-airport-bwi-to-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/baltimore/traslado-baltimore-washington-a-washington-dc/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/baltimore/traslado-aeropuerto-baltimore-a-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/baltimore/transfer-baltimore-washington-to-washington-dc/",
+    "destination": "/ar/nakl-mataar/baltimore/transfer-baltimore-washington-international-airport-bwi-to-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-baltimora-washington/trasferimento-dall-aeroporto-internazionale-di-baltimore-washington-a-washington-dc/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-baltimora-washington/aeroporto-di-baltimora-a-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/flughafen-baltimore-washington-international/transfer-vom-baltimore-washington-international-airport-nach-washington-dc/",
+    "destination": "/de/flughafentransfer-privat-taxi/flughafen-baltimore-washington-international/flughafen-baltimore-nach-washington-d-c/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/cozumel/transfer-cozumel-to-zona-1-casa-mexicana/",
+    "destination": "/airport-transfers-private-taxi/cozumel/transfer-cozumel-international-airport-czm-to-zona-1-casa-mexicana/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/cozumel/traslado-cozumel-a-zona-1-casa-mexicana/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cozumel/traslado-aeropuerto-cozumel-a-zona-1-casa-mexicana/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/cozumel/transfer-cozumel-to-zona-1-casa-mexicana/",
+    "destination": "/ar/nakl-mataar/cozumel/nakl-khass-matar-kuzumil-dawli-ila-mantiqa-1-kaza-maksikana/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-cozumel/trasferimento-dall-aeroporto-internazionale-di-cozumel-a-zona-1-casa-mexicana/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-cozumel/aeroporto-di-cozumel-a-zona-1-casa-mexicana/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/tulum/transfer-tulum-to-cancun/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-cancun/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-tulum-a-cancun/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-cancun/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/tulum/transfer-tulum-to-cancun/",
+    "destination": "/ar/nakl-mataar/tulum/nakl-khass-tulum-international-airport-to-cancun/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-tulum/trasferimento-dall-aeroporto-internazionale-di-tulum-a-cancun/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-tulum/aeroporto-di-tulum-a-cancun/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/tulum/transfer-tulum-to-puerto-juarez/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-puerto-juarez/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-tulum-a-puerto-juarez/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-puerto-juarez/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/tulum/transfer-tulum-to-puerto-juarez/",
+    "destination": "/ar/nakl-mataar/tulum/nakl-khass-matar-tulum-dawli-ila-borto-khawaris/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-tulum/trasferimento-dall-aeroporto-internazionale-di-tulum-a-puerto-juarez/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-tulum/aeroporto-di-tulum-a-puerto-juarez/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/tulum-international-airport/transfer-vom-internationalen-flughafen-tulum-nach-puerto-juarez/",
+    "destination": "/de/flughafentransfer-privat-taxi/tulum-international-airport/transfer-vom-flughafen-tulum-nach-puerto-juarez/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/barcelona/transfer-barcelona-el-prat-to-cadaques/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-cadaques/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslado-barcelona-el-prat-a-cadaques/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-cadaques/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/barcelona/transfer-barcelona-el-prat-to-cadaques/",
+    "destination": "/ar/nakl-mataar/barcelona/nakl-khass-barcelona-airport-cadaques/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/barcelona/transfer-barcelona-el-prat-to-castellar-del-valles/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-castellar-del-valles/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslado-barcelona-el-prat-a-castellar-del-valles/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-castellar-del-valles/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/barcelona/transfer-barcelona-el-prat-to-castellar-del-valles/",
+    "destination": "/ar/nakl-mataar/barcelona/nakl-khass-min-matar-barcelona-el-prat-ila-kastellar-del-valles/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/barcelona/transfer-barcelona-el-prat-to-castellon/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-castellon/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslado-barcelona-el-prat-a-castellon/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-castellon/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/barcelona/transfer-barcelona-el-prat-to-castellon/",
+    "destination": "/ar/nakl-mataar/barcelona/nakl-khass-min-matar-barcelona-ila-kastiyon/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-to-besiktas/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-besiktas/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-istanbul-a-besiktas/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-besiktas/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/istanbul/nakl-istanbul-to-besiktas/",
+    "destination": "/ar/nakl-mataar/istanbul/nakl-khass-istanbul-airport-ist-to-besiktas/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul/trasferimento-dall-aeroporto-di-istanbul-a-besiktas/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul/aeroporto-di-istanbul-a-besiktas/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/istanbul-flughafen/transfer-vom-flughafen-istanbul-nach-besiktas/",
+    "destination": "/de/flughafentransfer-privat-taxi/istanbul-flughafen/flughafen-istanbul-nach-besiktas/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-to-bakirkoy/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-bakirkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-istanbul-sabiha-gokcen-a-bakirkoy/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-bakirkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/istanbul-sabiha-gokcen/nakl-istanbul-sabiha-gokcen-to-bakirkoy/",
+    "destination": "/ar/nakl-mataar/istanbul-sabiha-gokcen/nakl-khass-sabiha-gokcen-international-airport-to-bakirkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul-sabiha-gokcen/trasferimento-dall-aeroporto-di-istanbul-sabiha-gokcen-a-bak-rkoy/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul-sabiha-gokcen/aeroporto-di-istanbul-sabiha-gokcen-a-bak-rkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/tulum/transfer-tulum-to-x-puha/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-x-puha/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-tulum-a-x-puha/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-x-puha/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/tulum/transfer-tulum-to-x-puha/",
+    "destination": "/ar/nakl-mataar/tulum/nakl-khass-tulum-international-airport-to-xpu-ha/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-tulum/trasferimento-dall-aeroporto-internazionale-di-tulum-a-x-puha/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-tulum/aeroporto-di-tulum-a-xpu-ha/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-to-pendik/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-pendik/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-istanbul-sabiha-gokcen-a-pendik/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-pendik/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-to-pendik/",
+    "destination": "/ar/nakl-mataar/istanbul-sabiha-gokcen/nakl-istanbul-sabiha-gokcen-international-airport-saw-to-pendik/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul-sabiha-gokcen/trasferimento-dall-aeroporto-di-istanbul-sabiha-gokcen-a-pendik/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul-sabiha-gokcen/aeroporto-di-istanbul-sabiha-gokcen-a-pendik/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/istanbul-sabiha-goekcen-flughafen/transfer-vom-flughafen-istanbul-sabiha-goekcen-nach-pendik/",
+    "destination": "/de/flughafentransfer-privat-taxi/istanbul-sabiha-goekcen-flughafen/flughafen-istanbul-sabiha-goekcen-nach-pendik/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/buffalo/transfer-buffalo-niagara-to-niagara-falls-canada/",
+    "destination": "/airport-transfers-private-taxi/buffalo/transfer-buffalo-niagara-international-airport-buf-to-niagara-falls-canada/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/buffalo/traslado-buffalo-niagara-a-niagara-falls-canada/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/buffalo/traslado-aeropuerto-buffalo-a-cataratas-niagara-canada/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/buffalo/transfer-buffalo-niagara-to-niagara-falls-canada/",
+    "destination": "/ar/nakl-mataar/buffalo/nakl-khass-buffalo-niagara-international-airport-buf-to-niagara-falls-canada/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-buffalo-niagara/trasferimento-dall-aeroporto-internazionale-di-buffalo-niagara-alle-cascate-del-niagara-canada/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-buffalo-niagara/patrimonio-cultura-la-storia-delle-cascate/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/buffalo-niagara-international-airport/transfer-vom-buffalo-niagara-international-airport-zu-den-niagarafaellen-kanada/",
+    "destination": "/de/flughafentransfer-privat-taxi/buffalo-niagara-international-airport/kultur-erbe-die-geschichte-der-faelle/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/washington-dulles/transfer-washington-dulles-to-washington-dc/",
+    "destination": "/airport-transfers-private-taxi/washington-dulles/transfer-dulles-international-airport-iad-to-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/washington-dulles/traslado-washington-dulles-a-washington-dc/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/washington-dulles/traslado-aeropuerto-dulles-a-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/washington-dulles/nakl-washington-dulles-to-washington-dc/",
+    "destination": "/ar/nakl-mataar/washington-dulles/nakl-khass-dulles-international-airport-iad-to-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-washington-dulles/trasferimento-dall-aeroporto-internazionale-di-washington-dulles-a-washington-dc/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-washington-dulles/aeroporto-di-dulles-a-washington-d-c/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/cancun/transfer-cancun-to-cancun/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-cancun/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-cancun-a-cancun/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-cancun/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/cancun/transfer-cancun-to-cancun/",
+    "destination": "/ar/nakl-mataar/cancun/nakl-khass-cancun-international-airport-cun-to-cancun/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-cancun/trasferimento-dall-aeroporto-internazionale-di-cancun-a-cancun/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-cancun/aeroporto-di-cancun-a-cancun/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/cancun-international-airport/transfer-vom-internationalen-flughafen-cancun-nach-cancun/",
+    "destination": "/de/flughafentransfer-privat-taxi/cancun-international-airport/flughafen-cancun-nach-cancun/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/cancun/transfer-cancun-to-playa-paraiso/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-playa-paraiso/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-cancun-a-playa-paraiso/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-playa-paraiso/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/cancun/transfer-cancun-to-playa-paraiso/",
+    "destination": "/ar/nakl-mataar/cancun/nakl-khass-cancun-international-airport-cun-to-playa-paraiso/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-cancun/trasferimento-dall-aeroporto-internazionale-di-cancun-a-playa-paraiso/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-cancun/patrimonio-maya-e-architettura-costiera/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/cancun-international-airport/transfer-vom-internationalen-flughafen-cancun-nach-playa-paraiso/",
+    "destination": "/de/flughafentransfer-privat-taxi/cancun-international-airport/flughafen-cancun-nach-playa-paraiso/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/cancun/transfer-cancun-to-x-puha/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-x-puha/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-cancun-a-x-puha/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-x-puha/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/cancun/transfer-cancun-to-x-puha/",
+    "destination": "/ar/nakl-mataar/cancun/nakl-khass-cancun-international-airport-cun-to-xpu-ha/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-cancun/trasferimento-dall-aeroporto-internazionale-di-cancun-a-x-puha/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-cancun/aeroporto-di-cancun-a-xpu-ha/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/tulum/transfer-tulum-to-playa-paraiso/",
+    "destination": "/airport-transfers-private-taxi/tulum/transfer-tulum-international-airport-tqo-to-playa-paraiso/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-tulum-a-playa-paraiso/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/tulum/traslado-aeropuerto-tulum-a-playa-paraiso/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/tulum/nakl-tulum-to-playa-paraiso/",
+    "destination": "/ar/nakl-mataar/tulum/nakl-khass-tulum-international-airport-tqo-to-playa-paraiso/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-tulum/trasferimento-dall-aeroporto-internazionale-di-tulum-a-playa-paraiso/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-tulum/aeroporto-di-tulum-a-playa-paraiso/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/tulum-international-airport/transfer-vom-internationalen-flughafen-tulum-nach-playa-paraiso/",
+    "destination": "/de/flughafentransfer-privat-taxi/tulum-international-airport/tulum-flughafen-nach-playa-paraiso/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/barcelona/transfer-barcelona-el-prat-to-vilanova-i-la-geltru/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-vilanova-i-la-geltru/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslado-barcelona-el-prat-a-vilanova-i-la-geltru/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-vilanova-y-la-geltru/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/barcelona/transfer-barcelona-el-prat-to-vilanova-i-la-geltru/",
+    "destination": "/ar/nakl-mataar/barcelona/transfers-from-barcelona-airport-to-vilanova-i-la-geltru/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-barcellona-el-prat/trasferimento-dall-aeroporto-di-barcellona-el-prat-a-vilanova-i-la-geltru/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-barcellona-el-prat/transfer-dall-aeroporto-di-barcellona-el-prat-a-vilanova-i-la-geltru/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/antalya/transfer-antalya-to-gonyuk/",
+    "destination": "/airport-transfers-private-taxi/antalya/transfer-antalya-airport-ayt-to-gonyuk/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/antalya/traslado-antalya-a-gonyuk/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/antalya/traslado-aeropuerto-antalya-a-gonyuk/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/antalya/nakl-antalya-to-gonyuk/",
+    "destination": "/ar/nakl-mataar/antalya/nakl-khass-antalya-airport-ayt-to-goynuk/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-antalya/trasferimento-dall-aeroporto-di-antalya-a-gonyuk/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-antalya/sapori-locali-la-cucina-turca-a-goynuk/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/flughafen-antalya/transfer-vom-flughafen-antalya-nach-goenyuek/",
+    "destination": "/de/flughafentransfer-privat-taxi/flughafen-antalya/flughafen-antalya-nach-goeynuek/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-to-bakirkoy/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-bakirkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-istanbul-a-bakirkoy/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-bakirkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/istanbul/transfer-istanbul-to-bakirkoy/",
+    "destination": "/ar/nakl-mataar/istanbul/nakl-khass-istanbul-airport-bakirkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul/trasferimento-dall-aeroporto-di-istanbul-a-bakirkoy/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul/aeroporto-di-istanbul-a-bak-rkoy/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/istanbul-flughafen/transfer-vom-flughafen-istanbul-nach-bakirkoey/",
+    "destination": "/de/flughafentransfer-privat-taxi/istanbul-flughafen/istanbul-flughafen-nach-bak-rkoey/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-to-halkali/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-halkali/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-istanbul-sabiha-gokcen-a-halkali/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-halkali/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-to-halkali/",
+    "destination": "/ar/nakl-mataar/istanbul-sabiha-gokcen/nakl-istanbul-sabiha-gokcen-international-airport-saw-to-halkali/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul-sabiha-gokcen/trasferimento-dall-aeroporto-di-istanbul-sabiha-gokcen-a-halkali/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul-sabiha-gokcen/lago-kucukcekmece-natura-a-due-passi-da-istanbul/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/washington-ronald-reagan/transfer-ronald-reagan-washington-national-to-washington-dc/",
+    "destination": "/airport-transfers-private-taxi/washington-ronald-reagan/transfer-ronald-reagan-washington-national-airport-dca-to-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/washington-reagan/traslado-ronald-reagan-washington-national-a-washington-dc/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/washington-reagan/traslado-aeropuerto-reagan-a-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/washington-ronald-reagan/nakl-ronald-reagan-washington-national-to-washington-dc/",
+    "destination": "/ar/nakl-mataar/washington-ronald-reagan/nakl-ronald-reagan-washington-national-airport-dca-to-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-nazionale-ronald-reagan-di-washington/trasferimento-dall-aeroporto-nazionale-ronald-reagan-di-washington-a-washington-dc/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-nazionale-ronald-reagan-di-washington/aeroporto-di-reagan-a-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/ronald-reagan-washington-national-airport/transfer-vom-ronald-reagan-washington-national-airport-nach-washington-dc/",
+    "destination": "/de/flughafentransfer-privat-taxi/ronald-reagan-washington-national-airport/flughafen-reagan-nach-washington-dc/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/miami/transfer-miami-to-miami-lake/",
+    "destination": "/airport-transfers-private-taxi/miami/transfer-miami-international-airport-mia-to-miami-lake/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/miami/traslado-miami-a-miami-lake/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/miami/traslado-aeropuerto-miami-a-miami-lakes/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/miami/transfer-miami-to-miami-lake/",
+    "destination": "/ar/nakl-mataar/miami/nakl-matar-miami-ila-buhayrat-miami/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-miami/trasferimento-dall-aeroporto-internazionale-di-miami-a-miami-lakes/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-miami/aeroporto-di-miami-a-miami-lakes/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/miami-international-airport/transfer-vom-miami-international-airport-nach-miami-lakes/",
+    "destination": "/de/flughafentransfer-privat-taxi/miami-international-airport/flughafen-miami-nach-miami-lakes/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/cancun/transfer-cancun-to-puerto-juarez/",
+    "destination": "/airport-transfers-private-taxi/cancun/transfer-cancun-international-airport-cun-to-puerto-juarez/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-cancun-a-puerto-juarez/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/cancun/traslado-aeropuerto-cancun-a-puerto-juarez/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/cancun/transfer-cancun-to-puerto-juarez/",
+    "destination": "/ar/nakl-mataar/cancun/naql-khass/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-cancun/trasferimento-dall-aeroporto-internazionale-di-cancun-a-puerto-juarez/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-cancun/aeroporto-di-cancun-a-puerto-juarez/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/cancun-international-airport/transfer-vom-flughafen-cancun-nach-puerto-juarez/",
+    "destination": "/de/flughafentransfer-privat-taxi/cancun-international-airport/flughafen-cancun-nach-puerto-juarez/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-to-halkali/",
+    "destination": "/airport-transfers-private-taxi/istanbul/transfer-istanbul-airport-ist-to-halkali/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-istanbul-a-halkali/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul/traslado-aeropuerto-estambul-a-halkali/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/istanbul/transfer-istanbul-to-halkali/",
+    "destination": "/ar/nakl-mataar/istanbul/nakl-khass-matar-istanbul-ist-to-halkali/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul/trasferimento-dall-aeroporto-di-istanbul-a-halkali/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul/aeroporto-di-istanbul-a-halkal/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/istanbul-flughafen/transfer-vom-flughafen-istanbul-nach-halkali/",
+    "destination": "/de/flughafentransfer-privat-taxi/istanbul-flughafen/istanbul-flughafen-nach-halkal/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-to-umraniye/",
+    "destination": "/airport-transfers-private-taxi/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-international-airport-saw-to-umraniye/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-istanbul-sabiha-gokcen-a-umraniye/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/estambul-sabiha-gokcen/traslado-aeropuerto-sabiha-gokcen-a-umraniye/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/istanbul-sabiha-gokcen/transfer-istanbul-sabiha-gokcen-to-umraniye/",
+    "destination": "/ar/nakl-mataar/istanbul-sabiha-gokcen/nakl-istanbul-sabiha-gokcen-international-airport-saw-ila-umraniye/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul-sabiha-gokcen/trasferimento-dall-aeroporto-di-istanbul-sabiha-gokcen-a-umraniye/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-istanbul-sabiha-gokcen/aeroporto-di-istanbul-sabiha-gokcen-a-umraniye/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/istanbul-sabiha-goekcen-flughafen/transfer-vom-flughafen-istanbul-sabiha-goekcen-nach-umraniye/",
+    "destination": "/de/flughafentransfer-privat-taxi/istanbul-sabiha-goekcen-flughafen/flughafen-istanbul-sabiha-goekcen-nach-uemraniye/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/fort-lauderdale/transfer-fort-lauderdale-hollywood-to-miami-lake/",
+    "destination": "/airport-transfers-private-taxi/fort-lauderdale/transfer-fort-lauderdale-hollywood-international-airport-fll-to-miami-lake/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/fort-lauderdale/traslado-fort-lauderdale-hollywood-a-miami-lake/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/fort-lauderdale/traslado-aeropuerto-fort-lauderdale-a-miami-lakes/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/fort-lauderdale/transfer-fort-lauderdale-hollywood-to-miami-lake/",
+    "destination": "/ar/nakl-mataar/fort-lauderdale/nakl-khass-fort-lauderdale-hollywood-international-airport-fll-to-miami-lake/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-fort-lauderdale-hollywood/trasferimento-dall-aeroporto-internazionale-di-fort-lauderdale-hollywood-a-miami-lakes/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-fort-lauderdale-hollywood/aeroporto-di-fort-lauderdale-a-miami-lakes/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/barcelona/barcelona-el-prat-to-barcelona-city-centre/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-barcelona/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-aeropuerto-barcelona-al-centro/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-barcelona/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/barcelona/barcelona-el-prat-to-barcelona-city-centre/",
+    "destination": "/ar/nakl-mataar/barcelona/nakl-khass-min-matar-barcelona-el-prat-ila-barcelona/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-barcellona-el-prat/aeroporto-di-barcellona-el-prat-al-centro-di-barcellona/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-barcellona-el-prat/architettura-che-definisce-una-citta/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/flughafen-barcelona-el-prat/flughafen-barcelona-el-prat-zum-stadtzentrum-barcelona/",
+    "destination": "/de/flughafentransfer-privat-taxi/flughafen-barcelona-el-prat/transfer-vom-flughafen-barcelona-el-prat-nach-barcelona/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/barcelona/barcelona-el-prat-to-girona/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-girona/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-aeropuerto-barcelona-a-girona/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-girona/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/barcelona/barcelona-el-prat-to-girona/",
+    "destination": "/ar/nakl-mataar/barcelona/nakl-min-matar-barcelona-el-prat-ila-girona/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-barcellona-el-prat/aeroporto-di-barcellona-el-prat-a-girona/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-barcellona-el-prat/trasferimento-dall-aeroporto-di-barcellona-el-prat-a-girona/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/barcelona/barcelona-el-prat-to-salou/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-salou/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-aeropuerto-barcelona-a-salou/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/transbordos-desde-el-aeropuerto-de-barcelona-a-salou/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/barcelona/barcelona-el-prat-to-salou/",
+    "destination": "/ar/nakl-mataar/barcelona/transfers-from-barcelona-airport-to-salou/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-barcellona-el-prat/aeroporto-di-barcellona-el-prat-a-salou/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-barcellona-el-prat/trasferimento-dall-aeroporto-di-barcellona-el-prat-a-salou/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/barcelona/barcelona-el-prat-to-sitges/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-sitges/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-aeropuerto-barcelona-a-sitges/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-sitges/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/barcelona/barcelona-el-prat-to-sitges/",
+    "destination": "/ar/nakl-mataar/barcelona/nakl-khass-min-matar-barcelona-el-prat-ila-sitges/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-barcellona-el-prat/aeroporto-di-barcellona-el-prat-a-sitges/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-barcellona-el-prat/trasferimento-dall-aeroporto-di-barcellona-el-prat-a-sitges/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/barcelona/barcelona-el-prat-to-tarragona/",
+    "destination": "/airport-transfers-private-taxi/barcelona/transfers-from-barcelona-airport-to-tarragona/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-aeropuerto-barcelona-a-tarragona/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/barcelona/traslados-desde-el-aeropuerto-de-barcelona-a-tarragona/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/barcelona/barcelona-el-prat-to-tarragona/",
+    "destination": "/ar/nakl-mataar/barcelona/nakl-min-matar-barcelona-ila-taragona/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-barcellona-el-prat/aeroporto-di-barcellona-el-prat-a-tarragona/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-di-barcellona-el-prat/trasferimento-dall-aeroporto-di-barcellona-el-prat-a-tarragona/",
+    "permanent": true
+  },
+  {
+    "source": "/airport-transfers-private-taxi/abu-dhabi/transfer-zayed-international-airport-auh-to-abu-dhabi-2/",
+    "destination": "/airport-transfers-private-taxi/abu-dhabi/transfer-zayed-international-airport-auh-to-abu-dhabi/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-aeropuerto-privados-taxi/abu-dhabi/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-abu-dabi-2/",
+    "destination": "/es/traslados-aeropuerto-privados-taxi/abu-dhabi/traslados-desde-el-aeropuerto-internacional-zayed-auh-a-abu-dabi/",
+    "permanent": true
+  },
+  {
+    "source": "/ar/nakl-mataar/abu-dhabi/transfer-zayed-international-airport-auh-to-abu-dhabi-2/",
+    "destination": "/ar/nakl-mataar/abu-dhabi/transfer-zayed-international-airport-auh-to-abu-dhabi/",
+    "permanent": true
+  },
+  {
+    "source": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-abu-dhabi/trasferimento-dall-aeroporto-internazionale-di-abu-dhabi-al-centro-di-abu-dhabi/",
+    "destination": "/it/trasferimenti-aeroporto-taxi-privato/aeroporto-internazionale-di-abu-dhabi/trasferimento-dall-aeroporto-internazionale-di-abu-dhabi-ad-abu-dhabi/",
+    "permanent": true
+  },
+  {
+    "source": "/de/flughafentransfer-privat-taxi/abu-dhabi-international-airport/transfer-vom-internationalen-flughafen-abu-dhabi-ins-stadtzentrum-von-abu-dhabi/",
+    "destination": "/de/flughafentransfer-privat-taxi/abu-dhabi-international-airport/transfer-vom-internationalen-flughafen-abu-dhabi-nach-abu-dhabi/",
+    "permanent": true
+  }
+]
