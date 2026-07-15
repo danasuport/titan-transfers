@@ -14,7 +14,8 @@ function csvCell(v: unknown): string {
 
 export async function GET(req: NextRequest) {
   if (!(await isAuthed())) {
-    return NextResponse.redirect(new URL('/admin/', req.url), { status: 303 })
+    // Relative Location: behind the proxy req.url is the internal 0.0.0.0:3000.
+    return new NextResponse(null, { status: 303, headers: { Location: '/admin/' } })
   }
 
   const { searchParams } = new URL(req.url)
