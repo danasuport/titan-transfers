@@ -125,11 +125,15 @@ PORT=3001 pnpm dev                     # panel en http://localhost:3001/admin/se
 
 ## 8. Pendiente
 
-- [ ] **Desplegar** (commit + push + redeploy en Coolify).
-- [ ] **`ADMIN_PASSWORD` en Coolify** — contraseña fuerte, distinta de la local.
-- [ ] **Programar el enriquecimiento**: Coolify → app → **Scheduled Tasks** → cada 15 min:
-      `npx tsx scripts/enrich-searches.mjs --limit=500`
+- [x] **Desplegado** (commit `11e5a78`). Verificado en prod: web y reservas OK, `/admin/` pide contraseña, y la app **escribe en Postgres** (el esquema se auto-creó).
+- [x] **`ADMIN_PASSWORD` en Coolify** — puesta.
+- [ ] **Programar el enriquecimiento**: Coolify → **la app** → **Scheduled Tasks** → cada 15 min (`*/15 * * * *`):
+      ```
+      curl -fsS -X POST https://titantransfers.com/api/admin/enrich/ -H "Authorization: Bearer $ADMIN_PASSWORD"
+      ```
       *(Sin esto, las búsquedas se guardan pero salen sin país/ciudad/ruta.)*
+      **Ojo:** NO uses `npx tsx scripts/enrich-searches.mjs` en producción — el build es standalone: no hay devDependencies (`tsx`) ni carpeta `scripts/`. Por eso existe el endpoint. El script y el endpoint comparten el mismo código (`src/lib/db/enrich-runner.ts`).
+- [ ] Borrar la fila de prueba `ZZZ TEST despliegue (ignorar)` de producción.
 - [ ] **Política de privacidad**: declarar el registro de búsquedas + retención. Los `pickup`/`dest` pueden ser el domicilio de alguien = dato personal. Base legal: interés legítimo (analítica agregada de negocio, sin perfilado ni identificación). Recomendado: **retención 12-24 meses** + borrado automático.
 - [ ] Opcional: capturar también los cambios de origen/destino **dentro** del iframe de ETO (tocando el MU-plugin de WP).
 - [ ] Opcional: `openGraph` completo en páginas de listado (tema SEO aparte).
