@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { isAuthed } from '@/lib/admin/auth'
 import { getPool, ensureSchema } from '@/lib/db/client'
 import { TZ } from '@/lib/admin/queries'
+import { getSheetIndex, getWebIndex, verdictFor } from '@/lib/admin/catalog'
+import { searchRouteKey } from '@/lib/route-key'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -25,41 +27,73 @@ export async function GET(req: NextRequest) {
   const to = dateRe.test(searchParams.get('to') || '') ? searchParams.get('to')! : '2999-12-31'
 
   await ensureSchema()
-  const { rows } = await getPool().query(
-    // created_at is a timestamptz and the server session is UTC, so it's
-    // rendered in Spanish local time — otherwise the client's export would be
-    // two hours behind the times they see everywhere else. travel_date is a
-    // plain DATE and needs no conversion.
-    `SELECT to_char(created_at AT TIME ZONE '${TZ}', 'YYYY-MM-DD HH24:MI')  AS "Fecha busqueda",
-            COALESCE(pickup_label, pickup_text)        AS "Origen",
-            COALESCE(dest_label, dest_text)            AS "Destino",
-            pickup_country                             AS "Pais origen",
-            dest_country                               AS "Pais destino",
-            pickup_is_airport                          AS "Origen es aeropuerto",
-            dest_is_airport                            AS "Destino es aeropuerto",
-            CASE route_exists WHEN true THEN 'Si' WHEN false THEN 'No' ELSE 'n/a' END AS "Tenemos la ruta",
-            to_char(travel_date, 'YYYY-MM-DD')         AS "Fecha viaje",
-            travel_time                                AS "Hora viaje",
-            pax                                        AS "Pasajeros",
-            lug                                        AS "Maletas",
-            locale                                     AS "Idioma",
-            pickup_text                                AS "Origen (texto original)",
-            dest_text                                  AS "Destino (texto original)"
-       FROM booking_search
-      WHERE created_at >= (($1::date)::timestamp AT TIME ZONE '${TZ}')
-        AND created_at < ((($2::date + interval '1 day'))::timestamp AT TIME ZONE '${TZ}')
-      ORDER BY created_at DESC`,
-    [from, to]
-  )
+  const [{ rows }, sheet, web] = await Promise.all([
+    getPool().query(
+      // created_at is a timestamptz and the server session is UTC, so it's
+      // rendered in Spanish local time — otherwise the client's export would be
+      // two hours behind the times they see everywhere else. travel_date is a
+      // plain DATE and needs no conversion.
+      `SELECT to_char(b.created_at AT TIME ZONE '${TZ}', 'YYYY-MM-DD HH24:MI')  AS fecha_busqueda,
+              COALESCE(b.pickup_label, b.pickup_text)      AS origen,
+              COALESCE(b.dest_label, b.dest_text)          AS destino,
+              b.pickup_country, b.dest_country,
+              b.pickup_is_airport, b.dest_is_airport,
+              b.pickup_city, b.dest_city,
+              pp.iata AS pickup_iata,
+              dp.iata AS dest_iata,
+              to_char(b.travel_date, 'YYYY-MM-DD')         AS fecha_viaje,
+              b.travel_time, b.pax, b.lug, b.locale,
+              b.pickup_text, b.dest_text
+         FROM booking_search b
+         LEFT JOIN place_cache pp ON pp.place_id = b.pickup_pid
+         LEFT JOIN place_cache dp ON dp.place_id = b.dest_pid
+        WHERE b.created_at >= (($1::date)::timestamp AT TIME ZONE '${TZ}')
+          AND b.created_at < ((($2::date + interval '1 day'))::timestamp AT TIME ZONE '${TZ}')
+        ORDER BY b.created_at DESC`,
+      [from, to]
+    ),
+    getSheetIndex(),
+    getWebIndex(),
+  ])
 
-  const headers = rows.length
-    ? Object.keys(rows[0])
-    : ['Fecha busqueda', 'Origen', 'Destino', 'Pais origen', 'Tenemos la ruta']
+  // Same two questions, same answers as the dashboard — the export used to carry
+  // a single "Tenemos la ruta" read straight off the stored route_exists, which
+  // says No for the 1.095 routes that are priced but not published yet.
+  const tri = (v: boolean | null) => (v === true ? 'Si' : v === false ? 'No' : 'n/a')
+  const records = rows.map(r => {
+    const v = verdictFor(searchRouteKey(r), sheet, web)
+    return {
+      'Fecha busqueda': r.fecha_busqueda,
+      'Origen': r.origen,
+      'Destino': r.destino,
+      'IATA': r.pickup_is_airport ? r.pickup_iata : r.dest_is_airport ? r.dest_iata : null,
+      'Pais origen': r.pickup_country,
+      'Pais destino': r.dest_country,
+      'Origen es aeropuerto': r.pickup_is_airport,
+      'Destino es aeropuerto': r.dest_is_airport,
+      'La tenemos': tri(v.haveIt),
+      'En la web': tri(v.onWeb),
+      'Fecha viaje': r.fecha_viaje,
+      'Hora viaje': r.travel_time,
+      'Pasajeros': r.pax,
+      'Maletas': r.lug,
+      'Idioma': r.locale,
+      'Origen (texto original)': r.pickup_text,
+      'Destino (texto original)': r.dest_text,
+    }
+  })
+
+  const headers = Object.keys(
+    records[0] ?? {
+      'Fecha busqueda': '', 'Origen': '', 'Destino': '', 'IATA': '',
+      'La tenemos': '', 'En la web': '',
+    }
+  )
 
   // Semicolon + BOM: what Excel on a Spanish locale opens cleanly on a double click.
   const body = [
     headers.join(';'),
-    ...rows.map(r => headers.map(h => csvCell(r[h])).join(';')),
+    ...records.map(r => headers.map(h => csvCell(r[h as keyof typeof r])).join(';')),
   ].join('\r\n')
 
   return new NextResponse('﻿' + body, {

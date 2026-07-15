@@ -79,6 +79,8 @@ scripts/enrich-searches.mjs    → Google Geocoding (place_id → país/ciudad/�
 |---|---|
 | `src/lib/db/client.ts` | Pool de Postgres + `ensureSchema()` (el esquema vive aquí) |
 | `src/lib/db/enrich.ts` | `resolvePlace()` (Geocoding + caché), `placeLabel()` |
+| `src/lib/route-key.ts` | La clave `"BCN\|cubelles"` y la regla de qué extremo es el aeropuerto. **Única definición**: la comparten el enriquecedor y el panel |
+| `src/lib/admin/catalog.ts` | Los dos catálogos vivos: hoja de tarifas (CSV de Drive) y Sanity, + `verdictFor()` |
 | `src/app/api/search-log/route.ts` | Captura + dedupe |
 | `src/components/booking/TaxiBookingIframe.tsx` | Dispara el beacon |
 | `src/lib/admin/auth.ts` | Cookie firmada HMAC + `ADMIN_PASSWORD` |
@@ -109,6 +111,10 @@ PORT=3001 pnpm dev                     # panel en http://localhost:3001/admin/se
 - BD: recurso **`titan-analytics`** (PostgreSQL 17, **solo interna**, sin puerto público).
 - Variables de **la app** (runtime, **no** buildtime): `DATABASE_URL` (URL interna de Coolify), `ADMIN_PASSWORD`.
   *(Todo va en la app, no en la BD: la BD solo tiene que existir y estar en verde.)*
+- `ROUTES_SHEET_CSV_URL` es **opcional**: la hoja en uso hoy es el valor por defecto en `catalog.ts`.
+  Solo hace falta para apuntar a otra hoja, con el formato
+  `https://docs.google.com/spreadsheets/d/<id>/export?format=csv&gid=0`.
+  La hoja debe seguir compartida por enlace y conservar sus columnas `Airport` y `Resort`.
 - Panel: `https://titantransfers.com/admin/`
 - **Clasificar a mano** sin esperar al cron: botón **"Clasificar ahora"** en el aviso amarillo del panel.
   Recalcular todo (tras cambiar el criterio de cruce): `/api/admin/enrich/?force=1&limit=1000` estando logueado.
@@ -127,6 +133,11 @@ PORT=3001 pnpm dev                     # panel en http://localhost:3001/admin/se
 7. **Horas: `created_at` es `timestamptz` y el servidor va en UTC.** Todo lo que lea el cliente debe convertirse con `AT TIME ZONE 'Europe/Madrid'` — texto Y rangos de fecha (si no, un "día" va de 02:00 a 02:00). No sumes 2h a mano: se rompería en invierno.
 8. **Google devuelve el nombre LOCAL de la ciudad para direcciones.** Para el `place_id` de la ciudad devuelve el exónimo inglés ("Rome"), pero para una dirección DENTRO de ella (un hotel — que es lo que busca la gente) devuelve el local ("Roma"). `language=en` **NO lo arregla** (comprobado: Roma, Milano, Firenze, München siguen en local). Por eso `loadRouteIndex()` indexa la ciudad destino bajo **todos sus nombres traducidos** en Sanity. Si tocas eso, romperás el cruce de toda ciudad con exónimo.
 9. Las tablas de rutas del panel **solo muestran filas enriquecidas**: una fila sin enriquecer no tiene etiqueta y agruparía bajo una clave distinta que la misma ruta ya enriquecida, partiendo una ruta en dos filas y falseando los recuentos.
+10. **"¿La tenemos?" y "¿En la web?" son dos preguntas distintas.** La hoja de tarifas del cliente tiene 1.754 rutas y Sanity 738; **ninguna contiene a la otra** (1.095 están vendidas sin publicar, 52 publicadas sin estar en la hoja). Por eso "la tenemos" = hoja ∪ web, y "en la web" = solo Sanity. Si vuelves a fundir las dos en una sola columna, el panel dirá "no tenemos esa ruta" de 1.095 rutas que sí se venden — que es exactamente la queja que originó esto.
+11. **Los dos catálogos se leen en vivo, no desde `route_exists`.** `route_exists` se congela al enriquecer la búsqueda: una ruta publicada hoy seguiría saliendo como ausente en toda búsqueda anterior. El panel y el export usan `getSheetIndex()` / `getWebIndex()` (caché de 1 h).
+12. **Si un catálogo no se puede leer, el veredicto es `null`, nunca `false`.** Un "No" inventado es peor que un "—": manda al cliente a crear una tarifa que ya tiene. `sanityClient.fetch` se traga sus errores y devuelve `[]`, así que `getWebIndex()` trata "0 rutas" como caída (el catálogo nunca está legítimamente vacío).
+13. **La URL de la hoja va como argumento de `unstable_cache`, no como constante capturada.** Si no, la clave de caché no depende de ella y repuntar `ROUTES_SHEET_CSV_URL` a otra hoja seguiría sirviendo la anterior una hora. Ya pasó una vez, en pruebas.
+14. **El cruce con la hoja es por texto libre** (`Airport` + `Resort`), así que falla en algunos nombres (`Kadiköy` en la hoja vs. `Kadıköy` de Google — la `ı` turca no la arregla quitar acentos). Son pocos y salen como "no tenemos" siendo falso. Si renombran esas columnas en Drive o dejan de compartir la hoja, salta el aviso rojo del panel y todo pasa a "—".
 
 ---
 

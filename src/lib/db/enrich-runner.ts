@@ -1,4 +1,5 @@
 import { sanityClient } from '@/lib/sanity/client'
+import { routeKey, searchRouteKey } from '@/lib/route-key'
 import { getPool, ensureSchema } from './client'
 import { resolvePlace, placeLabel } from './enrich'
 
@@ -10,16 +11,6 @@ export interface EnrichResult {
   processed: number
   failed: number
   items: { id: number; from: string; to: string; routeExists: boolean | null }[]
-}
-
-/** Accent- and case-insensitive key: "Vilanova i la Geltrú" == "vilanova i la geltru". */
-function norm(s: string | null | undefined): string {
-  return String(s || '')
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim()
 }
 
 /**
@@ -53,8 +44,8 @@ async function loadRouteIndex(): Promise<Set<string>> {
   for (const r of routes) {
     const names = [r.dest, ...Object.values(r.destTr || {}).map(t => t?.title)]
     for (const name of names) {
-      const key = norm(name)
-      if (key) index.add(`${r.iata}|${key}`)
+      const key = routeKey(r.iata, name)
+      if (key) index.add(key)
     }
   }
   return index
@@ -94,15 +85,17 @@ export async function runEnrichment(opts: { limit?: number; force?: boolean } = 
       // "do we have this?" when one end is an airport we know by IATA. Both
       // directions count (the return leg is the same route).
       //
-      // Neither end an airport => NULL, not false: a city→city search isn't a
-      // route we could be "missing", and marking it would fill the client's
-      // backlog with noise.
-      let routeExists: boolean | null = null
-      if (pickup?.is_airport && pickup.iata && dest?.city) {
-        routeExists = routeIndex.has(`${pickup.iata}|${norm(dest.city)}`)
-      } else if (dest?.is_airport && dest.iata && pickup?.city) {
-        routeExists = routeIndex.has(`${dest.iata}|${norm(pickup.city)}`)
-      }
+      // No key => NULL, not false: a city→city search isn't a route we could be
+      // "missing", and marking it would fill the client's backlog with noise.
+      const key = searchRouteKey({
+        pickup_is_airport: pickup?.is_airport ?? null,
+        pickup_iata: pickup?.iata ?? null,
+        pickup_city: pickup?.city ?? null,
+        dest_is_airport: dest?.is_airport ?? null,
+        dest_iata: dest?.iata ?? null,
+        dest_city: dest?.city ?? null,
+      })
+      const routeExists = key ? routeIndex.has(key) : null
 
       const from = placeLabel(pickup, row.pickup_text)
       const to = placeLabel(dest, row.dest_text)
