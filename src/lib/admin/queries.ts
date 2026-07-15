@@ -27,12 +27,26 @@ export interface RankRow {
   searches: number
 }
 
-/** Inclusive from / to as YYYY-MM-DD. */
+// created_at is a timestamptz (a universal instant, which is right), but the
+// server's session runs in UTC — so formatting or comparing it raw shows Madrid
+// users times two hours behind, and makes "15 July" run 02:00→02:00 instead of
+// midnight→midnight. Everything the client reads is therefore converted to
+// Spanish local time explicitly.
+export const TZ = 'Europe/Madrid'
+
+/** Inclusive from / to as YYYY-MM-DD, interpreted as Spanish local days. */
 function range(from: string, to: string) {
   return [from, to]
 }
 
-const WHERE_RANGE = `created_at >= $1::date AND created_at < ($2::date + interval '1 day')`
+const WHERE_RANGE = `
+  created_at >= (($1::date)::timestamp AT TIME ZONE '${TZ}')
+  AND created_at < ((($2::date + interval '1 day'))::timestamp AT TIME ZONE '${TZ}')`
+
+/** Formats a timestamptz in Spanish local time. */
+function localTs(col: string, fmt: string) {
+  return `to_char(${col} AT TIME ZONE '${TZ}', '${fmt}')`
+}
 
 export async function getKpis(from: string, to: string): Promise<Kpis> {
   await ensureSchema()
@@ -68,7 +82,7 @@ export async function getRoutes(from: string, to: string, missingOnly = false, l
        count(*)::int                       AS searches,
        bool_and(route_exists)              AS route_exists,
        round(avg(pax), 1)::float           AS avg_pax,
-       to_char(max(created_at), 'YYYY-MM-DD') AS last_seen
+       ${localTs('max(created_at)', 'YYYY-MM-DD')} AS last_seen
      FROM booking_search
      WHERE ${WHERE_RANGE}
        AND enriched_at IS NOT NULL
@@ -124,7 +138,7 @@ export interface SearchRow {
 export async function getRecent(from: string, to: string, limit = 200): Promise<SearchRow[]> {
   const { rows } = await getPool().query(
     `SELECT id,
-            to_char(created_at, 'YYYY-MM-DD HH24:MI')   AS created_at,
+            ${localTs('created_at', 'YYYY-MM-DD HH24:MI')} AS created_at,
             COALESCE(pickup_label, pickup_text)         AS origen,
             COALESCE(dest_label, dest_text)             AS destino,
             pickup_country                              AS pais,

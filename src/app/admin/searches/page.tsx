@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 import { isAuthed } from '@/lib/admin/auth'
 import {
-  getKpis, getRoutes, getTopCountries, getTopCities, getTopAirports, getRecent,
+  getKpis, getRoutes, getTopCountries, getTopCities, getTopAirports, getRecent, TZ,
   type RankRow, type RouteRow,
 } from '@/lib/admin/queries'
 
@@ -10,7 +10,13 @@ export const metadata = { title: 'Búsquedas — Panel Titan', robots: { index: 
 
 // ─── date helpers ────────────────────────────────────────────────────────────
 
-function iso(d: Date) { return d.toISOString().slice(0, 10) }
+// The server runs in UTC, so toISOString() would call it "yesterday" between
+// midnight and 02:00 Spanish time. Dates the client sees are always Spanish.
+function iso(d: Date) {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit',
+  }).format(d)
+}
 function defaultFrom() { const d = new Date(); d.setDate(d.getDate() - 30); return iso(d) }
 
 // ─── styles ──────────────────────────────────────────────────────────────────
@@ -96,7 +102,7 @@ function RoutesTable({ rows }: { rows: RouteRow[] }) {
 export default async function SearchesDashboard({
   searchParams,
 }: {
-  searchParams: Promise<{ from?: string; to?: string }>
+  searchParams: Promise<{ from?: string; to?: string; enrich_error?: string }>
 }) {
   if (!(await isAuthed())) redirect('/admin/')
 
@@ -149,6 +155,12 @@ export default async function SearchesDashboard({
           <Kpi label="Países" value={kpis.countries} />
         </section>
 
+        {sp.enrich_error && (
+          <p style={{ ...card, fontSize: '0.82rem', color: '#991b1b', background: '#fef2f2', borderColor: '#fecaca', marginBottom: '1.5rem' }}>
+            La clasificación falló. Vuelve a intentarlo; si persiste, avisa a soporte técnico.
+          </p>
+        )}
+
         {kpis.pending_enrichment > 0 && (
           <div style={{ ...card, background: '#fffbeb', borderColor: '#fde68a', marginBottom: '1.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ fontSize: '0.82rem', color: '#92400e', lineHeight: 1.5 }}>
@@ -156,12 +168,16 @@ export default async function SearchesDashboard({
               Aún no sabemos su país, ciudad ni si tenemos la ruta, así que <strong>todavía no aparecen
               en las tablas de abajo</strong>. Se clasifican solas cada 15 minutos.
             </div>
-            <a
-              href={`/api/admin/enrich/?limit=500`}
-              style={{ padding: '0.45rem 1rem', background: '#92400e', color: '#fff', borderRadius: '6px', fontWeight: 700, fontSize: '0.8rem', textDecoration: 'none', whiteSpace: 'nowrap' }}
-            >
-              Clasificar ahora
-            </a>
+            {/* POST, not a link: this mutates data, and a browser could fire a
+                link on prefetch. Returns to the panel instead of raw JSON. */}
+            <form method="POST" action={`/api/admin/enrich/?limit=500&${qs}`} style={{ margin: 0 }}>
+              <button
+                type="submit"
+                style={{ padding: '0.45rem 1rem', background: '#92400e', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', whiteSpace: 'nowrap' }}
+              >
+                Clasificar ahora
+              </button>
+            </form>
           </div>
         )}
 

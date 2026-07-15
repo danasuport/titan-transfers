@@ -27,6 +27,12 @@ function bearerOk(req: NextRequest): boolean {
   return timingSafeEqual(a, b)
 }
 
+/** YYYY-MM-DD or null. Used to rebuild the panel URL — never to build a redirect
+ *  out of raw user input, so there's no open-redirect surface here. */
+function isoDate(v: string | null): string | null {
+  return v && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : null
+}
+
 async function handle(req: NextRequest) {
   // Either a cron with the bearer token, or a logged-in admin hitting "refresh".
   if (!bearerOk(req) && !(await isAuthed())) {
@@ -36,9 +42,21 @@ async function handle(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const limit = Math.min(Number(searchParams.get('limit')) || 200, 1000)
   const force = searchParams.get('force') === '1'
+  // A browser navigation gets sent back to the panel; curl/the cron gets JSON.
+  // Nobody should have to read raw JSON and press the back button.
+  const wantsHtml = (req.headers.get('accept') || '').includes('text/html')
 
   try {
     const result = await runEnrichment({ limit, force })
+
+    if (wantsHtml) {
+      const from = isoDate(searchParams.get('from'))
+      const to = isoDate(searchParams.get('to'))
+      const qs = from && to ? `?from=${from}&to=${to}` : ''
+      // Relative Location: behind the proxy req.url is the internal 0.0.0.0:3000.
+      return new NextResponse(null, { status: 303, headers: { Location: `/admin/searches/${qs}` } })
+    }
+
     return NextResponse.json({
       ok: true,
       processed: result.processed,
@@ -47,6 +65,9 @@ async function handle(req: NextRequest) {
     })
   } catch (err) {
     console.error('[enrich] run failed:', err)
+    if (wantsHtml) {
+      return new NextResponse(null, { status: 303, headers: { Location: '/admin/searches/?enrich_error=1' } })
+    }
     return NextResponse.json({ ok: false, error: String(err) }, { status: 500 })
   }
 }

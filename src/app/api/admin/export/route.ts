@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isAuthed } from '@/lib/admin/auth'
 import { getPool, ensureSchema } from '@/lib/db/client'
+import { TZ } from '@/lib/admin/queries'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -25,7 +26,11 @@ export async function GET(req: NextRequest) {
 
   await ensureSchema()
   const { rows } = await getPool().query(
-    `SELECT to_char(created_at, 'YYYY-MM-DD HH24:MI')  AS "Fecha busqueda",
+    // created_at is a timestamptz and the server session is UTC, so it's
+    // rendered in Spanish local time — otherwise the client's export would be
+    // two hours behind the times they see everywhere else. travel_date is a
+    // plain DATE and needs no conversion.
+    `SELECT to_char(created_at AT TIME ZONE '${TZ}', 'YYYY-MM-DD HH24:MI')  AS "Fecha busqueda",
             COALESCE(pickup_label, pickup_text)        AS "Origen",
             COALESCE(dest_label, dest_text)            AS "Destino",
             pickup_country                             AS "Pais origen",
@@ -41,7 +46,8 @@ export async function GET(req: NextRequest) {
             pickup_text                                AS "Origen (texto original)",
             dest_text                                  AS "Destino (texto original)"
        FROM booking_search
-      WHERE created_at >= $1::date AND created_at < ($2::date + interval '1 day')
+      WHERE created_at >= (($1::date)::timestamp AT TIME ZONE '${TZ}')
+        AND created_at < ((($2::date + interval '1 day'))::timestamp AT TIME ZONE '${TZ}')
       ORDER BY created_at DESC`,
     [from, to]
   )
