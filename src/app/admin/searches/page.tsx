@@ -150,9 +150,19 @@ export default async function SearchesDashboard({
         </section>
 
         {kpis.pending_enrichment > 0 && (
-          <p style={{ ...card, fontSize: '0.8rem', color: '#92400e', background: '#fffbeb', borderColor: '#fde68a', marginBottom: '1.5rem' }}>
-            {kpis.pending_enrichment} búsqueda(s) aún sin procesar — sus país/ciudad/ruta se rellenarán en la próxima pasada.
-          </p>
+          <div style={{ ...card, background: '#fffbeb', borderColor: '#fde68a', marginBottom: '1.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ fontSize: '0.82rem', color: '#92400e', lineHeight: 1.5 }}>
+              <strong>{kpis.pending_enrichment} búsqueda(s) pendientes de clasificar.</strong>{' '}
+              Aún no sabemos su país, ciudad ni si tenemos la ruta, así que <strong>todavía no aparecen
+              en las tablas de abajo</strong>. Se clasifican solas cada 15 minutos.
+            </div>
+            <a
+              href={`/api/admin/enrich/?limit=500`}
+              style={{ padding: '0.45rem 1rem', background: '#92400e', color: '#fff', borderRadius: '6px', fontWeight: 700, fontSize: '0.8rem', textDecoration: 'none', whiteSpace: 'nowrap' }}
+            >
+              Clasificar ahora
+            </a>
+          </div>
         )}
 
         {/* The point of the whole thing: demand we don't serve yet. */}
@@ -162,7 +172,11 @@ export default async function SearchesDashboard({
             Demanda real sin cobertura en la web. Ordenadas por número de búsquedas: por aquí conviene empezar a añadir rutas.
           </p>
           {missing.length === 0
-            ? <p style={{ fontSize: '0.85rem', color: C.muted, margin: 0 }}>Ninguna todavía. Cuando alguien busque una ruta de aeropuerto que no tenéis en el catálogo, aparecerá aquí.</p>
+            ? <p style={{ fontSize: '0.85rem', color: C.muted, margin: 0 }}>
+                {kpis.pending_enrichment > 0
+                  ? 'Hay búsquedas pendientes de clasificar (ver aviso arriba). Cuando se procesen, las rutas que falten aparecerán aquí.'
+                  : 'Ninguna todavía. Cuando alguien busque una ruta de aeropuerto que no tenéis en el catálogo, aparecerá aquí.'}
+              </p>
             : <RoutesTable rows={missing} />}
         </section>
 
@@ -175,7 +189,11 @@ export default async function SearchesDashboard({
         <section style={{ ...card, marginBottom: '1.5rem' }}>
           <h2 style={{ margin: '0 0 0.9rem', fontSize: '1.05rem', color: C.ink }}>Rutas más buscadas</h2>
           {top.length === 0
-            ? <p style={{ fontSize: '0.85rem', color: C.muted, margin: 0 }}>Sin datos en este rango de fechas.</p>
+            ? <p style={{ fontSize: '0.85rem', color: C.muted, margin: 0 }}>
+                {kpis.pending_enrichment > 0
+                  ? 'Hay búsquedas pendientes de clasificar (ver aviso arriba). Aparecerán aquí en cuanto se procesen.'
+                  : 'Sin datos en este rango de fechas.'}
+              </p>
             : <RoutesTable rows={top} />}
         </section>
 

@@ -50,19 +50,30 @@ export async function getKpis(from: string, to: string): Promise<Kpis> {
   return rows[0]
 }
 
-/** Most-searched routes. missingOnly => the "we don't have this yet" backlog. */
+/**
+ * Most-searched routes. missingOnly => the "we don't have this yet" backlog.
+ *
+ * Only enriched rows: an unenriched row has no label, so it would show the raw
+ * address the visitor typed ("Ibiza Airport, 07820, Balearic Islands, Spain")
+ * AND group under a different key than the same route once enriched
+ * ("Ibiza Airport") — splitting one route into two rows and understating both
+ * counts. Pending rows are surfaced by the KPI banner instead.
+ */
 export async function getRoutes(from: string, to: string, missingOnly = false, limit = 50): Promise<RouteRow[]> {
   const { rows } = await getPool().query(
     `SELECT
-       COALESCE(pickup_label, pickup_text) AS origen,
-       COALESCE(dest_label, dest_text)     AS destino,
+       pickup_label                        AS origen,
+       dest_label                          AS destino,
        max(pickup_country)                 AS pais,
        count(*)::int                       AS searches,
        bool_and(route_exists)              AS route_exists,
        round(avg(pax), 1)::float           AS avg_pax,
        to_char(max(created_at), 'YYYY-MM-DD') AS last_seen
      FROM booking_search
-     WHERE ${WHERE_RANGE} ${missingOnly ? 'AND route_exists IS FALSE' : ''}
+     WHERE ${WHERE_RANGE}
+       AND enriched_at IS NOT NULL
+       AND pickup_label IS NOT NULL AND dest_label IS NOT NULL
+       ${missingOnly ? 'AND route_exists IS FALSE' : ''}
      GROUP BY 1, 2
      ORDER BY searches DESC, last_seen DESC
      LIMIT $3`,
