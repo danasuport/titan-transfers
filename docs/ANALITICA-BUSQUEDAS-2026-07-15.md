@@ -107,8 +107,11 @@ PORT=3001 pnpm dev                     # panel en http://localhost:3001/admin/se
 
 ### Producción (Coolify, Hetzner)
 - BD: recurso **`titan-analytics`** (PostgreSQL 17, **solo interna**, sin puerto público).
-- Variables de la app (runtime, **no** buildtime): `DATABASE_URL` (URL interna de Coolify), `ADMIN_PASSWORD`.
+- Variables de **la app** (runtime, **no** buildtime): `DATABASE_URL` (URL interna de Coolify), `ADMIN_PASSWORD`.
+  *(Todo va en la app, no en la BD: la BD solo tiene que existir y estar en verde.)*
 - Panel: `https://titantransfers.com/admin/`
+- **Clasificar a mano** sin esperar al cron: botón **"Clasificar ahora"** en el aviso amarillo del panel.
+  Recalcular todo (tras cambiar el criterio de cruce): `/api/admin/enrich/?force=1&limit=1000` estando logueado.
 
 ---
 
@@ -129,8 +132,13 @@ PORT=3001 pnpm dev                     # panel en http://localhost:3001/admin/se
 
 ## 8. Pendiente
 
-- [x] **Desplegado** (commit `11e5a78`). Verificado en prod: web y reservas OK, `/admin/` pide contraseña, y la app **escribe en Postgres** (el esquema se auto-creó).
+- [x] **Desplegado y funcionando** (último commit relevante: `c97fd6e`). Verificado en prod: web y reservas OK, `/admin/` pide contraseña, la app escribe en Postgres (el esquema se auto-creó), y el panel muestra datos reales.
 - [x] **`ADMIN_PASSWORD` en Coolify** — puesta.
+- [x] **Bugs corregidos tras el primer despliegue** (todos salieron solo con uso real; ver "Trampas conocidas"): redirect a `0.0.0.0`, filas sin clasificar duplicando recuentos, desfase horario UTC en 4 sitios, y exónimos de ciudad ("Roma" vs "Rome") marcando como ausentes rutas que sí existen.
+- [ ] **Tras desplegar el fix de exónimos** (`c97fd6e`): recalcular las filas ya clasificadas, que conservan el veredicto antiguo. Estando logueado en el panel:
+      `https://titantransfers.com/api/admin/enrich/?force=1&limit=1000`
+      No cuesta llamadas extra a Google (la caché de sitios ya está poblada); solo rehace el cruce.
+- [ ] **Verificar que el Scheduled Task se ejecuta** (mirar sus logs en Coolify). Si "Clasificar ahora" funciona pero las búsquedas nuevas siguen pendientes >15 min, el cron no corre.
 - [ ] **Programar el enriquecimiento**: Coolify → **la app** → **Scheduled Tasks** → cada 15 min (`*/15 * * * *`):
       ```
       curl -fsS -X POST https://titantransfers.com/api/admin/enrich/ -H "Authorization: Bearer $ADMIN_PASSWORD"
