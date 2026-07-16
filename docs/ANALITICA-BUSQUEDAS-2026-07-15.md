@@ -160,6 +160,13 @@ Desde 2026-07-16 la página de ruta muestra **"Desde X € por vehículo"** en e
 - **Degrada a nada**: ruta sin precio en la hoja, o hoja caída → no se muestra badge, la página va normal.
 - ⚠ **Aviso de coherencia (documentado, decisión del cliente):** `Our Target` es la tarifa *objetivo*, no necesariamente lo que cobra el motor ETO en la reserva. Si divergen, el visitante ve "Desde 60,89 €" y el widget cobra otra cosa. El cliente asumió ese riesgo al elegir `Our Target`.
 
+## 7-quater. Webhook de revalidación — qué hace y qué NO (verificado 2026-07-16)
+
+Al arreglar el webhook `/api/revalidate/` descubrí, con un build de producción, que **todas las páginas y sub-sitemaps son dinámicos (`ƒ`)**, no ISR: el fetch a Sanity no entra en el data cache de Next, así que el `export const revalidate = 3600` de cada página **no llega a aplicar como full-route-cache**. Implicaciones:
+- **El contenido nuevo se refleja en <10 s** (el delay del CDN de Sanity), no en 1 h. Verificado cambiando un seoTitle: la página lo mostró en <10 s sin llamar al webhook. **No existe el "retraso de 1 h" para el contenido.**
+- Las **páginas de detalle** mandan `Cache-Control: private, no-store` (siempre frescas). Los **sub-sitemaps** mandan `public, max-age=3600, swr=86400` (un CDN/proxy intermedio podría cachearlos 1 h; Googlebot ignora en gran parte el max-age).
+- Se arreglaron 2 bugs reales del webhook, pero de **impacto bajo hoy** (con todo dinámico, `revalidatePath` es casi no-op): (1) el secreto se acepta por cabecera `x-sanity-secret` **O** por `?secret=` (antes solo cabecera → un webhook montado como dice la doc de despliegue daba 401 y no revalidaba nada, en silencio); (2) revalida el sub-sitemap correcto (`/sitemaps/routes.xml`), no solo el índice estático. Valor real: deja de dar 401 en Sanity Manage y queda correcto si algún día se migra a ISR.
+
 ## 7-bis. Publicar rutas sin asustar a Google (campo `hidden`)
 
 El riesgo de subir 1.079 rutas no es el ritmo — Google no penaliza crear muchas URLs — sino soltar de golpe 1.079 páginas de plantilla generadas con IA (*scaled content abuse*). El campo `hidden` de `route` separa las dos operaciones caras: **generar el contenido** (Claude) y **exponer la URL a Google** (SEO).

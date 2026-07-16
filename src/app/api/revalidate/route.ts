@@ -2,8 +2,14 @@ import { revalidatePath } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
-  const secret = request.headers.get('x-sanity-secret')
-  if (secret !== process.env.SANITY_REVALIDATE_SECRET) {
+  // Accept the secret from the header OR the ?secret= query param. The deploy
+  // docs tell you to configure the Sanity webhook as .../api/revalidate?secret=…,
+  // but this only read the header — so a webhook set up per the docs got a 401
+  // and revalidated nothing, silently, leaving everything on the hourly ISR.
+  const secret =
+    request.headers.get('x-sanity-secret') ||
+    new URL(request.url).searchParams.get('secret')
+  if (!process.env.SANITY_REVALIDATE_SECRET || secret !== process.env.SANITY_REVALIDATE_SECRET) {
     return NextResponse.json({ message: 'Invalid secret' }, { status: 401 })
   }
 
@@ -28,12 +34,32 @@ export async function POST(request: NextRequest) {
       blogPost: '/[locale]/blog/[slug]',
     }
 
+    // Which sub-sitemap actually lists this type's URLs. The index at /sitemap.xml
+    // is static and never changes; the URLs live in /sitemaps/<file>. Revalidating
+    // only the index (the old behaviour) meant a new route never reached the
+    // sitemap until the sub-sitemap's own hourly ISR expired.
+    const sitemapFile: Record<string, string> = {
+      airport: 'airports.xml',
+      route: 'routes.xml',
+      city: 'cities.xml',
+      country: 'countries.xml',
+      region: 'regions.xml',
+      servicePage: 'services.xml',
+      blogPost: 'blog.xml',
+    }
+
     const route = detailRoute[_type]
     if (route) {
       revalidatePath(route, 'page')
     }
 
-    // Always revalidate listing pages (all locales) and the sitemap.
+    const file = sitemapFile[_type]
+    if (file) {
+      revalidatePath(`/sitemaps/${file}`)
+    }
+
+    // Always revalidate listing pages (all locales) and the sitemap index (its
+    // lastmod is stamped at render, so refreshing it signals "something changed").
     revalidatePath('/[locale]/airports', 'page')
     revalidatePath('/[locale]/cities', 'page')
     revalidatePath('/[locale]/countries', 'page')
@@ -41,8 +67,10 @@ export async function POST(request: NextRequest) {
     revalidatePath('/[locale]/blog', 'page')
     revalidatePath('/sitemap.xml')
 
-    return NextResponse.json({ revalidated: true, type: _type ?? null, route: route ?? null })
+    return NextResponse.json({ revalidated: true, type: _type ?? null, route: route ?? null, sitemap: file ?? null })
   } catch (error) {
+    // A webhook that 500s silently is how this kind of bug hides — log it.
+    console.error('[revalidate] failed:', error)
     return NextResponse.json({ message: 'Error revalidating' }, { status: 500 })
   }
 }
