@@ -31,6 +31,20 @@ const SHEET_CSV_URL =
 /** The sheet's column headers. Renaming either one in Drive breaks the match. */
 const COL_AIRPORT = 'Airport'
 const COL_RESORT = 'Resort'
+// The client's target fare, shown on the route page as "From …". One row per
+// vehicle type, so a route's price is the cheapest of its rows.
+const COL_PRICE = 'Our Target'
+
+/**
+ * Spanish-formatted money → number. "32,97" → 32.97, "1 076,21" → 1076.21
+ * (thousands are separated by a non-breaking space in the sheet). Empty, "-" and
+ * 0 all mean "no usable price" → null.
+ */
+function parsePrice(raw: string | undefined): number | null {
+  if (!raw) return null
+  const n = parseFloat(raw.replace(/[\s .]/g, '').replace(',', '.'))
+  return Number.isFinite(n) && n > 0 ? n : null
+}
 
 // ─── CSV ─────────────────────────────────────────────────────────────────────
 
@@ -67,8 +81,12 @@ function parseCsv(text: string): string[][] {
 // The URL is an argument, not a closed-over constant, so it lands in the cache
 // key: repointing ROUTES_SHEET_CSV_URL at a different sheet must not keep serving
 // the old one's routes for the rest of the TTL.
-const fetchSheetKeys = unstable_cache(
-  async (url: string): Promise<string[]> => {
+//
+// Returns [routeKey, cheapest price or null] once per route. One download feeds
+// both the dashboard ("do we sell it?" = key present) and the route pages ("from
+// X €" = the price). Serialised as entries because unstable_cache is JSON only.
+const fetchSheetRows = unstable_cache(
+  async (url: string): Promise<[string, number | null][]> => {
     const res = await fetch(url, {
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
       redirect: 'follow',
@@ -84,27 +102,50 @@ const fetchSheetKeys = unstable_cache(
     if (iAirport === -1 || iResort === -1) {
       throw new Error(`sheet has no "${COL_AIRPORT}"/"${COL_RESORT}" columns`)
     }
+    // Price is optional: a missing column just means no prices, not a broken sheet.
+    const iPrice = header.indexOf(COL_PRICE)
 
-    // One row per vehicle type, so ~5 rows collapse into each route.
-    const keys = new Set<string>()
+    // One row per vehicle type, so ~5 rows collapse into each route; the route's
+    // price is the cheapest vehicle.
+    const minByKey = new Map<string, number | null>()
     for (const r of rows) {
       const key = routeKey(r[iAirport], r[iResort])
-      if (key) keys.add(key)
+      if (!key) continue
+      const price = iPrice === -1 ? null : parsePrice(r[iPrice])
+      const cur = minByKey.get(key)
+      if (!minByKey.has(key)) minByKey.set(key, price)
+      else if (price != null && (cur == null || price < cur)) minByKey.set(key, price)
     }
-    if (keys.size === 0) throw new Error('sheet yielded no routes')
-    return [...keys]
+    if (minByKey.size === 0) throw new Error('sheet yielded no routes')
+    return [...minByKey.entries()]
   },
-  ['routes-sheet'],
+  // Bumped to -v2 when the return shape changed (keys → [key, price]); a stale
+  // v1 entry in a persisted data cache would otherwise deserialise wrong.
+  ['routes-sheet-v2'],
   { revalidate: SHEET_TTL, tags: ['routes-sheet'] }
 )
 
 /** Routes we sell. null when the sheet can't be read — never an empty set. */
 export async function getSheetIndex(): Promise<Set<string> | null> {
   try {
-    return new Set(await fetchSheetKeys(SHEET_CSV_URL))
+    return new Set((await fetchSheetRows(SHEET_CSV_URL)).map(([k]) => k))
   } catch (err) {
     // Degrade to "unknown" rather than telling the client we don't sell a route
     // we do. The dashboard renders "—" for the whole column when this is null.
+    console.error('[admin] routes sheet unavailable:', err)
+    return null
+  }
+}
+
+/** Cheapest sheet price per route key. Missing key = no price for that route. */
+export async function getSheetPrices(): Promise<Map<string, number> | null> {
+  try {
+    const prices = new Map<string, number>()
+    for (const [k, p] of await fetchSheetRows(SHEET_CSV_URL)) {
+      if (p != null) prices.set(k, p)
+    }
+    return prices
+  } catch (err) {
     console.error('[admin] routes sheet unavailable:', err)
     return null
   }

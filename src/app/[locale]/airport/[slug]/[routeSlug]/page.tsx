@@ -16,6 +16,8 @@ import { CtaSection } from '@/components/sections/CtaSection'
 import { PortableText } from '@portabletext/react'
 import { Link } from '@/lib/i18n/navigation'
 import { formatDistance, formatDuration } from '@/lib/utils/formatters'
+import { getSheetPrices } from '@/lib/admin/catalog'
+import { priceForRoute, formatFromPrice } from '@/lib/route-price'
 import { urlFor } from '@/lib/sanity/image'
 import type { Locale } from '@/lib/i18n/config'
 import { getAirportUrl, getCityUrl, getCountryUrl, getRouteUrl } from '@/lib/utils/slugHelpers'
@@ -92,6 +94,17 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
   const description = (locale !== 'en' && route.translations?.[locale]?.description) || route.description
 
   const heroImg = route.featuredImage?.asset?.url || null
+
+  // "From X €" from the client's sheet — the cheapest vehicle for this route,
+  // matched on the destination's name in every language (the sheet may hold
+  // "Roma" where Sanity has "Rome"). null when the route has no sheet price or
+  // the sheet can't be read, in which case no price is shown at all.
+  const destNames = [
+    route.destination?.title,
+    ...Object.values(route.destination?.translations || {}).map((tr) => (tr as { title?: string })?.title),
+  ]
+  const priceAmount = priceForRoute(route.origin?.iataCode, destNames, await getSheetPrices())
+  const fromPrice = priceAmount != null ? formatFromPrice(priceAmount, locale as Locale) : null
 
   // Images and layout (imagePosition, imageAlt) are locale-independent, so they
   // always come from the English source. The translation only supplies text
@@ -265,6 +278,24 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               <span style={{ transform: 'skewX(6deg)' }}>24/7</span>
             </span>
           </div>
+
+          {/* Price — the cheapest vehicle for this route, from the client's sheet. */}
+          {fromPrice && (
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginBottom: '1rem' }}>
+              <span className={russoOne.className} style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', color: '#6B8313', lineHeight: 1 }}>
+                {fromPrice}
+              </span>
+              <span style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                {pick(locale, {
+                  en: 'per vehicle',
+                  es: 'por vehículo',
+                  ar: 'لكل مركبة',
+                  it: 'per veicolo',
+                  de: 'pro Fahrzeug',
+                })}
+              </span>
+            </div>
+          )}
 
           <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1.25rem' }}>
             {pick(locale, {
