@@ -52,6 +52,12 @@ const ONLY_AIRPORT = arg('airport')?.toUpperCase()
 const ONLY_COUNTRY = arg('country')
 const ONLY_ROUTES = process.argv.filter(a => a.startsWith('--route=')).map(a => norm(a.slice(8)))
 const LIMIT = Number(arg('limit', '0')) || Infinity
+// Routes are created hidden by default: they exist and can be previewed, but stay
+// out of the sitemap and out of Google until reveal-routes.mjs unhides them. This
+// separates the expensive step (generating content) from the SEO-sensitive one
+// (exposing URLs), so a big --apply run can't dump 1.000 pages on Google at once.
+// --visible skips that, for the handful you want live immediately.
+const VISIBLE = process.argv.includes('--visible')
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -251,7 +257,8 @@ async function run() {
   }
   if (batch.length === 0) return
 
-  console.log(`\n=== ${APPLY ? 'Publicando' : 'Se publicarían'} ${batch.length} rutas ===`)
+  const mode = VISIBLE ? 'VISIBLES (entran en el sitemap y en Google ya)' : 'OCULTAS (fuera del sitemap y de Google hasta revelarlas)'
+  console.log(`\n=== ${APPLY ? 'Creando' : 'Se crearían'} ${batch.length} rutas · ${mode} ===`)
   for (const r of batch) {
     console.log(`  ${r.iata} → ${r.resort}${r.city ? '' : '  (+ ciudad nueva)'}${r.airport ? '' : '  (+ aeropuerto nuevo)'}`)
   }
@@ -321,6 +328,7 @@ async function run() {
       await client.createIfNotExists({
         _id,
         _type: 'route',
+        hidden: !VISIBLE,
         title: `Transfer from ${airport.title} to ${r.resort}`,
         slug: { _type: 'slug', current: `transfer-${base}-to-${slugify(r.resort)}`.slice(0, 90) },
         origin: { _type: 'reference', _ref: airport._id },
@@ -350,7 +358,7 @@ async function run() {
     await new Promise(res => setTimeout(res, 1200)) // Claude rate limit
   }
 
-  console.log(`\n=== Hecho: ${created} publicadas, ${failed} fallidas ===`)
+  console.log(`\n=== Hecho: ${created} creadas${VISIBLE ? ' (visibles)' : ' (ocultas)'}, ${failed} fallidas ===`)
   if (failed) console.log(`Las fallidas no han creado nada: vuelve a lanzar el mismo comando y lo reintenta.`)
   if (created) {
     const filter = ONLY_AIRPORT ? ` ORIGIN_SLUG=<slug-del-aeropuerto>` : ''
@@ -359,7 +367,12 @@ async function run() {
     console.log(`  node scripts/translate-to-italian.mjs --type=route`)
     console.log(`  node scripts/translate-to-german.mjs --type=route`)
     console.log(`  node scripts/translate-to-arabic.mjs --type=route`)
-    console.log(`El panel /admin/searches te dirá en su columna "Estado en la web" qué falta.`)
+    if (!VISIBLE) {
+      console.log(`\nEstán OCULTAS: no aparecen en el sitemap ni en Google todavía.`)
+      console.log(`Cuando estén completas, revélalas por tandas (por demanda desde /admin/searches):`)
+      console.log(`  node scripts/reveal-routes.mjs${ONLY_AIRPORT ? ` --airport=${ONLY_AIRPORT}` : ''} --limit=10 --apply`)
+    }
+    console.log(`\nEl panel /admin/searches te dirá en su columna "Estado en la web" qué falta.`)
   }
 }
 

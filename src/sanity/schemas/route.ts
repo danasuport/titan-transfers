@@ -5,6 +5,14 @@ export const route = defineType({
   title: 'Route',
   type: 'document',
   fields: [
+    defineField({
+      name: 'hidden',
+      title: 'Oculta (no publicar en la web)',
+      type: 'boolean',
+      initialValue: false,
+      description:
+        'Si está marcada, la ruta existe pero NO aparece en el sitemap, ni en los listados de aeropuerto/ciudad/región, y su página lleva noindex. Sirve para crear rutas sin exponerlas a Google todavía e irlas revelando por tandas. La URL sigue siendo accesible para previsualizarla.',
+    }),
     defineField({ name: 'title', title: 'Title', type: 'string', validation: (r) => r.required() }),
     defineField({ name: 'slug', title: 'Slug', type: 'slug', options: { source: 'title' }, validation: (r) => r.required() }),
     defineField({
@@ -171,6 +179,7 @@ export const route = defineType({
     }),
   ],
   preview: {
-    select: { title: 'title' },
+    select: { title: 'title', hidden: 'hidden' },
+    prepare: ({ title, hidden }) => ({ title: hidden ? `🚫 ${title}` : title, subtitle: hidden ? 'Oculta' : undefined }),
   },
 })

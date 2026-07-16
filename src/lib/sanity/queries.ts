@@ -36,7 +36,7 @@ export const airportBySlugQuery = groq`*[_type == "airport" && (
   description,
   seoTitle, seoDescription,
   featuredImage, gallery,
-  "routes": *[_type == "route" && origin._ref == ^._id] {
+  "routes": *[_type == "route" && origin._ref == ^._id && hidden != true] {
     _id, title, slug, distance, estimatedDuration,
     destination->{ _id, title, slug, translations },
     etoFromLocation, etoToLocation, etoFromCategory, etoToCategory,
@@ -48,7 +48,7 @@ export const airportBySlugQuery = groq`*[_type == "airport" && (
 
 // Route queries
 export const routeBySlugQuery = groq`*[_type == "route" && (slug.current == $routeSlug || translations.es.slug.current == $routeSlug || translations.ar.slug.current == $routeSlug || translations.it.slug.current == $routeSlug || translations.de.slug.current == $routeSlug) && (origin->slug.current == $originSlug || origin->translations.es.slug.current == $originSlug || origin->translations.ar.slug.current == $originSlug || origin->translations.it.slug.current == $originSlug || origin->translations.de.slug.current == $originSlug)][0] {
-  _id, title, slug,
+  _id, title, slug, hidden,
   origin->{
     _id, _type, title, slug, iataCode,
     city->{ _id, title, slug },
@@ -106,12 +106,12 @@ export const cityBySlugQuery = groq`*[_type == "city" && (slug.current == $slug 
   nearbyPorts[]->{ _id, title, slug, translations },
   nearbyTrainStations[]->{ _id, title, slug, translations },
   relatedCities[]->{ _id, title, slug, country->{ title, slug }, translations },
-  "routesTo": *[_type == "route" && destination._ref == ^._id] {
+  "routesTo": *[_type == "route" && destination._ref == ^._id && hidden != true] {
     _id, title, slug, distance, estimatedDuration,
     origin->{ _id, _type, title, slug, iataCode, translations },
     originType, translations
   } | order(title asc),
-  "routesFrom": *[_type == "route" && origin._ref == ^._id] {
+  "routesFrom": *[_type == "route" && origin._ref == ^._id && hidden != true] {
     _id, title, slug, distance, estimatedDuration,
     destination->{ _id, title, slug, translations },
     translations
@@ -167,7 +167,7 @@ export const regionBySlugQuery = groq`*[_type == "region" && (slug.current == $s
   "airports": *[_type == "airport" && region._ref == ^._id] | order(title asc) {
     _id, title, slug, iataCode, translations
   },
-  "routes": *[_type == "route" && region._ref == ^._id] | order(title asc) {
+  "routes": *[_type == "route" && region._ref == ^._id && hidden != true] | order(title asc) {
     _id, title, slug, distance, estimatedDuration,
     origin->{ _id, title, slug, translations },
     destination->{ _id, title, slug, translations },
@@ -255,7 +255,7 @@ export const searchQuery = groq`{
 
 // Sitemap queries
 export const sitemapAirportsQuery = groq`*[_type == "airport"] | order(title asc) { _id, title, slug, translations, _updatedAt }`
-export const sitemapRoutesQuery = groq`*[_type == "route"] | order(title asc) { _id, title, slug, origin->{ _id, title, slug, translations }, translations, _updatedAt }`
+export const sitemapRoutesQuery = groq`*[_type == "route" && hidden != true] | order(title asc) { _id, title, slug, origin->{ _id, title, slug, translations }, translations, _updatedAt }`
 export const sitemapCitiesQuery = groq`*[_type == "city"] | order(title asc) { _id, title, slug, translations, _updatedAt }`
 export const sitemapCountriesQuery = groq`*[_type == "country"] | order(title asc) { _id, title, slug, translations, _updatedAt }`
 export const sitemapRegionsQuery = groq`*[_type == "region"] | order(title asc) { _id, title, slug, translations, _updatedAt }`

@@ -64,6 +64,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description,
     path: currentPath,
     locale: locale as Locale,
+    // A hidden route stays reachable so it can be previewed, but must not be
+    // indexed — same flag the sitemap and internal listings honour.
+    noindex: route.hidden === true,
     alternates: [
       { locale: 'en' as Locale, path: getRouteUrl(route.origin, route, 'en') },
       { locale: 'es' as Locale, path: `/es${getRouteUrl(route.origin, route, 'es')}` },

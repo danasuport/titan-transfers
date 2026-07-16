@@ -36,6 +36,8 @@ interface MetadataParams {
   image?: string
   type?: 'website' | 'article'
   publishedTime?: string
+  /** Keep the page out of the index (e.g. a route flagged `hidden` in Sanity). */
+  noindex?: boolean
 }
 
 export function generatePageMetadata({
@@ -47,6 +49,7 @@ export function generatePageMetadata({
   image,
   type = 'website',
   publishedTime,
+  noindex = false,
 }: MetadataParams): Metadata {
   const url = `${SITE_URL}${path}`
   const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`
@@ -84,8 +87,8 @@ export function generatePageMetadata({
       images: [ogImage],
     },
     robots: {
-      index: true,
-      follow: true,
+      index: !noindex,
+      follow: !noindex,
     },
   }
 }
