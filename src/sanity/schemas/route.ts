@@ -1,5 +1,18 @@
 import { defineField, defineType } from 'sanity'
 
+/**
+ * Attribution for images taken from Wikipedia/Wikimedia Commons. Those are
+ * CC BY / CC BY-SA, which require the author and licence to be shown *visibly*
+ * next to the image — an alt attribute is not enough. Populated automatically by
+ * scripts/add-route-images-wikipedia.mjs; leave empty for imagery we own.
+ */
+const creditFields = [
+  defineField({ name: 'alt', title: 'Alt text', type: 'string' }),
+  defineField({ name: 'creditAuthor', title: 'Autor (crédito visible)', type: 'string' }),
+  defineField({ name: 'creditLicense', title: 'Licencia (ej. CC BY-SA 4.0)', type: 'string' }),
+  defineField({ name: 'creditUrl', title: 'URL de la imagen original', type: 'url' }),
+]
+
 export const route = defineType({
   name: 'route',
   title: 'Route',
@@ -37,7 +50,7 @@ export const route = defineType({
     defineField({ name: 'description', title: 'Description', type: 'array', of: [{ type: 'block' }] }),
     defineField({ name: 'seoTitle', title: 'SEO Title', type: 'string' }),
     defineField({ name: 'seoDescription', title: 'SEO Description', type: 'text', rows: 3 }),
-    defineField({ name: 'featuredImage', title: 'Featured Image', type: 'image', options: { hotspot: true } }),
+    defineField({ name: 'featuredImage', title: 'Featured Image', type: 'image', options: { hotspot: true }, fields: creditFields }),
     defineField({
       name: 'contentSections',
       title: 'Content Sections',
@@ -47,7 +60,7 @@ export const route = defineType({
         fields: [
           defineField({ name: 'title', title: 'Title', type: 'string' }),
           defineField({ name: 'body', title: 'Body', type: 'array', of: [{ type: 'block' }] }),
-          defineField({ name: 'image', title: 'Image', type: 'image', options: { hotspot: true } }),
+          defineField({ name: 'image', title: 'Image', type: 'image', options: { hotspot: true }, fields: creditFields }),
           defineField({ name: 'imagePosition', title: 'Image position', type: 'string', options: { list: ['left', 'right'], layout: 'radio' }, initialValue: 'left' }),
           defineField({ name: 'imageAlt', title: 'Image alt text', type: 'string' }),
         ],

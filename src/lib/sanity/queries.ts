@@ -61,8 +61,8 @@ export const routeBySlugQuery = groq`*[_type == "route" && (slug.current == $rou
   distance, estimatedDuration,
   description,
   seoTitle, seoDescription,
-  featuredImage{ asset->{ url }, alt },
-  contentSections[]{ title, body, imagePosition, imageAlt, image{ asset->{ url } } },
+  featuredImage{ asset->{ url }, alt, creditAuthor, creditLicense, creditUrl },
+  contentSections[]{ title, body, imagePosition, imageAlt, image{ asset->{ url }, creditAuthor, creditLicense, creditUrl } },
   etoFromLocation, etoToLocation, etoFromCategory, etoToCategory,
   translations{
     es{

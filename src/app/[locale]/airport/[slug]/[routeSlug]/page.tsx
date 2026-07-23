@@ -49,6 +49,36 @@ function IconPlane() {
 function IconCheck() {
   return <svg width="20" height="20" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
 }
+/**
+ * Visible attribution for Wikipedia/Commons imagery. Those are CC BY / CC BY-SA,
+ * which require the author and licence to be shown next to the image — an alt
+ * attribute doesn't satisfy the licence. Renders nothing for images we own.
+ */
+function ImageCredit({ img, corner = false }: {
+  img?: { creditAuthor?: string; creditLicense?: string; creditUrl?: string }
+  corner?: boolean
+}) {
+  if (!img?.creditAuthor) return null
+  const text = `© ${img.creditAuthor}${img.creditLicense ? ` · ${img.creditLicense}` : ''}`
+  // Bottom-LEFT on purpose: the floating help widget sits bottom-right on every
+  // page and was covering the credit, which the licence requires to be legible.
+  const style: React.CSSProperties = corner
+    ? {
+        position: 'absolute', bottom: 0, left: 0, zIndex: 2,
+        padding: '2px 8px', fontSize: '0.62rem', lineHeight: 1.4,
+        color: 'rgba(255,255,255,0.82)', background: 'rgba(0,0,0,0.45)',
+        maxWidth: '85%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+      }
+    : { display: 'block', marginTop: '0.35rem', fontSize: '0.68rem', color: '#94a3b8' }
+  return (
+    <span style={style}>
+      {img.creditUrl ? (
+        <a href={img.creditUrl} target="_blank" rel="noopener nofollow" style={{ color: 'inherit', textDecoration: 'none' }}>{text}</a>
+      ) : text}
+    </span>
+  )
+}
+
 function IconMap() {
   return <svg width="20" height="20" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
 }
@@ -114,7 +144,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
   const enSections = route.contentSections || []
   const trSections = (locale !== 'en' && route.translations?.[locale]?.contentSections) || []
   const baseSections = enSections.length ? enSections : trSections
-  const contentSections: { title: string; body: any[]; imagePosition: 'left' | 'right'; imageAlt: string; image?: { asset?: { url?: string } } }[] =
+  const contentSections: { title: string; body: any[]; imagePosition: 'left' | 'right'; imageAlt: string; image?: { asset?: { url?: string }; creditAuthor?: string; creditLicense?: string; creditUrl?: string } }[] =
     baseSections.slice(0, 3).map((en: any, i: number) => {
       const tr = locale !== 'en' ? trSections[i] : undefined
       return {
@@ -340,6 +370,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               <div style={{ position: 'absolute', inset: 0, background: '#242426' }} />
             )}
             <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)' }} />
+            <ImageCredit img={route.featuredImage} corner />
           </div>
           <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '550px', display: 'flex', justifyContent: 'center' }}>
             <BookingPanel />
@@ -424,6 +455,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               {imgLeft && imgUrl && (
                 <div className="route-section-img" style={{ clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }}>
                   <Image src={imgUrl} alt={section.imageAlt || section.title || ''} fill style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="(max-width: 768px) 100vw, 50vw" />
+                  <ImageCredit img={section.image} corner />
                 </div>
               )}
               {imgLeft && !imgUrl && (
@@ -449,6 +481,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               {!imgLeft && imgUrl && (
                 <div className="route-section-img" style={{ clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
                   <Image src={imgUrl} alt={section.imageAlt || section.title || ''} fill style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="(max-width: 768px) 100vw, 50vw" />
+                  <ImageCredit img={section.image} corner />
                 </div>
               )}
               {!imgLeft && !imgUrl && (

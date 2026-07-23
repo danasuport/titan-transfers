@@ -139,32 +139,124 @@ const AIRPORT_NAMES = {
   'BEG': 'Belgrade Nikola Tesla Airport',
 }
 
-async function generateContent(airportTitle, destTitle, countryTitle) {
+// Forced JSON: the shape is guaranteed by the API rather than by asking nicely
+// and hoping the model doesn't wrap it in a code fence.
+const CONTENT_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['seoTitle', 'seoDescription', 'seoTitleEs', 'seoDescriptionEs', 'distanceKm', 'durationMin', 'contentSections'],
+  properties: {
+    seoTitle: { type: 'string' },
+    seoDescription: { type: 'string' },
+    seoTitleEs: { type: 'string' },
+    seoDescriptionEs: { type: 'string' },
+    // null when the model isn't reasonably sure — a wrong distance on the page
+    // is worse than no distance.
+    distanceKm: { type: ['integer', 'null'] },
+    durationMin: { type: ['integer', 'null'] },
+    contentSections: {
+      type: 'array',
+      items: {
+        type: 'object',
+        additionalProperties: false,
+        required: ['title', 'titleEs', 'bodyEn', 'bodyEs'],
+        properties: {
+          title: { type: 'string' },
+          titleEs: { type: 'string' },
+          bodyEn: { type: 'string' },
+          bodyEs: { type: 'string' },
+        },
+      },
+    },
+  },
+}
+
+/**
+ * The SEO brief. The thing this has to defeat is sameness: one airport has
+ * hundreds of destinations, so a generic "gateway to the coast" template would
+ * produce hundreds of near-duplicate pages that cannibalise each other and read
+ * as scaled content. Every instruction below exists to force detail that could
+ * only have been written about THIS destination.
+ */
+function seoPrompt(airportTitle, destTitle, countryTitle) {
+  return `You are writing the page for one private-transfer route on a real transfer company's website: ${airportTitle} → ${destTitle} (${countryTitle}).
+
+CRITICAL CONTEXT: this site has hundreds of routes from this same airport. If this page could be turned into another destination's page by swapping the place name, it is worthless. Everything you write must be specific to ${destTitle}.
+
+Write about ${destTitle} with real, checkable specifics:
+- Name actual places: beaches, old town, marina, golf courses, landmarks, neighbourhoods, nearby villages.
+- Say who actually goes there and why (families, golfers, hikers, nightlife, day-trippers, residents), and in which season.
+- Describe the drive concretely: the road or corridor used, the terrain (coastal, inland, mountain), roughly how long, and anything a passenger would notice (winding final approach, motorway most of the way, resort complex with several entrances, narrow old-town streets).
+- Give genuinely useful practical advice a traveller wouldn't already know.
+
+Hard rules:
+- NO filler. Never write "whether you're travelling for business or pleasure", "nestled in the heart of", "gateway to", "look no further", "stunning", "breathtaking", "picturesque", "vibrant".
+- Do not invent facts. If you are not confident about a specific detail, write about something you are confident about instead.
+- Do not mention prices, fares, or figures in euros — pricing is rendered separately from live data.
+- The Spanish is written natively for a Spanish reader, not translated word-for-word from the English.
+- Each section: 90-150 words, in a plain, concrete, professional voice.
+- Section titles must be specific and descriptive (e.g. "Getting from the airport to Puerto Banús", "What to expect on the coastal road"). Never generic labels like "The destination" or "Local tips".
+
+Fields (the character limits are hard — Google truncates past them, so count before you answer):
+- seoTitle: 50-60 characters MAXIMUM, English, naturally includes the destination and the transfer intent.
+- seoDescription: 140-155 characters MAXIMUM, English, concrete and click-worthy, no clichés. 156 is too long.
+- seoTitleEs / seoDescriptionEs: the same job done natively in Spanish, same hard limits.
+- distanceKm / durationMin: your best estimate for the road journey from ${airportTitle} to ${destTitle}. Use null for either if you are not reasonably confident — a wrong number is worse than none.
+- contentSections: exactly 3 sections. First about ${destTitle} itself, second about the journey, third practical advice for this specific route.`
+}
+
+const SEO_LIMITS = { seoTitle: 60, seoDescription: 155, seoTitleEs: 60, seoDescriptionEs: 155 }
+
+/** Which SEO fields overshoot the limit Google truncates at. */
+function overLimit(content) {
+  return Object.entries(SEO_LIMITS)
+    .filter(([f, max]) => (content[f] || '').length > max)
+    .map(([f, max]) => `${f} ${content[f].length}>${max}`)
+}
+
+// Thinking depth. The brief does most of the quality work, so `medium` is the
+// default — `high` roughly doubles the token spend for a marginal gain here.
+const EFFORT = arg('effort', 'medium')
+
+async function askClaude(prompt) {
   const res = await anthropic.messages.create({
-    model: 'claude-sonnet-4-6',
-    max_tokens: 2000,
-    messages: [{
-      role: 'user',
-      content: `Generate SEO content for a private transfer route from "${airportTitle}" to "${destTitle}" in ${countryTitle}. Return ONLY valid JSON (no markdown, no code fences):
-{
-  "seoTitle": "max 60 chars, include 'private transfer' and destination",
-  "seoDescription": "max 155 chars, include key benefits",
-  "seoTitleEs": "Spanish version of seoTitle",
-  "seoDescriptionEs": "Spanish version of seoDescription",
-  "contentSections": [
-    {"title": "Section about the destination", "bodyEn": "2-3 sentences about what makes this destination special", "bodyEs": "Spanish translation", "titleEs": "Spanish title"},
-    {"title": "Section about the journey/transfer", "bodyEn": "2-3 sentences about the transfer experience", "bodyEs": "Spanish translation", "titleEs": "Spanish title"},
-    {"title": "Section about local tips", "bodyEn": "2-3 sentences with traveler tips", "bodyEs": "Spanish translation", "titleEs": "Spanish title"}
-  ]
-}`,
-    }],
+    model: 'claude-opus-4-8',
+    max_tokens: 8000,
+    thinking: { type: 'adaptive' },
+    output_config: {
+      effort: EFFORT,
+      format: { type: 'json_schema', schema: CONTENT_SCHEMA },
+    },
+    messages: [{ role: 'user', content: prompt }],
   })
-  const content = JSON.parse(res.content[0].text.trim())
+  const text = res.content.filter(b => b.type === 'text').map(b => b.text).join('').trim()
+  return { content: JSON.parse(text), usage: res.usage }
+}
+
+async function generateContent(airportTitle, destTitle, countryTitle) {
+  const prompt = seoPrompt(airportTitle, destTitle, countryTitle)
+  let { content, usage } = await askClaude(prompt)
+  const totals = { input: usage.input_tokens, output: usage.output_tokens }
+
+  // Models overshoot meta lengths by a few characters fairly often, and a
+  // truncated "…" in the SERP is exactly the sloppiness we're trying to avoid.
+  // One corrective pass costs a fraction of a re-generation.
+  const over = overLimit(content)
+  if (over.length) {
+    const retry = await askClaude(
+      `${prompt}\n\nYour previous answer broke the hard character limits (${over.join(', ')}). Return the same JSON with those fields rewritten within the limits. Keep the meaning and the specifics; do not pad the ones that were already fine.`
+    )
+    if (overLimit(retry.content).length <= over.length) content = retry.content
+    totals.input += retry.usage.input_tokens
+    totals.output += retry.usage.output_tokens
+  }
+
   // The old script caught this and published the route anyway with
   // contentSections: [], which renders a page with a hero, a booking widget and
   // nothing else — thin content, indexable, and silent. Nothing gets created
   // unless there's something to put on the page.
   if (!content?.contentSections?.length) throw new Error('Claude devolvió 0 secciones')
+  content._usage = totals
   return content
 }
 
@@ -267,6 +359,11 @@ async function run() {
     return
   }
 
+  // Opus 4.8 list price, $ per million tokens. Only to report what the run
+  // actually cost — the authority is the Anthropic console.
+  const PRICE_IN = 5, PRICE_OUT = 25
+  const spend = { input: 0, output: 0 }
+
   let created = 0, failed = 0
   for (const [i, r] of batch.entries()) {
     const label = `[${i + 1}/${batch.length}] ${r.iata} → ${r.resort}`
@@ -301,6 +398,8 @@ async function run() {
       // Content first: if Claude fails, nothing is written at all, so the route
       // can simply be retried instead of sitting published and empty.
       const content = await generateContent(airport.title, r.resort, country.title)
+      spend.input += content._usage.input
+      spend.output += content._usage.output
 
       let city = r.city
       if (!city) {
@@ -335,6 +434,12 @@ async function run() {
         destination: { _type: 'reference', _ref: city._id },
         country: { _type: 'reference', _ref: country._id },
         originType: 'airport',
+        // Fills the two fields that were empty on every existing route. They
+        // render as badges in the hero and feed the "how long does it take" FAQ
+        // — real per-route data, not template copy. Omitted when the model
+        // wasn't confident enough to give a number.
+        ...(content.distanceKm ? { distance: content.distanceKm } : {}),
+        ...(content.durationMin ? { estimatedDuration: content.durationMin } : {}),
         seoTitle: content.seoTitle,
         seoDescription: content.seoDescription,
         contentSections: sectionsFor(content, 'en'),
@@ -358,7 +463,11 @@ async function run() {
     await new Promise(res => setTimeout(res, 1200)) // Claude rate limit
   }
 
+  const cost = (spend.input / 1e6) * PRICE_IN + (spend.output / 1e6) * PRICE_OUT
   console.log(`\n=== Hecho: ${created} creadas${VISIBLE ? ' (visibles)' : ' (ocultas)'}, ${failed} fallidas ===`)
+  if (created) {
+    console.log(`Coste API: $${cost.toFixed(2)} (${(spend.input / 1000).toFixed(0)}k in + ${(spend.output / 1000).toFixed(0)}k out) · $${(cost / created).toFixed(3)}/ruta`)
+  }
   if (failed) console.log(`Las fallidas no han creado nada: vuelve a lanzar el mismo comando y lo reintenta.`)
   if (created) {
     const filter = ONLY_AIRPORT ? ` ORIGIN_SLUG=<slug-del-aeropuerto>` : ''
