@@ -94,74 +94,110 @@ export interface VehiclePrice {
 /** [routeKey, vehicles cheapest-first]. Empty array = route with no usable price. */
 type SheetRow = [string, VehiclePrice[]]
 
-// The URL is an argument, not a closed-over constant, so it lands in the cache
-// key: repointing ROUTES_SHEET_CSV_URL at a different sheet must not keep serving
-// the old one's routes for the rest of the TTL.
-//
-// Returns each route's per-vehicle price list, cheapest-first. One download
-// feeds everything: the dashboard ("do we sell it?" = key present), the hero
-// ("from X €" = vehicles[0].price) and the price table (the whole list).
-// Serialised as entries because unstable_cache is JSON only.
-const fetchSheetRows = unstable_cache(
-  async (url: string): Promise<SheetRow[]> => {
-    const res = await fetch(url, {
-      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-      redirect: 'follow',
+// Download + parse the whole sheet into per-route vehicle lists, cheapest-first.
+// One download feeds everything: the dashboard ("do we sell it?" = key present),
+// the hero ("from X €" = vehicles[0].price) and the price table (whole list).
+async function downloadSheet(url: string): Promise<SheetRow[]> {
+  const res = await fetch(url, {
+    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+    redirect: 'follow',
+  })
+  if (!res.ok) throw new Error(`sheet responded ${res.status}`)
+
+  const rows = parseCsv(await res.text())
+  const header = rows.shift()
+  if (!header) throw new Error('sheet is empty')
+
+  const iAirport = header.indexOf(COL_AIRPORT)
+  const iResort = header.indexOf(COL_RESORT)
+  if (iAirport === -1 || iResort === -1) {
+    throw new Error(`sheet has no "${COL_AIRPORT}"/"${COL_RESORT}" columns`)
+  }
+  const iVehicle = header.indexOf(COL_VEHICLE)
+  // Both price columns are optional: absent just means no prices, not a broken sheet.
+  const iPrice = header.indexOf(COL_PRICE)
+  const iTarget = header.indexOf(COL_TARGET)
+
+  // Gather every vehicle row per route, keeping both column values so the route
+  // can pick a single coherent source below.
+  const byKey = new Map<string, { vehicle: string; price: number | null; target: number | null }[]>()
+  for (const r of rows) {
+    const key = routeKey(r[iAirport], r[iResort])
+    if (!key) continue
+    const vehicle = iVehicle === -1 ? '' : (r[iVehicle] || '').trim()
+    if (!byKey.has(key)) byKey.set(key, [])
+    byKey.get(key)!.push({
+      vehicle,
+      price: iPrice === -1 ? null : parsePrice(r[iPrice]),
+      target: iTarget === -1 ? null : parsePrice(r[iTarget]),
     })
-    if (!res.ok) throw new Error(`sheet responded ${res.status}`)
+  }
+  if (byKey.size === 0) throw new Error('sheet yielded no routes')
 
-    const rows = parseCsv(await res.text())
-    const header = rows.shift()
-    if (!header) throw new Error('sheet is empty')
+  const out: SheetRow[] = []
+  for (const [key, rowsForRoute] of byKey) {
+    // Trust `price` for the whole route only when it's well-filled there,
+    // otherwise take `Our Target`. Never mix the two within one route.
+    const priced = rowsForRoute.filter(v => v.price != null).length
+    const useColumn: 'price' | 'target' = priced >= PRICE_MIN_ROWS ? 'price' : 'target'
+    const vehicles = rowsForRoute
+      .map(v => ({ vehicle: v.vehicle, price: useColumn === 'price' ? v.price : v.target }))
+      .filter((v): v is VehiclePrice => v.price != null && !!v.vehicle)
+      // Cheapest first, and dedupe a vehicle that appears twice.
+      .sort((a, b) => a.price - b.price)
+    const seen = new Set<string>()
+    const deduped = vehicles.filter(v => (seen.has(v.vehicle) ? false : (seen.add(v.vehicle), true)))
+    out.push([key, deduped])
+  }
+  return out
+}
 
-    const iAirport = header.indexOf(COL_AIRPORT)
-    const iResort = header.indexOf(COL_RESORT)
-    if (iAirport === -1 || iResort === -1) {
-      throw new Error(`sheet has no "${COL_AIRPORT}"/"${COL_RESORT}" columns`)
+// In-process cache with stale-while-revalidate. The sheet is 7 MB / ~88k rows —
+// downloading and parsing it takes ~4s, and unstable_cache did NOT actually
+// cache it in production (every route page paid the 4s, measured), because a
+// fully dynamic (no-store) page doesn't persist unstable_cache's data cache.
+//
+// So we cache in module scope instead. A page reads from memory instantly; the
+// download happens at most once per TTL, in the background, so no visitor waits
+// for it (except the very first request after the process starts). Per process
+// — fine here: Coolify runs one long-lived container, not per-request lambdas.
+const SHEET_TTL_MS = SHEET_TTL * 1000
+let sheetCache: { url: string; at: number; data: SheetRow[] } | null = null
+let sheetInflight: Promise<SheetRow[]> | null = null
+
+async function refreshSheet(url: string): Promise<SheetRow[]> {
+  try {
+    const data = await downloadSheet(url)
+    sheetCache = { url, at: Date.now(), data }
+    return data
+  } catch (err) {
+    // Stale-on-error: a failed refresh must not drop prices we already have.
+    if (sheetCache && sheetCache.url === url) {
+      console.error('[catalog] sheet refresh failed, serving stale copy:', err)
+      return sheetCache.data
     }
-    const iVehicle = header.indexOf(COL_VEHICLE)
-    // Both price columns are optional: absent just means no prices, not a broken sheet.
-    const iPrice = header.indexOf(COL_PRICE)
-    const iTarget = header.indexOf(COL_TARGET)
+    throw err
+  } finally {
+    sheetInflight = null
+  }
+}
 
-    // Gather every vehicle row per route, keeping both column values so the
-    // route can pick a single coherent source below.
-    const byKey = new Map<string, { vehicle: string; price: number | null; target: number | null }[]>()
-    for (const r of rows) {
-      const key = routeKey(r[iAirport], r[iResort])
-      if (!key) continue
-      const vehicle = iVehicle === -1 ? '' : (r[iVehicle] || '').trim()
-      if (!byKey.has(key)) byKey.set(key, [])
-      byKey.get(key)!.push({
-        vehicle,
-        price: iPrice === -1 ? null : parsePrice(r[iPrice]),
-        target: iTarget === -1 ? null : parsePrice(r[iTarget]),
-      })
-    }
-    if (byKey.size === 0) throw new Error('sheet yielded no routes')
+async function fetchSheetRows(url: string): Promise<SheetRow[]> {
+  const cached = sheetCache && sheetCache.url === url ? sheetCache : null
 
-    const out: SheetRow[] = []
-    for (const [key, rowsForRoute] of byKey) {
-      // Trust `price` for the whole route only when it's well-filled there,
-      // otherwise take `Our Target`. Never mix the two within one route.
-      const priced = rowsForRoute.filter(v => v.price != null).length
-      const useColumn: 'price' | 'target' = priced >= PRICE_MIN_ROWS ? 'price' : 'target'
-      const vehicles = rowsForRoute
-        .map(v => ({ vehicle: v.vehicle, price: useColumn === 'price' ? v.price : v.target }))
-        .filter((v): v is VehiclePrice => v.price != null && !!v.vehicle)
-        // Cheapest first, and dedupe a vehicle that appears twice.
-        .sort((a, b) => a.price - b.price)
-      const seen = new Set<string>()
-      const deduped = vehicles.filter(v => (seen.has(v.vehicle) ? false : (seen.add(v.vehicle), true)))
-      out.push([key, deduped])
-    }
-    return out
-  },
-  // Bumped to -v3 when the shape changed (min price → per-vehicle list); a stale
-  // older entry in a persisted data cache would otherwise deserialise wrong.
-  ['routes-sheet-v3'],
-  { revalidate: SHEET_TTL, tags: ['routes-sheet'] }
-)
+  // Fresh: instant.
+  if (cached && Date.now() - cached.at < SHEET_TTL_MS) return cached.data
+
+  // Stale but present: serve it now, refresh in the background (deduped).
+  if (cached) {
+    if (!sheetInflight) { sheetInflight = refreshSheet(url); sheetInflight.catch(() => {}) }
+    return cached.data
+  }
+
+  // Cold (first request after boot): must wait, but only one download runs.
+  if (!sheetInflight) sheetInflight = refreshSheet(url)
+  return sheetInflight
+}
 
 /** Routes we sell. null when the sheet can't be read — never an empty set. */
 export async function getSheetIndex(): Promise<Set<string> | null> {
