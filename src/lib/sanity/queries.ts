@@ -55,7 +55,8 @@ export const routeBySlugQuery = groq`*[_type == "route" && (slug.current == $rou
     translations
   },
   originType,
-  destination->{ _id, title, slug, country->{ title, slug }, translations },
+  destination->{ _id, title, slug, country->{ title, slug }, translations,
+    featuredImage{ asset->{ url }, alt, creditAuthor, creditLicense, creditUrl } },
   country->{ _id, title, slug, translations },
   region->{ _id, title, slug, translations },
   distance, estimatedDuration,

@@ -83,27 +83,46 @@ function VehiclePrices({ rows, locale, origin, dest }: {
   const td: React.CSSProperties = { padding: '0.8rem 1rem', borderBottom: '1px solid #f1f5f9', fontSize: '0.92rem', color: '#242426' }
   const num: React.CSSProperties = { textAlign: 'right', whiteSpace: 'nowrap' }
 
+  // Responsive layout is done in CSS (below) because the column *order* changes
+  // on mobile: there we drop the horizontal scroll and reorder the columns to
+  // Vehicle · Price · Passengers · Bags so the price is visible without scrolling.
+  // On desktop the DOM order (Vehicle · Passengers · Bags · Price) is kept.
+  const css = `
+    .vp-table { width: 100%; border-collapse: collapse; min-width: 460px; }
+    @media (max-width: 640px) {
+      .vp-scroll { overflow-x: visible; }
+      .vp-table { min-width: 0; }
+      .vp-table thead tr, .vp-table tbody tr { display: flex; align-items: baseline; }
+      .vp-table th, .vp-table td { padding: 0.7rem 0.4rem; font-size: 0.85rem; }
+      .vp-c-vehicle { order: 1; flex: 1 1 auto; min-width: 0; }
+      .vp-c-price   { order: 2; flex: 0 0 auto; }
+      .vp-c-pax     { order: 3; flex: 0 0 2.6rem; }
+      .vp-c-bags    { order: 4; flex: 0 0 2.6rem; }
+    }
+  `
+
   return (
     <section style={{ background: '#ffffff', paddingTop: '2.5rem', paddingBottom: '2.5rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
-      <div style={{ maxWidth: '760px' }}>
+      <style dangerouslySetInnerHTML={{ __html: css }} />
+      <div style={{ maxWidth: '760px', margin: '0 auto' }}>
         <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.3rem, 2.4vw, 1.9rem)', color: '#242426', marginBottom: '1.25rem' }}>{heading}</h2>
-        <div style={{ overflowX: 'auto', border: '1px solid #e5e7eb', borderRadius: '10px' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '460px' }}>
+        <div className="vp-scroll" style={{ overflowX: 'auto', border: '1px solid #e5e7eb', borderRadius: '10px' }}>
+          <table className="vp-table">
             <thead>
               <tr>
-                <th style={th}>{cols.vehicle}</th>
-                <th style={{ ...th, ...num }}>{cols.pax}</th>
-                <th style={{ ...th, ...num }}>{cols.bags}</th>
-                <th style={{ ...th, ...num }}>{cols.price}</th>
+                <th className="vp-c-vehicle" style={th}>{cols.vehicle}</th>
+                <th className="vp-c-pax" style={{ ...th, ...num }}>{cols.pax}</th>
+                <th className="vp-c-bags" style={{ ...th, ...num }}>{cols.bags}</th>
+                <th className="vp-c-price" style={{ ...th, ...num }}>{cols.price}</th>
               </tr>
             </thead>
             <tbody>
               {rows.map((v, i) => (
                 <tr key={i} style={i === 0 ? { background: '#F8FAF0' } : undefined}>
-                  <td style={{ ...td, fontWeight: 600 }}>{v.name}</td>
-                  <td style={{ ...td, ...num, color: '#64748b' }}>{v.pax ?? '—'}</td>
-                  <td style={{ ...td, ...num, color: '#64748b' }}>{v.bags ?? '—'}</td>
-                  <td style={{ ...td, ...num, fontWeight: 700, color: '#6B8313' }}>{formatPrice(v.price, locale)}</td>
+                  <td className="vp-c-vehicle" style={{ ...td, fontWeight: 600 }}>{v.name}</td>
+                  <td className="vp-c-pax" style={{ ...td, ...num, color: '#64748b' }}>{v.pax ?? '—'}</td>
+                  <td className="vp-c-bags" style={{ ...td, ...num, color: '#64748b' }}>{v.bags ?? '—'}</td>
+                  <td className="vp-c-price" style={{ ...td, ...num, fontWeight: 700, color: '#6B8313' }}>{formatPrice(v.price, locale)}</td>
                 </tr>
               ))}
             </tbody>
@@ -189,7 +208,25 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
   const destTitle = (locale !== 'en' && route.destination?.translations?.[locale]?.title) || route.destination?.title || ''
   const description = (locale !== 'en' && route.translations?.[locale]?.description) || route.description
 
-  const heroImg = route.featuredImage?.asset?.url || null
+  // Hero image with a fallback chain so no route is ever left with the bare dark
+  // block. Order (client's priority): the route's own photo → a real photo of the
+  // destination city → a generic owned transfer photo (a happy passenger in one of
+  // our vehicles). Only the first two are real depictions of the place, so only
+  // those go in the collage and carry a licence credit; the generic is hero-only.
+  //   1. route.featuredImage — the specific municipality photo (Wikipedia)
+  //   2. destination.featuredImage — the city's own photo
+  //   3. GENERIC_TRANSFER_IMAGES — owned brand photos, no attribution needed
+  const GENERIC_TRANSFER_IMAGES = ['/woman-car.jpg', '/how-it-works.jpg']
+  const specificHero = route.featuredImage?.asset?.url
+    ? route.featuredImage
+    : route.destination?.featuredImage?.asset?.url
+      ? route.destination.featuredImage
+      : null
+  const specificImg = specificHero?.asset?.url || null
+  // Deterministic pick so a page keeps the same generic across renders and the
+  // ~50 image-less routes don't all show the identical photo.
+  const genHash = Array.from(String(route._id || route.slug?.current || '')).reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7)
+  const heroImg = specificImg || GENERIC_TRANSFER_IMAGES[genHash % GENERIC_TRANSFER_IMAGES.length]
 
   // "From X €" from the client's sheet — the cheapest vehicle for this route,
   // matched on the destination's name in every language (the sheet may hold
@@ -443,7 +480,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               <div style={{ position: 'absolute', inset: 0, background: '#242426' }} />
             )}
             <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)' }} />
-            <ImageCredit img={route.featuredImage} corner />
+            <ImageCredit img={specificHero} corner />
           </div>
           <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '550px', display: 'flex', justifyContent: 'center' }}>
             <BookingPanel />
@@ -475,7 +512,9 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
           {(() => {
             // Build ordered image list: featured first, then section images
             const allImgs: { url: string; alt: string }[] = []
-            if (heroImg) allImgs.push({ url: heroImg, alt: route.featuredImage?.alt || `Private transfer from ${originTitle} to ${destTitle} — ${destTitle}` })
+            // Only real place photos here — the generic transfer fallback is
+            // hero-only and must not appear in the destination collage.
+            if (specificImg) allImgs.push({ url: specificImg, alt: specificHero?.alt || `Private transfer from ${originTitle} to ${destTitle} — ${destTitle}` })
             for (const s of contentSections) {
               if (s.image?.asset?.url) allImgs.push({ url: s.image.asset.url, alt: s.imageAlt || `${originTitle} to ${destTitle} transfer — ${s.title || destTitle}` })
             }
