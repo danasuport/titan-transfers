@@ -91,7 +91,7 @@ Ya se usó una vez (limpió 43 duplicados históricos). Fusiona + borra + genera
 
 ## Arquitectura de precios (lo nuevo importante)
 
-- **`src/lib/admin/catalog.ts`** — lee la hoja (7MB) con `unstable_cache` (TTL 1h, key `routes-sheet-v3`). Funciones: `getSheetIndex()` (¿la vendemos?), `getSheetPrices()` (mínimo = "Desde"), **`getVehiclePrices()`** (tabla por vehículo). Una sola descarga alimenta todo.
+- **`src/lib/admin/catalog.ts`** — lee la hoja (7MB) con **caché en memoria de módulo + stale-while-revalidate** (TTL 1h; ver punto 2 de Trampas). Funciones: `getSheetIndex()` (¿la vendemos?), `getSheetPrices()` (mínimo = "Desde"), **`getVehiclePrices()`** (tabla por vehículo). Una sola descarga alimenta todo. (`getWebIndex()`, del panel admin, sí usa `unstable_cache` — otra ruta, no la pública.)
 - **`src/lib/route-price.ts`** — `priceForRoute()`, `vehiclePricesForRoute()`, `vehicleRows()` (traduce nombres de vehículo + capacidad a 5 idiomas), `formatPrice()`/`formatFromPrice()`.
 - **Página de ruta** (`src/app/[locale]/airport/[slug]/[routeSlug]/page.tsx`): hero "Desde X €" + componente `VehiclePrices` (tabla entre bloques) + `ImageCredit` (crédito legal, esquina inf. izquierda).
 - **Columna de precio:** por ruta, `price` (col E) si está bien rellena, si no `Our Target`. Nunca mezcla. El "Desde" = fila más barata de la tabla (coherencia).
