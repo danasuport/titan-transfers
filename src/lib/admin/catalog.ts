@@ -31,9 +31,17 @@ const SHEET_CSV_URL =
 /** The sheet's column headers. Renaming either one in Drive breaks the match. */
 const COL_AIRPORT = 'Airport'
 const COL_RESORT = 'Resort'
-// The client's target fare, shown on the route page as "From …". One row per
-// vehicle type, so a route's price is the cheapest of its rows.
-const COL_PRICE = 'Our Target'
+const COL_VEHICLE = 'Vehicle'
+// Two price columns with very different fill. `price` (col E) is what the client
+// pointed at but is only ~12% complete; `Our Target` is ~92% complete and is
+// what "From X €" has always used. Per route we prefer `price` when it's filled
+// in for that route and fall back to `Our Target` — never mixing the two within
+// one route's table, or a cheaper Executive than Sedan could appear.
+const COL_PRICE = 'price'
+const COL_TARGET = 'Our Target'
+// How many priced vehicles a route needs in `price` before we trust that column
+// for the whole route rather than falling back to `Our Target`.
+const PRICE_MIN_ROWS = 4
 
 /**
  * Spanish-formatted money → number. "32,97" → 32.97, "1 076,21" → 1076.21
@@ -78,15 +86,24 @@ function parseCsv(text: string): string[][] {
 
 // ─── sheet ───────────────────────────────────────────────────────────────────
 
+/** One priced vehicle for a route, cheapest-first when returned as a list. */
+export interface VehiclePrice {
+  vehicle: string
+  price: number
+}
+/** [routeKey, vehicles cheapest-first]. Empty array = route with no usable price. */
+type SheetRow = [string, VehiclePrice[]]
+
 // The URL is an argument, not a closed-over constant, so it lands in the cache
 // key: repointing ROUTES_SHEET_CSV_URL at a different sheet must not keep serving
 // the old one's routes for the rest of the TTL.
 //
-// Returns [routeKey, cheapest price or null] once per route. One download feeds
-// both the dashboard ("do we sell it?" = key present) and the route pages ("from
-// X €" = the price). Serialised as entries because unstable_cache is JSON only.
+// Returns each route's per-vehicle price list, cheapest-first. One download
+// feeds everything: the dashboard ("do we sell it?" = key present), the hero
+// ("from X €" = vehicles[0].price) and the price table (the whole list).
+// Serialised as entries because unstable_cache is JSON only.
 const fetchSheetRows = unstable_cache(
-  async (url: string): Promise<[string, number | null][]> => {
+  async (url: string): Promise<SheetRow[]> => {
     const res = await fetch(url, {
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
       redirect: 'follow',
@@ -102,26 +119,47 @@ const fetchSheetRows = unstable_cache(
     if (iAirport === -1 || iResort === -1) {
       throw new Error(`sheet has no "${COL_AIRPORT}"/"${COL_RESORT}" columns`)
     }
-    // Price is optional: a missing column just means no prices, not a broken sheet.
+    const iVehicle = header.indexOf(COL_VEHICLE)
+    // Both price columns are optional: absent just means no prices, not a broken sheet.
     const iPrice = header.indexOf(COL_PRICE)
+    const iTarget = header.indexOf(COL_TARGET)
 
-    // One row per vehicle type, so ~5 rows collapse into each route; the route's
-    // price is the cheapest vehicle.
-    const minByKey = new Map<string, number | null>()
+    // Gather every vehicle row per route, keeping both column values so the
+    // route can pick a single coherent source below.
+    const byKey = new Map<string, { vehicle: string; price: number | null; target: number | null }[]>()
     for (const r of rows) {
       const key = routeKey(r[iAirport], r[iResort])
       if (!key) continue
-      const price = iPrice === -1 ? null : parsePrice(r[iPrice])
-      const cur = minByKey.get(key)
-      if (!minByKey.has(key)) minByKey.set(key, price)
-      else if (price != null && (cur == null || price < cur)) minByKey.set(key, price)
+      const vehicle = iVehicle === -1 ? '' : (r[iVehicle] || '').trim()
+      if (!byKey.has(key)) byKey.set(key, [])
+      byKey.get(key)!.push({
+        vehicle,
+        price: iPrice === -1 ? null : parsePrice(r[iPrice]),
+        target: iTarget === -1 ? null : parsePrice(r[iTarget]),
+      })
     }
-    if (minByKey.size === 0) throw new Error('sheet yielded no routes')
-    return [...minByKey.entries()]
+    if (byKey.size === 0) throw new Error('sheet yielded no routes')
+
+    const out: SheetRow[] = []
+    for (const [key, rowsForRoute] of byKey) {
+      // Trust `price` for the whole route only when it's well-filled there,
+      // otherwise take `Our Target`. Never mix the two within one route.
+      const priced = rowsForRoute.filter(v => v.price != null).length
+      const useColumn: 'price' | 'target' = priced >= PRICE_MIN_ROWS ? 'price' : 'target'
+      const vehicles = rowsForRoute
+        .map(v => ({ vehicle: v.vehicle, price: useColumn === 'price' ? v.price : v.target }))
+        .filter((v): v is VehiclePrice => v.price != null && !!v.vehicle)
+        // Cheapest first, and dedupe a vehicle that appears twice.
+        .sort((a, b) => a.price - b.price)
+      const seen = new Set<string>()
+      const deduped = vehicles.filter(v => (seen.has(v.vehicle) ? false : (seen.add(v.vehicle), true)))
+      out.push([key, deduped])
+    }
+    return out
   },
-  // Bumped to -v2 when the return shape changed (keys → [key, price]); a stale
-  // v1 entry in a persisted data cache would otherwise deserialise wrong.
-  ['routes-sheet-v2'],
+  // Bumped to -v3 when the shape changed (min price → per-vehicle list); a stale
+  // older entry in a persisted data cache would otherwise deserialise wrong.
+  ['routes-sheet-v3'],
   { revalidate: SHEET_TTL, tags: ['routes-sheet'] }
 )
 
@@ -137,14 +175,28 @@ export async function getSheetIndex(): Promise<Set<string> | null> {
   }
 }
 
-/** Cheapest sheet price per route key. Missing key = no price for that route. */
+/** Cheapest sheet price per route key — the "from X €" figure. */
 export async function getSheetPrices(): Promise<Map<string, number> | null> {
   try {
     const prices = new Map<string, number>()
-    for (const [k, p] of await fetchSheetRows(SHEET_CSV_URL)) {
-      if (p != null) prices.set(k, p)
+    for (const [k, vehicles] of await fetchSheetRows(SHEET_CSV_URL)) {
+      if (vehicles.length) prices.set(k, vehicles[0].price)
     }
     return prices
+  } catch (err) {
+    console.error('[admin] routes sheet unavailable:', err)
+    return null
+  }
+}
+
+/** Full per-vehicle price list per route key, cheapest-first — the price table. */
+export async function getVehiclePrices(): Promise<Map<string, VehiclePrice[]> | null> {
+  try {
+    const m = new Map<string, VehiclePrice[]>()
+    for (const [k, vehicles] of await fetchSheetRows(SHEET_CSV_URL)) {
+      if (vehicles.length) m.set(k, vehicles)
+    }
+    return m
   } catch (err) {
     console.error('[admin] routes sheet unavailable:', err)
     return null

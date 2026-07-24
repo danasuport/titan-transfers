@@ -16,8 +16,8 @@ import { CtaSection } from '@/components/sections/CtaSection'
 import { PortableText } from '@portabletext/react'
 import { Link } from '@/lib/i18n/navigation'
 import { formatDistance, formatDuration } from '@/lib/utils/formatters'
-import { getSheetPrices } from '@/lib/admin/catalog'
-import { priceForRoute, formatFromPrice } from '@/lib/route-price'
+import { getSheetPrices, getVehiclePrices } from '@/lib/admin/catalog'
+import { priceForRoute, vehiclePricesForRoute, vehicleRows, formatFromPrice, formatPrice, type VehicleRow } from '@/lib/route-price'
 import { urlFor } from '@/lib/sanity/image'
 import type { Locale } from '@/lib/i18n/config'
 import { getAirportUrl, getCityUrl, getCountryUrl, getRouteUrl } from '@/lib/utils/slugHelpers'
@@ -49,6 +49,72 @@ function IconPlane() {
 function IconCheck() {
   return <svg width="20" height="20" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
 }
+/**
+ * Per-vehicle price table, read live from the client's sheet. Real, unique data
+ * per route — the strongest single thing these pages carry for SEO — and it
+ * updates itself when the sheet changes. Rendered between content sections.
+ */
+function VehiclePrices({ rows, locale, origin, dest }: {
+  rows: VehicleRow[]; locale: Locale; origin: string; dest: string
+}) {
+  if (rows.length < 2) return null // one row isn't a "table" worth showing
+
+  const heading = pick(locale, {
+    en: `Prices from ${origin} to ${dest}`,
+    es: `Precios de ${origin} a ${dest}`,
+    ar: `الأسعار من ${origin} إلى ${dest}`,
+    it: `Prezzi da ${origin} a ${dest}`,
+    de: `Preise von ${origin} nach ${dest}`,
+  })
+  const cols = {
+    vehicle: pick(locale, { en: 'Vehicle', es: 'Vehículo', ar: 'المركبة', it: 'Veicolo', de: 'Fahrzeug' }),
+    pax: pick(locale, { en: 'Passengers', es: 'Pasajeros', ar: 'الركاب', it: 'Passeggeri', de: 'Passagiere' }),
+    bags: pick(locale, { en: 'Bags', es: 'Maletas', ar: 'الأمتعة', it: 'Bagagli', de: 'Gepäck' }),
+    price: pick(locale, { en: 'Price', es: 'Precio', ar: 'السعر', it: 'Prezzo', de: 'Preis' }),
+  }
+  const note = pick(locale, {
+    en: 'Fixed price per vehicle, all included. No hidden charges.',
+    es: 'Precio fijo por vehículo, todo incluido. Sin cargos ocultos.',
+    ar: 'سعر ثابت لكل مركبة، شامل كل شيء. بدون رسوم خفية.',
+    it: 'Prezzo fisso per veicolo, tutto incluso. Nessun costo nascosto.',
+    de: 'Festpreis pro Fahrzeug, alles inklusive. Keine versteckten Kosten.',
+  })
+  const th: React.CSSProperties = { textAlign: 'left', padding: '0.7rem 1rem', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.04em', color: '#64748b', borderBottom: '2px solid #e5e7eb', whiteSpace: 'nowrap' }
+  const td: React.CSSProperties = { padding: '0.8rem 1rem', borderBottom: '1px solid #f1f5f9', fontSize: '0.92rem', color: '#242426' }
+  const num: React.CSSProperties = { textAlign: 'right', whiteSpace: 'nowrap' }
+
+  return (
+    <section style={{ background: '#ffffff', paddingTop: '2.5rem', paddingBottom: '2.5rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
+      <div style={{ maxWidth: '760px' }}>
+        <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.3rem, 2.4vw, 1.9rem)', color: '#242426', marginBottom: '1.25rem' }}>{heading}</h2>
+        <div style={{ overflowX: 'auto', border: '1px solid #e5e7eb', borderRadius: '10px' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '460px' }}>
+            <thead>
+              <tr>
+                <th style={th}>{cols.vehicle}</th>
+                <th style={{ ...th, ...num }}>{cols.pax}</th>
+                <th style={{ ...th, ...num }}>{cols.bags}</th>
+                <th style={{ ...th, ...num }}>{cols.price}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((v, i) => (
+                <tr key={i} style={i === 0 ? { background: '#F8FAF0' } : undefined}>
+                  <td style={{ ...td, fontWeight: 600 }}>{v.name}</td>
+                  <td style={{ ...td, ...num, color: '#64748b' }}>{v.pax ?? '—'}</td>
+                  <td style={{ ...td, ...num, color: '#64748b' }}>{v.bags ?? '—'}</td>
+                  <td style={{ ...td, ...num, fontWeight: 700, color: '#6B8313' }}>{formatPrice(v.price, locale)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '0.75rem' }}>{note}</p>
+      </div>
+    </section>
+  )
+}
+
 /**
  * Visible attribution for Wikipedia/Commons imagery. Those are CC BY / CC BY-SA,
  * which require the author and licence to be shown next to the image — an alt
@@ -133,8 +199,15 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
     route.destination?.title,
     ...Object.values(route.destination?.translations || {}).map((tr) => (tr as { title?: string })?.title),
   ]
-  const priceAmount = priceForRoute(route.origin?.iataCode, destNames, await getSheetPrices())
+  // One sheet read feeds both the hero "from X €" and the full per-vehicle
+  // table below. The "from" is the cheapest vehicle, so the two always agree.
+  const [minPrices, vehicleTable] = await Promise.all([getSheetPrices(), getVehiclePrices()])
+  const priceAmount = priceForRoute(route.origin?.iataCode, destNames, minPrices)
   const fromPrice = priceAmount != null ? formatFromPrice(priceAmount, locale as Locale) : null
+  const vehicles = vehicleRows(
+    vehiclePricesForRoute(route.origin?.iataCode, destNames, vehicleTable),
+    locale as Locale,
+  )
 
   // Images and layout (imagePosition, imageAlt) are locale-independent, so they
   // always come from the English source. The translation only supplies text
@@ -540,6 +613,9 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
           </div>
         </div>
       </section>
+
+      {/* ─── PRICES ────────────────────────────────────────────────────── */}
+      <VehiclePrices rows={vehicles} locale={locale as Locale} origin={originTitle} dest={destTitle} />
 
       {/* ─── FLEET ─────────────────────────────────────────────────────── */}
       <FleetShowcase />
