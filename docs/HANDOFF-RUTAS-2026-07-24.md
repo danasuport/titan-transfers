@@ -106,7 +106,7 @@ Ya se usó una vez (limpió 43 duplicados históricos). Fusiona + borra + genera
 ## Trampas / decisiones registradas
 
 1. **Todo es dinámico (ƒ), no ISR.** El fetch a Sanity no está en el data cache de Next. Contenido nuevo aparece en <10s (CDN Sanity). El webhook `/api/revalidate` es casi no-op (arreglado igual: acepta secret por header o `?secret=`). No existe el "retraso de 1h" del contenido.
-2. **Hoja de 7MB** → primera carga tras cada hora algo lenta (5-6s en local). A vigilar si crece. Palanca futura: mover precios a Postgres con cron diario.
+2. **Hoja de 7MB — rendimiento ARREGLADO (2026-07-24, commit `2124b4e`).** Antes cada página de ruta tardaba ~4s porque `unstable_cache` NO cacheaba en producción (página dinámica `no-store` no persiste su data cache) → cada visita re-descargaba+parseaba los 7MB. Ahora **caché en memoria de módulo con stale-while-revalidate** en `catalog.ts`: página lee de memoria al instante (~0,3s), descarga 1/hora en background, stale-on-error. Solo la 1ª visita tras arrancar el contenedor paga la descarga. Verificado 4s→0,3s. **Palanca futura si la hoja crece mucho más:** mover precios a Postgres con cron diario (aún no necesario).
 3. **Riesgo precio vs ETO:** `Our Target`/`price` es la tarifa objetivo del cliente, no necesariamente lo que cobra el motor de reservas ETO. El cliente asumió el riesgo. Si divergen, la web muestra un precio y el widget cobra otro.
 4. **Las 695 rutas antiguas** usaron el script viejo de Wikimedia → pueden tener imágenes sin crédito visible (posible atribución pendiente preexistente, no causada por este trabajo). Revisar si preocupa legalmente.
 5. **50 rutas de Málaga sin foto** (resorts de golf/urbanizaciones). Activadas igual. Pendiente decidir si darles imagen genérica de comarca (hay `comarcas.json` mapeado en scratchpad, y `add-route-images-pexels.mjs` con lógica de comarca) o dejarlas.
@@ -121,6 +121,7 @@ Ya se usó una vez (limpió 43 duplicados históricos). Fusiona + borra + genera
 - publish-routes.mjs + dedupe-routes.mjs (reemplazan al viejo create-missing-routes)
 - Fotos reales de Wikipedia + crédito (schema + componente)
 - Tabla de precios por vehículo (`b36f550`)
+- Rendimiento: caché de la hoja en memoria, 4s→0,3s (`2124b4e`)
 
 ---
 
