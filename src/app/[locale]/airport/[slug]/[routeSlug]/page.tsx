@@ -68,8 +68,6 @@ function VehiclePrices({ rows, locale, origin, dest }: {
   })
   const cols = {
     vehicle: pick(locale, { en: 'Vehicle', es: 'Vehículo', ar: 'المركبة', it: 'Veicolo', de: 'Fahrzeug' }),
-    pax: pick(locale, { en: 'Passengers', es: 'Pasajeros', ar: 'الركاب', it: 'Passeggeri', de: 'Passagiere' }),
-    bags: pick(locale, { en: 'Bags', es: 'Maletas', ar: 'الأمتعة', it: 'Bagagli', de: 'Gepäck' }),
     price: pick(locale, { en: 'Price', es: 'Precio', ar: 'السعر', it: 'Prezzo', de: 'Preis' }),
   }
   const note = pick(locale, {
@@ -83,46 +81,26 @@ function VehiclePrices({ rows, locale, origin, dest }: {
   const td: React.CSSProperties = { padding: '0.8rem 1rem', borderBottom: '1px solid #f1f5f9', fontSize: '0.92rem', color: '#242426' }
   const num: React.CSSProperties = { textAlign: 'right', whiteSpace: 'nowrap' }
 
-  // Responsive layout is done in CSS (below) because the column *order* changes
-  // on mobile: there we drop the horizontal scroll and reorder the columns to
-  // Vehicle · Price · Passengers · Bags so the price is visible without scrolling.
-  // On desktop the DOM order (Vehicle · Passengers · Bags · Price) is kept.
-  const css = `
-    .vp-table { width: 100%; border-collapse: collapse; min-width: 460px; }
-    @media (max-width: 640px) {
-      .vp-scroll { overflow-x: visible; }
-      .vp-table { min-width: 0; }
-      .vp-table thead tr, .vp-table tbody tr { display: flex; align-items: baseline; }
-      .vp-table th, .vp-table td { padding: 0.7rem 0.4rem; font-size: 0.85rem; }
-      .vp-c-vehicle { order: 1; flex: 1 1 auto; min-width: 0; }
-      .vp-c-price   { order: 2; flex: 0 0 auto; }
-      .vp-c-pax     { order: 3; flex: 0 0 2.6rem; }
-      .vp-c-bags    { order: 4; flex: 0 0 2.6rem; }
-    }
-  `
-
+  // Two columns only (vehicle + price) — the client dropped passengers/bags — so
+  // it fits any width without a horizontal scroll or column reordering. Block is
+  // centered on desktop.
   return (
     <section style={{ background: '#ffffff', paddingTop: '2.5rem', paddingBottom: '2.5rem', paddingLeft: '6vw', paddingRight: '6vw' }}>
-      <style dangerouslySetInnerHTML={{ __html: css }} />
       <div style={{ maxWidth: '760px', margin: '0 auto' }}>
         <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.3rem, 2.4vw, 1.9rem)', color: '#242426', marginBottom: '1.25rem' }}>{heading}</h2>
-        <div className="vp-scroll" style={{ overflowX: 'auto', border: '1px solid #e5e7eb', borderRadius: '10px' }}>
-          <table className="vp-table">
+        <div style={{ overflowX: 'auto', border: '1px solid #e5e7eb', borderRadius: '10px' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                <th className="vp-c-vehicle" style={th}>{cols.vehicle}</th>
-                <th className="vp-c-pax" style={{ ...th, ...num }}>{cols.pax}</th>
-                <th className="vp-c-bags" style={{ ...th, ...num }}>{cols.bags}</th>
-                <th className="vp-c-price" style={{ ...th, ...num }}>{cols.price}</th>
+                <th style={th}>{cols.vehicle}</th>
+                <th style={{ ...th, ...num }}>{cols.price}</th>
               </tr>
             </thead>
             <tbody>
               {rows.map((v, i) => (
                 <tr key={i} style={i === 0 ? { background: '#F8FAF0' } : undefined}>
-                  <td className="vp-c-vehicle" style={{ ...td, fontWeight: 600 }}>{v.name}</td>
-                  <td className="vp-c-pax" style={{ ...td, ...num, color: '#64748b' }}>{v.pax ?? '—'}</td>
-                  <td className="vp-c-bags" style={{ ...td, ...num, color: '#64748b' }}>{v.bags ?? '—'}</td>
-                  <td className="vp-c-price" style={{ ...td, ...num, fontWeight: 700, color: '#6B8313' }}>{formatPrice(v.price, locale)}</td>
+                  <td style={{ ...td, fontWeight: 600 }}>{v.name}</td>
+                  <td style={{ ...td, ...num, fontWeight: 700, color: '#6B8313' }}>{formatPrice(v.price, locale)}</td>
                 </tr>
               ))}
             </tbody>
