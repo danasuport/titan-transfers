@@ -517,6 +517,15 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
             if (allImgs.length === 0) return null
             const large = allImgs[0]
             const smalls = allImgs.slice(1, 4)
+            // Only one real photo: show it as a single wide banner rather than a
+            // mosaic padded with empty grey boxes.
+            if (smalls.length === 0) {
+              return (
+                <div style={{ position: 'relative', width: '100%', height: 'clamp(240px, 42vw, 460px)', overflow: 'hidden', borderRadius: '4px', marginBottom: '3.5rem' }}>
+                  <Image src={large.url} alt={large.alt} fill style={{ objectFit: 'cover' }} sizes="100vw" />
+                </div>
+              )
+            }
             return (
               <div className="resp-photo-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridTemplateRows: 'repeat(2, 220px)', gap: '12px', marginBottom: '3.5rem' }}>
                 {/* Large image — spans 2 cols × 2 rows */}
@@ -526,16 +535,19 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
                     <path d="M0,40 L0,20 Q100,0 200,20 Q300,40 400,15 L400,40 Z" fill="rgba(36,36,38,0.15)" />
                   </svg>
                 </div>
-                {/* Small images */}
-                {smalls.map((img, i) => (
-                  <div key={i} style={{ position: 'relative', overflow: 'hidden', borderRadius: '4px' }}>
-                    <Image src={img.url} alt={img.alt} fill style={{ objectFit: 'cover' }} sizes="25vw" />
-                  </div>
-                ))}
-                {/* Placeholder slots if < 3 small images */}
-                {Array.from({ length: Math.max(0, 3 - smalls.length) }).map((_, i) => (
-                  <div key={`ph-${i}`} style={{ background: '#e5e7eb', borderRadius: '4px' }} />
-                ))}
+                {/* Small images — no grey placeholders; balance the right column
+                    when there are only 1-2 photos so there are no empty gaps. */}
+                {smalls.map((img, i) => {
+                  const span: React.CSSProperties =
+                    smalls.length === 1 ? { gridColumn: '3 / 5', gridRow: '1 / 3' }
+                    : smalls.length === 2 ? { gridColumn: '3 / 5' }
+                    : {}
+                  return (
+                    <div key={i} style={{ position: 'relative', overflow: 'hidden', borderRadius: '4px', ...span }}>
+                      <Image src={img.url} alt={img.alt} fill style={{ objectFit: 'cover' }} sizes="25vw" />
+                    </div>
+                  )
+                })}
               </div>
             )
           })()}
@@ -555,47 +567,44 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         const imgLeft = section.imagePosition !== 'right'
         const imgUrl = section.image?.asset?.url
         const bg = i % 2 === 0 ? '#ffffff' : '#F8FAF0'
+
+        const text = (
+          <div>
+            <div style={{ width: '40px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
+            {section.title && (
+              <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', color: '#242426', marginBottom: '1.25rem' }}>
+                {section.title}
+              </h2>
+            )}
+            {section.body && (
+              <div className="prose prose-lg prose-headings:font-normal prose-headings:text-[#242426] prose-p:text-[#475569] prose-p:leading-relaxed prose-a:text-[#8BAA1D] prose-a:no-underline prose-li:text-[#475569]">
+                <PortableText value={section.body} />
+              </div>
+            )}
+          </div>
+        )
+
+        // No image for this section: run the text full-width (centered) instead
+        // of showing an empty grey placeholder box.
+        if (!imgUrl) {
+          return (
+            <section key={i} style={{ background: bg, padding: '5rem 6vw' }}>
+              <div style={{ maxWidth: '820px', margin: '0 auto' }}>{text}</div>
+            </section>
+          )
+        }
+
+        const img = (
+          <div className="route-section-img" style={{ clipPath: imgLeft ? 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' : 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
+            <Image src={imgUrl} alt={section.imageAlt || section.title || ''} fill style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="(max-width: 768px) 100vw, 50vw" />
+            <ImageCredit img={section.image} corner />
+          </div>
+        )
+
         return (
           <section key={i} style={{ background: bg, padding: '5rem 6vw' }}>
             <div className="route-section-grid">
-
-              {/* Image */}
-              {imgLeft && imgUrl && (
-                <div className="route-section-img" style={{ clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }}>
-                  <Image src={imgUrl} alt={section.imageAlt || section.title || ''} fill style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="(max-width: 768px) 100vw, 50vw" />
-                  <ImageCredit img={section.image} corner />
-                </div>
-              )}
-              {imgLeft && !imgUrl && (
-                <div className="route-section-img route-section-img-empty" style={{ background: '#e5e7eb', clipPath: 'polygon(0% 0%, 92% 0%, 100% 100%, 0% 100%)' }} />
-              )}
-
-              {/* Text */}
-              <div>
-                <div style={{ width: '40px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
-                {section.title && (
-                  <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', color: '#242426', marginBottom: '1.25rem' }}>
-                    {section.title}
-                  </h2>
-                )}
-                {section.body && (
-                  <div className="prose prose-lg prose-headings:font-normal prose-headings:text-[#242426] prose-p:text-[#475569] prose-p:leading-relaxed prose-a:text-[#8BAA1D] prose-a:no-underline prose-li:text-[#475569]">
-                    <PortableText value={section.body} />
-                  </div>
-                )}
-              </div>
-
-              {/* Image right */}
-              {!imgLeft && imgUrl && (
-                <div className="route-section-img" style={{ clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
-                  <Image src={imgUrl} alt={section.imageAlt || section.title || ''} fill style={{ objectFit: 'cover', objectPosition: 'center' }} sizes="(max-width: 768px) 100vw, 50vw" />
-                  <ImageCredit img={section.image} corner />
-                </div>
-              )}
-              {!imgLeft && !imgUrl && (
-                <div className="route-section-img route-section-img-empty" style={{ background: '#e5e7eb', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }} />
-              )}
-
+              {imgLeft ? <>{img}{text}</> : <>{text}{img}</>}
             </div>
           </section>
         )
