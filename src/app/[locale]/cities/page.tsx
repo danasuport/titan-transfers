@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'المدن | تايتن ترانسفرز',
       it: 'Città | Titan Transfers',
       de: 'Städte | Titan Transfers',
+      fr: 'Villes | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Private transfers to 186 cities worldwide. Fixed prices, professional driver, 24/7 service.',
@@ -32,6 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'نقل خاص إلى ١٨٦ مدينة حول العالم. أسعار ثابتة، سائق محترف، خدمة على مدار الساعة.',
       it: 'Trasferimenti privati in 186 città in tutto il mondo. Prezzi fissi, autista professionale, servizio 24/7.',
       de: 'Private Transfers zu 186 Städten weltweit. Festpreise, professioneller Fahrer, 24/7 Service.',
+      fr: 'Transferts privés vers 186 villes dans le monde. Prix fixes, chauffeur professionnel, service 24/7.',
     }),
   }
 }
@@ -41,18 +43,19 @@ export default async function CitiesPage({ params }: { params: Promise<{ locale:
   const cities = await sanityClient.fetch(allCitiesQuery)
 
   const labels = {
-    breadcrumb: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن', it: 'Città', de: 'Städte' }),
-    h1: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن', it: 'Città', de: 'Städte' }),
+    breadcrumb: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن', it: 'Città', de: 'Städte', fr: 'Villes' }),
+    h1: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن', it: 'Città', de: 'Städte', fr: 'Villes' }),
     intro: pick(locale, {
       en: 'Private transfers to major cities worldwide. Door-to-door service with professional driver and fixed price.',
       es: 'Traslados privados a las principales ciudades del mundo. Servicio puerta a puerta con conductor profesional y precio fijo.',
       ar: 'نقل خاص إلى المدن الكبرى حول العالم. خدمة من الباب إلى الباب مع سائق محترف وسعر ثابت.',
       it: 'Trasferimenti privati nelle principali città del mondo. Servizio porta a porta con autista professionale e prezzo fisso.',
       de: 'Private Transfers zu großen Städten weltweit. Tür-zu-Tür-Service mit professionellem Fahrer und Festpreis.',
+      fr: 'Transferts privés vers les grandes villes du monde. Service porte-à-porte avec chauffeur professionnel et prix fixe.',
     }),
-    statCities: pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة', it: 'città', de: 'Städte' }),
-    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'Länder' }),
-    statRating: pick(locale, { en: 'rating', es: 'valoración', ar: 'تقييم', it: 'valutazione', de: 'Bewertung' }),
+    statCities: pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة', it: 'città', de: 'Städte', fr: 'villes' }),
+    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'Länder', fr: 'pays' }),
+    statRating: pick(locale, { en: 'rating', es: 'valoración', ar: 'تقييم', it: 'valutazione', de: 'Bewertung', fr: 'évaluation' }),
   }
 
   const grouped: Record<string, any[]> = {}

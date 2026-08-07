@@ -18,6 +18,7 @@ export const routing = defineRouting({
       ar: '/matarat/',
       it: '/aeroporti/',
       de: '/flughaefen/',
+      fr: '/aeroports/',
     },
     '/airport/[slug]/': {
       en: '/airport-transfers-private-taxi/[slug]/',
@@ -25,6 +26,7 @@ export const routing = defineRouting({
       ar: '/nakl-mataar/[slug]/',
       it: '/trasferimenti-aeroporto-taxi-privato/[slug]/',
       de: '/flughafentransfer-privat-taxi/[slug]/',
+      fr: '/transferts-aeroport-taxi-prive/[slug]/',
     },
     '/airport/[slug]/[routeSlug]/': {
       en: '/airport-transfers-private-taxi/[slug]/[routeSlug]/',
@@ -32,6 +34,7 @@ export const routing = defineRouting({
       ar: '/nakl-mataar/[slug]/[routeSlug]/',
       it: '/trasferimenti-aeroporto-taxi-privato/[slug]/[routeSlug]/',
       de: '/flughafentransfer-privat-taxi/[slug]/[routeSlug]/',
+      fr: '/transferts-aeroport-taxi-prive/[slug]/[routeSlug]/',
     },
     '/cities/': {
       en: '/cities/',
@@ -39,6 +42,7 @@ export const routing = defineRouting({
       ar: '/mudun/',
       it: '/citta/',
       de: '/staedte/',
+      fr: '/villes/',
     },
     '/city/[slug]/': {
       en: '/private-transfers/[slug]/',
@@ -46,6 +50,7 @@ export const routing = defineRouting({
       ar: '/nakl-khass/[slug]/',
       it: '/trasferimenti-privati-taxi/[slug]/',
       de: '/private-transfers-taxi/[slug]/',
+      fr: '/transferts-prives-taxi/[slug]/',
     },
     '/countries/': {
       en: '/countries/',
@@ -53,6 +58,7 @@ export const routing = defineRouting({
       ar: '/buldan/',
       it: '/paesi/',
       de: '/laender/',
+      fr: '/pays/',
     },
     '/country/[slug]/': {
       en: '/private-transfers-country/[slug]/',
@@ -60,6 +66,7 @@ export const routing = defineRouting({
       ar: '/nakl-khass-balad/[slug]/',
       it: '/trasferimenti-privati-paese/[slug]/',
       de: '/private-transfers-land/[slug]/',
+      fr: '/transferts-prives-pays/[slug]/',
     },
     '/regions/': {
       en: '/regions/',
@@ -67,6 +74,7 @@ export const routing = defineRouting({
       ar: '/manatik/',
       it: '/regioni/',
       de: '/regionen/',
+      fr: '/regions/',
     },
     '/region/[slug]/': {
       en: '/private-transfers-region/[slug]/',
@@ -74,6 +82,7 @@ export const routing = defineRouting({
       ar: '/nakl-khass-mintaqa/[slug]/',
       it: '/trasferimenti-privati-regione/[slug]/',
       de: '/private-transfers-region/[slug]/',
+      fr: '/transferts-prives-region/[slug]/',
     },
     '/services/': {
       en: '/services/',
@@ -81,6 +90,7 @@ export const routing = defineRouting({
       ar: '/khadamat/',
       it: '/servizi/',
       de: '/dienstleistungen/',
+      fr: '/services/',
     },
     '/services/[slug]/': {
       en: '/services/[slug]/',
@@ -88,6 +98,7 @@ export const routing = defineRouting({
       ar: '/khadamat/[slug]/',
       it: '/servizi/[slug]/',
       de: '/dienstleistungen/[slug]/',
+      fr: '/services/[slug]/',
     },
     '/blog/': {
       en: '/blog/',
@@ -95,6 +106,7 @@ export const routing = defineRouting({
       ar: '/mudawana/',
       it: '/blog/',
       de: '/blog/',
+      fr: '/blog/',
     },
     '/blog/[slug]/': {
       en: '/blog/[slug]/',
@@ -102,6 +114,7 @@ export const routing = defineRouting({
       ar: '/mudawana/[slug]/',
       it: '/blog/[slug]/',
       de: '/blog/[slug]/',
+      fr: '/blog/[slug]/',
     },
     '/contact/': {
       en: '/contact/',
@@ -109,6 +122,7 @@ export const routing = defineRouting({
       ar: '/tawasul/',
       it: '/contatto/',
       de: '/kontakt/',
+      fr: '/contact/',
     },
     '/booking/': {
       en: '/booking/',
@@ -116,6 +130,7 @@ export const routing = defineRouting({
       ar: '/hajz/',
       it: '/prenotazione/',
       de: '/buchung/',
+      fr: '/reservation/',
     },
     '/register/': {
       en: '/register/',
@@ -123,6 +138,7 @@ export const routing = defineRouting({
       ar: '/tasjeel/',
       it: '/registrazione/',
       de: '/registrierung/',
+      fr: '/inscription/',
     },
     '/user-dashboard/': {
       en: '/user-dashboard/',
@@ -130,6 +146,7 @@ export const routing = defineRouting({
       ar: '/hisabi/',
       it: '/il-mio-account/',
       de: '/mein-konto/',
+      fr: '/mon-compte/',
     },
     '/reset-password/': {
       en: '/reset-password/',
@@ -137,6 +154,7 @@ export const routing = defineRouting({
       ar: '/taghyir-kalimat-mururor/',
       it: '/reimposta-password/',
       de: '/passwort-zuruecksetzen/',
+      fr: '/reinitialiser-mot-de-passe/',
     },
     '/forgot-password/': {
       en: '/forgot-password/',
@@ -144,6 +162,7 @@ export const routing = defineRouting({
       ar: '/nasit-kalimat-mururor/',
       it: '/password-dimenticata/',
       de: '/passwort-vergessen/',
+      fr: '/mot-de-passe-oublie/',
     },
     '/login/': {
       en: '/login/',
@@ -151,6 +170,7 @@ export const routing = defineRouting({
       ar: '/dukhul/',
       it: '/accesso/',
       de: '/anmeldung/',
+      fr: '/connexion/',
     },
     '/about/': {
       en: '/about/',
@@ -158,6 +178,7 @@ export const routing = defineRouting({
       ar: '/man-nahnu/',
       it: '/chi-siamo/',
       de: '/ueber-uns/',
+      fr: '/a-propos/',
     },
     '/legal/': {
       en: '/legal-notice/',
@@ -165,6 +186,7 @@ export const routing = defineRouting({
       ar: '/ishaar-kanuni/',
       it: '/note-legali/',
       de: '/impressum/',
+      fr: '/mentions-legales/',
     },
     '/privacy/': {
       en: '/privacy-policy/',
@@ -172,6 +194,7 @@ export const routing = defineRouting({
       ar: '/siyasat-khususiya/',
       it: '/informativa-privacy/',
       de: '/datenschutz/',
+      fr: '/politique-de-confidentialite/',
     },
     '/terms/': {
       en: '/terms-and-conditions/',
@@ -179,6 +202,7 @@ export const routing = defineRouting({
       ar: '/shurut-wa-ahkam/',
       it: '/termini-e-condizioni/',
       de: '/agb/',
+      fr: '/conditions-generales/',
     },
     '/cookies/': {
       en: '/cookie-policy/',
@@ -186,6 +210,7 @@ export const routing = defineRouting({
       ar: '/siyasat-cookies/',
       it: '/informativa-cookie/',
       de: '/cookie-richtlinie/',
+      fr: '/politique-cookies/',
     },
     '/sitemap-page/': {
       en: '/web-sitemap/',
@@ -193,6 +218,7 @@ export const routing = defineRouting({
       ar: '/kharitat-mawqaa/',
       it: '/mappa-del-sito/',
       de: '/webseiten-uebersicht/',
+      fr: '/plan-du-site/',
     },
     '/faq/': {
       en: '/faq/',
@@ -200,6 +226,7 @@ export const routing = defineRouting({
       ar: '/asila-shaaia/',
       it: '/domande-frequenti/',
       de: '/haeufige-fragen/',
+      fr: '/faq/',
     },
   },
 })

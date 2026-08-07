@@ -13,6 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'احجز نقلاً خاصاً | تايتن ترانسفرز',
       it: 'Prenota trasferimento privato | Titan Transfers',
       de: 'Buchen Sie einen privaten Transfer | Titan Transfers',
+      fr: 'Réservez un transfert privé | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Book your private transfer instantly. Fixed price, professional driver, door-to-door service 24/7.',
@@ -20,6 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'احجز نقلك الخاص فوراً. سعر ثابت، سائق محترف، خدمة من الباب إلى الباب على مدار الساعة.',
       it: 'Prenota il tuo trasferimento privato in un attimo. Prezzo fisso, autista professionale, servizio porta a porta 24/7.',
       de: 'Buchen Sie Ihren privaten Transfer sofort. Festpreis, professioneller Fahrer, Tür-zu-Tür-Service 24/7.',
+      fr: 'Réservez votre transfert privé instantanément. Prix fixe, chauffeur professionnel, service porte-à-porte 24/7.',
     }),
     robots: { index: true, follow: true },
   }
@@ -30,13 +32,14 @@ export default async function BookingPage({ params }: { params: Promise<{ locale
 
   return (
     <BookingPageShell
-      breadcrumbLabel={pick(locale, { en: 'Book', es: 'Reservar', ar: 'احجز', it: 'Prenota', de: 'Buchen' })}
+      breadcrumbLabel={pick(locale, { en: 'Book', es: 'Reservar', ar: 'احجز', it: 'Prenota', de: 'Buchen', fr: 'Réserver' })}
       heading={pick(locale, {
         en: 'Book your private transfer',
         es: 'Reserva tu traslado privado',
         ar: 'احجز نقلك الخاص',
         it: 'Prenota il tuo trasferimento privato',
         de: 'Buchen Sie Ihren privaten Transfer',
+        fr: 'Réservez votre transfert privé',
       })}
     >
       <TaxiBookingIframe />

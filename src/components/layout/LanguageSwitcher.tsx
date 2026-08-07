@@ -62,12 +62,23 @@ function FlagDE() {
   )
 }
 
+function FlagFR() {
+  return (
+    <svg viewBox="0 0 60 40" width="18" height="13" style={{ display: 'block', borderRadius: '2px', overflow: 'hidden' }} aria-hidden="true">
+      <rect width="20" height="40" fill="#0055A4"/>
+      <rect x="20" width="20" height="40" fill="#FFFFFF"/>
+      <rect x="40" width="20" height="40" fill="#EF4135"/>
+    </svg>
+  )
+}
+
 const Flag: Record<Locale, () => React.ReactElement> = {
   en: FlagGB,
   es: FlagES,
   ar: FlagSA,
   it: FlagIT,
   de: FlagDE,
+  fr: FlagFR,
 }
 
 /**

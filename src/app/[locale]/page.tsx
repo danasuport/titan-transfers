@@ -28,6 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     ar: 'خدمات النقل الخاص من المطار حول العالم | Titan Transfers',
     it: 'Transfer privati aeroportuali in tutto il mondo | Titan Transfers',
     de: 'Private Flughafentransfers weltweit | Titan Transfers',
+    fr: 'Transferts aéroport privés dans le monde entier | Titan Transfers',
   })
   return generatePageMetadata({
     title,
@@ -40,6 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       { locale: 'ar', path: '/ar/' },
       { locale: 'it', path: '/it/' },
       { locale: 'de', path: '/de/' },
+      { locale: 'fr', path: '/fr/' },
     ],
   })
 }
@@ -58,23 +60,23 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             {[
               {
                 icon: '★',
-                label: pick(locale, { en: '4.8/5 Rating', es: 'Valoración 4.8/5', ar: 'تقييم ٤٫٨/٥', it: 'Valutazione 4.8/5', de: '4.8/5 Bewertung' }),
-                sub: pick(locale, { en: 'Based on 2,500+ reviews', es: 'Basado en +2.500 reseñas', ar: 'بناءً على أكثر من ٢٬٥٠٠ تقييم', it: 'Basato su oltre 2.500 recensioni', de: 'Basierend auf über 2.500 Bewertungen' }),
+                label: pick(locale, { en: '4.8/5 Rating', es: 'Valoración 4.8/5', ar: 'تقييم ٤٫٨/٥', it: 'Valutazione 4.8/5', de: '4.8/5 Bewertung', fr: '4.8/5 Évaluation' }),
+                sub: pick(locale, { en: 'Based on 2,500+ reviews', es: 'Basado en +2.500 reseñas', ar: 'بناءً على أكثر من ٢٬٥٠٠ تقييم', it: 'Basato su oltre 2.500 recensioni', de: 'Basierend auf über 2.500 Bewertungen', fr: 'Basé sur plus de 2 500 avis' }),
               },
               {
                 icon: '◈',
-                label: pick(locale, { en: 'Fixed price', es: 'Precio fijo', ar: 'سعر ثابت', it: 'Prezzo fisso', de: 'Festpreis' }),
-                sub: pick(locale, { en: 'No hidden charges', es: 'Sin cargos ocultos', ar: 'بدون رسوم خفية', it: 'Senza costi nascosti', de: 'Keine versteckten Gebühren' }),
+                label: pick(locale, { en: 'Fixed price', es: 'Precio fijo', ar: 'سعر ثابت', it: 'Prezzo fisso', de: 'Festpreis', fr: 'Prix fixe' }),
+                sub: pick(locale, { en: 'No hidden charges', es: 'Sin cargos ocultos', ar: 'بدون رسوم خفية', it: 'Senza costi nascosti', de: 'Keine versteckten Gebühren', fr: 'Aucuns frais cachés' }),
               },
               {
                 icon: '◷',
-                label: pick(locale, { en: '24/7 Support', es: 'Soporte 24/7', ar: 'دعم على مدار الساعة', it: 'Supporto 24/7', de: '24/7 Unterstützung' }),
-                sub: pick(locale, { en: 'Always here to help', es: 'Siempre disponibles', ar: 'دائماً هنا للمساعدة', it: 'Sempre disponibili', de: 'Immer hier, um zu helfen' }),
+                label: pick(locale, { en: '24/7 Support', es: 'Soporte 24/7', ar: 'دعم على مدار الساعة', it: 'Supporto 24/7', de: '24/7 Unterstützung', fr: 'Support 24/7' }),
+                sub: pick(locale, { en: 'Always here to help', es: 'Siempre disponibles', ar: 'دائماً هنا للمساعدة', it: 'Sempre disponibili', de: 'Immer hier, um zu helfen', fr: 'Toujours là pour vous aider' }),
               },
               {
                 icon: '✓',
-                label: pick(locale, { en: 'Free cancellation', es: 'Cancelación gratuita', ar: 'إلغاء مجاني', it: 'Cancellazione gratuita', de: 'Kostenlose Stornierung' }),
-                sub: pick(locale, { en: 'Up to 24h before', es: 'Hasta 24h antes', ar: 'حتى ٢٤ ساعة قبل الرحلة', it: 'Fino a 24 ore prima', de: 'Bis zu 24 Stunden vorher' }),
+                label: pick(locale, { en: 'Free cancellation', es: 'Cancelación gratuita', ar: 'إلغاء مجاني', it: 'Cancellazione gratuita', de: 'Kostenlose Stornierung', fr: 'Annulation gratuite' }),
+                sub: pick(locale, { en: 'Up to 24h before', es: 'Hasta 24h antes', ar: 'حتى ٢٤ ساعة قبل الرحلة', it: 'Fino a 24 ore prima', de: 'Bis zu 24 Stunden vorher', fr: 'Jusqu\'à 24h avant' }),
               },
             ].map(({ icon, label, sub }) => (
               <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

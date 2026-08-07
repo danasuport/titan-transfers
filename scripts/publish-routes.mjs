@@ -51,6 +51,16 @@ const APPLY = process.argv.includes('--apply')
 const ONLY_AIRPORT = arg('airport')?.toUpperCase()
 const ONLY_COUNTRY = arg('country')
 const ONLY_ROUTES = process.argv.filter(a => a.startsWith('--route=')).map(a => norm(a.slice(8)))
+// --routes-file=path : one "IATA:Resort" per line (blank lines and #comments
+// ignored). Lets a big curated selection be published in a single run without a
+// 350-argument command line. Merged into the same ONLY_ROUTES filter.
+const ROUTES_FILE = arg('routes-file')
+if (ROUTES_FILE) {
+  for (const line of readFileSync(ROUTES_FILE, 'utf8').split('\n')) {
+    const t = line.trim()
+    if (t && !t.startsWith('#')) ONLY_ROUTES.push(norm(t))
+  }
+}
 const LIMIT = Number(arg('limit', '0')) || Infinity
 // Routes are created hidden by default: they exist and can be previewed, but stay
 // out of the sitemap and out of Google until reveal-routes.mjs unhides them. This
@@ -89,6 +99,8 @@ const COUNTRY_MAP = {
   'Indonesia': 'indonesia', 'Japan': 'japan', 'Moldova': 'moldova', 'Qatar': 'qatar',
   'Romania': 'romania', 'Saudi Arabia': 'saudi-arabia', 'Switzerland': 'switzerland',
   'Serbia': 'serbia',
+  'Türkiye': 'turkey', 'Croatia': 'croatia', 'Cyprus': 'cyprus', 'Malta': 'malta',
+  'Montenegro': 'montenegro',
 }
 
 const COUNTRY_TITLES = {
@@ -96,6 +108,7 @@ const COUNTRY_TITLES = {
   'chile': 'Chile', 'indonesia': 'Indonesia', 'japan': 'Japan', 'moldova': 'Moldova',
   'qatar': 'Qatar', 'romania': 'Romania', 'saudi-arabia': 'Saudi Arabia',
   'switzerland': 'Switzerland', 'serbia': 'Serbia',
+  'croatia': 'Croatia', 'cyprus': 'Cyprus', 'malta': 'Malta', 'montenegro': 'Montenegro',
 }
 
 // Entries in the sheet's Airport column that aren't airports. The catalogue
@@ -133,6 +146,15 @@ const AIRPORT_NAMES = {
   'GVA': 'Geneva Airport', 'ZRH': 'Zurich Airport',
   'DMK': 'Bangkok Don Mueang International Airport', 'BKK': 'Bangkok Suvarnabhumi Airport',
   'RMO': 'Chișinău International Airport', 'IBZ': 'Ibiza Airport', 'SVQ': 'Seville Airport',
+  // Mediterranean summer tourist airports (Aug–Sept batch)
+  'NAP': 'Naples International Airport', 'OLB': 'Olbia Costa Smeralda Airport',
+  'AHO': 'Alghero-Fertilia Airport', 'CAG': 'Cagliari Elmas Airport',
+  'BRI': 'Bari Karol Wojtyła Airport', 'SUF': 'Lamezia Terme International Airport',
+  'VCE': 'Venice Marco Polo Airport', 'DBV': 'Dubrovnik Airport', 'SPU': 'Split Airport',
+  'ZAD': 'Zadar Airport', 'PUY': 'Pula Airport', 'BJV': 'Bodrum Milas Airport',
+  'DLM': 'Dalaman Airport', 'NCE': 'Nice Côte d\'Azur Airport',
+  'PFO': 'Paphos International Airport', 'LCA': 'Larnaca International Airport',
+  'MLA': 'Malta International Airport', 'TIV': 'Tivat Airport',
   'TFN': 'Tenerife North Airport', 'TFS': 'Tenerife South Airport',
   'AGP': 'Málaga-Costa del Sol Airport', 'ALC': 'Alicante-Elche Airport',
   'ACE': 'Lanzarote Airport', 'SKP': 'Skopje Alexander the Great Airport',

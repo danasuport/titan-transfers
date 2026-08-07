@@ -18,6 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'الإشعار القانوني | تايتن ترانسفرز',
       it: 'Avviso legale | Titan Transfers',
       de: 'Rechtlicher Hinweis | Titan Transfers',
+      fr: 'Mentions légales | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Legal Notice for Titan Transfers — Uep Tech And Solutions Fzco.',
@@ -25,6 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'الإشعار القانوني لتايتن ترانسفرز — Uep Tech And Solutions Fzco.',
       it: 'Avviso legale di Titan Transfers — Uep Tech And Solutions Fzco.',
       de: 'Rechtlicher Hinweis für Titan Transfers — Uep Tech And Solutions Fzco.',
+      fr: 'Mentions légales pour Titan Transfers — Uep Tech And Solutions Fzco.',
     }),
     robots: { index: true, follow: true },
   }
@@ -38,6 +40,7 @@ export default async function LegalPage({ params }: { params: Promise<{ locale: 
     ar: 'الإشعار القانوني',
     it: 'Avviso legale',
     de: 'Rechtlicher Hinweis',
+    fr: 'Mentions légales',
   })
 
   return (

@@ -43,6 +43,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     { locale: 'ar', path: `/ar${getCountryUrl(country, 'ar')}` },
     { locale: 'it', path: `/it${getCountryUrl(country, 'it')}` },
     { locale: 'de', path: `/de${getCountryUrl(country, 'de')}` },
+    { locale: 'fr', path: `/fr${getCountryUrl(country, 'fr')}` },
   ]
   return generatePageMetadata({ title, description, path: currentPath, locale: locale as Locale, alternates })
 }
@@ -116,12 +117,12 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
           <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
             {airportCount > 0 && (
               <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#6B8313', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
-                {airportCount} {pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار', it: 'aeroporti', de: 'Flughäfen' })}
+                {airportCount} {pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار', it: 'aeroporti', de: 'Flughäfen', fr: 'aéroports' })}
               </span>
             )}
             {cityCount > 0 && (
               <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#6B8313', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
-                {cityCount} {pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة', it: 'città', de: 'Städte' })}
+                {cityCount} {pick(locale, { en: 'cities', es: 'ciudades', ar: 'مدينة', it: 'città', de: 'Städte', fr: 'villes' })}
               </span>
             )}
           </div>
@@ -239,6 +240,7 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
                 ar: `هل أنت سائق محترف في ${countryTitle}؟`,
                 it: `Sei un autista professionista in ${countryTitle}?`,
                 de: `Sind Sie ein professioneller Fahrer in ${countryTitle}?`,
+                fr: `Êtes-vous un chauffeur professionnel dans ${countryTitle} ?`,
               })}
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, marginBottom: '2rem', maxWidth: '440px' }}>
@@ -248,10 +250,11 @@ export default async function CountryPage({ params }: { params: Promise<{ locale
                 ar: 'انضم إلى شبكة سائقينا واحصل على حجوزات مباشرة دون عمولات مرتفعة.',
                 it: 'Unisciti alla nostra rete di autisti e ricevi prenotazioni dirette senza commissioni abusive.',
                 de: 'Treten Sie unserem Fahrernetzwerk bei und erhalten Sie direkte Buchungen ohne hohe Provisionen.',
+                fr: 'Rejoignez notre réseau de chauffeurs et recevez des réservations directes sans commissions excessives.',
               })}
             </p>
-            <a href={`${locale === 'en' ? '' : `/${locale}`}/${pick(locale, { en: 'contact', es: 'contacto', ar: 'tawasul', it: 'contatto', de: 'Kontakt' })}/`} style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
-              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{pick(locale, { en: 'Get in touch →', es: 'Contactar →', ar: '← تواصل معنا', it: 'Contattaci →', de: 'Kontaktieren Sie uns →' })}</span>
+            <a href={`${locale === 'en' ? '' : `/${locale}`}/${pick(locale, { en: 'contact', es: 'contacto', ar: 'tawasul', it: 'contatto', de: 'Kontakt', fr: 'contact' })}/`} style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
+              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{pick(locale, { en: 'Get in touch →', es: 'Contactar →', ar: '← تواصل معنا', it: 'Contattaci →', de: 'Kontaktieren Sie uns →', fr: 'Contactez-nous →' })}</span>
             </a>
           </div>
         </div>

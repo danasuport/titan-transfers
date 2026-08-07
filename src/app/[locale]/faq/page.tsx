@@ -19,6 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'الأسئلة الشائعة | تايتن ترانسفرز',
       it: 'Domande Frequenti | Titan Transfers',
       de: 'FAQ | Titan Transfers',
+      fr: 'FAQ | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Frequently asked questions about Titan Transfers private transfer services.',
@@ -26,6 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'الأسئلة الشائعة حول خدمات النقل الخاص في تايتن ترانسفرز.',
       it: 'Domande frequenti sui servizi di trasferimenti privati di Titan Transfers.',
       de: 'Häufig gestellte Fragen zu den privaten Transferdiensten von Titan Transfers.',
+      fr: 'Questions fréquemment posées sur les services de transfert privé de Titan Transfers.',
     }),
   }
 }

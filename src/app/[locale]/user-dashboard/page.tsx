@@ -11,6 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'حسابي | تايتن ترانسفرز',
       it: 'Il mio account | Titan Transfers',
       de: 'Mein Konto | Titan Transfers',
+      fr: 'Mon compte | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Manage your bookings, view your history and update your details.',
@@ -18,6 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'أدر حجوزاتك، اطلع على تاريخ رحلاتك، وحدّث بياناتك.',
       it: 'Gestisci le tue prenotazioni, consulta la tua cronologia e modifica i tuoi dati.',
       de: 'Verwalten Sie Ihre Buchungen, sehen Sie Ihre Historie und aktualisieren Sie Ihre Daten.',
+      fr: 'Gérez vos réservations, consultez votre historique et mettez à jour vos informations.',
     }),
     robots: { index: false, follow: false },
   }
@@ -26,13 +28,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function UserDashboardPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const labels = {
-    title: pick(locale, { en: 'My account', es: 'Mi cuenta', ar: 'حسابي', it: 'Il mio account', de: 'Mein Konto' }),
+    title: pick(locale, { en: 'My account', es: 'Mi cuenta', ar: 'حسابي', it: 'Il mio account', de: 'Mein Konto', fr: 'Mon compte' }),
     subtitle: pick(locale, {
       en: 'Manage your bookings and view your transfer history.',
       es: 'Gestiona tus reservas y consulta el historial de tus traslados.',
       ar: 'أدر حجوزاتك واطلع على تاريخ رحلاتك.',
       it: 'Gestisci le tue prenotazioni e consulta la cronologia dei tuoi trasferimenti.',
       de: 'Verwalten Sie Ihre Buchungen und sehen Sie Ihre Transferhistorie.',
+      fr: 'Gérez vos réservations et consultez votre historique de transferts.',
     }),
   }
 

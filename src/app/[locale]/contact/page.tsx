@@ -20,6 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'تواصل معنا | تايتن ترانسفرز',
       it: 'Contatto | Titan Transfers',
       de: 'Kontakt | Titan Transfers',
+      fr: 'Contact | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Contact Titan Transfers. We are available 24/7 for bookings and inquiries.',
@@ -27,6 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'تواصل مع تايتن ترانسفرز. نحن متاحون على مدار الساعة للحجوزات والاستفسارات.',
       it: 'Contatta Titan Transfers. Siamo disponibili 24/7 per prenotazioni e richieste.',
       de: 'Kontaktieren Sie Titan Transfers. Wir sind 24/7 für Buchungen und Anfragen verfügbar.',
+      fr: 'Contactez Titan Transfers. Nous sommes disponibles 24/7 pour les réservations et les demandes.',
     }),
   }
 }

@@ -153,6 +153,7 @@ export function Testimonials() {
               ar: 'ماذا يقول عملاؤنا',
               it: 'Cosa dicono i nostri clienti',
               de: 'Was unsere Kunden sagen',
+              fr: 'Ce que disent nos clients',
             })}
           </h2>
 
@@ -163,7 +164,7 @@ export function Testimonials() {
               <span style={{ fontSize: '1rem', color: '#6b7280' }}>/5</span>
               <Stars count={5} />
               <span style={{ fontSize: '0.875rem', color: '#6b7280', marginLeft: '0.25rem' }}>
-                {pick(locale, { en: '2,500+ reviews', es: '+2.500 reseñas', ar: '+٢٬٥٠٠ تقييم', it: '+2.500 recensioni', de: 'Über 2.500 Bewertungen' })}
+                {pick(locale, { en: '2,500+ reviews', es: '+2.500 reseñas', ar: '+٢٬٥٠٠ تقييم', it: '+2.500 recensioni', de: 'Über 2.500 Bewertungen', fr: 'Plus de 2 500 avis' })}
               </span>
             </div>
             <div style={{ width: '1px', height: '28px', background: '#e5e7eb' }} />

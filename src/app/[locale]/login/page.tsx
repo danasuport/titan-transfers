@@ -12,6 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'منطقة العميل | تايتن ترانسفرز',
       it: 'Area Clienti | Titan Transfers',
       de: 'Kundenbereich | Titan Transfers',
+      fr: 'Espace client | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Access your bookings and manage your transfers.',
@@ -19,6 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'ادخل إلى حجوزاتك وأدر رحلاتك.',
       it: 'Accedi alle tue prenotazioni e gestisci i tuoi trasferimenti.',
       de: 'Zugriff auf Ihre Buchungen und Verwaltung Ihrer Transfers.',
+      fr: 'Accédez à vos réservations et gérez vos transferts.',
     }),
     robots: { index: false, follow: false },
   }

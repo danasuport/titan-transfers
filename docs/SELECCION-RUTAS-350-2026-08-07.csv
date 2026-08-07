@@ -1,0 +1,351 @@
+Pais,IATA,Destino,DesdePrecioEUR,Vehiculos,routeKey
+Croatia,DBV,Cavtat,25,5,DBV|cavtat
+Croatia,DBV,Mlini,30,5,DBV|mlini
+Croatia,DBV,Dubrovnik,34,5,DBV|dubrovnik
+Croatia,DBV,Slano,75,5,DBV|slano
+Croatia,DBV,Ston,112,5,DBV|ston
+Croatia,DBV,Gradac,164,5,DBV|gradac
+Croatia,DBV,Bar,175,5,DBV|bar
+Croatia,DBV,Orebic,175,5,DBV|orebic
+Croatia,DBV,Sveti Stefan,175,5,DBV|sveti stefan
+Croatia,DBV,Becici (Przno),175,5,DBV|becici (przno)
+Croatia,DBV,Drvenik,197,5,DBV|drvenik
+Croatia,DBV,Makarska,219,5,DBV|makarska
+Croatia,DBV,Marina Tucepi,219,5,DBV|marina tucepi
+Croatia,DBV,Podgora,223,5,DBV|podgora
+Croatia,DBV,Omis,261,5,DBV|omis
+Croatia,DBV,Korcula,265,5,DBV|korcula
+Croatia,DBV,Split,309,5,DBV|split
+Croatia,DBV,Trogir,352,5,DBV|trogir
+Croatia,DBV,"Murter, isla de Murter",372,5,"DBV|murter, isla de murter"
+Croatia,DBV,Tisno,372,5,DBV|tisno
+Croatia,DBV,Sibenik,386,5,DBV|sibenik
+Croatia,PUY,Pula,32,5,PUY|pula
+Croatia,PUY,Camping Val Saline Rovinj,77,5,PUY|camping val saline rovinj
+Croatia,PUY,Rovinj,77,5,PUY|rovinj
+Croatia,PUY,Zadar,462,5,PUY|zadar
+Croatia,SPU,Trogir,26,5,SPU|trogir
+Croatia,SPU,Primosten,55,5,SPU|primosten
+Croatia,SPU,Omis,62,5,SPU|omis
+Croatia,SPU,Cavtat,72,5,SPU|cavtat
+Croatia,SPU,Sibenik,75,5,SPU|sibenik
+Croatia,SPU,Vodice,83,5,SPU|vodice
+Croatia,SPU,Drvenik Veliki,85,5,SPU|drvenik veliki
+Croatia,SPU,Brela,92,5,SPU|brela
+Croatia,SPU,Pirovac,100,5,SPU|pirovac
+Croatia,SPU,Makarska,105,5,SPU|makarska
+Croatia,SPU,Podgora,107,5,SPU|podgora
+Croatia,SPU,Tisno,109,5,SPU|tisno
+Croatia,SPU,Marina Tucepi,111,5,SPU|marina tucepi
+Croatia,SPU,Betina Murter,111,5,SPU|betina murter
+Croatia,SPU,"Murter, isla de Murter",114,5,"SPU|murter, isla de murter"
+Croatia,SPU,Biograd,133,5,SPU|biograd
+Croatia,SPU,Gradac,149,5,SPU|gradac
+Croatia,SPU,Hvar,150,5,SPU|hvar
+Croatia,SPU,Bol,155,5,SPU|bol
+Croatia,SPU,Nin,170,5,SPU|nin
+Croatia,SPU,Orebic,261,5,SPU|orebic
+Croatia,SPU,Korcula,354,5,SPU|korcula
+Croatia,ZAD,Novigrad Zadar,39,5,ZAD|novigrad zadar
+Croatia,ZAD,Biograd,44,5,ZAD|biograd
+Croatia,ZAD,Nin,53,5,ZAD|nin
+Croatia,ZAD,Pirovac,92,5,ZAD|pirovac
+Croatia,ZAD,Tisno,103,5,ZAD|tisno
+Croatia,ZAD,Vodice,105,5,ZAD|vodice
+Croatia,ZAD,"Murter, isla de Murter",110,5,"ZAD|murter, isla de murter"
+Croatia,ZAD,Betina Murter,110,5,ZAD|betina murter
+Croatia,ZAD,Sibenik,118,5,ZAD|sibenik
+Croatia,ZAD,Marina Tucepi,118,5,ZAD|marina tucepi
+Croatia,ZAD,Primosten,138,5,ZAD|primosten
+Croatia,ZAD,Trogir,157,5,ZAD|trogir
+Croatia,ZAD,Brela,225,5,ZAD|brela
+Croatia,ZAD,Omis,228,5,ZAD|omis
+Croatia,ZAD,Podgora,248,5,ZAD|podgora
+Croatia,ZAD,Makarska,274,5,ZAD|makarska
+Croatia,ZAD,Gradac,305,5,ZAD|gradac
+Croatia,ZAD,Cavtat,464,5,ZAD|cavtat
+Cyprus,LCA,Larnaca City Centre,24,5,LCA|larnaca city centre
+Cyprus,LCA,Ayia Napa,58,5,LCA|ayia napa
+Cyprus,LCA,Pernera,63,5,LCA|pernera
+Cyprus,LCA,Protaras,63,5,LCA|protaras
+Cyprus,LCA,Limassol beach (Limassol),64,5,LCA|limassol beach (limassol)
+Cyprus,LCA,Aphrodite Hills,118,5,LCA|aphrodite hills
+Cyprus,LCA,Pissouri,124,5,LCA|pissouri
+Cyprus,LCA,Coral Bay,137,5,LCA|coral bay
+Cyprus,LCA,Kissonerga,144,5,LCA|kissonerga
+Cyprus,LCA,Paphos City Centre,144,5,LCA|paphos city centre
+Cyprus,LCA,Peyia,144,5,LCA|peyia
+Cyprus,LCA,Latchi,183,5,LCA|latchi
+Cyprus,LCA,Polis,183,5,LCA|polis
+Cyprus,PFO,Paphos City Centre,35,5,PFO|paphos city centre
+Cyprus,PFO,Aphrodite Hills,44,5,PFO|aphrodite hills
+Cyprus,PFO,Kissonerga,49,5,PFO|kissonerga
+Cyprus,PFO,Coral Bay,53,5,PFO|coral bay
+Cyprus,PFO,Pissouri,55,5,PFO|pissouri
+Cyprus,PFO,Peyia,68,5,PFO|peyia
+Cyprus,PFO,Polis,92,5,PFO|polis
+Cyprus,PFO,Latchi,97,5,PFO|latchi
+Cyprus,PFO,Limassol beach (Limassol),98,5,PFO|limassol beach (limassol)
+Cyprus,PFO,Larnaca Bay (Oroklini),146,5,PFO|larnaca bay (oroklini)
+Cyprus,PFO,Ayia Napa,207,5,PFO|ayia napa
+Cyprus,PFO,Protaras,207,5,PFO|protaras
+Cyprus,PFO,Pernera,222,5,PFO|pernera
+France,NCE,Cagnes sur Mer,31,5,NCE|cagnes sur mer
+France,NCE,Saint Paul de Vence,37,5,NCE|saint paul de vence
+France,NCE,Antibes,57,5,NCE|antibes
+France,NCE,Juan les Pins,57,5,NCE|juan les pins
+France,NCE,Beaulieu,62,5,NCE|beaulieu
+France,NCE,Chateauneuf-Grasse,65,5,NCE|chateauneuf-grasse
+France,NCE,Monte Carlo Golf Club,65,5,NCE|monte carlo golf club
+France,NCE,Golfe Juan - Vallauris,66,5,NCE|golfe juan - vallauris
+France,NCE,Mougins,67,5,NCE|mougins
+France,NCE,Cannes,70,5,NCE|cannes
+France,NCE,Monaco - Monte-carlo,77,5,NCE|monaco - monte-carlo
+France,NCE,Mandelieu - La Napoule,80,5,NCE|mandelieu - la napoule
+France,NCE,Le Bar-sur-Loup,82,5,NCE|le bar-sur-loup
+France,NCE,Grasse,93,5,NCE|grasse
+France,NCE,Menton,98,5,NCE|menton
+France,NCE,Bordighera,128,5,NCE|bordighera
+France,NCE,Saint-Paul-en-Forêt,150,5,NCE|saint-paul-en-foret
+France,NCE,Sanremo,150,5,NCE|sanremo
+France,NCE,Sainte-Maxime,174,5,NCE|sainte-maxime
+France,NCE,Alassio,244,5,NCE|alassio
+France,NCE,Aix-en-Provence,270,5,NCE|aix-en-provence
+France,NCE,Bormes-les-Mimosas,291,5,NCE|bormes-les-mimosas
+Greece,ATH,Vouliagmeni,39,5,ATH|vouliagmeni
+Greece,ATH,Glyfada,46,5,ATH|glyfada
+Greece,ATH,Anavyssos,47,5,ATH|anavyssos
+Greece,KGS,Kos,46,5,KGS|kos
+Italy,AHO,Valledoria,155,5,AHO|valledoria
+Italy,AHO,Olbia Porto,202,5,AHO|olbia porto
+Italy,AHO,Marina Di Portisco,302,5,AHO|marina di portisco
+Italy,AHO,Costa Smeralda,306,5,AHO|costa smeralda
+Italy,AHO,Golfo Aranci,310,5,AHO|golfo aranci
+Italy,AHO,San Teodoro,314,5,AHO|san teodoro
+Italy,AHO,Cala Bitta,316,5,AHO|cala bitta
+Italy,AHO,Cannigione,323,5,AHO|cannigione
+Italy,AHO,Budoni,323,5,AHO|budoni
+Italy,AHO,"Tanaunella, Budoni",326,5,"AHO|tanaunella, budoni"
+Italy,AHO,Porto Cervo,326,5,AHO|porto cervo
+Italy,AHO,"Matta e Peru, Budoni",330,5,"AHO|matta e peru, budoni"
+Italy,AHO,Orosei,330,5,AHO|orosei
+Italy,AHO,Baja Sardinia,331,5,AHO|baja sardinia
+Italy,BRI,Bari,60,5,BRI|bari
+Italy,BRI,Mola di Bari,90,5,BRI|mola di bari
+Italy,BRI,Polignano a Mare,106,5,BRI|polignano a mare
+Italy,BRI,Monopoli,115,5,BRI|monopoli
+Italy,BRI,Castellana Grotte,125,5,BRI|castellana grotte
+Italy,BRI,Fasano,125,5,BRI|fasano
+Italy,BRI,Alberobello,137,5,BRI|alberobello
+Italy,BRI,Ostuni,146,5,BRI|ostuni
+Italy,BRI,Martina Franca,154,5,BRI|martina franca
+Italy,BRI,Locorotondo,175,5,BRI|locorotondo
+Italy,BRI,Carovigno,195,5,BRI|carovigno
+Italy,BRI,Brindisi,219,5,BRI|brindisi
+Italy,BRI,Lecce,274,5,BRI|lecce
+Italy,BRI,Monteroni di Lecce,274,5,BRI|monteroni di lecce
+Italy,BRI,Porto Cesareo,317,5,BRI|porto cesareo
+Italy,BRI,Gallipoli,334,5,BRI|gallipoli
+Italy,BRI,Peschici,345,5,BRI|peschici
+Italy,BRI,Otranto,352,5,BRI|otranto
+Italy,CAG,Pula Cagliari,90,5,CAG|pula cagliari
+Italy,CAG,Santa Margherita di Pula,96,5,CAG|santa margherita di pula
+Italy,CAG,Solanas,105,5,CAG|solanas
+Italy,CAG,Cala Sinzias,117,5,CAG|cala sinzias
+Italy,CAG,Villasimius,117,5,CAG|villasimius
+Italy,CAG,Muravera,144,5,CAG|muravera
+Italy,CAG,Is Arenas,168,5,CAG|is arenas
+Italy,CAG,Arbatax,240,5,CAG|arbatax
+Italy,CAG,Bari Sardo,240,5,CAG|bari sardo
+Italy,CAG,Orosei,450,5,CAG|orosei
+Italy,CAG,Alguer ciudad,462,5,CAG|alguer ciudad
+Italy,NAP,Ercolano,58,5,NAP|ercolano
+Italy,NAP,Monte di Procida,78,5,NAP|monte di procida
+Italy,NAP,Procida,78,5,NAP|procida
+Italy,NAP,Castellammare di Stabia,79,5,NAP|castellammare di stabia
+Italy,NAP,Meta di Sorrento,124,5,NAP|meta di sorrento
+Italy,NAP,Piano di Sorrento,124,5,NAP|piano di sorrento
+Italy,NAP,Ischia Island,124,5,NAP|ischia island
+Italy,NAP,Capri,137,5,NAP|capri
+Italy,NAP,Massa Lubrense,137,5,NAP|massa lubrense
+Italy,NAP,Positano,141,5,NAP|positano
+Italy,NAP,Amalfi,144,5,NAP|amalfi
+Italy,NAP,Minori,147,5,NAP|minori
+Italy,NAP,Praiano,147,5,NAP|praiano
+Italy,NAP,Maiori,148,5,NAP|maiori
+Italy,NAP,Paestum,179,5,NAP|paestum
+Italy,NAP,Acciaroli,199,5,NAP|acciaroli
+Italy,NAP,Agropoli,199,5,NAP|agropoli
+Italy,NAP,Marina di Camerota,199,5,NAP|marina di camerota
+Italy,NAP,Palinuro,199,5,NAP|palinuro
+Italy,NAP,Praia a Mare,368,5,NAP|praia a mare
+Italy,NAP,Alberobello,402,5,NAP|alberobello
+Italy,NAP,Bari,472,5,NAP|bari
+Italy,OLB,Olbia ciudad,44,5,OLB|olbia ciudad
+Italy,OLB,Le Saline Olbia,50,5,OLB|le saline olbia
+Italy,OLB,Cala Girgolu,67,5,OLB|cala girgolu
+Italy,OLB,Portisco,70,5,OLB|portisco
+Italy,OLB,Porto Rotondo,73,5,OLB|porto rotondo
+Italy,OLB,Budoni,98,5,OLB|budoni
+Italy,OLB,"Matta e Peru, Budoni",100,5,"OLB|matta e peru, budoni"
+Italy,OLB,Baja Sardinia,100,5,OLB|baja sardinia
+Italy,OLB,Cannigione,100,5,OLB|cannigione
+Italy,OLB,Palau,100,5,OLB|palau
+Italy,OLB,Orosei,137,5,OLB|orosei
+Italy,OLB,"La Marmorata, Santa Teresa di Gallura",137,5,"OLB|la marmorata, santa teresa di gallura"
+Italy,OLB,Santa Teresa di Gallura,150,5,OLB|santa teresa di gallura
+Italy,OLB,Badesi,162,5,OLB|badesi
+Italy,OLB,Isola Rossa,162,5,OLB|isola rossa
+Italy,OLB,Castelsardo,195,5,OLB|castelsardo
+Italy,OLB,Alguer ciudad,250,5,OLB|alguer ciudad
+Italy,OLB,Stintino,287,5,OLB|stintino
+Italy,OLB,Arbatax,325,5,OLB|arbatax
+Italy,OLB,Bari,343,5,OLB|bari
+Italy,OLB,"Golf Hotel Is Arenas, Narbolia",355,5,"OLB|golf hotel is arenas, narbolia"
+Italy,OLB,Is Arenas,373,5,OLB|is arenas
+Italy,SUF,Pizzo Calabro,70,5,SUF|pizzo calabro
+Italy,SUF,Tropea,85,5,SUF|tropea
+Italy,SUF,Capo Vaticano,134,5,SUF|capo vaticano
+Italy,SUF,Scilla,257,5,SUF|scilla
+Italy,SUF,Praia a Mare,261,5,SUF|praia a mare
+Italy,VCE,Jesolo Lido,94,5,VCE|jesolo lido
+Italy,VCE,Lido de Jesolo,99,5,VCE|lido de jesolo
+Italy,VCE,Abano Terme,130,5,VCE|abano terme
+Italy,VCE,Chioggia,137,5,VCE|chioggia
+Italy,VCE,Camping Marina di Venezia,143,5,VCE|camping marina di venezia
+Italy,VCE,Caorle,150,5,VCE|caorle
+Italy,VCE,Venice Castello,165,5,VCE|venice castello
+Italy,VCE,Bibione,198,5,VCE|bibione
+Italy,VCE,Pineda,218,5,VCE|pineda
+Italy,VCE,Rovinj,340,5,VCE|rovinj
+Malta,MLA,Il Birgu,20,5,MLA|il birgu
+Malta,MLA,Marsaskala,20,5,MLA|marsaskala
+Malta,MLA,Sliema,20,5,MLA|sliema
+Malta,MLA,Valletta City Centre,20,5,MLA|valletta city centre
+Malta,MLA,Mdina,23,5,MLA|mdina
+Malta,MLA,Bugibba,25,5,MLA|bugibba
+Malta,MLA,Qawra,29,5,MLA|qawra
+Malta,MLA,Golden Bay,31,5,MLA|golden bay
+Malta,MLA,Mellieha,34,5,MLA|mellieha
+Malta,MLA,Gozo,62,5,MLA|gozo
+Montenegro,TIV,Tivat,30,5,TIV|tivat
+Montenegro,TIV,Kotor (Prčanj),39,5,TIV|kotor (prcanj)
+Montenegro,TIV,Dobrota,44,5,TIV|dobrota
+Montenegro,TIV,Budva city,51,5,TIV|budva city
+Montenegro,TIV,Sveti Stefan,56,5,TIV|sveti stefan
+Montenegro,TIV,Przno,56,5,TIV|przno
+Montenegro,TIV,Becici (Przno),57,5,TIV|becici (przno)
+Montenegro,TIV,Perast,61,5,TIV|perast
+Montenegro,TIV,Risan,63,5,TIV|risan
+Montenegro,TIV,Petrovac (Rijeka Reževići),67,5,TIV|petrovac (rijeka rezevici)
+Montenegro,TIV,Herceg Novi,70,5,TIV|herceg novi
+Montenegro,TIV,Bar,87,5,TIV|bar
+Montenegro,TIV,Ulcinj,112,5,TIV|ulcinj
+Montenegro,TIV,Dubrovnik,125,5,TIV|dubrovnik
+Montenegro,TIV,Slano,175,5,TIV|slano
+Portugal,FAO,Tavira,27,5,FAO|tavira
+Portugal,FAO,Luz de Tavira,27,5,FAO|luz de tavira
+Portugal,FAO,Manta Rota,34,5,FAO|manta rota
+Portugal,FAO,Rota (Vila Nova de Cacela),34,5,FAO|rota (vila nova de cacela)
+Portugal,FAO,Lagoa,40,5,FAO|lagoa
+Portugal,FAO,Carvoeiro,41,5,FAO|carvoeiro
+Portugal,FAO,Alvor,42,5,FAO|alvor
+Portugal,FAO,Praia da Rocha,44,5,FAO|praia da rocha
+Portugal,FAO,Portimao,44,5,FAO|portimao
+Portugal,FAO,Ferragudo,45,5,FAO|ferragudo
+Portugal,FAO,Meia Praia,50,5,FAO|meia praia
+Portugal,FAO,Lagos,54,5,FAO|lagos
+Portugal,FAO,Burgau,59,5,FAO|burgau
+Portugal,FAO,Islantilla,60,5,FAO|islantilla
+Portugal,FAO,Sagres,77,5,FAO|sagres
+Portugal,FAO,Cascais,231,5,FAO|cascais
+Portugal,LIS,Costa da Caparica,25,5,LIS|costa da caparica
+Portugal,LIS,Carcavelos,28,5,LIS|carcavelos
+Portugal,LIS,Estoril,30,5,LIS|estoril
+Portugal,LIS,Sintra,30,5,LIS|sintra
+Portugal,LIS,Cascais,32,5,LIS|cascais
+Portugal,LIS,Ericeira,42,5,LIS|ericeira
+Portugal,LIS,Sesimbra,44,5,LIS|sesimbra
+Portugal,LIS,Praia del Rey,80,5,LIS|praia del rey
+Portugal,LIS,Comporta,106,5,LIS|comporta
+Portugal,LIS,Lagoa,208,5,LIS|lagoa
+Portugal,LIS,Carvoeiro,212,5,LIS|carvoeiro
+Portugal,LIS,Alvor,220,5,LIS|alvor
+Portugal,LIS,Cabanas de Tavira,237,5,LIS|cabanas de tavira
+Portugal,LIS,Burgau,268,5,LIS|burgau
+Portugal,OPO,Praia da Barra,76,5,OPO|praia da barra
+Portugal,OPO,Vila Praia de Ancora,98,5,OPO|vila praia de ancora
+Portugal,OPO,Cascais,393,5,OPO|cascais
+Spain,BCN,Segur de Calafell,75,5,BCN|segur de calafell
+Spain,BCN,Sant Antoni de Vilamajor,81,5,BCN|sant antoni de vilamajor
+Spain,BCN,Blanes,112,5,BCN|blanes
+Spain,BCN,Platja de la Pineda,131,5,BCN|platja de la pineda
+Spain,BCN,Cap de Salou,137,5,BCN|cap de salou
+Spain,BCN,Palamos,166,5,BCN|palamos
+Spain,BCN,Camping Cala Gogo,175,5,BCN|camping cala gogo
+Spain,BCN,Llafranc Palafrugell,202,5,BCN|llafranc palafrugell
+Spain,BCN,Calella de Palafrugell,204,5,BCN|calella de palafrugell
+Spain,BCN,Begur,207,5,BCN|begur
+Spain,BCN,Cala Montgó,233,5,BCN|cala montgo
+Spain,BCN,Roses,245,5,BCN|roses
+Spain,BCN,Alcocéber - Alcossebre,304,5,BCN|alcoceber - alcossebre
+Spain,BCN,Oropesa Del Mar,355,5,BCN|oropesa del mar
+Spain,IBZ,Na Xamena Ibiza,66,5,IBZ|na xamena ibiza
+Spain,IBZ,San Antonio Abad,70,5,IBZ|san antonio abad
+Spain,IBZ,Santa Eulalia del Río,70,5,IBZ|santa eulalia del rio
+Spain,IBZ,Cala Tarida,70,5,IBZ|cala tarida
+Spain,IBZ,Siesta Ibiza,70,5,IBZ|siesta ibiza
+Spain,IBZ,Benirras Ibiza,83,5,IBZ|benirras ibiza
+Spain,IBZ,Portinatx,94,5,IBZ|portinatx
+Spain,IBZ,Es Figueral Ibiza,94,5,IBZ|es figueral ibiza
+Spain,SVQ,Rota (San Fernando),170,5,SVQ|rota (san fernando)
+Spain,SVQ,Cabanas de Tavira,178,5,SVQ|cabanas de tavira
+Spain,SVQ,Tavira,183,5,SVQ|tavira
+Spain,SVQ,Islantilla,194,5,SVQ|islantilla
+Spain,SVQ,Carvoeiro,260,5,SVQ|carvoeiro
+Spain,SVQ,Portimao,273,5,SVQ|portimao
+Spain,SVQ,Praia da Luz,290,5,SVQ|praia da luz
+Spain,SVQ,La cala de Mijas,334,5,SVQ|la cala de mijas
+Spain,VLC,Cullera,74,5,VLC|cullera
+Spain,VLC,Gandia,101,5,VLC|gandia
+Spain,VLC,Oropesa Del Mar,131,5,VLC|oropesa del mar
+Spain,VLC,Denia,141,5,VLC|denia
+Spain,VLC,Javea,154,5,VLC|javea
+Spain,VLC,Alcocéber - Alcossebre,155,5,VLC|alcoceber - alcossebre
+Spain,VLC,Altea,160,5,VLC|altea
+Spain,VLC,Moraira,160,5,VLC|moraira
+Spain,VLC,Benidorm,168,5,VLC|benidorm
+Spain,VLC,Cala Finestrat,168,5,VLC|cala finestrat
+Spain,VLC,Platja de La Cala de Finestrat,168,5,VLC|platja de la cala de finestrat
+Spain,VLC,Salou,316,5,VLC|salou
+Türkiye,AYT,Evrenseki,35,5,AYT|evrenseki
+Türkiye,AYT,Manavgat,35,5,AYT|manavgat
+Türkiye,AYT,Side,36,5,AYT|side
+Türkiye,AYT,Avsallar,50,5,AYT|avsallar
+Türkiye,AYT,Okurcalar,50,5,AYT|okurcalar
+Türkiye,AYT,Alanya,57,5,AYT|alanya
+Türkiye,AYT,Cikcilli,59,5,AYT|cikcilli
+Türkiye,BJV,Bodrum,25,5,BJV|bodrum
+Türkiye,BJV,Icmeler Beach,25,5,BJV|icmeler beach
+Türkiye,BJV,Yalikavak,34,5,BJV|yalikavak
+Türkiye,BJV,Turgutreis,35,5,BJV|turgutreis
+Türkiye,BJV,Club Med Bodrum,48,5,BJV|club med bodrum
+Türkiye,BJV,Kusadasi,61,5,BJV|kusadasi
+Türkiye,BJV,Dalyan,73,5,BJV|dalyan
+Türkiye,BJV,Datca Peninsula,89,5,BJV|datca peninsula
+Türkiye,BJV,Marmaris,94,5,BJV|marmaris
+Türkiye,BJV,Oludeniz,95,5,BJV|oludeniz
+Türkiye,BJV,Fethiye,162,5,BJV|fethiye
+Türkiye,BJV,Kalkan,213,5,BJV|kalkan
+Türkiye,DLM,Dalyan,25,5,DLM|dalyan
+Türkiye,DLM,Fethiye,40,5,DLM|fethiye
+Türkiye,DLM,Oludeniz,41,5,DLM|oludeniz
+Türkiye,DLM,Marmaris,46,5,DLM|marmaris
+Türkiye,DLM,Kalkan,80,5,DLM|kalkan
+Türkiye,DLM,Datca Peninsula,100,5,DLM|datca peninsula
+Türkiye,DLM,Bodrum,107,5,DLM|bodrum
+Türkiye,DLM,Yalikavak,115,5,DLM|yalikavak
+Türkiye,DLM,Turgutreis,119,5,DLM|turgutreis
+Türkiye,DLM,Icmeler Beach,141,5,DLM|icmeler beach
+Türkiye,DLM,Kusadasi,144,5,DLM|kusadasi
+Türkiye,DLM,Lara,188,5,DLM|lara

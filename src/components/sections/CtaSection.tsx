@@ -40,6 +40,7 @@ export function CtaSection() {
                 ar: 'هل أنت مستعد لحجز نقلك؟',
                 it: 'Pronto per prenotare il tuo transfer?',
                 de: 'Bereit, Ihren Transfer zu buchen?',
+                fr: 'Prêt à réserver votre transfert ?',
               })}
             </h2>
             <p style={{ fontSize: '0.95rem', color: '#6b7280', marginBottom: '1.5rem', lineHeight: 1.6, maxWidth: '480px' }}>
@@ -49,15 +50,16 @@ export function CtaSection() {
                 ar: 'احصل على سعرك الفوري بأسعار ثابتة، استلام شخصي، وإلغاء مجاني حتى ٢٤ ساعة قبل الرحلة.',
                 it: 'Controlla il tuo prezzo istantaneamente con tariffe fisse, ritiro personalizzato e cancellazione gratuita fino a 24 ore prima.',
                 de: 'Erhalten Sie Ihren Sofortpreis mit festen Tarifen, persönlicher Abholung und kostenloser Stornierung bis zu 24 Stunden vorher.',
+                fr: 'Obtenez votre prix instantané avec des tarifs fixes, un ramassage personnalisé et une annulation gratuite jusqu\'à 24 heures avant.',
               })}
             </p>
 
             {/* Checkmarks */}
             <div style={{ display: 'flex', gap: '2rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
               {[
-                pick(locale, { en: 'Fixed price', es: 'Precio fijo', ar: 'سعر ثابت', it: 'Prezzo fisso', de: 'Festpreis' }),
-                pick(locale, { en: '24/7 support', es: 'Soporte 24/7', ar: 'دعم على مدار الساعة', it: 'Supporto 24/7', de: '24/7 Unterstützung' }),
-                pick(locale, { en: 'Secure payment', es: 'Pago seguro', ar: 'دفع آمن', it: 'Pagamento sicuro', de: 'Sichere Zahlung' }),
+                pick(locale, { en: 'Fixed price', es: 'Precio fijo', ar: 'سعر ثابت', it: 'Prezzo fisso', de: 'Festpreis', fr: 'Prix fixe' }),
+                pick(locale, { en: '24/7 support', es: 'Soporte 24/7', ar: 'دعم على مدار الساعة', it: 'Supporto 24/7', de: '24/7 Unterstützung', fr: 'Support 24/7' }),
+                pick(locale, { en: 'Secure payment', es: 'Pago seguro', ar: 'دفع آمن', it: 'Pagamento sicuro', de: 'Sichere Zahlung', fr: 'Paiement sécurisé' }),
               ].map(label => (
                 <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8BAA1D" strokeWidth={2.5}>
@@ -71,10 +73,10 @@ export function CtaSection() {
             {/* Buttons */}
             <div className="cta-buttons-row" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
               <SkewButton href="/#booking" variant="primary" style={{ fontSize: '0.85rem', padding: '0.6rem 1.1rem' }}>
-                {pick(locale, { en: 'Book transfer', es: 'Reservar transfer', ar: 'احجز رحلتك', it: 'Prenota transfer', de: 'Transfer buchen' })}
+                {pick(locale, { en: 'Book transfer', es: 'Reservar transfer', ar: 'احجز رحلتك', it: 'Prenota transfer', de: 'Transfer buchen', fr: 'Réserver un transfert' })}
               </SkewButton>
               <SkewButton href={contactHref} variant="outline" style={{ fontSize: '0.85rem', padding: '0.6rem 1.1rem' }}>
-                {pick(locale, { en: 'Contact us', es: 'Contáctanos', ar: 'تواصل معنا', it: 'Contattaci', de: 'Kontaktieren Sie uns' })}
+                {pick(locale, { en: 'Contact us', es: 'Contáctanos', ar: 'تواصل معنا', it: 'Contattaci', de: 'Kontaktieren Sie uns', fr: 'Contactez-nous' })}
               </SkewButton>
             </div>
           </div>
@@ -88,6 +90,7 @@ export function CtaSection() {
                 ar: 'حمّل التطبيق واحجز رحلتك الآن',
                 it: 'Scarica l\'app e prenota il tuo transfer ora',
                 de: 'Laden Sie die App herunter und buchen Sie jetzt Ihren Transfer',
+                fr: 'Téléchargez l\'application et réservez votre transfert maintenant',
               })}
             </h3>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>

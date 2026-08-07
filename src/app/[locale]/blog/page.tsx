@@ -23,6 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'أدلة السفر ونصائح المطار وأخبار النقل | تايتن ترانسفرز',
       it: 'Blog di viaggi e trasferimenti | Titan Transfers',
       de: 'Reiseführer, Flughafentipps & Transfernachrichten | Titan Transfers',
+      fr: 'Guides de voyage, conseils aéroport et actualités sur les transferts | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Travel guides, airport tips, transfer news and destination guides from around the world.',
@@ -30,6 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'أدلة السفر، نصائح المطار، أخبار النقل، وأدلة الوجهات من حول العالم.',
       it: 'Guide di viaggio, consigli per l\'aeroporto, notizie sui trasferimenti e destinazioni in tutto il mondo.',
       de: 'Reiseführer, Flughafentipps, Transfernachrichten und Zielanleitungen aus der ganzen Welt.',
+      fr: 'Guides de voyage, conseils aéroport, actualités sur les transferts et guides de destination du monde entier.',
     }),
   }
 }
@@ -45,13 +47,14 @@ export default async function BlogPage({
   const t = await getTranslations({ locale, namespace: 'blog' })
 
   const labels = {
-    h1: pick(locale, { en: 'Travel blog', es: 'Blog de viajes', ar: 'مدونة السفر', it: 'Blog di viaggi', de: 'Reiseblog' }),
+    h1: pick(locale, { en: 'Travel blog', es: 'Blog de viajes', ar: 'مدونة السفر', it: 'Blog di viaggi', de: 'Reiseblog', fr: 'Blog de voyage' }),
     intro: pick(locale, {
       en: 'Destination guides, airport tips and news from the world of private transfers.',
       es: 'Guías de destinos, consejos para el aeropuerto y novedades del sector de los traslados privados.',
       ar: 'أدلة الوجهات، نصائح المطار، وأخبار من عالم النقل الخاص.',
       it: 'Guide di destinazione, consigli per l\'aeroporto e novità nel settore dei trasferimenti privati.',
       de: 'Zielanleitungen, Flughafentipps und Nachrichten aus der Welt der privaten Transfers.',
+      fr: 'Guides de destination, conseils aéroport et actualités du monde des transferts privés.',
     }),
     schemaName: pick(locale, {
       en: 'Travel blog | Titan Transfers',
@@ -59,6 +62,7 @@ export default async function BlogPage({
       ar: 'مدونة السفر | تايتن ترانسفرز',
       it: 'Blog di viaggi | Titan Transfers',
       de: 'Reiseblog | Titan Transfers',
+      fr: 'Blog de voyage | Titan Transfers',
     }),
     schemaDesc: pick(locale, {
       en: 'Travel guides and transfer tips',
@@ -66,6 +70,7 @@ export default async function BlogPage({
       ar: 'أدلة السفر ونصائح النقل',
       it: 'Guide di viaggio e consigli sui trasferimenti',
       de: 'Reiseführer und Transfer Tipps',
+      fr: 'Guides de voyage et conseils de transfert',
     }),
   }
 

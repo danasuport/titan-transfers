@@ -242,7 +242,7 @@ export async function getVehiclePrices(): Promise<Map<string, VehiclePrice[]> | 
 // ─── web (Sanity) ────────────────────────────────────────────────────────────
 
 /** Locales a published route should be translated into. `en` is the root field. */
-const LOCALES = ['es', 'it', 'de', 'ar'] as const
+const LOCALES = ['es', 'it', 'de', 'ar', 'fr'] as const
 
 export interface RouteStatus {
   hasImage: boolean

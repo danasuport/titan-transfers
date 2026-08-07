@@ -26,6 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'نقل خاص حسب المنطقة | أوروبا وآسيا والأمريكتين | تايتن ترانسفرز',
       it: 'Trasferimenti privati per regione | Europa, Asia, America | Titan Transfers',
       de: 'Private Transfers nach Region | Europa, Asien, Amerika | Titan Transfers',
+      fr: 'Transferts privés par région | Europe, Asie, Amériques | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Fixed-price private transfers in every region worldwide. Professional driver, door-to-door service and free cancellation up to 24h before.',
@@ -33,6 +34,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'نقل خاص بسعر ثابت في جميع المناطق حول العالم. سائق محترف، خدمة من الباب إلى الباب، وإلغاء مجاني حتى ٢٤ ساعة قبل الرحلة.',
       it: 'Trasferimenti privati a prezzo fisso in tutte le regioni del mondo. Autista professionale, servizio porta a porta e cancellazione gratuita.',
       de: 'Festpreis-Privattransfers in jeder Region weltweit. Professioneller Fahrer, Tür-zu-Tür-Service und kostenlose Stornierung bis zu 24 Stunden vorher.',
+      fr: 'Transferts privés à prix fixe dans toutes les régions du monde. Chauffeur professionnel, service porte-à-porte et annulation gratuite jusqu\'à 24h avant.',
     }),
   }
 }
@@ -55,17 +57,18 @@ export default async function RegionsPage({ params }: { params: Promise<{ locale
   const totalCountries = Object.keys(grouped).length
 
   const labels = {
-    h1: pick(locale, { en: 'Regions', es: 'Regiones', ar: 'المناطق', it: 'Regioni', de: 'Regionen' }),
-    statRegions: pick(locale, { en: 'regions', es: 'regiones', ar: 'منطقة', it: 'regioni', de: 'Regionen' }),
-    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'Länder' }),
-    statRating: pick(locale, { en: 'rating', es: 'valoración', ar: 'تقييم', it: 'valutazione', de: 'Bewertung' }),
-    regionsWord: pick(locale, { en: 'regions', es: 'regiones', ar: 'منطقة', it: 'regioni', de: 'Regionen' }),
+    h1: pick(locale, { en: 'Regions', es: 'Regiones', ar: 'المناطق', it: 'Regioni', de: 'Regionen', fr: 'Régions' }),
+    statRegions: pick(locale, { en: 'regions', es: 'regiones', ar: 'منطقة', it: 'regioni', de: 'Regionen', fr: 'régions' }),
+    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'Länder', fr: 'pays' }),
+    statRating: pick(locale, { en: 'rating', es: 'valoración', ar: 'تقييم', it: 'valutazione', de: 'Bewertung', fr: 'évaluation' }),
+    regionsWord: pick(locale, { en: 'regions', es: 'regiones', ar: 'منطقة', it: 'regioni', de: 'Regionen', fr: 'régions' }),
     listName: pick(locale, {
       en: 'Private transfers by region',
       es: 'Traslados privados por región',
       ar: 'نقل خاص حسب المنطقة',
       it: 'Trasferimenti privati per regione',
       de: 'Private Transfers nach Region',
+      fr: 'Transferts privés par région',
     }),
     intro: pick(locale, {
       en: `Covering ${totalRegions} regions across ${totalCountries} countries with fixed-price private transfers. Professional driver, door-to-door service and free cancellation up to 24h before.`,
@@ -73,6 +76,7 @@ export default async function RegionsPage({ params }: { params: Promise<{ locale
       ar: `يغطي ${totalRegions} منطقة في ${totalCountries} دولة مع نقل خاص بسعر ثابت. سائق محترف، خدمة من الباب إلى الباب، وإلغاء مجاني حتى ٢٤ ساعة قبل الرحلة.`,
       it: `Copre ${totalRegions} regioni in ${totalCountries} paesi con trasferimenti privati a prezzo fisso. Autista professionale, servizio porta a porta e cancellazione gratuita fino a 24 ore prima.`,
       de: `Deckung von ${totalRegions} Regionen in ${totalCountries} Ländern mit Festpreis-Privattransfers. Professioneller Fahrer, Tür-zu-Tür-Service und kostenlose Stornierung bis zu 24 Stunden vorher.`,
+      fr: `Couvrant ${totalRegions} régions dans ${totalCountries} pays avec des transferts privés à prix fixe. Chauffeur professionnel, service porte-à-porte et annulation gratuite jusqu'à 24h avant.`,
     }),
   }
 

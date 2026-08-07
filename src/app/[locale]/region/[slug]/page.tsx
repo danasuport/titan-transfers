@@ -43,6 +43,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     { locale: 'ar', path: `/ar${getRegionUrl(region, 'ar')}` },
     { locale: 'it', path: `/it${getRegionUrl(region, 'it')}` },
     { locale: 'de', path: `/de${getRegionUrl(region, 'de')}` },
+    { locale: 'fr', path: `/fr${getRegionUrl(region, 'fr')}` },
   ]
   return generatePageMetadata({ title, description, path: currentPath, locale: locale as Locale, alternates })
 }
@@ -122,6 +123,7 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
               ar: `نقل خاص في ${regionTitle} بأسعار ثابتة وسائقين محترفين.`,
               it: `Trasferimenti privati in ${regionTitle} con prezzo fisso e autista professionale.`,
               de: `Private Transfers in ${regionTitle} zu Festpreisen mit professionellen Fahrern.`,
+              fr: `Transferts privés dans ${regionTitle} à prix fixes avec des chauffeurs professionnels.`,
             })}
           </p>
         </div>
@@ -218,6 +220,7 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
                 ar: `هل أنت سائق محترف في ${regionTitle}؟`,
                 it: `Sei un autista professionista in ${regionTitle}?`,
                 de: `Sind Sie ein professioneller Fahrer in ${regionTitle}?`,
+                fr: `Êtes-vous un chauffeur professionnel dans ${regionTitle} ?`,
               })}
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, marginBottom: '2rem', maxWidth: '440px' }}>
@@ -227,10 +230,11 @@ export default async function RegionPage({ params }: { params: Promise<{ locale:
                 ar: 'انضم إلى شبكة سائقينا واحصل على حجوزات مباشرة دون عمولات مرتفعة.',
                 it: 'Unisciti alla nostra rete di autisti e ricevi prenotazioni dirette senza commissioni abusive.',
                 de: 'Treten Sie unserem Fahrernetzwerk bei und erhalten Sie direkte Buchungen ohne übermäßige Provisionen.',
+                fr: 'Rejoignez notre réseau de chauffeurs et recevez des réservations directes sans commissions excessives.',
               })}
             </p>
-            <a href={`${locale === 'en' ? '' : `/${locale}`}/${pick(locale, { en: 'contact', es: 'contacto', ar: 'tawasul', it: 'contatto', de: 'Kontakt' })}/`} style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
-              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{pick(locale, { en: 'Get in touch →', es: 'Contactar →', ar: '← تواصل معنا', it: 'Contattaci →', de: 'Nehmen Sie Kontakt auf →' })}</span>
+            <a href={`${locale === 'en' ? '' : `/${locale}`}/${pick(locale, { en: 'contact', es: 'contacto', ar: 'tawasul', it: 'contatto', de: 'Kontakt', fr: 'contact' })}/`} style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
+              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{pick(locale, { en: 'Get in touch →', es: 'Contactar →', ar: '← تواصل معنا', it: 'Contattaci →', de: 'Nehmen Sie Kontakt auf →', fr: 'Contactez-nous →' })}</span>
             </a>
           </div>
         </div>

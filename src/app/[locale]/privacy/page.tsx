@@ -18,6 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'سياسة الخصوصية | تايتن ترانسفرز',
       it: 'Informativa sulla privacy | Titan Transfers',
       de: 'Datenschutzrichtlinie | Titan Transfers',
+      fr: 'Politique de confidentialité | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Privacy Policy of Titan Transfers. How we handle and protect your personal data.',
@@ -25,6 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'سياسة الخصوصية لتايتن ترانسفرز. كيف نتعامل مع بياناتك الشخصية ونحميها.',
       it: 'Informativa sulla privacy di Titan Transfers. Come trattiamo e proteggiamo i tuoi dati personali.',
       de: 'Datenschutzrichtlinie von Titan Transfers. Wie wir Ihre persönlichen Daten behandeln und schützen.',
+      fr: 'Politique de confidentialité de Titan Transfers. Comment nous traitons et protégeons vos données personnelles.',
     }),
     robots: { index: true, follow: true },
   }
@@ -38,6 +40,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
     ar: 'سياسة الخصوصية',
     it: 'Informativa sulla privacy',
     de: 'Datenschutzrichtlinie',
+    fr: 'Politique de confidentialité',
   })
 
   return (

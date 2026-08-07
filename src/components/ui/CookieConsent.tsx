@@ -65,12 +65,13 @@ export function CookieConsent({ locale }: { locale: string }) {
     ar: '/ar/siyasat-cookies/',
     it: '/it/cookies/',
     de: '/cookies/',
+    fr: '/cookies/',
   })
 
   return (
     <div
       role="dialog"
-      aria-label={pick(locale, { en: 'Cookie notice', es: 'Aviso de cookies', ar: 'إشعار الكوكيز', it: 'Avviso sui cookie', de: 'Cookie-Hinweis' })}
+      aria-label={pick(locale, { en: 'Cookie notice', es: 'Aviso de cookies', ar: 'إشعار الكوكيز', it: 'Avviso sui cookie', de: 'Cookie-Hinweis', fr: 'Avis sur les cookies' })}
       style={{
         position: 'fixed',
         left: 0,
@@ -101,9 +102,10 @@ export function CookieConsent({ locale }: { locale: string }) {
             ar: 'نستخدم كوكيز تقنية ضرورية، وبموافقتك، كوكيز تحليلية وإعلانية لتحسين خدماتنا. ',
             it: 'Utilizziamo cookie tecnici necessari e, se accetti, cookie analitici e pubblicitari per migliorare i nostri servizi.',
             de: 'Wir verwenden notwendige technische Cookies und mit Ihrer Zustimmung Analyse- und Werbe-Cookies, um unsere Dienstleistungen zu verbessern.',
+            fr: 'Nous utilisons des cookies techniques nécessaires et, avec votre consentement, des cookies d\'analyse et de publicité pour améliorer nos services.',
           })}
           <Link href={policyHref as never} style={{ color: '#6B8313', textDecoration: 'underline' }}>
-            {pick(locale, { en: 'Cookie policy', es: 'Política de cookies', ar: 'سياسة الكوكيز', it: 'Politica sui cookie', de: 'Cookie-Richtlinie' })}
+            {pick(locale, { en: 'Cookie policy', es: 'Política de cookies', ar: 'سياسة الكوكيز', it: 'Politica sui cookie', de: 'Cookie-Richtlinie', fr: 'Politique sur les cookies' })}
           </Link>
         </p>
         <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
@@ -121,7 +123,7 @@ export function CookieConsent({ locale }: { locale: string }) {
               fontWeight: 500,
             }}
           >
-            {pick(locale, { en: 'Reject', es: 'Rechazar', ar: 'رفض', it: 'Rifiuta', de: 'Ablehnen' })}
+            {pick(locale, { en: 'Reject', es: 'Rechazar', ar: 'رفض', it: 'Rifiuta', de: 'Ablehnen', fr: 'Rejeter' })}
           </button>
           <button
             type="button"
@@ -137,7 +139,7 @@ export function CookieConsent({ locale }: { locale: string }) {
               fontWeight: 600,
             }}
           >
-            {pick(locale, { en: 'Accept', es: 'Aceptar', ar: 'قبول', it: 'Accetta', de: 'Akzeptieren' })}
+            {pick(locale, { en: 'Accept', es: 'Aceptar', ar: 'قبول', it: 'Accetta', de: 'Akzeptieren', fr: 'Accepter' })}
           </button>
         </div>
       </div>

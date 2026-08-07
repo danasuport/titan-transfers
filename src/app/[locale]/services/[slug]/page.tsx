@@ -218,7 +218,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
               </svg>
             </div>
             <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#6B8313', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>
-              {pick(locale, { en: 'Premium service', es: 'Servicio premium', ar: 'خدمة متميزة', it: 'Servizio premium', de: 'Premium-Service' })}
+              {pick(locale, { en: 'Premium service', es: 'Servicio premium', ar: 'خدمة متميزة', it: 'Servizio premium', de: 'Premium-Service', fr: 'Service premium' })}
             </span>
           </div>
 
@@ -269,6 +269,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
                 ar: `لماذا تختار خدمة ${serviceTitle} لدينا؟`,
                 it: `Perché scegliere il nostro servizio di ${serviceTitleLower}?`,
                 de: `Warum sollten Sie unseren ${serviceTitleLower} Service wählen?`,
+                fr: `Pourquoi choisir notre service ${serviceTitleLower} ?`,
               })}
             </h2>
             <p style={{ color: '#475569', lineHeight: 1.75, marginBottom: '2rem' }}>
@@ -278,6 +279,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
                 ar: 'تشمل جميع خدماتنا أسعاراً ثابتة وسائقين محترفين وإلغاءً مجانياً.',
                 it: 'Tutti i nostri servizi includono prezzo fisso, autista professionista e cancellazione gratuita.',
                 de: 'Alle unsere Dienstleistungen beinhalten Festpreise, professionelle Fahrer und kostenlose Stornierung.',
+                fr: 'Tous nos services incluent des tarifs fixes, des chauffeurs professionnels et une annulation gratuite.',
               })}
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
@@ -310,7 +312,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
       {/* ─── FAQ ──────────────────────────────────────────────────────── */}
       <section style={{ background: '#ffffff', padding: '5rem 6vw' }}>
         <div style={{ maxWidth: '860px', margin: '0 auto' }}>
-          <FAQ items={faqItems} title={pick(locale, { en: 'Frequently asked questions', es: 'Preguntas frecuentes', ar: 'الأسئلة الشائعة', it: 'Domande frequenti', de: 'Häufig gestellte Fragen' })} />
+          <FAQ items={faqItems} title={pick(locale, { en: 'Frequently asked questions', es: 'Preguntas frecuentes', ar: 'الأسئلة الشائعة', it: 'Domande frequenti', de: 'Häufig gestellte Fragen', fr: 'Questions fréquentes' })} />
         </div>
       </section>
 
@@ -318,22 +320,22 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
       <section style={{ background: '#F8FAF0', padding: '5rem 6vw' }}>
         <div style={{ width: '48px', height: '3px', background: '#8BAA1D', marginBottom: '1.25rem' }} />
         <h2 className={russoOne.className} style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', color: '#242426', marginBottom: '2rem' }}>
-          {pick(locale, { en: 'Explore more', es: 'Explora más', ar: 'استكشف المزيد', it: 'Esplora di più', de: 'Erkunden Sie mehr' })}
+          {pick(locale, { en: 'Explore more', es: 'Explora más', ar: 'استكشف المزيد', it: 'Esplora di più', de: 'Erkunden Sie mehr', fr: 'Explorez davantage' })}
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
           {[
             { href: '/airports/', n: '120+',
-              label: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات', it: 'Aeroporti', de: 'Flughäfen' }),
-              desc: pick(locale, { en: 'Browse all airports', es: 'Ver todos los aeropuertos', ar: 'تصفّح كل المطارات', it: 'Vedi tutti gli aeroporti', de: 'Durchsuchen Sie alle Flughäfen' }) },
+              label: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات', it: 'Aeroporti', de: 'Flughäfen', fr: 'Aéroports' }),
+              desc: pick(locale, { en: 'Browse all airports', es: 'Ver todos los aeropuertos', ar: 'تصفّح كل المطارات', it: 'Vedi tutti gli aeroporti', de: 'Durchsuchen Sie alle Flughäfen', fr: 'Parcourez tous les aéroports' }) },
             { href: '/cities/', n: '145+',
-              label: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن', it: 'Città', de: 'Städte' }),
-              desc: pick(locale, { en: 'Browse all cities', es: 'Ver todas las ciudades', ar: 'تصفّح كل المدن', it: 'Vedi tutte le città', de: 'Durchsuchen Sie alle Städte' }) },
+              label: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن', it: 'Città', de: 'Städte', fr: 'Villes' }),
+              desc: pick(locale, { en: 'Browse all cities', es: 'Ver todas las ciudades', ar: 'تصفّح كل المدن', it: 'Vedi tutte le città', de: 'Durchsuchen Sie alle Städte', fr: 'Parcourir toutes les villes' }) },
             { href: '/countries/', n: '30+',
-              label: pick(locale, { en: 'Countries', es: 'Países', ar: 'الدول', it: 'Paesi', de: 'Länder' }),
-              desc: pick(locale, { en: 'Browse all countries', es: 'Ver todos los países', ar: 'تصفّح كل الدول', it: 'Vedi tutti i paesi', de: 'Durchsuchen Sie alle Länder' }) },
+              label: pick(locale, { en: 'Countries', es: 'Países', ar: 'الدول', it: 'Paesi', de: 'Länder', fr: 'Pays' }),
+              desc: pick(locale, { en: 'Browse all countries', es: 'Ver todos los países', ar: 'تصفّح كل الدول', it: 'Vedi tutti i paesi', de: 'Durchsuchen Sie alle Länder', fr: 'Parcourir tous les pays' }) },
             { href: '/services/', n: '4',
-              label: pick(locale, { en: 'Services', es: 'Servicios', ar: 'الخدمات', it: 'Servizi', de: 'Dienstleistungen' }),
-              desc: pick(locale, { en: 'Browse all services', es: 'Ver todos los servicios', ar: 'تصفّح كل الخدمات', it: 'Vedi tutti i servizi', de: 'Durchsuchen Sie alle Dienstleistungen' }) },
+              label: pick(locale, { en: 'Services', es: 'Servicios', ar: 'الخدمات', it: 'Servizi', de: 'Dienstleistungen', fr: 'Services' }),
+              desc: pick(locale, { en: 'Browse all services', es: 'Ver todos los servicios', ar: 'تصفّح كل الخدمات', it: 'Vedi tutti i servizi', de: 'Durchsuchen Sie alle Dienstleistungen', fr: 'Parcourir tous les services' }) },
           ].map(item => (
             <Link key={item.href} href={item.href as any} style={{ textDecoration: 'none', background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1.25rem', display: 'block', transition: 'border-color 0.15s' }}>
               <div className={russoOne.className} style={{ fontSize: '1.5rem', color: '#6B8313', lineHeight: 1 }}>{item.n}</div>
@@ -359,6 +361,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
                 ar: 'هل أنت سائق محترف؟',
                 it: 'Sei un autista professionista?',
                 de: 'Sind Sie ein professioneller Fahrer?',
+                fr: 'Êtes-vous un chauffeur professionnel ?',
               })}
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.75, marginBottom: '2rem', maxWidth: '440px' }}>
@@ -368,10 +371,11 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
                 ar: 'انضم إلى شبكة سائقينا واحصل على حجوزات مباشرة دون عمولات مرتفعة.',
                 it: 'Unisciti alla nostra rete di autisti e ricevi prenotazioni dirette senza commissioni abusive.',
                 de: 'Treten Sie unserem Fahrernetzwerk bei und erhalten Sie direkte Buchungen ohne übermäßige Provisionen.',
+                fr: 'Rejoignez notre réseau de chauffeurs et recevez des réservations directes sans commissions excessives.',
               })}
             </p>
             <a href={`${locale === 'en' ? '' : `/${locale}`}/${getLocalizedPath('contact', locale as Locale)}/`} style={{ display: 'inline-flex', alignSelf: 'flex-start', alignItems: 'center', gap: '0.5rem', background: '#242426', color: '#ffffff', padding: '0.85rem 2rem', fontWeight: 700, fontSize: '0.95rem', textDecoration: 'none', transform: 'skewX(-12deg)', transition: 'background 0.2s' }}>
-              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{pick(locale, { en: 'Get in touch →', es: 'Contactar →', ar: '← تواصل معنا', it: 'Contattaci →', de: 'Kontaktieren Sie uns →' })}</span>
+              <span style={{ transform: 'skewX(12deg)', display: 'inline-block' }}>{pick(locale, { en: 'Get in touch →', es: 'Contactar →', ar: '← تواصل معنا', it: 'Contattaci →', de: 'Kontaktieren Sie uns →', fr: 'Contactez-nous →' })}</span>
             </a>
           </div>
         </div>

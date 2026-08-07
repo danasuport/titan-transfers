@@ -18,6 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'الشروط والأحكام | تايتن ترانسفرز',
       it: 'Termini e condizioni | Titan Transfers',
       de: 'Allgemeine Geschäftsbedingungen | Titan Transfers',
+      fr: 'Conditions générales | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Terms and conditions for Titan Transfers private transfer services.',
@@ -25,6 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'الشروط والأحكام لخدمات النقل الخاص في تايتن ترانسفرز.',
       it: 'Termini e condizioni del servizio di trasferimenti privati di Titan Transfers.',
       de: 'Allgemeine Geschäftsbedingungen für die privaten Transferdienste von Titan Transfers.',
+      fr: 'Conditions générales pour les services de transfert privé de Titan Transfers.',
     }),
     robots: { index: true, follow: true },
   }
@@ -38,6 +40,7 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
     ar: 'الشروط والأحكام',
     it: 'Termini e condizioni',
     de: 'Allgemeine Geschäftsbedingungen',
+    fr: 'Conditions générales',
   })
 
   return (

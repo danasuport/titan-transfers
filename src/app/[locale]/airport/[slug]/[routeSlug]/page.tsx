@@ -65,10 +65,11 @@ function VehiclePrices({ rows, locale, origin, dest }: {
     ar: `الأسعار من ${origin} إلى ${dest}`,
     it: `Prezzi da ${origin} a ${dest}`,
     de: `Preise von ${origin} nach ${dest}`,
+    fr: `Prix de ${origin} à ${dest}`,
   })
   const cols = {
-    vehicle: pick(locale, { en: 'Vehicle', es: 'Vehículo', ar: 'المركبة', it: 'Veicolo', de: 'Fahrzeug' }),
-    price: pick(locale, { en: 'Price', es: 'Precio', ar: 'السعر', it: 'Prezzo', de: 'Preis' }),
+    vehicle: pick(locale, { en: 'Vehicle', es: 'Vehículo', ar: 'المركبة', it: 'Veicolo', de: 'Fahrzeug', fr: 'Véhicule' }),
+    price: pick(locale, { en: 'Price', es: 'Precio', ar: 'السعر', it: 'Prezzo', de: 'Preis', fr: 'Prix' }),
   }
   const note = pick(locale, {
     en: 'Fixed price per vehicle, all included. No hidden charges.',
@@ -76,6 +77,7 @@ function VehiclePrices({ rows, locale, origin, dest }: {
     ar: 'سعر ثابت لكل مركبة، شامل كل شيء. بدون رسوم خفية.',
     it: 'Prezzo fisso per veicolo, tutto incluso. Nessun costo nascosto.',
     de: 'Festpreis pro Fahrzeug, alles inklusive. Keine versteckten Kosten.',
+    fr: 'Prix fixe par véhicule, tout inclus. Pas de frais cachés.',
   })
   const th: React.CSSProperties = { textAlign: 'left', padding: '0.7rem 1rem', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.04em', color: '#64748b', borderBottom: '2px solid #e5e7eb', whiteSpace: 'nowrap' }
   const td: React.CSSProperties = { padding: '0.8rem 1rem', borderBottom: '1px solid #f1f5f9', fontSize: '0.92rem', color: '#242426' }
@@ -168,6 +170,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       { locale: 'ar' as Locale, path: `/ar${getRouteUrl(route.origin, route, 'ar')}` },
       { locale: 'it' as Locale, path: `/it${getRouteUrl(route.origin, route, 'it')}` },
       { locale: 'de' as Locale, path: `/de${getRouteUrl(route.origin, route, 'de')}` },
+      { locale: 'fr' as Locale, path: `/fr${getRouteUrl(route.origin, route, 'fr')}` },
     ],
   })
 }
@@ -258,12 +261,12 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
   ]
 
   const whyItems = [
-    { icon: <IconTag />, title: pick(locale, { en: 'Fixed price', es: 'Precio fijo', ar: 'سعر ثابت', it: 'Prezzo fisso', de: 'Festpreis' }), desc: pick(locale, { en: 'No surprises — price agreed before you travel', es: 'Sin sorpresas — precio cerrado antes de viajar', ar: 'بدون مفاجآت — السعر متفق عليه قبل السفر', it: 'Nessuna sorpresa — prezzo chiuso prima di viaggiare', de: 'Keine Überraschungen – Preis vor der Reise vereinbart' }) },
-    { icon: <IconPlane />, title: pick(locale, { en: 'Meet & greet', es: 'Meet & greet', ar: 'استقبال شخصي', it: 'Meet & greet', de: 'Treffen & Begrüßung' }), desc: pick(locale, { en: 'Driver with name sign at arrivals', es: 'Conductor con cartel con tu nombre en llegadas', ar: 'سائق يحمل لافتة باسمك عند الوصول', it: 'Autista con cartello con il tuo nome all\'arrivo', de: 'Fahrer mit Namensschild bei der Ankunft' }) },
-    { icon: <IconClock />, title: pick(locale, { en: 'Flight monitoring', es: 'Seguimiento de vuelo', ar: 'متابعة الرحلات', it: 'Monitoraggio del volo', de: 'Flugüberwachung' }), desc: pick(locale, { en: 'We adjust pickup if your flight is delayed', es: 'Ajustamos la recogida si tu vuelo se retrasa', ar: 'نعدّل وقت الاستلام إذا تأخرت رحلتك', it: 'Adattiamo il ritiro se il tuo volo è in ritardo', de: 'Wir passen die Abholzeit an, wenn Ihr Flug verspätet ist' }) },
-    { icon: <IconShield />, title: pick(locale, { en: 'Free cancellation', es: 'Cancelación gratuita', ar: 'إلغاء مجاني', it: 'Cancellazione gratuita', de: 'Kostenlose Stornierung' }), desc: pick(locale, { en: 'Cancel free up to 24 hours before pickup', es: 'Cancela gratis hasta 24h antes', ar: 'ألغِ مجاناً حتى ٢٤ ساعة قبل الاستلام', it: 'Cancella gratuitamente fino a 24 ore prima', de: 'Kostenlos stornieren bis zu 24 Stunden vor der Abholung' }) },
-    { icon: <IconMap />, title: pick(locale, { en: 'Door-to-door', es: 'Puerta a puerta', ar: 'من الباب إلى الباب', it: 'Porta a porta', de: 'Tür-zu-Tür' }), desc: pick(locale, { en: 'Direct service from pickup to your destination', es: 'Servicio directo desde recogida hasta destino', ar: 'خدمة مباشرة من نقطة الاستلام إلى وجهتك', it: 'Servizio diretto dal ritiro alla destinazione', de: 'Direktservice von der Abholung zu Ihrem Ziel' }) },
-    { icon: <IconCheck />, title: pick(locale, { en: 'Modern vehicles', es: 'Vehículos modernos', ar: 'مركبات حديثة', it: 'Veicoli moderni', de: 'Moderne Fahrzeuge' }), desc: pick(locale, { en: 'Air-conditioned fleet for every group size', es: 'Flota climatizada para cada necesidad', ar: 'أسطول مكيّف لكل حجم مجموعة', it: 'Flotta climatizzata per ogni esigenza', de: 'Klimatisierte Flotte für jede Gruppengröße' }) },
+    { icon: <IconTag />, title: pick(locale, { en: 'Fixed price', es: 'Precio fijo', ar: 'سعر ثابت', it: 'Prezzo fisso', de: 'Festpreis', fr: 'Prix fixe' }), desc: pick(locale, { en: 'No surprises — price agreed before you travel', es: 'Sin sorpresas — precio cerrado antes de viajar', ar: 'بدون مفاجآت — السعر متفق عليه قبل السفر', it: 'Nessuna sorpresa — prezzo chiuso prima di viaggiare', de: 'Keine Überraschungen – Preis vor der Reise vereinbart', fr: 'Pas de surprises — prix convenu avant votre voyage' }) },
+    { icon: <IconPlane />, title: pick(locale, { en: 'Meet & greet', es: 'Meet & greet', ar: 'استقبال شخصي', it: 'Meet & greet', de: 'Treffen & Begrüßung', fr: 'Accueil' }), desc: pick(locale, { en: 'Driver with name sign at arrivals', es: 'Conductor con cartel con tu nombre en llegadas', ar: 'سائق يحمل لافتة باسمك عند الوصول', it: 'Autista con cartello con il tuo nome all\'arrivo', de: 'Fahrer mit Namensschild bei der Ankunft', fr: 'Chauffeur avec panneau nominatif à l\'arrivée' }) },
+    { icon: <IconClock />, title: pick(locale, { en: 'Flight monitoring', es: 'Seguimiento de vuelo', ar: 'متابعة الرحلات', it: 'Monitoraggio del volo', de: 'Flugüberwachung', fr: 'Suivi de vol' }), desc: pick(locale, { en: 'We adjust pickup if your flight is delayed', es: 'Ajustamos la recogida si tu vuelo se retrasa', ar: 'نعدّل وقت الاستلام إذا تأخرت رحلتك', it: 'Adattiamo il ritiro se il tuo volo è in ritardo', de: 'Wir passen die Abholzeit an, wenn Ihr Flug verspätet ist', fr: 'Nous ajustons la prise en charge si votre vol est retardé' }) },
+    { icon: <IconShield />, title: pick(locale, { en: 'Free cancellation', es: 'Cancelación gratuita', ar: 'إلغاء مجاني', it: 'Cancellazione gratuita', de: 'Kostenlose Stornierung', fr: 'Annulation gratuite' }), desc: pick(locale, { en: 'Cancel free up to 24 hours before pickup', es: 'Cancela gratis hasta 24h antes', ar: 'ألغِ مجاناً حتى ٢٤ ساعة قبل الاستلام', it: 'Cancella gratuitamente fino a 24 ore prima', de: 'Kostenlos stornieren bis zu 24 Stunden vor der Abholung', fr: 'Annulez gratuitement jusqu\'à 24 heures avant la prise en charge' }) },
+    { icon: <IconMap />, title: pick(locale, { en: 'Door-to-door', es: 'Puerta a puerta', ar: 'من الباب إلى الباب', it: 'Porta a porta', de: 'Tür-zu-Tür', fr: 'De porte à porte' }), desc: pick(locale, { en: 'Direct service from pickup to your destination', es: 'Servicio directo desde recogida hasta destino', ar: 'خدمة مباشرة من نقطة الاستلام إلى وجهتك', it: 'Servizio diretto dal ritiro alla destinazione', de: 'Direktservice von der Abholung zu Ihrem Ziel', fr: 'Service direct de la prise en charge à votre destination' }) },
+    { icon: <IconCheck />, title: pick(locale, { en: 'Modern vehicles', es: 'Vehículos modernos', ar: 'مركبات حديثة', it: 'Veicoli moderni', de: 'Moderne Fahrzeuge', fr: 'Véhicules modernes' }), desc: pick(locale, { en: 'Air-conditioned fleet for every group size', es: 'Flota climatizada para cada necesidad', ar: 'أسطول مكيّف لكل حجم مجموعة', it: 'Flotta climatizzata per ogni esigenza', de: 'Klimatisierte Flotte für jede Gruppengröße', fr: 'Flotte climatisée pour tous les groupes' }) },
   ]
 
   const faqItems = [
@@ -274,6 +277,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         ar: `كم تستغرق الرحلة من ${originTitle} إلى ${destTitle}؟`,
         it: `Quanto dura il trasferimento da ${originTitle} a ${destTitle}?`,
         de: `Wie lange dauert der Transfer von ${originTitle} nach ${destTitle}?`,
+        fr: `Combien de temps dure le transfert de ${originTitle} à ${destTitle} ?`,
       }),
       answer: route.estimatedDuration
         ? pick(locale, {
@@ -282,6 +286,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
             ar: `تستغرق الرحلة حوالي ${formatDuration(route.estimatedDuration)}.`,
             it: `Il trasferimento dura circa ${formatDuration(route.estimatedDuration)}.`,
             de: `Der Transfer dauert ungefähr ${formatDuration(route.estimatedDuration)}.`,
+            fr: `Le transfert prend environ ${formatDuration(route.estimatedDuration)}.`,
           })
         : pick(locale, {
             en: 'Contact us for estimated travel time.',
@@ -289,6 +294,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
             ar: 'تواصل معنا لتقدير مدة الرحلة.',
             it: 'Contattaci per una stima del tempo.',
             de: 'Kontaktieren Sie uns für die geschätzte Reisezeit.',
+            fr: 'Contactez-nous pour le temps de trajet estimé.',
           }),
     },
     {
@@ -298,6 +304,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         ar: `كم تكلفة النقل الخاص إلى ${destTitle}؟`,
         it: `Quanto costa un trasferimento privato a ${destTitle}?`,
         de: `Wie viel kostet ein privater Transfer nach ${destTitle}?`,
+        fr: `Combien coûte un transfert privé vers ${destTitle} ?`,
       }),
       answer: pick(locale, {
         en: 'Use our booking form for an instant quote with fixed prices. No hidden charges.',
@@ -305,6 +312,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         ar: 'استخدم نموذج الحجز للحصول على عرض سعر فوري بأسعار ثابتة. بدون رسوم خفية.',
         it: 'Usa il nostro modulo di prenotazione per ottenere un prezzo fisso immediato. Senza costi nascosti.',
         de: 'Nutzen Sie unser Buchungsformular für ein sofortiges Angebot mit Festpreisen. Keine versteckten Gebühren.',
+        fr: 'Utilisez notre formulaire de réservation pour un devis instantané avec des prix fixes. Pas de frais cachés.',
       }),
     },
     {
@@ -314,6 +322,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         ar: 'ماذا يحدث إذا تأخرت رحلتي؟',
         it: 'Cosa succede se il mio volo è in ritardo?',
         de: 'Was passiert, wenn mein Flug verspätet ist?',
+        fr: 'Que se passe-t-il si mon vol est retardé ?',
       }),
       answer: pick(locale, {
         en: 'We monitor all flights in real time. Your driver will adjust the pickup time automatically at no extra cost.',
@@ -321,6 +330,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         ar: 'نتابع جميع الرحلات في الوقت الفعلي. سيعدّل سائقك وقت الاستلام تلقائياً دون أي تكلفة إضافية.',
         it: 'Monitoriamo tutti i voli in tempo reale. Il tuo autista adatterà automaticamente l\'orario di ritiro senza costi aggiuntivi.',
         de: 'Wir überwachen alle Flüge in Echtzeit. Ihr Fahrer passt die Abholzeit automatisch ohne zusätzliche Kosten an.',
+        fr: 'Nous surveillons tous les vols en temps réel. Votre chauffeur ajustera automatiquement l\'heure de prise en charge sans frais supplémentaires.',
       }),
     },
     {
@@ -330,6 +340,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         ar: 'هل يمكنني إلغاء حجزي؟',
         it: 'Posso cancellare la prenotazione?',
         de: 'Kann ich meine Buchung stornieren?',
+        fr: 'Puis-je annuler ma réservation ?',
       }),
       answer: pick(locale, {
         en: 'Yes, you can cancel free of charge up to 24 hours before pickup.',
@@ -337,6 +348,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         ar: 'نعم، يمكنك الإلغاء مجاناً حتى ٢٤ ساعة قبل الاستلام.',
         it: 'Sì, puoi cancellare gratuitamente fino a 24 ore prima del ritiro.',
         de: 'Ja, Sie können bis zu 24 Stunden vor der Abholung kostenlos stornieren.',
+        fr: 'Oui, vous pouvez annuler gratuitement jusqu\'à 24 heures avant la prise en charge.',
       }),
     },
     {
@@ -346,6 +358,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         ar: 'هل الخدمة متاحة على مدار الساعة؟',
         it: 'C\'è un servizio disponibile 24 ore su 24?',
         de: 'Ist der Service 24/7 verfügbar?',
+        fr: 'Le service est-il disponible 24/7 ?',
       }),
       answer: pick(locale, {
         en: 'Yes, we operate 24 hours a day, 7 days a week, including public holidays.',
@@ -353,6 +366,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         ar: 'نعم، نعمل ٢٤ ساعة في اليوم، ٧ أيام في الأسبوع، بما في ذلك العطلات الرسمية.',
         it: 'Sì, operiamo 24 ore su 24, 7 giorni su 7, compresi i festivi.',
         de: 'Ja, wir sind 24 Stunden am Tag, 7 Tage die Woche, einschließlich Feiertagen, im Einsatz.',
+        fr: 'Oui, nous opérons 24 heures sur 24, 7 jours sur 7, y compris les jours fériés.',
       }),
     },
   ]
@@ -410,6 +424,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
                   ar: 'لكل مركبة',
                   it: 'per veicolo',
                   de: 'pro Fahrzeug',
+                  fr: 'par véhicule',
                 })}
               </span>
             </div>
@@ -422,6 +437,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               ar: `نقل خاص من ${originTitle} إلى ${destTitle}`,
               it: `Trasferimento privato da ${originTitle} a ${destTitle}`,
               de: `Privater Transfer von ${originTitle} nach ${destTitle}`,
+              fr: `Transfert privé de ${originTitle} à ${destTitle}`,
             })}
           </h1>
 
@@ -432,6 +448,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
               ar: `نقل من الباب إلى الباب من ${originTitle} إلى ${destTitle} مع سائق محترف وسعر ثابت ومتابعة الرحلات.`,
               it: `Trasferimento porta a porta da ${originTitle} a ${destTitle} con autista professionale, prezzo fisso e monitoraggio del volo inclusi.`,
               de: `Tür-zu-Tür-Transfer von ${originTitle} nach ${destTitle} mit professionellem Fahrer, Festpreis und Flugüberwachung inklusive.`,
+              fr: `Transfert porte-à-porte de ${originTitle} à ${destTitle} avec chauffeur professionnel, prix fixe et suivi de vol inclus.`,
             })}
           </p>
         </div>
@@ -448,6 +465,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
                   ar: `نقل من ${originTitle} إلى ${destTitle}`,
                   it: `Trasferimento da ${originTitle} a ${destTitle}`,
                   de: `Transfer von ${originTitle} nach ${destTitle}`,
+                  fr: `Transfert de ${originTitle} à ${destTitle}`,
                 })}
                 fill
                 priority
@@ -595,6 +613,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
                 ar: 'لماذا تحجز معنا؟',
                 it: 'Perché prenotare con noi?',
                 de: 'Warum mit uns buchen?',
+                fr: 'Pourquoi réserver avec nous ?',
               })}
             </h2>
             <p style={{ color: '#475569', lineHeight: 1.75, marginBottom: '2rem' }}>
@@ -604,6 +623,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
                 ar: 'تشمل جميع رحلاتنا سعراً ثابتاً وسائقاً محترفاً ومتابعة الرحلات دون أي تكلفة إضافية.',
                 it: 'Tutti i nostri trasferimenti includono prezzo fisso, autista professionale e monitoraggio del volo senza costi aggiuntivi.',
                 de: 'Alle unsere Transfers beinhalten einen Festpreis, einen professionellen Fahrer und die Flugüberwachung ohne zusätzliche Kosten.',
+                fr: 'Tous nos transferts incluent un prix fixe, un chauffeur professionnel et un suivi de vol sans frais supplémentaires.',
               })}
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
@@ -646,7 +666,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
       {/* ─── FAQ ───────────────────────────────────────────────────────── */}
       <section style={{ background: '#ffffff', padding: '5rem 6vw' }}>
         <div style={{ maxWidth: '860px', margin: '0 auto' }}>
-          <FAQ items={faqItems} title={pick(locale, { en: 'Frequently asked questions', es: 'Preguntas frecuentes', ar: 'الأسئلة الشائعة', it: 'Domande frequenti', de: 'Häufig gestellte Fragen' })} />
+          <FAQ items={faqItems} title={pick(locale, { en: 'Frequently asked questions', es: 'Preguntas frecuentes', ar: 'الأسئلة الشائعة', it: 'Domande frequenti', de: 'Häufig gestellte Fragen', fr: 'Questions fréquentes' })} />
         </div>
       </section>
 
@@ -654,7 +674,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
       <section style={{ background: '#F8FAF0', padding: '3rem 6vw' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <p style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748b', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1rem' }}>
-            {pick(locale, { en: 'Explore more', es: 'Explorar más', ar: 'استكشف المزيد', it: 'Esplora di più', de: 'Mehr entdecken' })}
+            {pick(locale, { en: 'Explore more', es: 'Explorar más', ar: 'استكشف المزيد', it: 'Esplora di più', de: 'Mehr entdecken', fr: 'Explorer davantage' })}
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
             {route.origin?.slug?.current && (
@@ -662,7 +682,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
                 <div style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', transform: 'skewX(-8deg)', overflow: 'hidden', transition: 'border-color 0.15s' }}>
                   <div style={{ transform: 'skewX(8deg)', padding: '0.6rem 1.25rem' }}>
                     <div style={{ fontSize: '0.65rem', color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>
-                      {pick(locale, { en: 'Airport', es: 'Aeropuerto', ar: 'المطار', it: 'Aeroporto', de: 'Flughafen' })}
+                      {pick(locale, { en: 'Airport', es: 'Aeropuerto', ar: 'المطار', it: 'Aeroporto', de: 'Flughafen', fr: 'Aéroport' })}
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', color: '#242426' }}>
                       <svg width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#8BAA1D"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
@@ -677,7 +697,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
                 <div style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', transform: 'skewX(-8deg)', overflow: 'hidden', transition: 'border-color 0.15s' }}>
                   <div style={{ transform: 'skewX(8deg)', padding: '0.6rem 1.25rem' }}>
                     <div style={{ fontSize: '0.65rem', color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>
-                      {pick(locale, { en: 'Destination', es: 'Ciudad destino', ar: 'الوجهة', it: 'Città di destinazione', de: 'Zielort' })}
+                      {pick(locale, { en: 'Destination', es: 'Ciudad destino', ar: 'الوجهة', it: 'Città di destinazione', de: 'Zielort', fr: 'Destination' })}
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', color: '#242426' }}>
                       <svg width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#8BAA1D"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
@@ -692,7 +712,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
                 <div style={{ background: '#ffffff', border: '1.5px solid #e5e7eb', transform: 'skewX(-8deg)', overflow: 'hidden' }}>
                   <div style={{ transform: 'skewX(8deg)', padding: '0.6rem 1.25rem' }}>
                     <div style={{ fontSize: '0.65rem', color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px' }}>
-                      {pick(locale, { en: 'Country', es: 'País', ar: 'الدولة', it: 'Paese', de: 'Land' })}
+                      {pick(locale, { en: 'Country', es: 'País', ar: 'الدولة', it: 'Paese', de: 'Land', fr: 'Pays' })}
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', color: '#242426' }}>
                       <svg width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#8BAA1D"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>

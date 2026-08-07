@@ -1,4 +1,4 @@
-export const locales = ['en', 'es', 'ar', 'it', 'de'] as const
+export const locales = ['en', 'es', 'ar', 'it', 'de', 'fr'] as const
 export type Locale = (typeof locales)[number]
 export const defaultLocale: Locale = 'en'
 
@@ -8,6 +8,7 @@ export const localeNames: Record<Locale, string> = {
   ar: 'العربية',
   it: 'Italiano',
   de: 'Deutsch',
+  fr: 'Français',
 }
 
 // Locales that render right-to-left. Used to set <html dir="rtl"> and to swap
@@ -18,29 +19,29 @@ export function isRtlLocale(locale: string): boolean {
 }
 
 export const pathTranslations: Record<string, Record<Locale, string>> = {
-  airports: { en: 'airports', es: 'aeropuertos', ar: 'matarat', it: 'aeroporti', de: 'flughaefen' },
-  airport: { en: 'airport-transfers-private-taxi', es: 'traslados-aeropuerto-privados-taxi', ar: 'nakl-mataar', it: 'trasferimenti-aeroporto-taxi-privato', de: 'flughafentransfer-privat-taxi' },
-  cities: { en: 'cities', es: 'ciudades', ar: 'mudun', it: 'citta', de: 'staedte' },
-  city: { en: 'city', es: 'ciudad', ar: 'madina', it: 'citta', de: 'stadt' },
-  countries: { en: 'countries', es: 'paises', ar: 'buldan', it: 'paesi', de: 'laender' },
-  country: { en: 'country', es: 'pais', ar: 'balad', it: 'paese', de: 'land' },
-  regions: { en: 'regions', es: 'regiones', ar: 'manatik', it: 'regioni', de: 'regionen' },
-  region: { en: 'region', es: 'region', ar: 'mintaqa', it: 'regione', de: 'region' },
-  'private-transfers': { en: 'private-transfers', es: 'traslados-privados-taxi', ar: 'nakl-khass', it: 'trasferimenti-privati-taxi', de: 'private-transfers-taxi' },
-  'private-transfers-country': { en: 'private-transfers-country', es: 'traslados-privados-pais', ar: 'nakl-khass-balad', it: 'trasferimenti-privati-paese', de: 'private-transfers-land' },
-  'private-transfers-region': { en: 'private-transfers-region', es: 'traslados-privados-region', ar: 'nakl-khass-mintaqa', it: 'trasferimenti-privati-regione', de: 'private-transfers-region' },
-  services: { en: 'services', es: 'servicios', ar: 'khadamat', it: 'servizi', de: 'dienstleistungen' },
-  blog: { en: 'blog', es: 'blog', ar: 'mudawana', it: 'blog', de: 'blog' },
-  contact: { en: 'contact', es: 'contacto', ar: 'tawasul', it: 'contatto', de: 'kontakt' },
-  login: { en: 'login', es: 'acceso', ar: 'dukhul', it: 'accesso', de: 'anmeldung' },
-  about: { en: 'about', es: 'sobre-nosotros', ar: 'man-nahnu', it: 'chi-siamo', de: 'ueber-uns' },
-  faq: { en: 'faq', es: 'preguntas-frecuentes', ar: 'asila-shaaia', it: 'domande-frequenti', de: 'haeufige-fragen' },
-  to: { en: 'to', es: 'a', ar: 'ila', it: 'a', de: 'nach' },
+  airports: { en: 'airports', es: 'aeropuertos', ar: 'matarat', it: 'aeroporti', de: 'flughaefen', fr: 'aeroports' },
+  airport: { en: 'airport-transfers-private-taxi', es: 'traslados-aeropuerto-privados-taxi', ar: 'nakl-mataar', it: 'trasferimenti-aeroporto-taxi-privato', de: 'flughafentransfer-privat-taxi', fr: 'transferts-aeroport-taxi-prive' },
+  cities: { en: 'cities', es: 'ciudades', ar: 'mudun', it: 'citta', de: 'staedte', fr: 'villes' },
+  city: { en: 'city', es: 'ciudad', ar: 'madina', it: 'citta', de: 'stadt', fr: 'ville' },
+  countries: { en: 'countries', es: 'paises', ar: 'buldan', it: 'paesi', de: 'laender', fr: 'pays' },
+  country: { en: 'country', es: 'pais', ar: 'balad', it: 'paese', de: 'land', fr: 'pays-transfert' },
+  regions: { en: 'regions', es: 'regiones', ar: 'manatik', it: 'regioni', de: 'regionen', fr: 'regions' },
+  region: { en: 'region', es: 'region', ar: 'mintaqa', it: 'regione', de: 'region', fr: 'region' },
+  'private-transfers': { en: 'private-transfers', es: 'traslados-privados-taxi', ar: 'nakl-khass', it: 'trasferimenti-privati-taxi', de: 'private-transfers-taxi', fr: 'transferts-prives-taxi' },
+  'private-transfers-country': { en: 'private-transfers-country', es: 'traslados-privados-pais', ar: 'nakl-khass-balad', it: 'trasferimenti-privati-paese', de: 'private-transfers-land', fr: 'transferts-prives-pays' },
+  'private-transfers-region': { en: 'private-transfers-region', es: 'traslados-privados-region', ar: 'nakl-khass-mintaqa', it: 'trasferimenti-privati-regione', de: 'private-transfers-region', fr: 'transferts-prives-region' },
+  services: { en: 'services', es: 'servicios', ar: 'khadamat', it: 'servizi', de: 'dienstleistungen', fr: 'services' },
+  blog: { en: 'blog', es: 'blog', ar: 'mudawana', it: 'blog', de: 'blog', fr: 'blog' },
+  contact: { en: 'contact', es: 'contacto', ar: 'tawasul', it: 'contatto', de: 'kontakt', fr: 'contact' },
+  login: { en: 'login', es: 'acceso', ar: 'dukhul', it: 'accesso', de: 'anmeldung', fr: 'connexion' },
+  about: { en: 'about', es: 'sobre-nosotros', ar: 'man-nahnu', it: 'chi-siamo', de: 'ueber-uns', fr: 'a-propos' },
+  faq: { en: 'faq', es: 'preguntas-frecuentes', ar: 'asila-shaaia', it: 'domande-frequenti', de: 'haeufige-fragen', fr: 'faq' },
+  to: { en: 'to', es: 'a', ar: 'ila', it: 'a', de: 'nach', fr: 'vers' },
 }
 
 export const routePrefixTranslations: Record<string, Record<Locale, string>> = {
-  'airport-transfers': { en: 'airport-transfers', es: 'traslados-aeropuerto', ar: 'nakl-mataar', it: 'trasferimenti-aeroporto', de: 'flughafentransfer' },
-  'port-transfers': { en: 'port-transfers', es: 'traslados-puerto', ar: 'nakl-mina', it: 'trasferimenti-porto', de: 'hafentransfer' },
-  'train-station-transfers': { en: 'train-station-transfers', es: 'traslados-estacion-tren', ar: 'nakl-mahattat-qitar', it: 'trasferimenti-stazione', de: 'bahnhoftransfer' },
-  'city-to-city': { en: 'city-to-city', es: 'ciudad-a-ciudad', ar: 'madina-ila-madina', it: 'citta-a-citta', de: 'stadt-zu-stadt' },
+  'airport-transfers': { en: 'airport-transfers', es: 'traslados-aeropuerto', ar: 'nakl-mataar', it: 'trasferimenti-aeroporto', de: 'flughafentransfer', fr: 'transferts-aeroport' },
+  'port-transfers': { en: 'port-transfers', es: 'traslados-puerto', ar: 'nakl-mina', it: 'trasferimenti-porto', de: 'hafentransfer', fr: 'transferts-port' },
+  'train-station-transfers': { en: 'train-station-transfers', es: 'traslados-estacion-tren', ar: 'nakl-mahattat-qitar', it: 'trasferimenti-stazione', de: 'bahnhoftransfer', fr: 'transferts-gare' },
+  'city-to-city': { en: 'city-to-city', es: 'ciudad-a-ciudad', ar: 'madina-ila-madina', it: 'citta-a-citta', de: 'stadt-zu-stadt', fr: 'ville-a-ville' },
 }

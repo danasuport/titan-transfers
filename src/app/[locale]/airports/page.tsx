@@ -26,6 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'المطارات | تايتن ترانسفرز',
       it: 'Aeroporti | Titan Transfers',
       de: 'Flughäfen | Titan Transfers',
+      fr: 'Aéroports | Titan Transfers',
     }),
     description: pick(locale, {
       en: 'Private transfers from 124 airports worldwide. Fixed prices, professional driver, 24/7 service.',
@@ -33,6 +34,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       ar: 'نقل خاص من ١٢٤ مطاراً حول العالم. أسعار ثابتة، سائق محترف، خدمة على مدار الساعة.',
       it: 'Trasferimenti privati da 124 aeroporti in tutto il mondo. Prezzi fissi, autista professionale, servizio 24/7.',
       de: 'Private Transfers von 124 Flughäfen weltweit. Festpreise, professioneller Fahrer, 24/7 Service.',
+      fr: 'Transferts privés depuis 124 aéroports dans le monde. Tarifs fixes, chauffeur professionnel, service 24/7.',
     }),
   }
 }
@@ -42,18 +44,19 @@ export default async function AirportsPage({ params }: { params: Promise<{ local
   const airports = await sanityClient.fetch(allAirportsQuery)
 
   const labels = {
-    breadcrumb: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات', it: 'Aeroporti', de: 'Flughäfen' }),
-    h1: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات', it: 'Aeroporti', de: 'Flughäfen' }),
+    breadcrumb: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات', it: 'Aeroporti', de: 'Flughäfen', fr: 'Aéroports' }),
+    h1: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات', it: 'Aeroporti', de: 'Flughäfen', fr: 'Aéroports' }),
     intro: pick(locale, {
       en: 'Private transfers from major airports worldwide. Professional driver, fixed price and flight monitoring included.',
       es: 'Traslados privados desde los principales aeropuertos del mundo. Conductor profesional, precio fijo y seguimiento de vuelo incluido.',
       ar: 'نقل خاص من المطارات الكبرى حول العالم. سائق محترف، سعر ثابت، ومتابعة الرحلة شاملة.',
       it: 'Trasferimenti privati dai principali aeroporti del mondo. Autista professionale, prezzo fisso e monitoraggio del volo inclusi.',
       de: 'Private Transfers von großen Flughäfen weltweit. Professioneller Fahrer, Festpreis und Flugüberwachung inklusive.',
+      fr: 'Transferts privés depuis les principaux aéroports dans le monde. Chauffeur professionnel, prix fixe et suivi des vols inclus.',
     }),
-    statAirports: pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار', it: 'aeroporti', de: 'Flughäfen' }),
-    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'Länder' }),
-    statSupport: pick(locale, { en: 'support', es: 'soporte', ar: 'دعم', it: 'supporto', de: 'Support' }),
+    statAirports: pick(locale, { en: 'airports', es: 'aeropuertos', ar: 'مطار', it: 'aeroporti', de: 'Flughäfen', fr: 'aéroports' }),
+    statCountries: pick(locale, { en: 'countries', es: 'países', ar: 'دولة', it: 'paesi', de: 'Länder', fr: 'pays' }),
+    statSupport: pick(locale, { en: 'support', es: 'soporte', ar: 'دعم', it: 'supporto', de: 'Support', fr: 'support' }),
   }
 
   const grouped: Record<string, any[]> = {}
