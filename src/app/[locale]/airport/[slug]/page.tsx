@@ -30,22 +30,11 @@ export const revalidate = 3600
 const MULTI_AIRPORT_CITIES = new Set(['Beijing', 'Chicago', 'Dubai', 'Houston', 'Istanbul', 'London', 'Milan', 'New York', 'Panama City', 'Paris', 'Rome', 'Shanghai', 'Washington D.C.'])
 
 export async function generateStaticParams() {
-  const airports = await sanityClient.fetch(allAirportsQuery)
-  const params: { slug: string }[] = []
-  for (const a of airports) {
-    params.push({ slug: a.slug.current })
-    const citySlug = a.city?.slug?.current
-    const cityTitle = a.city?.title || ''
-    if (citySlug && !MULTI_AIRPORT_CITIES.has(cityTitle)) {
-      const seoSlug = `${citySlug}-airport-transfers`
-      if (seoSlug !== a.slug.current) params.push({ slug: seoSlug })
-    }
-    const esSlug = a.translations?.es?.slug?.current
-    if (esSlug && esSlug !== a.slug.current) {
-      params.push({ slug: esSlug })
-    }
-  }
-  return params
+  // On-demand (ISR): pre-rendering every airport slug × locale variant at build
+  // time was exhausting the server (OOM/timeout) once the catalogue grew to
+  // 1.300+ routes and 6 locales. Pages now render on first request and cache via
+  // `revalidate` — the same way route pages already work. Keeps builds light.
+  return []
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {

@@ -27,8 +27,8 @@ import { russoOne } from '@/lib/fonts'
 export const revalidate = 3600
 
 export async function generateStaticParams() {
-  const regions = await sanityClient.fetch(allRegionsQuery)
-  return regions.map((r: { slug: { current: string } }) => ({ slug: r.slug.current }))
+  // On-demand (ISR) — see note in airport/[slug]. Keeps the build light.
+  return []
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {

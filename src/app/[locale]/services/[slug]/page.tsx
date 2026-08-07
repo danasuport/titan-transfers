@@ -58,8 +58,8 @@ function IconPlane() {
 }
 
 export async function generateStaticParams() {
-  const services = await sanityClient.fetch(allServicesQuery)
-  return services.map((s: { slug: { current: string } }) => ({ slug: s.slug.current }))
+  // On-demand (ISR) — see note in airport/[slug]. Keeps the build light.
+  return []
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
