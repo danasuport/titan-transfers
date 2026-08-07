@@ -27,11 +27,11 @@ import { russoOne } from '@/lib/fonts'
 // or immediately via /api/revalidate.
 export const revalidate = 3600
 
-export async function generateStaticParams() {
-  // On-demand (ISR) — see note in airport/[slug]. Pre-rendering ~1.000 cities ×
-  // 6 locales at build time exhausted the server; pages render on first request.
-  return []
-}
+// No generateStaticParams on purpose: pages render on-demand (ISR via
+// `revalidate`), exactly like the route pages. Having generateStaticParams (even
+// returning []) put the page in static-generation mode, where the runtime Sanity
+// fetch throws DYNAMIC_SERVER_USAGE (500). Pre-generating every slug × 6 locales
+// also OOM'd the build. Omitting it fixes both.
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params

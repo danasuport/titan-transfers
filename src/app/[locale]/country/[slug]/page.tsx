@@ -26,10 +26,7 @@ import { russoOne } from '@/lib/fonts'
 // or immediately via /api/revalidate.
 export const revalidate = 3600
 
-export async function generateStaticParams() {
-  // On-demand (ISR) — see note in airport/[slug]. Keeps the build light.
-  return []
-}
+// No generateStaticParams on purpose — see note in city/[slug]. On-demand ISR.
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params

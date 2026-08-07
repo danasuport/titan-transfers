@@ -29,13 +29,10 @@ export const revalidate = 3600
 
 const MULTI_AIRPORT_CITIES = new Set(['Beijing', 'Chicago', 'Dubai', 'Houston', 'Istanbul', 'London', 'Milan', 'New York', 'Panama City', 'Paris', 'Rome', 'Shanghai', 'Washington D.C.'])
 
-export async function generateStaticParams() {
-  // On-demand (ISR): pre-rendering every airport slug × locale variant at build
-  // time was exhausting the server (OOM/timeout) once the catalogue grew to
-  // 1.300+ routes and 6 locales. Pages now render on first request and cache via
-  // `revalidate` — the same way route pages already work. Keeps builds light.
-  return []
-}
+// No generateStaticParams on purpose — see note in city/[slug]. Pages render
+// on-demand (ISR via `revalidate`) like the route pages; having the function
+// (even returning []) caused DYNAMIC_SERVER_USAGE 500s and pre-generating every
+// slug × locale OOM'd the build.
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params
