@@ -26,7 +26,7 @@ const serviceConfig: Record<string, { img: string; iconPath: string; stats: { va
     img: '/services/airport-transfers.jpg',
     iconPath: 'M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5',
     stats: [
-      { value: '120+', label: { en: 'airports', es: 'aeropuertos', ar: 'مطار' } },
+      { value: '200+', label: { en: 'airports', es: 'aeropuertos', ar: 'مطار' } },
       { value: '350+', label: { en: 'routes', es: 'rutas', ar: 'مسار' } },
       { value: '24/7', label: { en: 'support', es: 'soporte', ar: 'دعم' } },
     ],
@@ -53,7 +53,7 @@ const serviceConfig: Record<string, { img: string; iconPath: string; stats: { va
     img: '/services/city-to-city.jpg',
     iconPath: 'M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21',
     stats: [
-      { value: '100+', label: { en: 'cities', es: 'ciudades', ar: 'مدينة' } },
+      { value: '200+', label: { en: 'cities', es: 'ciudades', ar: 'مدينة' } },
       { value: '200+', label: { en: 'routes', es: 'rutas', ar: 'مسار' } },
       { value: '24/7', label: { en: 'support', es: 'soporte', ar: 'دعم' } },
     ],
@@ -62,9 +62,9 @@ const serviceConfig: Record<string, { img: string; iconPath: string; stats: { va
 
 const descriptions: Record<string, LocaleString> = {
   airport: {
-    en: 'Door-to-door private transfers from 120+ airports worldwide. Meet & greet with real-time flight monitoring.',
+    en: 'Door-to-door private transfers from 200+ airports worldwide. Meet & greet with real-time flight monitoring.',
     es: 'Traslados privados puerta a puerta desde más de 120 aeropuertos. Meet & greet con seguimiento de vuelo en tiempo real.',
-    ar: 'نقل خاص من الباب إلى الباب من أكثر من ١٢٠ مطاراً حول العالم. استقبال شخصي مع متابعة الرحلات في الوقت الفعلي.',
+    ar: 'نقل خاص من الباب إلى الباب من أكثر من ٢٠٠ مطاراً حول العالم. استقبال شخصي مع متابعة الرحلات في الوقت الفعلي.',
   },
   port: {
     en: 'Comfortable transfers to and from major cruise ports. Driver meets you right at the terminal.',
@@ -167,7 +167,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
           <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
             {[
               { n: '4', label: labels.statServices },
-              { n: '100+', label: labels.statDestinations },
+              { n: '200+', label: labels.statDestinations },
               { n: '24/7', label: labels.statSupport },
             ].map(s => (
               <span key={s.label} style={{ fontSize: '0.78rem', fontWeight: 700, color: '#6B8313', background: '#e8f0c4', padding: '3px 10px', letterSpacing: '0.06em' }}>

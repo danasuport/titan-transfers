@@ -7,17 +7,23 @@ import { useTranslations, useLocale } from 'next-intl'
 import { russoOne } from '@/lib/fonts'
 import { pick } from '@/lib/i18n/pick'
 
-const categories = [
-  { href: '/airports/',  icon: '/icon-browse-airports.svg',  count: '120+', labelKey: 'airports'  as const },
-  { href: '/cities/',    icon: '/icon-browse-cities.svg',    count: '145+', labelKey: 'cities'    as const },
-  { href: '/countries/', icon: '/icon-browse-countries.svg', count: '30+',  labelKey: 'countries' as const },
-  { href: '/services/',  icon: '/icon-browse-services.svg',  count: '4',    labelKey: 'services'  as const },
-]
+export interface CategoryCounts { airports: number; cities: number; countries: number; services: number }
 
-export function BrowseCategories() {
+// Round down to a clean "N+" so the figure is always truthful and never needs a
+// manual bump — the real counts are passed in from the server (Sanity).
+const plus = (n: number, step: number) => `${Math.max(step, Math.floor(n / step) * step)}+`
+
+export function BrowseCategories({ counts }: { counts?: CategoryCounts }) {
   const tNav = useTranslations('nav')
   const locale = useLocale()
   const [hovered, setHovered] = useState<number | null>(null)
+
+  const categories = [
+    { href: '/airports/',  icon: '/icon-browse-airports.svg',  count: counts ? plus(counts.airports, 50) : '200+',  labelKey: 'airports'  as const },
+    { href: '/cities/',    icon: '/icon-browse-cities.svg',    count: counts ? plus(counts.cities, 100) : '1100+',  labelKey: 'cities'    as const },
+    { href: '/countries/', icon: '/icon-browse-countries.svg', count: counts ? plus(counts.countries, 10) : '50+', labelKey: 'countries' as const },
+    { href: '/services/',  icon: '/icon-browse-services.svg',  count: counts ? String(counts.services) : '4',       labelKey: 'services'  as const },
+  ]
 
   return (
     <section style={{ background: '#f8faf0', padding: '4rem 0' }}>

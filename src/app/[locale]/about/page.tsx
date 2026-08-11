@@ -38,12 +38,12 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
   const body = {
     p1: pick(locale, {
-      en: 'Titan Transfers is a leading private transfer service operating in over 100 destinations worldwide. We specialize in airport transfers, port transfers, train station transfers, and city-to-city transport.',
-      es: 'Titan Transfers es un servicio líder de traslados privados que opera en más de 100 destinos en todo el mundo. Nos especializamos en traslados al aeropuerto, traslados al puerto, traslados desde estaciones de tren y transporte entre ciudades.',
-      ar: 'تايتن ترانسفرز خدمة رائدة للنقل الخاص تعمل في أكثر من ١٠٠ وجهة حول العالم. نتخصص في نقل المطارات وموانئ السفن السياحية ومحطات القطار والنقل بين المدن.',
-      it: 'Titan Transfers è un servizio leader di trasferimenti privati che opera in oltre 100 destinazioni in tutto il mondo. Ci specializziamo in trasferimenti aeroportuali, trasferimenti portuali, trasferimenti da stazioni ferroviarie e trasporto tra città.',
-      de: 'Titan Transfers ist ein führender privater Transferdienst, der in über 100 Zielen weltweit tätig ist. Wir spezialisieren uns auf Flughafen-Transfers, Hafen-Transfers, Bahnhof-Transfers und Stadt-zu-Stadt-Transport.',
-      fr: 'Titan Transfers est un service de transfert privé de premier plan opérant dans plus de 100 destinations à travers le monde. Nous nous spécialisons dans les transferts aéroport, les transferts portuaires, les transferts de gare et le transport entre villes.',
+      en: 'Titan Transfers is a leading private transfer service operating in over 200 destinations worldwide. We specialize in airport transfers, port transfers, train station transfers, and city-to-city transport.',
+      es: 'Titan Transfers es un servicio líder de traslados privados que opera en más de 200 destinos en todo el mundo. Nos especializamos en traslados al aeropuerto, traslados al puerto, traslados desde estaciones de tren y transporte entre ciudades.',
+      ar: 'تايتن ترانسفرز خدمة رائدة للنقل الخاص تعمل في أكثر من ٢٠٠ وجهة حول العالم. نتخصص في نقل المطارات وموانئ السفن السياحية ومحطات القطار والنقل بين المدن.',
+      it: 'Titan Transfers è un servizio leader di trasferimenti privati che opera in oltre 200 destinazioni in tutto il mondo. Ci specializziamo in trasferimenti aeroportuali, trasferimenti portuali, trasferimenti da stazioni ferroviarie e trasporto tra città.',
+      de: 'Titan Transfers ist ein führender privater Transferdienst, der in über 200 Zielen weltweit tätig ist. Wir spezialisieren uns auf Flughafen-Transfers, Hafen-Transfers, Bahnhof-Transfers und Stadt-zu-Stadt-Transport.',
+      fr: 'Titan Transfers est un service de transfert privé de premier plan opérant dans plus de 200 destinations à travers le monde. Nous nous spécialisons dans les transferts aéroport, les transferts portuaires, les transferts de gare et le transport entre villes.',
     }),
     p2: pick(locale, {
       en: 'Our mission is to provide a premium, reliable, and affordable transfer experience for every traveler. With fixed prices, professional drivers, and 24/7 support, we ensure your journey is comfortable and stress-free.',

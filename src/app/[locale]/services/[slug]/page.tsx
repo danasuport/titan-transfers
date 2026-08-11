@@ -321,13 +321,13 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
           {[
-            { href: '/airports/', n: '120+',
+            { href: '/airports/', n: '200+',
               label: pick(locale, { en: 'Airports', es: 'Aeropuertos', ar: 'المطارات', it: 'Aeroporti', de: 'Flughäfen', fr: 'Aéroports' }),
               desc: pick(locale, { en: 'Browse all airports', es: 'Ver todos los aeropuertos', ar: 'تصفّح كل المطارات', it: 'Vedi tutti gli aeroporti', de: 'Durchsuchen Sie alle Flughäfen', fr: 'Parcourez tous les aéroports' }) },
-            { href: '/cities/', n: '145+',
+            { href: '/cities/', n: '1100+',
               label: pick(locale, { en: 'Cities', es: 'Ciudades', ar: 'المدن', it: 'Città', de: 'Städte', fr: 'Villes' }),
               desc: pick(locale, { en: 'Browse all cities', es: 'Ver todas las ciudades', ar: 'تصفّح كل المدن', it: 'Vedi tutte le città', de: 'Durchsuchen Sie alle Städte', fr: 'Parcourir toutes les villes' }) },
-            { href: '/countries/', n: '30+',
+            { href: '/countries/', n: '50+',
               label: pick(locale, { en: 'Countries', es: 'Países', ar: 'الدول', it: 'Paesi', de: 'Länder', fr: 'Pays' }),
               desc: pick(locale, { en: 'Browse all countries', es: 'Ver todos los países', ar: 'تصفّح كل الدول', it: 'Vedi tutti i paesi', de: 'Durchsuchen Sie alle Länder', fr: 'Parcourir tous les pays' }) },
             { href: '/services/', n: '4',

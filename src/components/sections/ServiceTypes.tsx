@@ -15,7 +15,7 @@ const slides = [
     slugEn: 'airport-transfers',
     slugEs: 'traslados-aeropuerto',
     slugAr: 'nakl-mataar',
-    stat: { en: '120+ airports', es: '120+ aeropuertos', ar: '+١٢٠ مطار' },
+    stat: { en: '200+ airports', es: '200+ aeropuertos', ar: '+٢٠٠ مطار' },
     titleKey: 'airportTransfers' as const,
     descKey: 'airportTransfersDesc' as const,
     img: '/services/airport-transfers.png',

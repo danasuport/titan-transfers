@@ -67,12 +67,12 @@ export function Footer() {
             </Link>
             <p style={{ fontSize: '1rem', lineHeight: 1.7, color: '#475569', maxWidth: '280px', marginBottom: '1.75rem' }}>
               {pick(locale, {
-                en: 'Private transfers in 100+ destinations. Fixed prices, professional driver and 24/7 support.',
-                es: 'Transfers privados en más de 100 destinos. Precio fijo, conductor profesional y soporte 24/7.',
-                ar: 'نقل خاص في أكثر من ١٠٠ وجهة. أسعار ثابتة، سائق محترف، ودعم على مدار الساعة.',
-                it: 'Transfers privati in oltre 100 destinazioni. Prezzo fisso, autista professionista e supporto 24/7.',
-                de: 'Private Transfers in über 100 Zielen. Festpreise, professioneller Fahrer und 24/7 Support.',
-                fr: 'Transferts privés dans plus de 100 destinations. Tarifs fixes, chauffeur professionnel et assistance 24/7.',
+                en: 'Private transfers in 200+ destinations. Fixed prices, professional driver and 24/7 support.',
+                es: 'Transfers privados en más de 200 destinos. Precio fijo, conductor profesional y soporte 24/7.',
+                ar: 'نقل خاص في أكثر من ٢٠٠ وجهة. أسعار ثابتة، سائق محترف، ودعم على مدار الساعة.',
+                it: 'Transfers privati in oltre 200 destinazioni. Prezzo fisso, autista professionista e supporto 24/7.',
+                de: 'Private Transfers in über 200 Zielen. Festpreise, professioneller Fahrer und 24/7 Support.',
+                fr: 'Transferts privés dans plus de 200 destinations. Tarifs fixes, chauffeur professionnel et assistance 24/7.',
               })}
             </p>
             <div style={{ display: 'flex', gap: '0.75rem' }}>

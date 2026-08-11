@@ -8,6 +8,7 @@ import { FleetShowcase } from '@/components/sections/FleetShowcase'
 import { Testimonials } from '@/components/sections/Testimonials'
 import { CtaSection } from '@/components/sections/CtaSection'
 import { BrowseCategories } from '@/components/sections/BrowseCategories'
+import { sanityClient } from '@/lib/sanity/client'
 import { SchemaOrg } from '@/components/seo/SchemaOrg'
 import { generateLocalBusinessSchema } from '@/lib/seo/schemaOrg'
 import { generatePageMetadata } from '@/lib/seo/generateMetadata'
@@ -48,6 +49,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
+
+  // Live counts for the "Browse by category" strip, so the figures never go
+  // stale as routes/airports are added.
+  const counts = await sanityClient.fetch(`{
+    "airports": count(*[_type == "airport" && count(*[_type == "route" && origin._ref == ^._id && hidden != true]) > 0]),
+    "cities": count(*[_type == "city"]),
+    "countries": count(*[_type == "country"]),
+    "services": count(*[_type == "servicePage"])
+  }`).catch(() => undefined)
 
   return (
     <>
@@ -95,7 +105,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <PopularDestinations locale={locale} />
       <HowItWorks />
       <FleetShowcase />
-      <BrowseCategories />
+      <BrowseCategories counts={counts} />
       <Testimonials />
       <CtaSection />
     </>

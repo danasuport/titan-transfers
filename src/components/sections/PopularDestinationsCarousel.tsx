@@ -69,15 +69,15 @@ export function PopularDestinationsCarousel({ cities, heading, subheading }: {
             return (
               <p style={{ fontSize: '0.9rem', color: '#64748b', maxWidth: '700px', margin: '0 auto', lineHeight: 1.7 }}>
                 {locale === 'ar' ? (
-                  <>احجز نقلك الخاص من المطار في {barcelona}، {london}، {paris}، {dubai} وأكثر من ١٠٠ وجهة حول العالم. سعر ثابت، سائق محترف، واستقبال شخصي.</>
+                  <>احجز نقلك الخاص من المطار في {barcelona}، {london}، {paris}، {dubai} وأكثر من ٢٠٠ وجهة حول العالم. سعر ثابت، سائق محترف، واستقبال شخصي.</>
                 ) : locale === 'es' ? (
-                  <>Reserva tu transfer privado desde el aeropuerto en {barcelona}, {london}, {paris}, {dubai} y más de 100 destinos en todo el mundo. Precio fijo, conductor profesional y recogida personalizada.</>
+                  <>Reserva tu transfer privado desde el aeropuerto en {barcelona}, {london}, {paris}, {dubai} y más de 200 destinos en todo el mundo. Precio fijo, conductor profesional y recogida personalizada.</>
                 ) : locale === 'it' ? (
-                  <>Prenota il tuo transfer privato dall'aeroporto a {barcelona}, {london}, {paris}, {dubai} e oltre 100 destinazioni in tutto il mondo. Prezzo fisso, autista professionale e accoglienza personalizzata.</>
+                  <>Prenota il tuo transfer privato dall'aeroporto a {barcelona}, {london}, {paris}, {dubai} e oltre 200 destinazioni in tutto il mondo. Prezzo fisso, autista professionale e accoglienza personalizzata.</>
                 ) : locale === 'de' ? (
-                  <>Buchen Sie Ihren privaten Flughafentransfer in {barcelona}, {london}, {paris}, {dubai} und über 100 Reiseziele weltweit. Festpreis, professioneller Fahrer und persönlicher Empfang inklusive.</>
+                  <>Buchen Sie Ihren privaten Flughafentransfer in {barcelona}, {london}, {paris}, {dubai} und über 200 Reiseziele weltweit. Festpreis, professioneller Fahrer und persönlicher Empfang inklusive.</>
                 ) : (
-                  <>Book your private airport transfer in {barcelona}, {london}, {paris}, {dubai} and 100+ destinations worldwide. Fixed price, professional driver, meet & greet included.</>
+                  <>Book your private airport transfer in {barcelona}, {london}, {paris}, {dubai} and 200+ destinations worldwide. Fixed price, professional driver, meet & greet included.</>
                 )}
               </p>
             )

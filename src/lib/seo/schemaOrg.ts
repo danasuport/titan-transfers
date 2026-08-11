@@ -96,7 +96,7 @@ export function generateLocalBusinessSchema() {
     '@id': SITE_URL,
     name: 'Titan Transfers',
     url: SITE_URL,
-    description: 'Private airport transfers and taxi service worldwide. 100+ destinations, fixed prices, 24/7 support.',
+    description: 'Private airport transfers and taxi service worldwide. 200+ destinations, fixed prices, 24/7 support.',
     priceRange: '$$',
     aggregateRating: {
       '@type': 'AggregateRating',

@@ -30,7 +30,7 @@
     "support247": "Soporte 24/7",
     "securePayment": "Pago seguro",
     "verifiedReviews": "opiniones verificadas",
-    "destinations100": "Más de 100 destinos",
+    "destinations200": "Más de 200 destinos",
     "browseByCategory": "Explora por categoría",
     "browseByCategoryDesc": "Encuentra tu traslado perfecto explorando aeropuertos, ciudades, países y servicios."
   },
@@ -54,7 +54,7 @@
   "home": {
     "heroTitle": "Transfers privados en todo el mundo",
     "heroRating": "Nuestra valoración es de",
-    "heroSubtitle": "Traslados puerta a puerta desde aeropuertos en más de 100 destinos. Precios fijos, recogida personalizada, soporte 24/7.",
+    "heroSubtitle": "Traslados puerta a puerta desde aeropuertos en más de 200 destinos. Precios fijos, recogida personalizada, soporte 24/7.",
     "bookYourTransfer": "Reserva tu transfer",
     "popularDestinations": "Destinos populares",
     "whyChooseUs": "Por qué elegir Titan Transfers",
@@ -75,7 +75,7 @@
     "step3Desc": "Relájate en un vehículo cómodo y climatizado.",
     "latestNews": "Últimas noticias y guías de viaje",
     "testimonials": "Lo que dicen nuestros clientes",
-    "coverageTitle": "Más de 100 destinos en todo el mundo",
+    "coverageTitle": "Más de 200 destinos en todo el mundo",
     "coverageDesc": "Desde grandes aeropuertos hasta joyas escondidas, cubrimos transfers en Europa, Américas, Asia y más allá.",
     "popularDestinationsDesc": "Miles de viajeros confían en nosotros en las ciudades más visitadas del mundo.",
     "ctaTitle": "¿Listo para reservar tu transfer?",
@@ -113,7 +113,7 @@
   "trust": {
     "rating": "4.8/5 Valoración",
     "ratingDesc": "Basado en más de 2,500 reseñas",
-    "destinations": "100+ Destinos",
+    "destinations": "200+ Destinos",
     "destinationsDesc": "Cobertura mundial",
     "support": "Soporte 24/7",
     "supportDesc": "Siempre aquí para ayudarte",
