@@ -233,7 +233,7 @@ export function Header() {
 
       {/* Mobile drawer */}
       {mobileMenuOpen && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 300, display: 'flex', flexDirection: 'column', background: '#ffffff' }}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 10000, display: 'flex', flexDirection: 'column', background: '#ffffff' }}>
           {/* Drawer header — same height as closed header */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem 6vw', minHeight: 'calc(80px + 2rem)', borderBottom: '1px solid #e5e7eb', flexShrink: 0 }}>
             <Link href="/" onClick={() => setMobileMenuOpen(false)}>
@@ -261,7 +261,7 @@ export function Header() {
 
           {/* Footer links */}
           <div style={{ flexShrink: 0, borderTop: '1px solid #e5e7eb', padding: '1rem 6vw', display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <Link href={`/${locale}/${getLocalizedPath('contact', locale as Locale)}/`} onClick={() => setMobileMenuOpen(false)}
+            <Link href="/contact/" onClick={() => setMobileMenuOpen(false)}
               style={{ flex: 1, background: '#8BAA1D', color: '#ffffff', padding: '0.7rem 1rem', fontWeight: 700, fontSize: '0.875rem', textDecoration: 'none', textAlign: 'center', display: 'block' }}>
               {t('contact')}
             </Link>
