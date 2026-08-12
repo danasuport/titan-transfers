@@ -1,0 +1,146 @@
+{
+  "description": [
+    {
+      "_key": "7n9sll56",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "nvqupvxy",
+          "_type": "span",
+          "marks": [],
+          "text": "Barcelona is the cosmopolitan capital of Catalonia, world-renowned for its art, architecture, beaches, and nightlife. Home to Gaudi masterpieces like the Sagrada Familia and Park Guell, this Mediterranean gem attracts millions of visitors year-round."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "seoDescription": "Book your private transfer to Barcelona city centre. Meet & greet at Barcelona El Prat Airport. Fixed price, comfortable vehicles, 24/7 service.",
+  "translations": {
+    "ar": {
+      "description": [
+        {
+          "_key": "be5f67ef-eaa",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "d5a2f096",
+              "_type": "span",
+              "marks": [],
+              "text": "برشلونة هي العاصمة العالمية لكاتالونيا، مشهورة عالميًا بفنها وهندستها المعمارية وشواطئها وحياتها الليلية. تحتضن روائع غاودي مثل ساغرادا فاميليا وحديقة غويل، وتجذب هذه الجوهرة المتوسطية ملايين الزوار على مدار السنة."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "seoDescription": "احجز نقلًا خاصًا إلى وسط مدينة برشلونة. لقاء وترحيب في مطار برشلونة إل برات. سعر ثابت، مركبات مريحة، خدمة على مدار الساعة طوال أيام الأسبوع.",
+      "seoTitle": "نقل إلى برشلونة | تاكسي خاص من المطار | Titan Transfers",
+      "slug": {
+        "_type": "slug",
+        "current": "barcelona"
+      },
+      "title": "برشلونة"
+    },
+    "de": {
+      "description": [
+        {
+          "_key": "45009e46-c9a",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "c1322e7e",
+              "_type": "span",
+              "marks": [],
+              "text": "Barcelona ist die kosmopolitische Hauptstadt Kataloniens, weltberühmt für ihre Kunst, Architektur, Strände und das Nachtleben. Heimat von Gaudí-Meisterwerken wie der Sagrada Familia und dem Park Güell zieht dieses mediterrane Juwel das ganze Jahr über Millionen von Besuchern an."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "seoDescription": "Buchen Sie Ihren privaten Transfer ins Stadtzentrum von Barcelona. Meet & Greet am Flughafen Barcelona El Prat. Festpreis, komfortable Fahrzeuge, 24/7-Service.",
+      "seoTitle": "Transfers nach Barcelona | Privates Taxi vom Flughafen | Titan Transfers",
+      "slug": {
+        "_type": "slug",
+        "current": "barcelona"
+      },
+      "title": "Barcelona"
+    },
+    "es": {
+      "description": [
+        {
+          "_key": "ec4e0xf2",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "dhez9fgm",
+              "_type": "span",
+              "marks": [],
+              "text": "Barcelona es la cosmopolita capital de Cataluna, mundialmente reconocida por su arte, arquitectura, playas y vida nocturna. Hogar de obras maestras de Gaudi como la Sagrada Familia y el Park Guell, esta joya mediterranea atrae a millones de visitantes durante todo el ano."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "seoDescription": "Reserva tu transfer privado al centro de Barcelona. Recogida con cartel en el Aeropuerto de Barcelona-El Prat. Precio fijo, vehiculos comodos y servicio 24/7.",
+      "seoTitle": "Transfer a Barcelona | Taxi Privado desde el Aeropuerto | Titan Transfers",
+      "slug": {
+        "_type": "slug",
+        "current": "barcelona"
+      },
+      "title": "Barcelona"
+    },
+    "fr": {
+      "description": [
+        {
+          "_key": "827fab99-85f",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "b0575f5c",
+              "_type": "span",
+              "marks": [],
+              "text": "Barcelone est la capitale cosmopolite de la Catalogne, mondialement reconnue pour son art, son architecture, ses plages et sa vie nocturne. Abritant des chefs-d'œuvre de Gaudi tels que la Sagrada Familia et le Parc Güell, ce joyau méditerranéen attire des millions de visiteurs tout au long de l'année."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "seoDescription": "Réservez votre transfert privé vers le centre-ville de Barcelone. Accueil à l'aéroport de Barcelone El Prat. Prix fixe, véhicules confortables, service 24/7.",
+      "seoTitle": "Transferts vers Barcelone | Taxi privé depuis l'aéroport | Titan Transfers",
+      "slug": {
+        "_type": "slug",
+        "current": "barcelone"
+      },
+      "title": "Barcelone"
+    },
+    "it": {
+      "description": [
+        {
+          "_key": "1c80d454-365",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "17258e14",
+              "_type": "span",
+              "marks": [],
+              "text": "Barcellona è la capitale cosmopolita della Catalogna, rinomata in tutto il mondo per la sua arte, architettura, spiagge e vita notturna. Casa di capolavori di Gaudí come la Sagrada Familia e il Parco Güell, questo gioiello del Mediterraneo attira milioni di visitatori durante tutto l'anno."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "seoDescription": "Prenota il tuo trasferimento privato per il centro di Barcellona. Accoglienza all'Aeroporto di Barcellona El Prat. Prezzo fisso, veicoli confortevoli, servizio 24/7.",
+      "seoTitle": "Trasferimenti a Barcellona | Taxi Privato dall'Aeroporto | Titan Transfers",
+      "slug": {
+        "_type": "slug",
+        "current": "barcellona"
+      },
+      "title": "Barcellona"
+    }
+  }
+}

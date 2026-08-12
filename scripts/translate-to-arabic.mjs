@@ -52,6 +52,9 @@ const args = Object.fromEntries(
 const TYPES = (args.type || 'country,region,city,airport,port,trainStation,servicePage,route,blogPost,page').split(',')
 const LIMIT = args.limit ? Number(args.limit) : Infinity
 const FORCE = !!args.force
+// Re-translate one specific document (its English slug). Needed with --force:
+// without it, --force would rewrite every document of the type.
+const ONLY_SLUG = args.slug || null
 const DRY_RUN = !!args['dry-run']
 const MODEL = args.model || 'gpt-4o'
 
@@ -310,7 +313,8 @@ async function run() {
       translations
     }`
     console.log(`\n━━━ ${type.toUpperCase()} ━━━`)
-    const docs = await client.fetch(query)
+    let docs = await client.fetch(query)
+    if (ONLY_SLUG) docs = docs.filter(d => d.slug?.current === ONLY_SLUG)
     console.log(`Found ${docs.length} ${type} document(s)`)
 
     for (const doc of docs) {

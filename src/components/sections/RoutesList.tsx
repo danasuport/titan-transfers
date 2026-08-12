@@ -20,7 +20,7 @@ interface Route {
   translations?: Record<string, { title?: string; slug?: { current: string } }>
 }
 
-function RouteCard({ route, airportSlug, locale }: { route: Route; airportSlug: string; locale: Locale }) {
+function RouteCard({ route, airportSlug, locale, price }: { route: Route; airportSlug: string; locale: Locale; price?: string }) {
   const [hovered, setHovered] = useState(false)
   const routeSlug = getTranslatedSlug(route, locale)
   const destTitle = route.destination ? getTranslatedTitle(route.destination, locale) : getTranslatedTitle(route, locale)
@@ -79,6 +79,13 @@ function RouteCard({ route, airportSlug, locale }: { route: Route; airportSlug: 
               {formatDuration(route.estimatedDuration)}
             </span>
           )}
+          {/* Real sheet price. Seeing it before the click is what turns a list
+              of place names into a comparison a visitor can act on. */}
+          {price && (
+            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: hovered ? '#ffffff' : '#6B8313', transition: 'color 0.15s', whiteSpace: 'nowrap' }}>
+              {price}
+            </span>
+          )}
           <svg
             width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={hovered ? '#ffffff' : '#64748b'}
             style={{ transition: 'stroke 0.15s', flexShrink: 0 }}
@@ -96,11 +103,15 @@ export function RoutesList({
   airportSlug,
   cityName,
   title,
+  prices,
 }: {
   routes: Route[]
   airportSlug: string
   cityName?: string
   title?: string
+  /** Route _id → formatted "from" price. Resolved on the server, where the
+   *  sheet lives; absent on pages that don't have prices to hand. */
+  prices?: Record<string, string>
 }) {
   const locale = useLocale() as Locale
   const [filter, setFilter] = useState('')
@@ -164,7 +175,7 @@ export function RoutesList({
       {/* Grid */}
       <div className="resp-routes-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '0.5rem' }}>
         {filtered.map((route) => (
-          <RouteCard key={route._id} route={route} airportSlug={airportSlug} locale={locale} />
+          <RouteCard key={route._id} route={route} airportSlug={airportSlug} locale={locale} price={prices?.[route._id]} />
         ))}
       </div>
 

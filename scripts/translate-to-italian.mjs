@@ -51,6 +51,9 @@ const args = Object.fromEntries(
 const TYPES = (args.type || 'country,region,city,airport,port,trainStation,servicePage,route,blogPost,page').split(',')
 const LIMIT = args.limit ? Number(args.limit) : Infinity
 const FORCE = !!args.force
+// Re-translate one specific document (its English slug). Needed with --force:
+// without it, --force would rewrite every document of the type.
+const ONLY_SLUG = args.slug || null
 const DRY_RUN = !!args['dry-run']
 const MODEL = args.model || 'gpt-4o-mini'
 // Optional sharding for parallel runs: --shard=INDEX/TOTAL (0-based index).
@@ -317,6 +320,7 @@ async function run() {
     }`
     console.log(`\n━━━ ${type.toUpperCase()} ━━━`)
     let docs = await client.fetch(query)
+    if (ONLY_SLUG) docs = docs.filter(d => d.slug?.current === ONLY_SLUG)
     if (SHARD_N > 1) {
       docs = docs.filter((_, idx) => idx % SHARD_N === SHARD_I)
       console.log(`Shard ${SHARD_I + 1}/${SHARD_N}: ${docs.length} of this type`)

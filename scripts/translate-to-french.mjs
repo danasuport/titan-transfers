@@ -50,7 +50,10 @@ const args = Object.fromEntries(
 const TYPES = (args.type || 'country,region,city,airport,port,trainStation,servicePage,route,blogPost,page').split(',')
 const LIMIT = args.limit ? Number(args.limit) : Infinity
 const IDS = args.ids ? String(args.ids).split(',').map(s => s.trim()).filter(Boolean) : null
-const FORCE = !!args.force || !!IDS
+const FORCE = !!args.force
+// Re-translate one specific document (its English slug). Needed with --force:
+// without it, --force would rewrite every document of the type.
+const ONLY_SLUG = args.slug || null || !!IDS
 const DRY_RUN = !!args['dry-run']
 const MODEL = args.model || 'gpt-4o-mini'
 let SHARD_I = 0, SHARD_N = 1
@@ -333,6 +336,7 @@ async function run() {
     }`
     console.log(`\n━━━ ${type.toUpperCase()} ━━━`)
     let docs = await client.fetch(query)
+    if (ONLY_SLUG) docs = docs.filter(d => d.slug?.current === ONLY_SLUG)
     if (IDS) {
       docs = docs.filter(d => IDS.includes(d._id))
       console.log(`Filtered to ${docs.length} document(s) by --ids`)

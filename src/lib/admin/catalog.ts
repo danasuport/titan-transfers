@@ -18,7 +18,10 @@ import { routeKey } from '@/lib/route-key'
 // search recorded before it.
 
 const SHEET_TTL = 3600
-const FETCH_TIMEOUT_MS = 10_000
+// 10s is comfortable for the 7 MB sheet from the server, but tight on a slow
+// link (a local dev machine times out and silently loses every price), so it's
+// overridable without a code change.
+const FETCH_TIMEOUT_MS = Number(process.env.ROUTES_SHEET_TIMEOUT_MS) || 10_000
 
 /**
  * Google publishes any link-shared sheet as CSV with no auth. Overridable so the

@@ -6,6 +6,9 @@ import { cityBySlugQuery, allCitiesQuery } from '@/lib/sanity/queries'
 import { urlFor } from '@/lib/sanity/image'
 import { generatePageMetadata, generateCityMetadata } from '@/lib/seo/generateMetadata'
 import { generateTaxiServiceSchema } from '@/lib/seo/schemaOrg'
+import { buildCityFaqs } from '@/lib/seo/cityFaqs'
+import { getSheetPrices } from '@/lib/admin/catalog'
+import { priceForRoute, formatPrice, formatFromPrice } from '@/lib/route-price'
 import { SchemaOrg } from '@/components/seo/SchemaOrg'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { BookingPanel } from '@/components/ui/BookingPanel'
@@ -67,37 +70,43 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
     { label: cityTitle },
   ]
 
-  const faqItems = pick(locale, {
-    en: [
-      { question: `How do I book a private transfer in ${cityTitle}?`, answer: `Use our booking form to instantly search and book your private transfer. Select your pickup and drop-off locations, choose your vehicle, and confirm at a fixed price.` },
-      { question: `How do I book a private taxi in ${cityTitle}?`, answer: `Booking a private taxi in ${cityTitle} is easy. Enter your pickup and destination, choose from our vehicle options, and book at a fixed price with no surprises.` },
-      { question: 'Do you offer round-trip transfers?', answer: 'Yes, you can book both one-way and round-trip transfers through our booking system.' },
-      { question: `What areas of ${cityTitle} do you cover?`, answer: `We cover all areas of ${cityTitle} and surrounding regions including airports, ports, train stations, and hotels. If your destination is not listed, contact us for a custom quote.` },
-    ],
-    es: [
-      { question: `¿Cómo reservo un traslado privado en ${cityTitle}?`, answer: `Usa nuestro formulario de reserva para buscar y confirmar tu traslado al instante. Elige recogida y destino, selecciona tu vehículo y confirma a precio fijo.` },
-      { question: `¿Cuánto cuesta un taxi privado en ${cityTitle}?`, answer: `Nuestros traslados privados en ${cityTitle} tienen precio fijo cerrado antes de salir. Sin cargos ocultos ni sorpresas. Consulta tu precio al instante en el formulario.` },
-      { question: '¿Ofrecéis traslados de ida y vuelta?', answer: 'Sí, puedes reservar traslados de solo ida o ida y vuelta directamente desde nuestro sistema de reservas.' },
-      { question: `¿Qué zonas de ${cityTitle} cubrís?`, answer: `Cubrimos todas las zonas de ${cityTitle} y alrededores: aeropuertos, puertos, estaciones de tren y hoteles. Si tu destino no aparece, contáctanos para un presupuesto personalizado.` },
-    ],
-    ar: [
-      { question: `كيف أحجز نقلاً خاصاً في ${cityTitle}؟`, answer: `استخدم نموذج الحجز لدينا للبحث وحجز نقلك الخاص فوراً. اختر نقطة الاستلام والوجهة، اختر مركبتك، وأكد بسعر ثابت.` },
-      { question: `كم تكلفة سيارة الأجرة الخاصة في ${cityTitle}؟`, answer: `رحلاتنا الخاصة في ${cityTitle} لها سعر ثابت متفق عليه قبل الانطلاق. بدون رسوم خفية أو مفاجآت. اطلع على سعرك فوراً في النموذج.` },
-      { question: 'هل تقدمون رحلات ذهاب وعودة؟', answer: 'نعم، يمكنك حجز رحلات ذهاب فقط أو ذهاب وعودة مباشرة عبر نظام الحجز لدينا.' },
-      { question: `ما المناطق التي تغطونها في ${cityTitle}؟`, answer: `نغطي جميع مناطق ${cityTitle} والمناطق المحيطة بما في ذلك المطارات والموانئ ومحطات القطار والفنادق. إذا لم تكن وجهتك مدرجة، تواصل معنا للحصول على عرض سعر مخصص.` },
-    ],
-    it: [
-      { question: `Come prenoto un transfer privato a ${cityTitle}?`, answer: `Usa il nostro modulo di prenotazione per cercare e confermare subito il tuo transfer. Scegli ritiro e destinazione, seleziona il veicolo e conferma a prezzo fisso.` },
-      { question: `Quanto costa un taxi privato a ${cityTitle}?`, answer: `I nostri transfer privati a ${cityTitle} hanno un prezzo fisso concordato prima della partenza. Nessun costo nascosto né sorprese. Consulta il tuo prezzo subito nel modulo.` },
-      { question: `Offrite transfer di andata e ritorno?`, answer: `Sì, puoi prenotare transfer di sola andata o andata e ritorno direttamente dal nostro sistema di prenotazione.` },
-      { question: `Quali zone di ${cityTitle} coprite?`, answer: `Copriamo tutte le zone di ${cityTitle} e dintorni: aeroporti, porti, stazioni ferroviarie e hotel. Se la tua destinazione non è elencata, contattaci per un preventivo personalizzato.` },
-    ],
-    de: [
-      { question: `Wie buche ich einen privaten Transfer in ${cityTitle}?`, answer: `Nutzen Sie unser Buchungsformular, um Ihren privaten Transfer sofort zu suchen und zu buchen. Wählen Sie Abhol- und Zielort, Ihr Fahrzeug und bestätigen Sie zum Festpreis.` },
-      { question: `Wie viel kostet ein privates Taxi in ${cityTitle}?`, answer: `Unsere privaten Transfers in ${cityTitle} haben einen festen Preis, der vor der Fahrt vereinbart wird. Keine versteckten Kosten, keine Überraschungen. Sehen Sie Ihren Preis sofort im Formular.` },
-      { question: `Bieten Sie Hin- und Rückfahrten an?`, answer: `Ja, Sie können sowohl einfache Fahrten als auch Hin- und Rückfahrten direkt über unser Buchungssystem buchen.` },
-      { question: `Welche Gebiete von ${cityTitle} decken Sie ab?`, answer: `Wir decken alle Gebiete von ${cityTitle} und Umgebung ab, einschließlich Flughäfen, Häfen, Bahnhöfen und Hotels. Wenn Ihr Ziel nicht aufgeführt ist, kontaktieren Sie uns für ein individuelles Angebot.` },
-    ],
+  // FAQs built from this city's real data — the price we actually charge from
+  // its main airport, the real drive time, the real airport list. Replaces four
+  // questions that were identical on all 1,111 city pages with only the name
+  // swapped. The sheet read is free (module-scope cache, see catalog.ts).
+  const cityNames = [city.title, ...Object.values(city.translations || {}).map((tr: unknown) => (tr as { title?: string })?.title)]
+  const sheetPrices = await getSheetPrices()
+  const pricedRoutes = (city.routesTo || [])
+    .filter((r: { origin?: { iataCode?: string } }) => r.origin?.iataCode)
+    .map((r: { _id: string; origin: { iataCode: string; title: string; translations?: Record<string, { title?: string }> }; distance?: number; estimatedDuration?: number }) => ({
+      _id: r._id,
+      airportName: (locale !== 'en' && r.origin.translations?.[locale]?.title) || r.origin.title,
+      amount: priceForRoute(r.origin.iataCode, cityNames, sheetPrices),
+      distanceKm: r.distance ?? null,
+      durationMinutes: r.estimatedDuration ?? null,
+    }))
+  // Same figures, keyed by route, for the "popular routes" list below.
+  const routePrices: Record<string, string> = {}
+  for (const r of pricedRoutes) {
+    if (r.amount != null) routePrices[r._id] = formatFromPrice(r.amount, locale as Locale)
+  }
+  // Cheapest priced route first — that's the figure a visitor comparing offers
+  // is looking for, and it matches the "from X" shown elsewhere on the site.
+  const cheapest = pricedRoutes
+    .filter((r: { amount: number | null }) => r.amount != null)
+    .sort((a: { amount: number }, b: { amount: number }) => a.amount - b.amount)[0]
+  const mainRoute = cheapest
+    ? { ...cheapest, price: formatPrice(cheapest.amount, locale as Locale) }
+    : pricedRoutes[0] || null
+
+  const faqItems = buildCityFaqs({
+    cityTitle,
+    locale: locale as Locale,
+    airportNames: (city.nearbyAirports || []).map(
+      (a: { title: string; translations?: Record<string, { title?: string }> }) =>
+        (locale !== 'en' && a.translations?.[locale]?.title) || a.title,
+    ),
+    mainRoute,
   })
 
   const trustBadges = [
@@ -195,6 +204,7 @@ export default async function CityPage({ params }: { params: Promise<{ locale: s
             routes={allRoutes}
             airportSlug={city.nearbyAirports?.[0]?.slug?.current || slug}
             cityName={cityTitle}
+            prices={routePrices}
             title={pick(locale, {
               en: `Popular routes from ${cityTitle}`,
               es: `Rutas populares desde ${cityTitle}`,

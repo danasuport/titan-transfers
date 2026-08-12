@@ -42,12 +42,12 @@ export function vehiclePricesForRoute(
 // each language, and capacity — is keyed off the sheet label. Passengers/bags
 // are the standard capacities of each ETO class (not in the sheet).
 const VEHICLES: Record<string, { pax: number; bags: number; name: Record<Locale, string> }> = {
-  'Sedan': { pax: 3, bags: 3, name: { en: 'Sedan', es: 'Turismo', it: 'Berlina', de: 'Limousine', ar: 'سيدان' } },
-  'Executive Sedan': { pax: 3, bags: 3, name: { en: 'Executive Sedan', es: 'Turismo ejecutivo', it: 'Berlina executive', de: 'Executive-Limousine', ar: 'سيدان تنفيذي' } },
-  'People Carrier': { pax: 6, bags: 5, name: { en: 'People Carrier', es: 'Monovolumen', it: 'Monovolume', de: 'Van', ar: 'حافلة صغيرة' } },
-  'Large People Carrier': { pax: 8, bags: 8, name: { en: 'Large People Carrier', es: 'Monovolumen grande', it: 'Monovolume grande', de: 'Großraum-Van', ar: 'حافلة كبيرة' } },
-  'Executive People Carrier': { pax: 6, bags: 6, name: { en: 'Executive People Carrier', es: 'Monovolumen ejecutivo', it: 'Monovolume executive', de: 'Executive-Van', ar: 'حافلة تنفيذية' } },
-  'Minibus': { pax: 16, bags: 16, name: { en: 'Minibus', es: 'Microbús', it: 'Minibus', de: 'Minibus', ar: 'ميني باص' } },
+  'Sedan': { pax: 3, bags: 3, name: { en: 'Sedan', es: 'Turismo', it: 'Berlina', de: 'Limousine', ar: 'سيدان', fr: 'Berline' } },
+  'Executive Sedan': { pax: 3, bags: 3, name: { en: 'Executive Sedan', es: 'Turismo ejecutivo', it: 'Berlina executive', de: 'Executive-Limousine', ar: 'سيدان تنفيذي', fr: 'Berline exécutive' } },
+  'People Carrier': { pax: 6, bags: 5, name: { en: 'People Carrier', es: 'Monovolumen', it: 'Monovolume', de: 'Van', ar: 'حافلة صغيرة', fr: 'Monospace' } },
+  'Large People Carrier': { pax: 8, bags: 8, name: { en: 'Large People Carrier', es: 'Monovolumen grande', it: 'Monovolume grande', de: 'Großraum-Van', ar: 'حافلة كبيرة', fr: 'Grand monospace' } },
+  'Executive People Carrier': { pax: 6, bags: 6, name: { en: 'Executive People Carrier', es: 'Monovolumen ejecutivo', it: 'Monovolume executive', de: 'Executive-Van', ar: 'حافلة تنفيذية', fr: 'Monospace exécutif' } },
+  'Minibus': { pax: 16, bags: 16, name: { en: 'Minibus', es: 'Microbús', it: 'Minibus', de: 'Minibus', ar: 'ميني باص', fr: 'Minibus' } },
 }
 
 export interface VehicleRow {
@@ -71,10 +71,10 @@ export function vehicleRows(vehicles: VehiclePrice[], locale: Locale): VehicleRo
 }
 
 const LOCALE_TAG: Record<Locale, string> = {
-  en: 'en-GB', es: 'es-ES', it: 'it-IT', de: 'de-DE', ar: 'ar-AE',
+  en: 'en-GB', es: 'es-ES', it: 'it-IT', de: 'de-DE', ar: 'ar-AE', fr: 'fr-FR',
 }
 const FROM_WORD: Record<Locale, string> = {
-  en: 'From', es: 'Desde', it: 'Da', de: 'Ab', ar: 'ابتداءً من',
+  en: 'From', es: 'Desde', it: 'Da', de: 'Ab', ar: 'ابتداءً من', fr: 'À partir de',
 }
 
 /** "32,97 €" / "€32.97" — locale-aware currency, no prefix. */

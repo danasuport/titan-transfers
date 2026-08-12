@@ -154,7 +154,16 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale, slug, routeSlug } = await params
   const route = await sanityClient.fetch(routeBySlugQuery, { originSlug: slug, routeSlug })
   if (!route) return {}
-  const { title, description } = generateRouteMetadata(route, locale as Locale)
+  // Same sheet lookup the page body does, so the snippet's "from X €" always
+  // matches the price the visitor lands on. The sheet is cached in module scope
+  // (see catalog.ts), so this costs nothing beyond the first request per TTL.
+  const destNames = [
+    route.destination?.title,
+    ...Object.values(route.destination?.translations || {}).map((tr) => (tr as { title?: string })?.title),
+  ]
+  const priceAmount = priceForRoute(route.origin?.iataCode, destNames, await getSheetPrices())
+  const fromPrice = priceAmount != null ? formatFromPrice(priceAmount, locale as Locale) : null
+  const { title, description } = generateRouteMetadata(route, locale as Locale, fromPrice)
   const currentPath = `${locale === 'en' ? '' : `/${locale}`}${getRouteUrl(route.origin, route, locale as Locale)}`
   return generatePageMetadata({
     title,

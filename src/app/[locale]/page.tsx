@@ -36,6 +36,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: t('heroSubtitle'),
     path: locale === 'en' ? '/' : `/${locale}/`,
     locale: locale as Locale,
+    // "titan transfers" is our #1 branded query and the home page is what
+    // answers it — the brand stays in the title at any length.
+    keepBrand: true,
     alternates: [
       { locale: 'en', path: '/' },
       { locale: 'es', path: '/es/' },
