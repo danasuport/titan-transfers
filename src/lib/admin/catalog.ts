@@ -38,10 +38,9 @@ const COL_VEHICLE = 'Vehicle'
 // in for that route and fall back to `Our Target` — never mixing the two within
 // one route's table, or a cheaper Executive than Sedan could appear.
 const COL_PRICE = 'price'
+// `Our Target` (col F) is still parsed for completeness but no longer used for
+// pricing — the client wants prices to come from column E (`price`) only.
 const COL_TARGET = 'Our Target'
-// How many priced vehicles a route needs in `price` before we trust that column
-// for the whole route rather than falling back to `Our Target`.
-const PRICE_MIN_ROWS = 4
 
 /**
  * Spanish-formatted money → number. "32,97" → 32.97, "1 076,21" → 1076.21
@@ -136,12 +135,12 @@ async function downloadSheet(url: string): Promise<SheetRow[]> {
 
   const out: SheetRow[] = []
   for (const [key, rowsForRoute] of byKey) {
-    // Trust `price` for the whole route only when it's well-filled there,
-    // otherwise take `Our Target`. Never mix the two within one route.
-    const priced = rowsForRoute.filter(v => v.price != null).length
-    const useColumn: 'price' | 'target' = priced >= PRICE_MIN_ROWS ? 'price' : 'target'
+    // Always use column E (`price`) per the client's decision — never `Our Target`.
+    // Verified: every published route has a `price` in E except a tiny handful,
+    // which simply show no price rather than falling back to a different column.
+    // Vehicles without a `price` value are dropped from the table.
     const vehicles = rowsForRoute
-      .map(v => ({ vehicle: v.vehicle, price: useColumn === 'price' ? v.price : v.target }))
+      .map(v => ({ vehicle: v.vehicle, price: v.price }))
       .filter((v): v is VehiclePrice => v.price != null && !!v.vehicle)
       // Cheapest first, and dedupe a vehicle that appears twice.
       .sort((a, b) => a.price - b.price)
