@@ -48,6 +48,11 @@ const IATA_LANG = {
   PFO:'el',LCA:'el',KGS:'el',ATH:'el',
   MLA:'en',TIV:'sr',
   IBZ:'es',BCN:'es',VLC:'es',SVQ:'es',
+  // breadth batch
+  BEG:'sr',VAR:'bg',BOJ:'bg',RJK:'hr',LJU:'sl',TGD:'sr',
+  VRN:'it',GOA:'it',CIY:'it',TPS:'it',BDS:'it',QSR:'it',AOI:'it',
+  BIQ:'fr',LDE:'fr',AGA:'fr',FUE:'es',FNC:'pt',
+  ZNZ:'en',POP:'es',MRU:'en',
 }
 
 const NOT_A_PHOTO = /bandera|flag|escudo|coat.?of.?arms|\bcoa\b|location|localizaci|mapa|map[_.]|\.svg|logo|commons|wiki|icon|symbol|blason/i
@@ -139,7 +144,17 @@ async function run() {
      } | order(iata asc, dest asc)`
   )
   console.log(`Rutas ocultas sin imagen: ${routes.length}`)
-  const batch = routes.slice(0, LIMIT)
+  // --skip=destino1,destino2 : deja fuera destinos cuya mejor foto candidata ya
+  // se ha revisado y NO representa el lugar (un escudo, un mapa, o directamente
+  // otro sitio con nombre parecido). Es preferible dejar la ruta sin foto — el
+  // fallback de marca — que ilustrarla con algo que no es.
+  const SKIP = ((process.argv.find(a => a.startsWith('--skip=')) || '').split('=')[1] || '')
+    .split(',').map(s => s.trim().toLowerCase()).filter(Boolean)
+  const kept = SKIP.length
+    ? routes.filter(r => !SKIP.includes(String(r.dest || '').toLowerCase()))
+    : routes
+  if (SKIP.length) console.log(`Excluidas por --skip: ${routes.length - kept.length}`)
+  const batch = kept.slice(0, LIMIT)
   let done = 0, skipped = 0, failed = 0
   for (const [i, r] of batch.entries()) {
     const label = `[${i + 1}/${batch.length}] ${r.iata} → ${r.dest}`

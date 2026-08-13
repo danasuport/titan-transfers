@@ -1,0 +1,84 @@
+# tanda2-miami — 83 rutas · ticket medio 170€
+MIA:amelia island
+MIA:jacksonville (northside)
+MIA:gainesville (starke)
+MIA:maitland
+MIA:daytona beach
+MIA:cocoa beach
+MIA:titusville
+MIA:clermont
+MIA:kissimmee
+MIA:lake buena vista
+MIA:venice florida
+MIA:key west
+MIA:sarasota
+MIA:punta gorda
+MIA:sanibel
+MIA:estero
+MIA:cape coral
+MIA:fort myers
+MIA:vero beach
+MIA:marathon
+MIA:key colony beach
+MIA:naples florida
+MIA:immokalee
+MIA:indiantown
+MIA:wellington
+MIA:tequesta
+MIA:jupiter (florida)
+MIA:everglades city
+MIA:juno beach
+MIA:north palm beach
+MIA:loxahatchee
+MIA:palm beach gardens
+MIA:palm beach fl
+MIA:west palm beach
+MIA:royal palm beach
+MIA:wellington florida
+MIA:lake worth (greenacres)
+MIA:greenacres
+MIA:tavernier
+MIA:key largo
+MIA:boynton beach
+MIA:delray beach
+MIA:boca raton
+MIA:coral springs
+MIA:islamorada
+MIA:deerfield beach
+MIA:lighthouse point
+MIA:boulevard heights
+MIA:coconut creek
+MIA:sunrise
+MIA:homestead
+MIA:tamarac
+MIA:dania beach
+MIA:davie
+MIA:weston
+MIA:flamingo gardens
+MIA:lauderdale-by-the-sea
+MIA:north lauderdale
+MIA:plantation
+MIA:pompano beach
+MIA:sawgrass mills
+MIA:aventura
+MIA:sunny isles beach
+MIA:key biscayne
+MIA:hallandale beach
+MIA:hollywood fl
+MIA:hollywood beach
+MIA:miramar (pembroke pines)
+MIA:miami gardens
+MIA:palmetto bay
+MIA:pinecrest
+MIA:bal harbour
+MIA:kendall
+MIA:miami outskirts
+MIA:north bay village
+MIA:pembroke pines
+MIA:opa locka
+MIA:virginia gardens
+MIA:el portal
+MIA:hialeah
+MIA:doral
+MIA:downtown miami
+MIA:edgewater (downtown miami)

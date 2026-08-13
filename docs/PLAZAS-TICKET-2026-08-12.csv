@@ -1,0 +1,210 @@
+IATA,Aeropuerto,Pais,Rutas publicadas,Rutas con precio,Ticket medio,Ticket mediana,Min,Max
+DUS,"Düsseldorf Airport","Germany",1,3,507.88,502.58,48.45,972.60
+VRN,"Verona Villafranca Airport","Italy",3,209,317.31,337.16,49.00,880.60
+LDE,"Tarbes-Lourdes-Pyrénées Airport","France",2,99,414.70,334.78,36.86,1724.53
+GOA,"Genoa Cristoforo Colombo Airport","Italy",3,125,334.52,325.67,62.94,749.25
+OMO,"Mostar International Airport","Bosnia and Herzegovina",11,11,359.58,312.84,33.04,1056.64
+CIY,"Comiso Airport","Italy",3,196,306.90,301.19,38.66,835.01
+TPS,"Trapani-Birgi Airport","Italy",3,105,306.22,299.70,37.46,869.88
+AHO,"Alghero-Fertilia Airport","Italy",14,218,282.84,298.54,3.00,974.03
+GVA,"Geneva Airport","Switzerland",2,51,380.24,287.21,64.51,1259.46
+VCE,"Venice Marco Polo Airport","Italy",10,356,306.42,276.84,1.02,1130.00
+BRI,"Bari Karol Wojtyła Airport","Italy",18,190,270.64,257.22,1.07,1894.88
+FLR,"Florence Airport","Italy",1,74,272.34,220.49,62.94,1121.87
+BIQ,"Biarritz Pays Basque Airport","France",3,97,281.11,220.39,42.64,1687.50
+YYC,"Calgary International Airport","Canada",1,14,379.11,211.86,54.20,1276.54
+EIN,"Eindhoven Airport","Netherlands",2,97,208.20,210.38,15.98,458.54
+NCE,"Nice Côte d'Azur Airport","France",22,292,239.06,197.51,1.17,1297.84
+BER,"Berlin Brandenburg Airport","Germany",1,43,227.11,195.01,50.63,488.51
+DEN,"Denver International Airport","United States",1,104,265.17,191.48,63.52,2803.44
+RJK,"Rijeka Airport","Croatia",3,100,211.08,190.44,62.44,739.26
+MUC,"Munich Airport","Germany",1,215,231.92,186.63,40.96,1445.86
+ATH,"Athens International Airport","Greece",5,198,200.61,179.06,1.23,661.27
+SFO,"San Francisco International Airport","United States",1,104,214.23,176.06,30.03,799.20
+OTP,"Bucharest Henri Coandă International Airport","Romania",8,81,175.37,175.82,26.75,412.09
+OLB,"Olbia Costa Smeralda Airport","Italy",22,156,293.53,173.07,47.45,3530.08
+QSR,"Salerno Costa d'Amalfi Airport","Italy",3,39,353.29,171.36,103.22,2388.27
+BUD,"Budapest Ferenc Liszt International Airport","Hungary",3,146,175.90,168.81,26.93,603.62
+LCY,"London City Airport","United Kingdom",2,3,146.57,167.83,56.31,215.56
+DBV,"Dubrovnik Airport","Croatia",21,64,205.22,164.27,24.98,894.57
+BDS,"Brindisi Airport","Italy",3,140,184.03,163.43,33.80,1896.67
+DTW,"Detroit Metropolitan Airport","United States",1,77,239.83,160.23,31.10,1454.64
+ZRH,"Zurich Airport","Switzerland",1,107,179.18,159.84,1.12,578.92
+SLC,"Salt Lake City International Airport","United States",1,32,274.92,156.94,73.71,1444.86
+LIN,"Milan Linate Airport","Italy",1,42,186.94,156.92,60.94,678.85
+CAG,"Cagliari Elmas Airport","Italy",11,131,309.60,155.84,43.71,2933.60
+PRG,"Václav Havel Airport Prague","Czech Republic",1,159,219.38,153.85,24.98,780.22
+SUF,"Lamezia Terme International Airport","Italy",5,91,526.11,152.63,39.32,10329.32
+VLC,"Valencia Airport","Spain",12,295,186.51,151.85,30.53,670.46
+BVA,"Paris Beauvais-Tillé Airport","France",2,238,196.42,149.85,39.96,1079.05
+NAP,"Naples International Airport","Italy",22,197,228.88,149.85,1.14,1688.67
+PIT,"Pittsburgh International Airport","United States",2,27,220.53,145.28,93.66,1409.53
+DUB,"Dublin Airport","Ireland",1,240,169.61,143.61,26.97,539.30
+BCN,"Barcelona-El Prat Airport","Spain",58,389,172.02,142.31,32.97,787.62
+CRL,"Brussels South Charleroi Airport","Belgium",5,143,158.25,139.86,40.64,313.10
+BUF,"Buffalo Niagara International Airport","United States",3,59,222.02,139.84,53.28,1128.73
+EWR,"Newark Liberty International Airport","United States",1,146,168.24,139.79,54.95,919.48
+RDU,"Raleigh-Durham International Airport","United States",2,15,260.90,138.86,129.15,734.27
+MCI,"Kansas City International Airport","United States",1,14,155.54,138.82,86.79,261.70
+PMO,"Palermo Falcone-Borsellino Airport","Italy",1,10,172.28,138.69,50.38,413.52
+MCO,"Orlando International Airport","United States",1,177,146.28,138.15,30.92,444.81
+JFK,"John F. Kennedy International Airport","United States",1,154,168.83,137.59,1.06,734.98
+BGY,"Milan Bergamo Airport","Italy",1,39,185.05,135.94,49.63,571.84
+TFN,"Tenerife North Airport","Spain",18,18,130.47,135.68,56.19,166.74
+LGW,"London Gatwick Airport","United Kingdom",2,11,170.28,134.83,85.91,555.08
+CTA,"Catania-Fontanarossa Airport","Italy",1,52,177.29,131.30,28.97,1880.87
+SVQ,"Seville Airport","Spain",9,95,140.97,131.12,31.84,678.50
+ZAD,"Zadar Airport","Croatia",18,121,183.85,130.87,30.97,525.97
+YUL,"Montréal-Pierre Elliott Trudeau International Airport","Canada",1,38,135.80,130.59,34.81,373.01
+SPU,"Split Airport","Croatia",22,149,163.45,130.56,25.97,617.01
+PHL,"Philadelphia International Airport","United States",1,64,168.73,130.30,50.93,814.49
+CGN,"Cologne Bonn Airport","Germany",1,46,154.24,129.62,49.98,433.72
+LGA,"LaGuardia Airport","United States",1,139,160.22,129.58,56.60,469.89
+AMS,"Amsterdam Schiphol Airport","Netherlands",4,152,145.97,127.98,33.97,461.96
+CLT,"Charlotte Douglas International Airport","United States",1,34,193.44,127.13,47.09,824.24
+MXP,"Milan Malpensa Airport","Italy",1,107,170.99,125.90,41.96,742.69
+SCQ,"Santiago de Compostela Airport","Spain",1,109,136.95,124.88,34.97,282.22
+BEG,"Belgrade Nikola Tesla Airport","Serbia",2,85,136.27,123.63,21.98,319.46
+LHR,"London Heathrow Airport","United Kingdom",2,3,155.44,121.88,73.75,270.69
+VIE,"Vienna International Airport","Austria",1,127,138.25,119.88,19.98,691.17
+LJU,"Ljubljana Jože Pučnik Airport","Slovenia",3,54,115.02,117.88,28.97,213.95
+RIC,"Richmond International Airport","United States",1,1,117.27,117.27,117.27,117.27
+MAD,"Adolfo Suárez Madrid-Barajas Airport","Spain",3,350,238.44,116.60,34.23,883.60
+PMI,"Palma de Mallorca Airport","Spain",27,27,101.70,114.75,47.25,136.35
+IAD,"Washington Dulles International Airport","United States",1,53,165.11,114.01,54.22,580.73
+TQO,"Tulum International Airport","Mexico",13,13,122.70,113.93,72.50,172.52
+CGH,"São Paulo Congonhas Airport","Brazil",4,70,138.29,113.24,18.69,698.57
+AUS,"Austin-Bergstrom International Airport","United States",1,14,143.29,112.49,52.82,501.79
+POP,"Puerto Plata Gregorio Luperón International Airport","Dominican Republic",3,21,131.27,112.42,39.08,267.80
+AGP,"Málaga-Costa del Sol Airport","Spain",275,275,139.32,112.39,27.80,847.92
+SCL,"Santiago Arturo Merino Benítez International Airport","Chile",2,34,132.04,112.15,23.37,501.52
+FRA,"Frankfurt Airport","Germany",7,22,136.13,111.69,35.60,282.71
+STN,"London Stansted Airport","United Kingdom",2,10,123.31,110.09,50.29,224.78
+LTN,"London Luton Airport","United Kingdom",2,32,127.28,110.03,44.24,589.81
+SJJ,"Sarajevo International Airport","Bosnia and Herzegovina",1,47,140.45,109.58,19.66,421.80
+FCO,"Rome Fiumicino Airport","Italy",2,159,166.39,108.92,1.10,1078.70
+EDI,"Edinburgh Airport","United Kingdom",1,224,146.92,108.64,1.03,545.70
+LCA,"Larnaca International Airport","Cyprus",13,128,105.83,108.57,19.98,251.28
+MSP,"Minneapolis-Saint Paul International Airport","United States",1,15,109.95,108.45,99.12,132.10
+BOS,"Boston Logan International Airport","United States",1,65,165.54,105.81,53.39,1014.46
+PUY,"Pula Airport","Croatia",4,80,143.21,104.90,31.97,697.22
+MAN,"Manchester Airport","United Kingdom",4,158,126.32,103.39,31.97,877.18
+PHX,"Phoenix Sky Harbor International Airport","United States",1,19,118.72,101.48,69.74,416.58
+PFO,"Paphos International Airport","Cyprus",13,105,119.85,101.29,30.72,307.32
+LAX,"Los Angeles International Airport","United States",2,234,131.35,100.49,42.17,978.29
+TGD,"Podgorica Airport","Montenegro",3,39,106.73,99.90,21.98,451.42
+SAN,"San Diego International Airport","United States",1,111,170.92,99.90,52.34,1348.58
+BWI,"Baltimore/Washington International Airport","United States",2,55,171.77,99.87,55.98,780.54
+VAR,"Varna Airport","Bulgaria",3,65,130.12,98.10,25.59,463.35
+GRU,"São Paulo Guarulhos International Airport","Brazil",4,77,121.47,97.03,13.53,403.15
+NRT,"Tokyo Narita International Airport","Japan",5,48,151.87,96.91,56.40,480.31
+DCA,"Ronald Reagan Washington National Airport","United States",1,47,154.35,95.31,49.77,606.49
+MIA,"Miami International Airport","United States",3,86,164.82,95.22,30.17,743.27
+TPA,"Tampa International Airport","United States",1,76,114.96,94.33,31.73,459.31
+YYZ,"Toronto Pearson International Airport","Canada",1,69,138.78,93.66,24.99,949.33
+LIS,"Lisbon Humberto Delgado Airport","Portugal",15,225,118.96,93.66,12.29,588.91
+BRU,"Brussels Airport","Belgium",5,25,101.22,92.54,45.82,199.73
+SSH,"Sharm el-Sheikh International Airport","Egypt",4,13,80.21,92.41,6.43,137.36
+ITM,"Osaka Itami Airport","Japan",1,5,114.32,92.38,50.69,231.44
+SAT,"San Antonio International Airport","United States",1,14,83.53,90.80,57.84,115.43
+PRN,"Pristina International Airport","Kosovo",2,2,89.47,89.47,45.75,133.18
+JED,"Jeddah King Abdulaziz International Airport","Saudi Arabia",4,4,86.18,87.68,24.35,145.00
+CDG,"Paris Charles de Gaulle Airport","France",2,269,137.71,87.62,39.96,573.57
+RKT,"Ras Al Khaimah International Airport","United Arab Emirates",4,21,106.82,87.34,33.95,274.73
+PEK,"Beijing Capital International Airport","China",1,5,91.99,84.74,18.25,152.38
+OPO,"Porto Airport","Portugal",4,277,113.38,83.67,11.99,575.64
+ASW,"Aswan International Airport","Egypt",1,3,64.02,83.59,12.96,95.52
+TIA,"Tirana International Airport","Albania",12,12,87.19,82.42,14.99,180.21
+SEA,"Seattle-Tacoma International Airport","United States",2,26,89.95,82.08,35.72,179.74
+SKP,"Skopje Alexander the Great Airport","North Macedonia",1,47,96.64,81.92,23.73,253.50
+AGA,"Agadir Al Massira Airport","Morocco",3,35,104.93,81.83,13.74,424.58
+YOW,"Ottawa Macdonald-Cartier International Airport","Canada",1,6,125.28,81.77,43.89,249.34
+CUC,"Cúcuta Camilo Daza International Airport","Colombia",1,1,79.83,79.83,79.83,79.83
+REU,"Reus Airport","Spain",24,24,95.20,78.79,42.33,266.71
+BLB,"Panama Pacífico International Airport","Panama",8,17,93.68,78.71,21.51,317.48
+FUE,"Fuerteventura Airport","Spain",3,37,84.47,78.67,35.96,198.83
+MDW,"Chicago Midway International Airport","United States",1,274,108.40,78.20,55.85,481.63
+ORD,"Chicago O'Hare International Airport","United States",1,283,100.04,77.95,39.21,593.16
+CHS,"Charleston International Airport","United States",1,12,75.61,76.43,48.07,121.92
+PVG,"Shanghai Pudong International Airport","China",1,11,87.14,75.17,15.95,202.04
+AUH,"Abu Dhabi International Airport","United Arab Emirates",7,24,70.90,74.93,17.84,180.39
+MEX,"Mexico City International Airport","Mexico",1,67,106.61,74.87,18.63,428.73
+PUJ,"Punta Cana International Airport","Dominican Republic",13,13,93.09,74.18,8.89,231.32
+ATL,"Hartsfield-Jackson Atlanta International Airport","United States",1,96,119.82,73.89,48.76,537.23
+CLO,"Cali Alfonso Bonilla Aragón International Airport","Colombia",1,16,96.35,72.80,24.15,250.24
+GRO,"Girona-Costa Brava Airport","Spain",12,12,86.44,72.38,64.97,124.71
+PTY,"Tocumen International Airport","Panama",8,21,142.65,72.02,14.34,383.02
+FLL,"Fort Lauderdale-Hollywood International Airport","United States",4,87,149.25,72.01,33.12,834.07
+HKT,"Phuket International Airport","Thailand",3,65,84.09,71.79,14.89,355.36
+CIA,"Rome Ciampino Airport","Italy",2,80,130.77,71.67,39.96,977.09
+PAC,"Albrook Marcos A. Gelabert International Airport","Panama",8,17,85.99,71.26,14.64,318.50
+RAI,"Praia Nelson Mandela International Airport","Cape Verde",1,4,69.26,71.03,30.53,104.45
+IBZ,"Ibiza Airport","Spain",9,48,84.49,70.06,45.37,178.33
+MBJ,"Sangster International Airport","Jamaica",6,31,80.18,69.55,12.86,224.32
+HND,"Tokyo Haneda Airport","Japan",5,49,106.61,68.93,34.86,383.43
+SHA,"Shanghai Hongqiao International Airport","China",1,10,71.59,68.70,14.21,182.30
+YVR,"Vancouver International Airport","Canada",1,36,161.21,68.68,29.71,811.69
+IAH,"George Bush Intercontinental Airport","United States",1,57,74.53,68.17,45.75,151.99
+BOJ,"Burgas Airport","Bulgaria",3,49,97.33,68.14,23.83,356.31
+DLM,"Dalaman Airport","Turkey",12,68,98.02,67.81,14.75,1143.00
+BKK,"Bangkok Suvarnabhumi Airport","Thailand",1,60,81.69,67.73,12.90,391.92
+TNG,"Tangier Ibn Battouta Airport","Morocco",1,15,84.88,67.69,20.85,249.75
+ORY,"Paris Orly Airport","France",2,222,110.74,66.93,41.96,680.54
+ALC,"Alicante-Elche Airport","Spain",11,11,72.12,66.88,31.92,119.83
+PEI,"Pereira Matecaña International Airport","Colombia",1,4,99.28,66.63,53.33,210.52
+HNL,"Daniel K. Inouye International Airport","United States",1,8,134.61,66.11,36.54,582.39
+DMK,"Bangkok Don Mueang International Airport","Thailand",1,55,86.30,64.62,15.27,437.06
+DWC,"Dubai World Central Airport","United Arab Emirates",7,24,74.76,64.31,20.82,260.82
+PKX,"Beijing Daxing International Airport","China",1,3,82.41,63.71,21.68,161.84
+DFW,"Dallas/Fort Worth International Airport","United States",2,49,140.55,63.10,50.20,545.98
+HER,"Heraklion Nikos Kazantzakis International Airport","Greece",37,37,69.29,62.22,20.66,171.84
+TIV,"Tivat Airport","Montenegro",15,40,87.28,62.19,24.98,332.15
+BJV,"Bodrum Milas Airport","Turkey",12,65,94.44,60.47,22.69,532.82
+HOU,"William P. Hobby Airport","United States",1,55,133.49,60.38,39.17,2203.56
+HRG,"Hurghada International Airport","Egypt",6,27,57.91,59.85,5.89,153.85
+SJU,"Luis Muñoz Marín International Airport","Puerto Rico",1,1,59.82,59.82,59.82,59.82
+SZX,"Shenzhen Bao'an International Airport","China",1,16,127.39,58.63,21.31,852.88
+SDQ,"Las Américas International Airport","Dominican Republic",13,13,76.03,56.07,10.68,155.10
+AEP,"Buenos Aires Aeroparque Jorge Newbery","Argentina",1,15,94.66,54.32,13.85,280.61
+AYT,"Antalya Airport","Turkey",18,61,92.39,52.95,19.68,772.43
+EZE,"Buenos Aires Ezeiza International Airport","Argentina",1,19,136.07,52.31,27.65,416.81
+SDU,"Rio de Janeiro Santos Dumont Airport","Brazil",9,58,68.76,52.20,13.99,281.91
+TFS,"Tenerife South Airport","Spain",18,18,57.76,50.96,32.47,118.63
+SHJ,"Sharjah International Airport","United Arab Emirates",8,28,91.36,50.28,1.24,631.29
+DXB,"Dubai International Airport","United Arab Emirates",7,26,58.11,49.33,16.35,142.36
+CAN,"Guangzhou Baiyun International Airport","China",1,28,62.72,48.99,19.75,271.25
+GIG,"Rio de Janeiro Galeão International Airport","Brazil",9,60,64.23,48.87,12.34,280.30
+FAO,"Faro Airport","Portugal",19,164,74.89,45.89,10.99,514.49
+SAW,"Istanbul Sabiha Gökçen Airport","Turkey",10,10,44.83,45.38,29.00,59.91
+CUN,"Cancún International Airport","Mexico",14,14,49.53,42.74,21.86,160.53
+BOG,"El Dorado International Airport","Colombia",1,12,78.65,42.73,19.45,234.53
+EOH,"Medellín Olaya Herrera Airport","Colombia",1,5,35.08,41.03,12.32,68.61
+KGS,"Kos Island International Airport","Greece",1,12,42.64,40.87,36.96,51.20
+MSY,"Louis Armstrong New Orleans International Airport","United States",1,9,76.64,40.44,40.14,188.00
+CZM,"Cozumel International Airport","Mexico",2,2,39.03,39.03,28.02,50.05
+ACE,"Lanzarote Airport","Spain",7,14,44.48,38.42,25.68,67.43
+MDE,"Medellín José María Córdova International Airport","Colombia",1,6,46.14,37.93,31.78,97.29
+CSX,"Changsha Huanghua International Airport","China",1,1,36.24,36.24,36.24,36.24
+BAQ,"Barranquilla Ernesto Cortissoz International Airport","Colombia",1,5,73.08,34.06,26.56,141.98
+HKG,"Hong Kong International Airport","China",10,10,39.10,33.90,25.09,74.57
+IST,"Istanbul Airport","Turkey",11,10,37.87,33.80,30.87,56.45
+FNC,"Madeira Funchal Airport","Portugal",3,39,35.06,32.09,16.98,65.65
+VXE,"São Vicente Cesária Évora Airport","Cape Verde",1,4,34.17,31.48,24.58,49.15
+BGA,"Bucaramanga Palonegro International Airport","Colombia",1,5,84.66,30.55,20.16,247.84
+SMR,"Santa Marta Simón Bolívar International Airport","Colombia",1,8,31.29,30.08,14.65,59.35
+RMO,"Chișinău International Airport","Moldova",1,1,29.97,29.97,29.97,29.97
+LAS,"Harry Reid International Airport","United States",1,40,174.16,29.63,22.69,1025.15
+FLN,"Florianópolis International Airport","Brazil",12,12,34.27,28.88,17.49,77.40
+ZNZ,"Zanzibar Abeid Amani Karume International Airport","Tanzania",3,22,28.77,27.48,13.05,49.53
+RAK,"Marrakech Menara Airport","Morocco",1,57,81.34,27.03,9.60,369.71
+DOH,"Doha Hamad International Airport","Qatar",1,9,31.25,26.61,13.59,82.87
+RMF,"Marsa Alam International Airport","Egypt",5,25,34.23,26.41,13.14,107.46
+BVC,"Boa Vista Aristides Pereira Airport","Cape Verde",6,7,39.24,26.11,26.00,60.64
+MRU,"Mauritius Sir Seewoosagur Ramgoolam International Airport","Mauritius",3,49,24.84,25.39,15.97,34.97
+SID,"Sal Amílcar Cabral International Airport","Cape Verde",2,4,24.82,25.14,18.28,30.72
+CTG,"Rafael Núñez International Airport","Colombia",1,1,23.19,23.19,23.19,23.19
+CAI,"Cairo International Airport","Egypt",12,12,29.13,23.09,8.62,68.33
+NKG,"Nanjing Lukou International Airport","China",1,1,22.67,22.67,22.67,22.67
+MLA,"Malta International Airport","Malta",10,69,24.27,19.93,19.93,62.44
+ADZ,"San Andrés Gustavo Rojas Pinilla Airport","Colombia",1,1,17.11,17.11,17.11,17.11
+DPS,"Bali Ngurah Rai International Airport","Indonesia",17,17,13.21,10.10,4.15,39.41

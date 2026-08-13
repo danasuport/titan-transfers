@@ -73,9 +73,15 @@ function gaps(r) {
 
 async function run() {
   // Target set: hidden routes to reveal, or visible routes to hide.
-  const targetHidden = HIDE ? false : true
+  //
+  // Revealing does `unset(['hidden'])`, so a revealed route has NO hidden field
+  // rather than hidden == false. Matching the hide pass on `hidden == false`
+  // therefore found nothing — the panic button never worked on anything this
+  // script had revealed. Visible is "not hidden", however it got that way.
+  const visibleFilter = 'hidden != true'
+  const hiddenFilter = 'hidden == true'
   const routes = await client.fetch(
-    `*[_type == "route" && hidden == $targetHidden && defined(origin->iataCode) && defined(destination->title)]{
+    `*[_type == "route" && ${HIDE ? visibleFilter : hiddenFilter} && defined(origin->iataCode) && defined(destination->title)]{
        _id, title, "slug": slug.current,
        "iata": origin->iataCode,
        "dest": destination->title,
@@ -84,7 +90,7 @@ async function run() {
        "nSections": count(contentSections),
        "langs": { ${trLang.map(l => `"${l}": defined(translations.${l}.title)`).join(', ')} }
      } | order(iata asc, dest asc)`,
-    { targetHidden }
+    {}
   )
 
   const matched = routes.filter(r => {

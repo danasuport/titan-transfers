@@ -1,0 +1,62 @@
+# tanda1-sarajevo-tanger — 61 rutas · ticket medio 129€
+SJJ:cazin
+SJJ:zaton
+SJJ:prijedor
+SJJ:zagreb city centre
+SJJ:gradiska
+SJJ:sanski most
+SJJ:brcko
+SJJ:dubrovnik city centre (trebinje)
+SJJ:trebinje
+SJJ:bijeljina
+SJJ:srebrenik
+SJJ:mrkonjic grad
+SJJ:gracanica
+SJJ:stolac
+SJJ:grude
+SJJ:srebrenica
+SJJ:doboj
+SJJ:teslic
+SJJ:blagaj
+SJJ:jajce
+SJJ:trogir (republika srpska)
+SJJ:visegrad
+SJJ:tomislavgrad
+SJJ:bugojno
+SJJ:lukavac
+SJJ:blidinje
+SJJ:banovici
+SJJ:travnik
+SJJ:vitez
+SJJ:vlasic
+SJJ:jablanica
+SJJ:zenica
+SJJ:vares
+SJJ:konjic
+SJJ:fojnica
+SJJ:tarcin
+SJJ:jahorina
+SJJ:podlugovi
+SJJ:bjelasnica
+SJJ:svrake
+SJJ:semizovac
+SJJ:rakovica
+SJJ:vogosca
+SJJ:krivoglavci
+SJJ:sarajevo
+SJJ:ilidza
+SJJ:hrasnica
+TNG:nador
+TNG:melilla
+TNG:chefchaouen
+TNG:marina smir
+TNG:el araich
+TNG:ksar el-kebir
+TNG:ceuta
+TNG:tetouan
+TNG:martil
+TNG:ghedir eddefla
+TNG:asilah
+TNG:arcila
+TNG:m'diq
+TNG:mnar
