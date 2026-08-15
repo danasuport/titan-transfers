@@ -128,7 +128,15 @@ function AirportCard({ airport }: { airport: AirportItem }) {
             sizes="300px"
           />
         ) : (
-          <div style={{ position: 'absolute', inset: 0, background: '#242426' }} />
+          // No photo yet: fall back to an owned brand image rather than a flat
+          // black rectangle, which read as a broken card on the listing.
+          <Image
+            src="/hero-bg.jpg"
+            alt={airport.title}
+            fill
+            style={{ objectFit: 'cover', objectPosition: 'center', transform: hovered ? 'scale(1.06)' : 'scale(1)', transition: 'transform 0.4s ease' }}
+            sizes="300px"
+          />
         )}
 
         {/* Dark overlay */}

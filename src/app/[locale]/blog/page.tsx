@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server'
-import { staticPageAlternates } from '@/lib/seo/generateMetadata'
+import { staticPageAlternates, shortenTitle, clampDescription } from '@/lib/seo/generateMetadata'
 import { sanityClient } from '@/lib/sanity/client'
 import { allBlogPostsQuery } from '@/lib/sanity/queries'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
@@ -17,22 +17,22 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params
   return {
     alternates: staticPageAlternates('/blog/', locale),
-    title: pick(locale, {
+    title: shortenTitle(pick(locale, {
       en: 'Travel guides, airport tips & transfer news | Titan Transfers',
       es: 'Blog de viajes y traslados | Titan Transfers',
       ar: 'أدلة السفر ونصائح المطار وأخبار النقل | تايتن ترانسفرز',
       it: 'Blog di viaggi e trasferimenti | Titan Transfers',
       de: 'Reiseführer, Flughafentipps & Transfernachrichten | Titan Transfers',
-      fr: 'Guides de voyage, conseils aéroport et actualités sur les transferts | Titan Transfers',
-    }),
-    description: pick(locale, {
+      fr: 'Guides de voyage et conseils aéroport | Titan Transfers',
+    })),
+    description: clampDescription(pick(locale, {
       en: 'Travel guides, airport tips, transfer news and destination guides from around the world.',
       es: 'Guías de viaje, consejos para el aeropuerto, noticias de traslados y destinos de todo el mundo.',
       ar: 'أدلة السفر، نصائح المطار، أخبار النقل، وأدلة الوجهات من حول العالم.',
       it: 'Guide di viaggio, consigli per l\'aeroporto, notizie sui trasferimenti e destinazioni in tutto il mondo.',
       de: 'Reiseführer, Flughafentipps, Transfernachrichten und Zielanleitungen aus der ganzen Welt.',
       fr: 'Guides de voyage, conseils aéroport, actualités sur les transferts et guides de destination du monde entier.',
-    }),
+    })),
   }
 }
 

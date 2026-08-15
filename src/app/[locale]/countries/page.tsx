@@ -85,9 +85,10 @@ export default async function CountriesPage({ params }: { params: Promise<{ loca
           {/* Stats */}
           <div className="listing-stats-row" style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
             {[
-              { n: '30', label: labels.statCountries },
-              { n: '124', label: labels.statAirports },
-              { n: '186', label: labels.statCities },
+              // Counted from the catalogue: these were frozen at 30/124/186.
+              { n: String(countries.length), label: labels.statCountries },
+              { n: String(countries.reduce((s: number, c: { airportCount?: number }) => s + (c.airportCount || 0), 0)), label: labels.statAirports },
+              { n: String(countries.reduce((s: number, c: { cityCount?: number }) => s + (c.cityCount || 0), 0)), label: labels.statCities },
             ].map(s => (
               <div key={s.label} style={{ flex: 1, background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1.5rem 1.75rem', transform: 'skewX(-6deg)', textAlign: 'center' }}>
                 <div style={{ transform: 'skewX(6deg)' }}>

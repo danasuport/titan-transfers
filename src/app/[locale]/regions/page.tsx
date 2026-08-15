@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server'
-import { staticPageAlternates } from '@/lib/seo/generateMetadata'
+import { staticPageAlternates, shortenTitle, clampDescription } from '@/lib/seo/generateMetadata'
 import { sanityClient } from '@/lib/sanity/client'
 import { allRegionsQuery } from '@/lib/sanity/queries'
 import { getRegionUrl, getTranslatedTitle } from '@/lib/utils/slugHelpers'
@@ -20,22 +20,22 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params
   return {
     alternates: staticPageAlternates('/regions/', locale),
-    title: pick(locale, {
+    title: shortenTitle(pick(locale, {
       en: 'Private Transfers by Region | Europe, Asia, Americas | Titan Transfers',
       es: 'Traslados privados por región | Europa, Asia, América | Titan Transfers',
       ar: 'نقل خاص حسب المنطقة | أوروبا وآسيا والأمريكتين | تايتن ترانسفرز',
       it: 'Trasferimenti privati per regione | Europa, Asia, America | Titan Transfers',
       de: 'Private Transfers nach Region | Europa, Asien, Amerika | Titan Transfers',
       fr: 'Transferts privés par région | Europe, Asie, Amériques | Titan Transfers',
-    }),
-    description: pick(locale, {
+    })),
+    description: clampDescription(pick(locale, {
       en: 'Fixed-price private transfers in every region worldwide. Professional driver, door-to-door service and free cancellation up to 24h before.',
       es: 'Traslados privados con precio fijo en todas las regiones del mundo. Conductor profesional, servicio puerta a puerta y cancelación gratuita.',
       ar: 'نقل خاص بسعر ثابت في جميع المناطق حول العالم. سائق محترف، خدمة من الباب إلى الباب، وإلغاء مجاني حتى ٢٤ ساعة قبل الرحلة.',
       it: 'Trasferimenti privati a prezzo fisso in tutte le regioni del mondo. Autista professionale, servizio porta a porta e cancellazione gratuita.',
       de: 'Festpreis-Privattransfers in jeder Region weltweit. Professioneller Fahrer, Tür-zu-Tür-Service und kostenlose Stornierung bis zu 24 Stunden vorher.',
       fr: 'Transferts privés à prix fixe dans toutes les régions du monde. Chauffeur professionnel, service porte-à-porte et annulation gratuite jusqu\'à 24h avant.',
-    }),
+    })),
   }
 }
 

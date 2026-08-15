@@ -61,7 +61,10 @@ const OFF_TOPIC = new RegExp([
   'barragem','embalse','presa[_ ]','pantano','grabado','litograf','blanco y negro','dibujo','plano[_ ]','cartel','engraving',
   '\\b1[5-9]\\d\\d\\b','\\bbus\\b','autob[uú]s','irisbus','citelis','tranv','\\bmetro[_ ]','estaci[oó]n de autob',
   'aerogenerador','wind[_ ]turbine','sat[eé]lite','satellite','sentinel','landsat','from[_ ]space','aerial',
-  'aeropuerto','airport','aeroport','flughafen','cuartel','guardia civil','caserma','kaserne','escuela','escola','\\beb[_ ]?\\d','stemma','wappen',
+  'aeropuerto','airport','aeroport','flughafen','terminal','runway','pista[_ ]de[_ ]aterr','boarding','check.?in',
+  'airbus','boeing','airways','airlines','aircraft','airplane','avi[oó]n','\\ba3[0-9]{2}\\b','\\bb7[0-9]{2}\\b','atr[_. ]?7[0-9]','embraer','\\bhs-[a-z]{3}\\b','\\b[a-z]{2}-[a-z]{3}\\b[_ ]?(aws|air)','\\baws\\b',
+  'rugby','football','soccer','heineken','cup[_ ]?final','\\bmatch\\b','stadium','estadio','league',
+  '\\bprint\\b','century[_ ]print','density','population','distribution','diagram','chart','groundbreaking','ceremony','\\bmrt\\b','construction','obras[_ ]','cuartel','guardia civil','caserma','kaserne','escuela','escola','\\beb[_ ]?\\d','stemma','wappen',
 ].join('|'), 'i')
 const SCENIC = /panor|vista|views?[_.]|paesaggio|paisaje|pueblo|casco|playa|beach|spiaggia|plaza|piazza|calle|street|old[_ ]town|centro|harbou?r|porto|puerto|castello|castillo|church|chiesa|iglesia|skyline|mirador|coast|costa|bay|marina|seafront|waterfront|veduta|paysage/i
 
@@ -110,7 +113,7 @@ async function fileInfo(filename) {
     page: info.descriptionurl || `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(filename)}`, filename }
 }
 
-async function uploadToSanity(url, filename) {
+export async function uploadToSanity(url, filename) {
   const res = await fetch(url, { headers: { 'User-Agent': UA } })
   if (!res.ok) throw new Error(`descarga ${res.status}`)
   const buf = Buffer.from(await res.arrayBuffer())
@@ -118,14 +121,22 @@ async function uploadToSanity(url, filename) {
   return client.assets.upload('image', buf, { filename, contentType: 'image/jpeg' })
 }
 
-async function findPhoto(dest, iata) {
+/**
+ * @param {boolean} requireScenic  Only accept files whose name reads like a view
+ *   of the place (panorama, old town, beach, harbour…). Blacklisting every kind
+ *   of wrong photo is endless — searching an airport's name surfaces aircraft,
+ *   sports clubs and population-density maps — so airport pages demand a
+ *   positive match instead and accept having no photo over having a wrong one.
+ */
+export async function findPhoto(dest, iata, requireScenic = false) {
   const langs = ['en', IATA_LANG[iata] || 'en', 'es'].filter((v, i, a) => a.indexOf(v) === i)
   for (const lang of langs) {
     try {
       const article = await findArticle(dest, lang)
       await sleep(150)
       if (!article) continue
-      const files = await articlePhotos(article, dest, lang)
+      let files = await articlePhotos(article, dest, lang)
+      if (requireScenic) files = files.filter(f => SCENIC.test(f))
       await sleep(150)
       for (const f of files.slice(0, 6)) {
         const info = await fileInfo(f)
@@ -176,4 +187,9 @@ async function run() {
   }
   console.log(`\n=== ${APPLY ? 'Hecho' : 'Simulación'} === con imagen: ${done} · sin foto: ${skipped} · fallidas: ${failed}`)
 }
-run().catch(e => { console.error('FATAL:', e.message); process.exit(1) })
+// Sólo se ejecuta al invocarlo directamente; al importarlo (lo hace
+// add-airport-images.mjs para reutilizar el buscador de fotos y sus filtros de
+// calidad) se cargan las funciones sin lanzar la pasada de rutas.
+if (import.meta.url === `file://${process.argv[1]}`) {
+  run().catch(e => { console.error('FATAL:', e.message); process.exit(1) })
+}

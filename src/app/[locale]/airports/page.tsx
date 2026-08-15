@@ -94,8 +94,10 @@ export default async function AirportsPage({ params }: { params: Promise<{ local
           {/* Stats */}
           <div className="listing-stats-row" style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
             {[
-              { n: '124', label: labels.statAirports },
-              { n: '30', label: labels.statCountries },
+              // Counted, not hardcoded: these said 124/30 while the catalogue
+              // had grown to 211 airports in 51 countries.
+              { n: String(airports.length), label: labels.statAirports },
+              { n: String(sortedGroups.length), label: labels.statCountries },
               { n: '24/7', label: labels.statSupport },
             ].map(s => (
               <div key={s.label} style={{ flex: 1, background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1.5rem 1.75rem', transform: 'skewX(-6deg)', textAlign: 'center' }}>

@@ -1,3 +1,4 @@
+import { shortenTitle, clampDescription } from '@/lib/seo/generateMetadata'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
@@ -72,11 +73,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const arPath = `/ar${getServiceUrl(service, 'ar')}`
   const itPath = `/it${getServiceUrl(service, 'it')}`
   const dePath = `/de${getServiceUrl(service, 'de')}`
-  const localePaths: Record<string, string> = { en: enPath, es: esPath, ar: arPath, it: itPath, de: dePath }
+  // fr was missing here: the French service pages had no hreflang entry and
+  // their canonical fell back to the English path.
+  const frPath = `/fr${getServiceUrl(service, 'fr')}`
+  const localePaths: Record<string, string> = { en: enPath, es: esPath, ar: arPath, it: itPath, de: dePath, fr: frPath }
   const canonical = `${SITE_URL}${localePaths[locale] || enPath}`
   return {
-    title: seoTitle,
-    description: seoDesc,
+    title: shortenTitle(seoTitle),
+    description: clampDescription(seoDesc),
     alternates: {
       canonical,
       languages: {
@@ -85,6 +89,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         ar: `${SITE_URL}${arPath}`,
         it: `${SITE_URL}${itPath}`,
         de: `${SITE_URL}${dePath}`,
+        fr: `${SITE_URL}${frPath}`,
         'x-default': `${SITE_URL}${enPath}`,
       },
     },
@@ -195,16 +200,10 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
 
       {/* ─── HERO ───────────────────────────────────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '720px' }}>
-        <div className="resp-img-panel hero-widget-panel" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1.5rem' }}>
-          <div className="hero-bg-image" style={{ position: 'absolute', inset: 0, clipPath: 'polygon(0% 0%, 100% 0%, 92% 100%, 0% 100%)', overflow: 'hidden' }}>
-            <Image src={heroImg} alt={serviceTitle} fill priority style={{ objectFit: 'cover', objectPosition: 'center right' }} sizes="50vw" />
-            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)' }} />
-          </div>
-          <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '550px', display: 'flex', justifyContent: 'center' }}>
-            <BookingPanel />
-          </div>
-        </div>
-
+        {/* Text first, widget second — every other template on the site
+            (city, airport, route) puts the copy on the left and the booking
+            panel on the right. Only the service pages had it mirrored, which
+            read as a bug on any language. */}
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '4vw', paddingRight: '6vw', paddingTop: '4rem', paddingBottom: '4rem' }}>
           <Breadcrumbs items={[{ label: t('services'), href: '/services/' }, { label: serviceTitle }]} variant="light" />
 
@@ -226,6 +225,16 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
           <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '480px' }}>
             {tr?.seoDescription || service.seoDescription || `Book private ${serviceTitleLower} with fixed prices and professional drivers.`}
           </p>
+        </div>
+
+        <div className="resp-img-panel hero-widget-panel" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1.5rem' }}>
+          <div className="hero-bg-image" style={{ position: 'absolute', inset: 0, clipPath: 'polygon(0% 0%, 100% 0%, 92% 100%, 0% 100%)', overflow: 'hidden' }}>
+            <Image src={heroImg} alt={serviceTitle} fill priority style={{ objectFit: 'cover', objectPosition: 'center right' }} sizes="50vw" />
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)' }} />
+          </div>
+          <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '550px', display: 'flex', justifyContent: 'center' }}>
+            <BookingPanel />
+          </div>
         </div>
 
       </section>

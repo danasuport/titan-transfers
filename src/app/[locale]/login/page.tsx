@@ -22,6 +22,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       de: 'Zugriff auf Ihre Buchungen und Verwaltung Ihrer Transfers.',
       fr: 'Accédez à vos réservations et gérez vos transferts.',
     }),
+    // Already noindex — a sign-in form has nothing to rank for. No canonical
+    // needed on a page that isn't in the index.
     robots: { index: false, follow: false },
   }
 }

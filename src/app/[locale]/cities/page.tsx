@@ -92,8 +92,9 @@ export default async function CitiesPage({ params }: { params: Promise<{ locale:
           {/* Stats */}
           <div className="listing-stats-row" style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
             {[
-              { n: '186', label: labels.statCities },
-              { n: '30', label: labels.statCountries },
+              // Counted from the catalogue: these were frozen at 186/30.
+              { n: String(cities.length), label: labels.statCities },
+              { n: String(new Set(cities.map((c: { country?: { title?: string } }) => c.country?.title).filter(Boolean)).size), label: labels.statCountries },
               { n: '4.8★', label: labels.statRating },
             ].map(s => (
               <div key={s.label} style={{ flex: 1, background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1.5rem 1.75rem', transform: 'skewX(-6deg)', textAlign: 'center' }}>

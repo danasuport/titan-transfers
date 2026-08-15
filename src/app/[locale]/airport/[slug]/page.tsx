@@ -109,7 +109,36 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
   const cityName = (locale !== 'en' && airport.city?.translations?.[locale]?.title) || airport.city?.title || ''
 
   const isMultiAirport = MULTI_AIRPORT_CITIES.has(airport.city?.title || '')
-  const h1 = airport.seoH1 || (isMultiAirport ? `${airportTitle} transfers` : `${cityName} airport transfers`)
+  // The H1 used to be `${cityName} airport transfers`, hardcoded in English and
+  // assuming every airport had a city. 87 of 211 airports have no city linked,
+  // so their H1 rendered as a bare " airport transfers" — no place name at all,
+  // in every language. Fall back to the airport's own name, and translate it.
+  //
+  // `named` is the same guard used in the metadata: when the airport's name
+  // already contains the word "airport" in this locale, don't say it twice.
+  const airportWord = pick(locale, {
+    en: 'airport', es: 'aeropuerto', it: 'aeroporto', de: 'flughafen', fr: 'aéroport', ar: 'مطار',
+  })
+  const useCity = !!cityName && !isMultiAirport
+  const place = useCity ? cityName : airportTitle
+  const named = !useCity && place.toLowerCase().includes(airportWord)
+  const h1 = airport.seoH1 || (named
+    ? pick(locale, {
+        en: `${place} Transfers`,
+        es: `Traslados ${place}`,
+        it: `Trasferimenti ${place}`,
+        de: `Transfers ${place}`,
+        fr: `Transferts ${place}`,
+        ar: `توصيل ${place}`,
+      })
+    : pick(locale, {
+        en: `${place} Airport Transfers`,
+        es: `Traslados aeropuerto ${place}`,
+        it: `Trasferimenti aeroporto ${place}`,
+        de: `Flughafentransfer ${place}`,
+        fr: `Transferts aéroport ${place}`,
+        ar: `توصيل مطار ${place}`,
+      }))
 
   const heroImg = urlFor(airport.featuredImage)?.width(1920).height(900).quality(80).auto('format').url()
   const gallery = (airport.gallery || []).map((img: { asset?: { _ref?: string }; alt?: string; title?: string }) => ({
