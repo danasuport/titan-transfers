@@ -121,7 +121,7 @@ function AirportCard({ airport }: { airport: AirportItem }) {
         {/* Image or fallback */}
         {airport.imgUrl ? (
           <Image
-            src={airport.imgUrl}
+            src={airport.imgUrl} unoptimized
             alt={airport.title}
             fill
             style={{ objectFit: 'cover', objectPosition: 'center', transform: hovered ? 'scale(1.06)' : 'scale(1)', transition: 'transform 0.4s ease' }}

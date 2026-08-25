@@ -85,7 +85,7 @@ function CountryCard({ country, es }: { country: CountryItem; es: boolean }) {
       >
         {country.imgUrl ? (
           <Image
-            src={country.imgUrl}
+            src={country.imgUrl} unoptimized
             alt={country.title}
             fill
             style={{ objectFit: 'cover', objectPosition: 'center', transform: hovered ? 'scale(1.05)' : 'scale(1)', transition: 'transform 0.4s ease' }}

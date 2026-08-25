@@ -66,7 +66,9 @@ export default async function CitiesPage({ params }: { params: Promise<{ locale:
       _id: c._id,
       title: getTranslatedTitle(c, locale as Locale),
       href: getCityUrl(c, locale as Locale),
-      imgUrl: urlFor(c.featuredImage)?.width(600).height(600).quality(75).auto('format').url() || null,
+      // La miniatura se pinta a 40x40: pedir 600x600 traía 225 veces los
+      // píxeles necesarios. 96 cubre pantallas de densidad doble.
+      imgUrl: urlFor(c.featuredImage)?.width(96).height(96).quality(75).auto('format').url() || null,
       country: c.country?.title || '',
       countrySlug: c.country?.slug?.current || null,
     })

@@ -127,7 +127,7 @@ function CityCard({ city }: { city: CityItem }) {
         {/* Thumbnail */}
         <div style={{ width: '40px', height: '40px', flexShrink: 0, position: 'relative', overflow: 'hidden', transform: 'skewX(6deg)' }}>
           {city.imgUrl ? (
-            <Image src={city.imgUrl} alt={city.title} fill style={{ objectFit: 'cover' }} sizes="40px" />
+            <Image src={city.imgUrl} unoptimized alt={city.title} fill style={{ objectFit: 'cover' }} sizes="40px" />
           ) : (
             <div style={{ width: '100%', height: '100%', background: '#e5e7eb' }} />
           )}
