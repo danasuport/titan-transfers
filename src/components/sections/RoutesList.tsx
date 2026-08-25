@@ -20,8 +20,14 @@ interface Route {
   translations?: Record<string, { title?: string; slug?: { current: string } }>
 }
 
+/**
+ * One route in the list. Deliberately stateless: the hover styling lives in
+ * globals.css (.route-card), so 275 of these cost the browser nothing to
+ * hydrate. Rendering them all still matters for SEO — each one is an internal
+ * link to a route page — so they stay in the HTML and `content-visibility`
+ * handles the paint cost.
+ */
 function RouteCard({ route, airportSlug, locale, price }: { route: Route; airportSlug: string; locale: Locale; price?: string }) {
-  const [hovered, setHovered] = useState(false)
   const routeSlug = getTranslatedSlug(route, locale)
   const destTitle = route.destination ? getTranslatedTitle(route.destination, locale) : getTranslatedTitle(route, locale)
   // Each route uses its own origin when available; fall back to the parent airportSlug
@@ -31,65 +37,17 @@ function RouteCard({ route, airportSlug, locale, price }: { route: Route; airpor
   const airportSegment = getLocalizedPath('airport', locale)
   return (
     <Link href={`/${airportSegment}/${originSlug}/${routeSlug}/` as any} style={{ textDecoration: 'none' }}>
-      <div
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '0.75rem',
-          background: hovered ? '#8BAA1D' : '#ffffff',
-          border: '1.5px solid',
-          borderColor: hovered ? '#8BAA1D' : '#e5e7eb',
-          padding: '0.75rem 1rem 0.75rem 1.25rem',
-          transform: 'skewX(-8deg)',
-          transition: 'background 0.15s, border-color 0.15s',
-          cursor: 'pointer',
-        }}
-      >
-        {/* Destination name */}
-        <span style={{
-          transform: 'skewX(8deg)',
-          display: 'block',
-          fontSize: '0.875rem',
-          fontWeight: 600,
-          color: hovered ? '#ffffff' : '#242426',
-          transition: 'color 0.15s',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          minWidth: 0,
-        }}>
-          {destTitle}
-        </span>
+      <div className="route-card">
+        <span className="route-card__name">{destTitle}</span>
 
-        {/* Distance + time */}
-        <div style={{ transform: 'skewX(8deg)', display: 'flex', gap: '0.6rem', flexShrink: 0, alignItems: 'center' }}>
-          {route.distance && (
-            <span style={{ fontSize: '0.7rem', color: hovered ? 'rgba(255,255,255,0.75)' : '#64748b', transition: 'color 0.15s', whiteSpace: 'nowrap' }}>
-              {formatDistance(route.distance)}
-            </span>
-          )}
-          {route.distance && route.estimatedDuration && (
-            <span style={{ color: hovered ? 'rgba(255,255,255,0.35)' : '#d1d5db', fontSize: '0.65rem' }}>·</span>
-          )}
-          {route.estimatedDuration && (
-            <span style={{ fontSize: '0.7rem', color: hovered ? 'rgba(255,255,255,0.75)' : '#64748b', transition: 'color 0.15s', whiteSpace: 'nowrap' }}>
-              {formatDuration(route.estimatedDuration)}
-            </span>
-          )}
+        <div className="route-card__meta">
+          {route.distance && <span className="route-card__stat">{formatDistance(route.distance)}</span>}
+          {route.distance && route.estimatedDuration && <span className="route-card__dot">·</span>}
+          {route.estimatedDuration && <span className="route-card__stat">{formatDuration(route.estimatedDuration)}</span>}
           {/* Real sheet price. Seeing it before the click is what turns a list
               of place names into a comparison a visitor can act on. */}
-          {price && (
-            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: hovered ? '#ffffff' : '#6B8313', transition: 'color 0.15s', whiteSpace: 'nowrap' }}>
-              {price}
-            </span>
-          )}
-          <svg
-            width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={hovered ? '#ffffff' : '#64748b'}
-            style={{ transition: 'stroke 0.15s', flexShrink: 0 }}
-          >
+          {price && <span className="route-card__price">{price}</span>}
+          <svg width="12" height="12" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} className="route-card__arrow">
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
           </svg>
         </div>

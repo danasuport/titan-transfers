@@ -641,3 +641,45 @@ html[dir="rtl"] .font-russo {
     padding: 1.5rem 1.5rem 1.75rem !important;
   }
 }
+
+/* ─── Tarjetas de ruta (RoutesList) ──────────────────────────────────────────
+   El efecto de hover se hacía con un useState por tarjeta. En la página de
+   Málaga son 275 componentes de cliente hidratándose sólo para cambiar de
+   color al pasar el ratón, que es lo que hundía TBT e INP. En CSS es gratis.
+   Los tonos son exactamente los mismos que tenían los estilos en línea. */
+.route-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  background: #ffffff;
+  border: 1.5px solid #e5e7eb;
+  padding: 0.75rem 1rem 0.75rem 1.25rem;
+  transform: skewX(-8deg);
+  transition: background 0.15s, border-color 0.15s;
+  cursor: pointer;
+  /* El navegador se salta el layout y el pintado de las tarjetas que quedan
+     fuera de la pantalla. El contenido sigue íntegro en el HTML — los enlaces
+     internos no se tocan — sólo se aplaza su renderizado. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 46px;
+}
+.route-card:hover { background: #8BAA1D; border-color: #8BAA1D; }
+
+.route-card__name,
+.route-card__meta { transform: skewX(8deg); transition: color 0.15s; }
+.route-card__name {
+  display: block; font-size: 0.875rem; font-weight: 600; color: #242426;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
+}
+.route-card:hover .route-card__name { color: #ffffff; }
+
+.route-card__meta { display: flex; gap: 0.6rem; flex-shrink: 0; align-items: center; }
+.route-card__stat { font-size: 0.7rem; color: #64748b; white-space: nowrap; transition: color 0.15s; }
+.route-card:hover .route-card__stat { color: rgba(255,255,255,0.75); }
+.route-card__dot { color: #d1d5db; font-size: 0.65rem; transition: color 0.15s; }
+.route-card:hover .route-card__dot { color: rgba(255,255,255,0.35); }
+.route-card__price { font-size: 0.72rem; font-weight: 700; color: #6B8313; white-space: nowrap; transition: color 0.15s; }
+.route-card:hover .route-card__price { color: #ffffff; }
+.route-card__arrow { stroke: #64748b; transition: stroke 0.15s; flex-shrink: 0; }
+.route-card:hover .route-card__arrow { stroke: #ffffff; }

@@ -9,6 +9,27 @@ const translationFields = (locale: string) => `
   "translatedSeoDescription": translations.${locale}.seoDescription,
 `
 
+
+/**
+ * Translations projected down to what a LIST needs: the title and the slug.
+ *
+ * `translations` unprojected drags the whole localized document — every
+ * contentSection, description and seoDescription in six languages. On the
+ * Málaga airport page (275 routes) that made the server send 5.1 MB of JSON
+ * and embed 5.5 MB of it in the HTML, of which the page used two fields per
+ * route. Same pixels, 91% less payload.
+ *
+ * Detail pages that actually render translated body text keep using the full
+ * `translations` object.
+ */
+const listTranslations = `"translations": {
+    "es": { "title": translations.es.title, "slug": translations.es.slug },
+    "ar": { "title": translations.ar.title, "slug": translations.ar.slug },
+    "it": { "title": translations.it.title, "slug": translations.it.slug },
+    "de": { "title": translations.de.title, "slug": translations.de.slug },
+    "fr": { "title": translations.fr.title, "slug": translations.fr.slug }
+  }`
+
 // Airport queries
 export const allAirportsQuery = groq`*[_type == "airport"] | order(title asc) {
   _id, title, slug, iataCode,
@@ -16,8 +37,7 @@ export const allAirportsQuery = groq`*[_type == "airport"] | order(title asc) {
   city->{ _id, title, slug },
   region->{ _id, title, slug },
   featuredImage,
-  seoTitle, seoDescription,
-  translations
+  ${listTranslations}
 }`
 
 export const airportBySlugQuery = groq`*[_type == "airport" && (
@@ -39,9 +59,9 @@ export const airportBySlugQuery = groq`*[_type == "airport" && (
   featuredImage, gallery,
   "routes": *[_type == "route" && origin._ref == ^._id && hidden != true] {
     _id, title, slug, distance, estimatedDuration,
-    destination->{ _id, title, slug, translations },
+    destination->{ _id, title, slug, ${listTranslations} },
     etoFromLocation, etoToLocation, etoFromCategory, etoToCategory,
-    translations
+    ${listTranslations}
   } | order(title asc),
   nearbyAirports[]->{ _id, title, slug, iataCode, translations },
   translations
@@ -96,8 +116,7 @@ export const allCitiesQuery = groq`*[_type == "city"] | order(title asc) {
   country->{ _id, title, slug },
   region->{ _id, title, slug },
   featuredImage,
-  seoTitle, seoDescription,
-  translations
+  ${listTranslations}
 }`
 
 export const cityBySlugQuery = groq`*[_type == "city" && (slug.current == $slug || translations.es.slug.current == $slug || translations.ar.slug.current == $slug || translations.it.slug.current == $slug || translations.de.slug.current == $slug || translations.fr.slug.current == $slug)][0] {
@@ -114,13 +133,13 @@ export const cityBySlugQuery = groq`*[_type == "city" && (slug.current == $slug 
   relatedCities[]->{ _id, title, slug, country->{ title, slug }, translations },
   "routesTo": *[_type == "route" && destination._ref == ^._id && hidden != true] {
     _id, title, slug, distance, estimatedDuration,
-    origin->{ _id, _type, title, slug, iataCode, translations },
-    originType, translations
+    origin->{ _id, _type, title, slug, iataCode, ${listTranslations} },
+    originType, ${listTranslations}
   } | order(title asc),
   "routesFrom": *[_type == "route" && origin._ref == ^._id && hidden != true] {
     _id, title, slug, distance, estimatedDuration,
-    destination->{ _id, title, slug, translations },
-    translations
+    destination->{ _id, title, slug, ${listTranslations} },
+    ${listTranslations}
   } | order(title asc),
   translations
 }`
@@ -175,8 +194,8 @@ export const regionBySlugQuery = groq`*[_type == "region" && (slug.current == $s
   },
   "routes": *[_type == "route" && region._ref == ^._id && hidden != true] | order(title asc) {
     _id, title, slug, distance, estimatedDuration,
-    origin->{ _id, title, slug, translations },
-    destination->{ _id, title, slug, translations },
+    origin->{ _id, title, slug, ${listTranslations} },
+    destination->{ _id, title, slug, ${listTranslations} },
     translations
   },
   translations
