@@ -1,10 +1,11 @@
-import { notFound } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import { sanityClient } from '@/lib/sanity/client'
 import { routeBySlugQuery } from '@/lib/sanity/queries'
 import { generatePageMetadata, generateRouteMetadata } from '@/lib/seo/generateMetadata'
 import { generateTaxiServiceSchema } from '@/lib/seo/schemaOrg'
+import { resolveMovedRoute } from '@/lib/seo/resolveMovedRoute'
 import { SchemaOrg } from '@/components/seo/SchemaOrg'
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { BookingPanel } from '@/components/ui/BookingPanel'
@@ -189,7 +190,16 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function RoutePage({ params }: { params: Promise<{ locale: string; slug: string; routeSlug: string }> }) {
   const { locale, slug, routeSlug } = await params
   const route = await sanityClient.fetch(routeBySlugQuery, { originSlug: slug, routeSlug })
-  if (!route) notFound()
+  if (!route) {
+    // Most misses are an old address of a route that is still on sale — slugs
+    // were regenerated in the migration and again when duplicates were merged,
+    // and Google keeps the old ones for years. If the destination still matches
+    // a live route from this airport, send the visitor there instead of showing
+    // them a dead end; 308 so the link equity follows.
+    const moved = await resolveMovedRoute(slug, routeSlug, locale as Locale)
+    if (moved) permanentRedirect(moved)
+    notFound()
+  }
 
   const t = await getTranslations({ locale, namespace: 'route' })
   const tc = await getTranslations({ locale, namespace: 'trust' })

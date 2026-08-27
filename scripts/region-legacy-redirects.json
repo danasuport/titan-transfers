@@ -1,0 +1,492 @@
+[
+  {
+    "source": "/private-transfers/abu-dhabi-emirate/",
+    "destination": "/private-transfers-region/abu-dhabi-emirate/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/abu-dhabi-emirate/",
+    "destination": "/es/traslados-privados-region/abu-dhabi-emirate/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/algarve/",
+    "destination": "/private-transfers-region/algarve/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/algarve/",
+    "destination": "/es/traslados-privados-region/algarve/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/andalusia/",
+    "destination": "/private-transfers-region/andalusia/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/andalusia/",
+    "destination": "/es/traslados-privados-region/andalusia/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/attica/",
+    "destination": "/private-transfers-region/attica/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/attica/",
+    "destination": "/es/traslados-privados-region/attica/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/balearic-islands/",
+    "destination": "/private-transfers-region/balearic-islands/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/balearic-islands/",
+    "destination": "/es/traslados-privados-region/balearic-islands/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/bavaria/",
+    "destination": "/private-transfers-region/bavaria/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/bavaria/",
+    "destination": "/es/traslados-privados-region/bavaria/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/berlin-brandenburg/",
+    "destination": "/private-transfers-region/berlin-brandenburg/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/berlin-brandenburg/",
+    "destination": "/es/traslados-privados-region/berlin-brandenburg/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/british-columbia/",
+    "destination": "/private-transfers-region/british-columbia/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/british-columbia/",
+    "destination": "/es/traslados-privados-region/british-columbia/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/brussels-capital/",
+    "destination": "/private-transfers-region/brussels-capital/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/brussels-capital/",
+    "destination": "/es/traslados-privados-region/brussels-capital/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/california/",
+    "destination": "/private-transfers-region/california/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/california/",
+    "destination": "/es/traslados-privados-region/california/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/canary-islands/",
+    "destination": "/private-transfers-region/canary-islands/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/canary-islands/",
+    "destination": "/es/traslados-privados-region/canary-islands/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/catalonia/",
+    "destination": "/private-transfers-region/catalonia/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/cataluna/",
+    "destination": "/es/traslados-privados-region/cataluna/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/central-bohemia/",
+    "destination": "/private-transfers-region/central-bohemia/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/central-bohemia/",
+    "destination": "/es/traslados-privados-region/central-bohemia/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/community-of-madrid/",
+    "destination": "/private-transfers-region/community-of-madrid/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/community-of-madrid/",
+    "destination": "/es/traslados-privados-region/community-of-madrid/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/cundinamarca/",
+    "destination": "/private-transfers-region/cundinamarca/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/cundinamarca/",
+    "destination": "/es/traslados-privados-region/cundinamarca/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/dubai-emirate/",
+    "destination": "/private-transfers-region/dubai-emirate/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/dubai-emirate/",
+    "destination": "/es/traslados-privados-region/dubai-emirate/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/england/",
+    "destination": "/private-transfers-region/england/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/england/",
+    "destination": "/es/traslados-privados-region/england/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/florida/",
+    "destination": "/private-transfers-region/florida/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/florida/",
+    "destination": "/es/traslados-privados-region/florida/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/galicia/",
+    "destination": "/private-transfers-region/galicia/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/galicia/",
+    "destination": "/es/traslados-privados-region/galicia/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/georgia-us/",
+    "destination": "/private-transfers-region/georgia-us/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/georgia-us/",
+    "destination": "/es/traslados-privados-region/georgia-us/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/greater-budapest/",
+    "destination": "/private-transfers-region/greater-budapest/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/greater-budapest/",
+    "destination": "/es/traslados-privados-region/greater-budapest/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/hauts-de-france/",
+    "destination": "/private-transfers-region/hauts-de-france/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/hauts-de-france/",
+    "destination": "/es/traslados-privados-region/hauts-de-france/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/hesse/",
+    "destination": "/private-transfers-region/hesse/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/hesse/",
+    "destination": "/es/traslados-privados-region/hesse/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/ile-de-france/",
+    "destination": "/private-transfers-region/ile-de-france/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/ile-de-france/",
+    "destination": "/es/traslados-privados-region/ile-de-france/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/illinois/",
+    "destination": "/private-transfers-region/illinois/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/illinois/",
+    "destination": "/es/traslados-privados-region/illinois/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/lazio/",
+    "destination": "/private-transfers-region/lazio/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/lazio/",
+    "destination": "/es/traslados-privados-region/lazio/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/leinster/",
+    "destination": "/private-transfers-region/leinster/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/leinster/",
+    "destination": "/es/traslados-privados-region/leinster/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/lisbon-region/",
+    "destination": "/private-transfers-region/lisbon-region/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/lisbon-region/",
+    "destination": "/es/traslados-privados-region/lisbon-region/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/lombardy/",
+    "destination": "/private-transfers-region/lombardy/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/lombardy/",
+    "destination": "/es/traslados-privados-region/lombardy/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/marmara/",
+    "destination": "/private-transfers-region/marmara/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/marmara/",
+    "destination": "/es/traslados-privados-region/marmara/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/massachusetts/",
+    "destination": "/private-transfers-region/massachusetts/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/massachusetts/",
+    "destination": "/es/traslados-privados-region/massachusetts/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/mediterranean-turkey/",
+    "destination": "/private-transfers-region/mediterranean-turkey/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/mediterranean-turkey/",
+    "destination": "/es/traslados-privados-region/mediterranean-turkey/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/nevada/",
+    "destination": "/private-transfers-region/nevada/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/nevada/",
+    "destination": "/es/traslados-privados-region/nevada/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/new-york-state/",
+    "destination": "/private-transfers-region/new-york-state/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/new-york-state/",
+    "destination": "/es/traslados-privados-region/new-york-state/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/norte-portugal/",
+    "destination": "/private-transfers-region/norte-portugal/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/norte-portugal/",
+    "destination": "/es/traslados-privados-region/norte-portugal/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/north-holland/",
+    "destination": "/private-transfers-region/north-holland/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/north-holland/",
+    "destination": "/es/traslados-privados-region/north-holland/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/north-rhine-westphalia/",
+    "destination": "/private-transfers-region/north-rhine-westphalia/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/north-rhine-westphalia/",
+    "destination": "/es/traslados-privados-region/north-rhine-westphalia/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/ontario/",
+    "destination": "/private-transfers-region/ontario/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/ontario/",
+    "destination": "/es/traslados-privados-region/ontario/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/pennsylvania/",
+    "destination": "/private-transfers-region/pennsylvania/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/pennsylvania/",
+    "destination": "/es/traslados-privados-region/pennsylvania/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/quebec/",
+    "destination": "/private-transfers-region/quebec/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/quebec/",
+    "destination": "/es/traslados-privados-region/quebec/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/quintana-roo/",
+    "destination": "/private-transfers-region/quintana-roo/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/quintana-roo/",
+    "destination": "/es/traslados-privados-region/quintana-roo/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/scotland/",
+    "destination": "/private-transfers-region/scotland/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/scotland/",
+    "destination": "/es/traslados-privados-region/scotland/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/sicily/",
+    "destination": "/private-transfers-region/sicily/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/sicily/",
+    "destination": "/es/traslados-privados-region/sicily/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/south-aegean/",
+    "destination": "/private-transfers-region/south-aegean/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/south-aegean/",
+    "destination": "/es/traslados-privados-region/south-aegean/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/texas/",
+    "destination": "/private-transfers-region/texas/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/texas/",
+    "destination": "/es/traslados-privados-region/texas/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/tuscany/",
+    "destination": "/private-transfers-region/tuscany/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/tuscany/",
+    "destination": "/es/traslados-privados-region/tuscany/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/valencian-community/",
+    "destination": "/private-transfers-region/valencian-community/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/valencian-community/",
+    "destination": "/es/traslados-privados-region/valencian-community/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/wallonia/",
+    "destination": "/private-transfers-region/wallonia/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/wallonia/",
+    "destination": "/es/traslados-privados-region/wallonia/",
+    "permanent": true
+  },
+  {
+    "source": "/private-transfers/washington-state/",
+    "destination": "/private-transfers-region/washington-state/",
+    "permanent": true
+  },
+  {
+    "source": "/es/traslados-privados-taxi/washington-state/",
+    "destination": "/es/traslados-privados-region/washington-state/",
+    "permanent": true
+  }
+]
