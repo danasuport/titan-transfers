@@ -63,7 +63,11 @@ const OFF_TOPIC = new RegExp([
   'aerogenerador','wind[_ ]turbine','sat[eé]lite','satellite','sentinel','landsat','from[_ ]space','aerial',
   'aeropuerto','airport','aeroport','flughafen','terminal','runway','pista[_ ]de[_ ]aterr','boarding','check.?in',
   'airbus','boeing','airways','airlines','aircraft','airplane','avi[oó]n','\\ba3[0-9]{2}\\b','\\bb7[0-9]{2}\\b','atr[_. ]?7[0-9]','embraer','\\bhs-[a-z]{3}\\b','\\b[a-z]{2}-[a-z]{3}\\b[_ ]?(aws|air)','\\baws\\b',
-  'rugby','football','soccer','heineken','cup[_ ]?final','\\bmatch\\b','stadium','estadio','league',
+  'rugby','football','soccer','heineken','cup[_ ]?final','\\bmatch\\b','stadium','stadio','estadi','estadio','league','arena[_ ]',
+  // Equipaciones y escudos deportivos: el club se llama como la ciudad, así que
+  // pasan cualquier filtro por nombre. "Kit body CalcioPadova" se coló como
+  // foto de Padua.
+  'calcio','kit[_ ]?body','kit[_ ]?shorts','kit[_ ]?socks','\\bkit\\b','jersey','camiseta','maillot','crest','logo','escudo[_ ]','badge',
   '\\bprint\\b','century[_ ]print','density','population','distribution','diagram','chart','groundbreaking','ceremony','\\bmrt\\b','construction','obras[_ ]','cuartel','guardia civil','caserma','kaserne','escuela','escola','\\beb[_ ]?\\d','stemma','wappen',
 ].join('|'), 'i')
 const SCENIC = /panor|vista|views?[_.]|paesaggio|paisaje|pueblo|casco|playa|beach|spiaggia|plaza|piazza|calle|street|old[_ ]town|centro|harbou?r|porto|puerto|castello|castillo|church|chiesa|iglesia|skyline|mirador|coast|costa|bay|marina|seafront|waterfront|veduta|paysage/i
@@ -75,10 +79,45 @@ async function wiki(lang, params) {
   return res.json()
 }
 
+/**
+ * The tokens a photo's filename has to carry to count as a photo OF this place.
+ *
+ * The old rule took the destination's first word, which quietly lost every name
+ * with punctuation in it: "Val-d'Isère" looked for files containing
+ * "val-d'isere" while Commons writes them "Val_d'Isère", and "L'Alpe d'Huez"
+ * searched for "l'alpe". Val d'Isère from two airports, Alpe d'Huez, St. Anton
+ * and the Blue Lagoon all ended up with no photo and stayed unpublished.
+ *
+ * So: split on punctuation as well as spaces, drop the articles and
+ * prepositions that carry no identity, and keep the longest token left — the
+ * most distinctive part of the name, and the one a filename is most likely to
+ * spell the same way we do ("isere", "huez", "arlberg", "lagoon"). Still a
+ * positive match on a specific word, so a wrong photo is no likelier than before.
+ */
+const VACIAS = new Set(['de','del','la','le','el','les','los','las','di','da','du','des','am','an','the','sur','sous','saint','san','sant','santa','st','a','al','y','and','et','bay','city','beach','playa','playas','isla','island'])
+function claveDelNombre(dest) {
+  // Lo del paréntesis es una aclaración de la hoja, no el nombre del sitio:
+  // "L'Alpe d'Huez (Villard-Reculas)" se fotografía como Alpe d'Huez.
+  const tokens = norm(dest)
+    .replace(/\(.*?\)/g, ' ')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .split(/\s+/)
+    .filter(t => t.length >= 4 && !VACIAS.has(t))
+  if (!tokens.length) return norm(dest).split(/[\s,(]+/)[0]
+  return tokens.sort((a, b) => b.length - a.length)[0]
+}
+
 async function findArticle(dest, lang) {
   const data = await wiki(lang, { action: 'query', list: 'search', srsearch: dest, srlimit: 6 })
   const hits = (data.query?.search || []).map(h => h.title)
-  const key = norm(dest).split(/[\s,(]+/)[0]
+  // El título exacto primero. Buscar "Padova" devuelve también "Calcio Padova",
+  // y quedarse con la primera que contenga la palabra nos metía en el artículo
+  // del club de fútbol: de ahí salían escudos, camisetas y retratos de
+  // entrenadores en vez de la ciudad.
+  const limpio = norm(dest).replace(/\(.*?\)/g, '').trim()
+  const exacto = hits.find(t => norm(t) === limpio)
+  if (exacto) return exacto
+  const key = claveDelNombre(dest)
   return hits.find(t => norm(t).includes(key)) || null
 }
 
@@ -88,7 +127,7 @@ async function articlePhotos(title, dest, lang) {
   const files = (page?.images || [])
     .map(i => i.title.replace(/^(Archivo|Ficheiro|File|Datei|Immagine|Slika|Dosya|Αρχείο):/i, ''))
     .filter(f => /\.(jpe?g|png)$/i.test(f) && !NOT_A_PHOTO.test(f) && !OFF_TOPIC.test(f))
-  const key = norm(dest).split(/[\s,(]+/)[0]
+  const key = claveDelNombre(dest)
   return files
     .filter(f => norm(f).includes(key))
     .sort((a, b) => (SCENIC.test(b) ? 1 : 0) - (SCENIC.test(a) ? 1 : 0))
