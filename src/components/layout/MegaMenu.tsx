@@ -9,7 +9,7 @@ import { pick } from '@/lib/i18n/pick'
 import type { Locale } from '@/lib/i18n/config'
 
 interface Airport { _id: string; title: string; iataCode: string; slug: string; esSlug?: string; arSlug?: string; arTitle?: string; city?: string; country?: string; countryAr?: string; countrySlug?: string }
-interface City { _id: string; title: string; slug: string; esSlug?: string; arSlug?: string; arTitle?: string; country?: string; countryAr?: string; countrySlug?: string }
+interface City { _id: string; title: string; slug: string; esSlug?: string; arSlug?: string; arTitle?: string; country?: string; countryAr?: string; countrySlug?: string; primary?: boolean }
 interface Country { _id: string; title: string; slug: string; esSlug?: string; arSlug?: string; arTitle?: string; airportCount?: number; cityCount?: number }
 interface MenuData { airports: Airport[]; cities: City[]; countries: Country[] }
 
@@ -100,15 +100,36 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
     return ar && item.countryAr ? item.countryAr : (item.country ?? '')
   }
 
+  function moreLabel(n: number) {
+    return pick(locale, {
+      en: `+${n} more`, es: `+${n} más`, ar: `+${n} أخرى`,
+      it: `+${n} altre`, de: `+${n} weitere`, fr: `+${n} autres`,
+    })
+  }
+
   const q = search.toLowerCase()
 
   const airports = (data?.airports ?? []).filter(a =>
     !q || a.title.toLowerCase().includes(q) || (a.arTitle ?? '').includes(search) || (a.iataCode ?? '').toLowerCase().includes(q) || (a.city ?? '').toLowerCase().includes(q) || (a.country ?? '').toLowerCase().includes(q) || (a.countryAr ?? '').includes(search)
   )
 
-  const cities = (data?.cities ?? []).filter(c =>
-    !q || c.title.toLowerCase().includes(q) || (c.arTitle ?? '').includes(search) || (c.country ?? '').toLowerCase().includes(q) || (c.countryAr ?? '').includes(search)
+  // Sin búsqueda el panel enseña solo las principales de cada país: la lista
+  // entera son 1.238 e incluye cada pueblo al que llevamos a alguien, que como
+  // destino de un traslado está bien y como menú de ciudades no. En cuanto se
+  // teclea algo se busca sobre todas, así que ninguna queda inalcanzable.
+  const allCities = data?.cities ?? []
+  const cities = allCities.filter(c =>
+    q
+      ? (c.title.toLowerCase().includes(q) || (c.arTitle ?? '').includes(search) || (c.country ?? '').toLowerCase().includes(q) || (c.countryAr ?? '').includes(search))
+      : c.primary !== false
   )
+
+  // Cuántas tiene de verdad cada país, para el enlace "+N" del pie.
+  const cityTotals: Record<string, number> = {}
+  allCities.forEach(c => {
+    const key = countryName(c) || 'Other'
+    cityTotals[key] = (cityTotals[key] ?? 0) + 1
+  })
 
   const countries = (data?.countries ?? []).filter(c =>
     !q || c.title.toLowerCase().includes(q) || (c.arTitle ?? '').includes(search)
@@ -211,6 +232,12 @@ export function MegaMenu({ type, onClose, mobile = false }: { type: Tab; onClose
                     <span style={{ fontSize: '0.85rem', color: 'inherit' }}>{title(c)}</span>
                   </HoverItem>
                 ))}
+                {!q && (cityTotals[country] ?? 0) > items.length && (
+                  <Link href={countryHref(items[0]?.countrySlug) as never} onClick={onClose}
+                    style={{ display: 'inline-block', padding: '0.35rem 0.6rem', fontSize: '0.78rem', color: '#6B8313', textDecoration: 'none' }}>
+                    {moreLabel((cityTotals[country] ?? 0) - items.length)}
+                  </Link>
+                )}
               </div>
             ))}
           </div>
