@@ -12,9 +12,9 @@
  *
  * Usage:
  *   node scripts/translate-to-arabic.mjs \
- *     [--type=city,airport,...] [--limit=10] [--force] [--dry-run] [--model=gpt-4o-mini]
+ *     [--type=city,airport,...] [--limit=10] [--force] [--dry-run] [--model=claude-opus-5]
  *
- * Reads OPENAI_API_KEY from .env.local.
+ * Reads ANTHROPIC_API_KEY from .env.local.
  *
  * Skips documents that already have translations.ar.title (idempotent), unless
  * --force is passed. Will not overwrite an existing slug — slugs are stable
@@ -22,6 +22,7 @@
  */
 
 import { client } from './lib/sanity-client.mjs'
+import { askForJson, DEFAULT_MODEL } from './lib/llm.mjs'
 import { randomUUID } from 'crypto'
 import { readFileSync } from 'fs'
 
@@ -36,11 +37,13 @@ function readEnv(key) {
   } catch { return '' }
 }
 
-const apiKey = readEnv('OPENAI_API_KEY')
+const apiKey = readEnv('ANTHROPIC_API_KEY')
 if (!apiKey) {
-  console.error('Missing OPENAI_API_KEY. Add it to .env.local or pass via env.')
+  console.error('Falta ANTHROPIC_API_KEY en .env.local.')
   process.exit(1)
 }
+// El SDK de Anthropic lee la clave del entorno, y readEnv solo la devuelve.
+process.env.ANTHROPIC_API_KEY = apiKey
 
 const args = Object.fromEntries(
   process.argv.slice(2).map(a => {
@@ -56,7 +59,7 @@ const FORCE = !!args.force
 // without it, --force would rewrite every document of the type.
 const ONLY_SLUG = args.slug || null
 const DRY_RUN = !!args['dry-run']
-const MODEL = args.model || 'gpt-4o'
+const MODEL = args.model || DEFAULT_MODEL
 
 // ─── Type config ─────────────────────────────────────────────────────────────
 
@@ -203,35 +206,16 @@ async function translateDoc(doc) {
     return null
   }
 
-  console.log(`  → Calling OpenAI (${MODEL})...`)
-  const res = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: prompt },
-      ],
-      max_tokens: 8000,
-      temperature: 0.4,
-    }),
-  })
-
-  if (!res.ok) {
-    const errBody = await res.text()
-    console.error(`  ✗ OpenAI API error ${res.status}: ${errBody.slice(0, 300)}`)
+  console.log(`  → Llamando a Claude (${MODEL})...`)
+  let raw
+  try {
+    ;({ text: raw } = await askForJson({ system: SYSTEM_PROMPT, prompt, model: MODEL }))
+  } catch (e) {
+    console.error(`  ✗ Error de la API de Anthropic: ${e.message}`)
     return null
   }
-
-  const payload = await res.json()
-  const raw = payload.choices?.[0]?.message?.content
   if (!raw) {
-    console.error(`  ✗ No content in OpenAI response: ${JSON.stringify(payload).slice(0, 300)}`)
+    console.error('  ✗ El modelo devolvió una respuesta vacía')
     return null
   }
   let translated

@@ -101,6 +101,10 @@ const COUNTRY_MAP = {
   'Serbia': 'serbia',
   'Türkiye': 'turkey', 'Croatia': 'croatia', 'Cyprus': 'cyprus', 'Malta': 'malta',
   'Montenegro': 'montenegro',
+  'Bulgaria': 'bulgaria', 'Slovenia': 'slovenia', 'Mauritius': 'mauritius',
+  'Tanzania, United Republic of': 'tanzania', 'Tanzania': 'tanzania',
+  'Dominican Republic': 'dominican-republic',
+  'Denmark': 'denmark', 'Iceland': 'iceland',
 }
 
 const COUNTRY_TITLES = {
@@ -109,6 +113,9 @@ const COUNTRY_TITLES = {
   'qatar': 'Qatar', 'romania': 'Romania', 'saudi-arabia': 'Saudi Arabia',
   'switzerland': 'Switzerland', 'serbia': 'Serbia',
   'croatia': 'Croatia', 'cyprus': 'Cyprus', 'malta': 'Malta', 'montenegro': 'Montenegro',
+  'bulgaria': 'Bulgaria', 'slovenia': 'Slovenia', 'tanzania': 'Tanzania',
+  'mauritius': 'Mauritius', 'dominican-republic': 'Dominican Republic',
+  'denmark': 'Denmark', 'iceland': 'Iceland',
 }
 
 // Entries in the sheet's Airport column that aren't airports. The catalogue
@@ -155,10 +162,39 @@ const AIRPORT_NAMES = {
   'DLM': 'Dalaman Airport', 'NCE': 'Nice Côte d\'Azur Airport',
   'PFO': 'Paphos International Airport', 'LCA': 'Larnaca International Airport',
   'MLA': 'Malta International Airport', 'TIV': 'Tivat Airport',
+  // Breadth batch: 20 more airports (Aug 2026)
+  'VAR': 'Varna Airport', 'BOJ': 'Burgas Airport', 'RJK': 'Rijeka Airport',
+  'LJU': 'Ljubljana Jože Pučnik Airport', 'TGD': 'Podgorica Airport',
+  'VRN': 'Verona Villafranca Airport', 'GOA': 'Genoa Cristoforo Colombo Airport',
+  'CIY': 'Comiso Airport', 'TPS': 'Trapani-Birgi Airport', 'BDS': 'Brindisi Airport',
+  'QSR': 'Salerno Costa d\'Amalfi Airport', 'BIQ': 'Biarritz Pays Basque Airport',
+  'LDE': 'Tarbes-Lourdes-Pyrénées Airport', 'FUE': 'Fuerteventura Airport',
+  'FNC': 'Madeira Funchal Airport', 'AGA': 'Agadir Al Massira Airport',
+  'ZNZ': 'Zanzibar Abeid Amani Karume International Airport',
+  'POP': 'Puerto Plata Gregorio Luperón International Airport',
+  'MRU': 'Mauritius Sir Seewoosagur Ramgoolam International Airport',
   'TFN': 'Tenerife North Airport', 'TFS': 'Tenerife South Airport',
   'AGP': 'Málaga-Costa del Sol Airport', 'ALC': 'Alicante-Elche Airport',
   'ACE': 'Lanzarote Airport', 'SKP': 'Skopje Alexander the Great Airport',
   'BEG': 'Belgrade Nikola Tesla Airport',
+  // Top-30 batch (Sept 2026): the ski gateways go out first — the season opens
+  // in late November and a page needs 4-8 weeks to rank.
+  'LYS': 'Lyon-Saint-Exupéry Airport', 'CMF': 'Chambéry-Savoie Mont Blanc Airport',
+  'GNB': 'Grenoble-Alpes-Isère Airport', 'SZG': 'Salzburg Airport',
+  'INN': 'Innsbruck Airport', 'LUG': 'Lugano Airport',
+  'BSL': 'EuroAirport Basel-Mulhouse-Freiburg', 'TRN': 'Turin Airport',
+  'FMM': 'Memmingen Allgäu Airport',
+  'PSA': 'Pisa Galileo Galilei Airport', 'BLQ': 'Bologna Guglielmo Marconi Airport',
+  'TSF': 'Treviso Antonio Canova Airport', 'TRS': 'Trieste Airport',
+  'TLS': 'Toulouse-Blagnac Airport', 'BOD': 'Bordeaux-Mérignac Airport',
+  'MRS': 'Marseille Provence Airport', 'MPL': 'Montpellier-Méditerranée Airport',
+  'NTE': 'Nantes Atlantique Airport', 'RNS': 'Rennes-Saint-Jacques Airport',
+  'STR': 'Stuttgart Airport', 'ANR': 'Antwerp International Airport',
+  'BIO': 'Bilbao Airport', 'RMU': 'Región de Murcia International Airport',
+  'LEI': 'Almería Airport', 'MAH': 'Menorca Airport',
+  'LPA': 'Gran Canaria Airport', 'GRX': 'Federico García Lorca Granada-Jaén Airport',
+  'CPH': 'Copenhagen Airport', 'KEF': 'Keflavík International Airport',
+  'SKG': 'Thessaloniki Makedonia Airport',
 }
 
 // Forced JSON: the shape is guaranteed by the API rather than by asking nicely
