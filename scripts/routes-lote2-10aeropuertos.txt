@@ -1,0 +1,42 @@
+SNN:Limerick
+SNN:Galway City Centre
+SNN:Cliffs Of Moher
+SNN:Killarney
+SNN:Ennis
+ORK:Cork
+ORK:Kinsale
+ORK:Blarney
+ORK:Cobh
+ORK:Killarney
+GLA:Glasgow
+GLA:Edinburgh
+GLA:Stirling
+GLA:Saint Andrews
+GLA:Fort William
+LGG:Liège
+LGG:Brussels
+LGG:Maastricht
+LGG:Spa
+LUX:Luxemburgo ciudad
+LUX:Metz
+LUX:Nancy
+LUX:Esch-sur-Alzette
+HAM:Hamburg
+HAM:Kiel
+HAM:Travemünde
+KRK:Kraków
+KRK:Zakopane
+KRK:Wieliczka
+KRK:Oświęcim
+KRK:Katowice City Centre
+KTW:Katowice City Centre
+KTW:Kraków
+KTW:Zakopane
+KTW:Oświęcim
+ZAZ:Zaragoza
+ZAZ:Jaca
+ZAZ:Huesca
+ZAZ:Baqueira-Beret
+PNA:Pamplona / Iruña
+PNA:San Sebastián / Donostia
+PNA:Logroño

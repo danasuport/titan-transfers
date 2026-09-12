@@ -21,6 +21,15 @@
  * Andorra la Vella under Spain. Publish those by hand, or fix the country in the
  * Studio afterwards.
  *
+ * What the script no longer does is decide on its own when a destination shares
+ * its name with a city that already exists in another country. Reusing it blindly
+ * put "Región de Murcia → Cartagena" under Cartagena de Indias, in Colombia, with
+ * Colombian breadcrumbs on a page about the Roman theatre of the Spanish one. The
+ * two possible answers are opposites — the same place across a border, or two
+ * places that happen to share a name — and nothing in the sheet tells them apart,
+ * so those rows are now reported and skipped until a human picks with
+ * --cross-border=reuse or --cross-border=split.
+ *
  * Usage:
  *   node scripts/publish-routes.mjs --airport=BCN --limit=10       # dry run
  *   node scripts/publish-routes.mjs --airport=BCN --limit=10 --apply
@@ -68,6 +77,11 @@ const LIMIT = Number(arg('limit', '0')) || Infinity
 // (exposing URLs), so a big --apply run can't dump 1.000 pages on Google at once.
 // --visible skips that, for the handful you want live immediately.
 const VISIBLE = process.argv.includes('--visible')
+// Qué hacer cuando el destino coincide en nombre con una ciudad que ya existe
+// en OTRO país. Por defecto no se decide sola: avisa y salta.
+//   reuse → es el mismo sitio al otro lado de una frontera (Lieja → Maastricht)
+//   split → son sitios distintos que se llaman igual (Murcia → Cartagena)
+const CROSS_BORDER = arg('cross-border', 'ask')
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -105,6 +119,10 @@ const COUNTRY_MAP = {
   'Tanzania, United Republic of': 'tanzania', 'Tanzania': 'tanzania',
   'Dominican Republic': 'dominican-republic',
   'Denmark': 'denmark', 'Iceland': 'iceland',
+  // 'UK' estaba mapeado y 'United Kingdom' no, que es como lo escribe la hoja:
+  // eso saltaba en silencio TODOS los aeropuertos británicos (Southampton,
+  // Bournemouth, Southend, Bristol, Glasgow, Liverpool…), más de mil rutas.
+  'United Kingdom': 'united-kingdom', 'Poland': 'poland', 'Luxembourg': 'luxembourg',
 }
 
 const COUNTRY_TITLES = {
@@ -116,6 +134,7 @@ const COUNTRY_TITLES = {
   'bulgaria': 'Bulgaria', 'slovenia': 'Slovenia', 'tanzania': 'Tanzania',
   'mauritius': 'Mauritius', 'dominican-republic': 'Dominican Republic',
   'denmark': 'Denmark', 'iceland': 'Iceland',
+  'poland': 'Poland', 'luxembourg': 'Luxembourg',
 }
 
 // Entries in the sheet's Airport column that aren't airports. The catalogue
@@ -195,6 +214,11 @@ const AIRPORT_NAMES = {
   'LPA': 'Gran Canaria Airport', 'GRX': 'Federico García Lorca Granada-Jaén Airport',
   'CPH': 'Copenhagen Airport', 'KEF': 'Keflavík International Airport',
   'SKG': 'Thessaloniki Makedonia Airport',
+  // Segundo lote (sept 2026): ciudades de invierno y mercado británico e irlandés.
+  'SNN': 'Shannon Airport', 'ORK': 'Cork Airport', 'GLA': 'Glasgow Airport',
+  'LGG': 'Liège Airport', 'LUX': 'Luxembourg Findel Airport',
+  'HAM': 'Hamburg Airport', 'KRK': 'Kraków John Paul II International Airport',
+  'KTW': 'Katowice Airport', 'ZAZ': 'Zaragoza Airport', 'PNA': 'Pamplona Airport',
 }
 
 // Forced JSON: the shape is guaranteed by the API rather than by asking nicely
@@ -338,7 +362,7 @@ async function run() {
   const [countries, airports, cities, routes] = await Promise.all([
     client.fetch(`*[_type == "country"]{_id, title, "slug": slug.current}`),
     client.fetch(`*[_type == "airport" && defined(iataCode)]{_id, title, iataCode, "slug": slug.current}`),
-    client.fetch(`*[_type == "city"]{_id, title, "slug": slug.current, "tr": translations}`),
+    client.fetch(`*[_type == "city"]{_id, title, "slug": slug.current, "tr": translations, "countrySlug": country->slug.current}`),
     client.fetch(`*[_type == "route" && defined(origin->_id) && defined(destination->_id)]{
       "originId": origin->_id, "destId": destination->_id }`),
   ])
@@ -349,6 +373,7 @@ async function run() {
   // Cities under every name we know them by — same reason the dashboard does it:
   // the sheet writes "Rome", Sanity may hold "Roma", and either should find the
   // one city rather than create a second.
+  const conflicts = []
   const cityByName = {}
   for (const c of cities) {
     for (const name of [c.title, ...Object.values(c.tr || {}).map(t => t?.title)]) {
@@ -379,7 +404,20 @@ async function run() {
     const airport = airportByIata[row.iata]
     if (!airport && !AIRPORT_NAMES[row.iata]) { skipped.noAirport.push(row.iata); continue }
 
-    const city = cityByName[norm(row.resort)] || cityByName[`slug:${slugify(row.resort)}`]
+    let city = cityByName[norm(row.resort)] || cityByName[`slug:${slugify(row.resort)}`]
+
+    // El nombre coincide con una ciudad de otro país. Puede ser el mismo sitio
+    // cruzando una frontera o dos sitios homónimos, y el script no puede
+    // distinguirlos: "Cartagena" desde Murcia se enganchó a Cartagena de
+    // Indias y publicó una ruta murciana bajo Colombia. Decide una persona.
+    if (city && city.countrySlug && city.countrySlug !== countrySlug) {
+      if (CROSS_BORDER === 'split') city = null            // creará una ciudad aparte
+      else if (CROSS_BORDER !== 'reuse') {
+        conflicts.push({ iata: row.iata, resort: row.resort, tiene: city.countrySlug, esperado: countrySlug })
+        continue
+      }
+    }
+
     if (airport && city && existingRoutes.has(`${airport._id}|${city._id}`)) { skipped.alreadyLive++; continue }
 
     pending.push({ ...row, countrySlug, airport, city })
@@ -399,6 +437,17 @@ async function run() {
     for (const i of skipped.noAirport) byIata[i] = (byIata[i] || 0) + 1
     console.log(`  ⚠ ${skipped.noAirport.length} saltadas por IATA sin nombre en AIRPORT_NAMES — añádelo y vuelve a lanzar:`)
     for (const [i, n] of Object.entries(byIata).sort((a, b) => b[1] - a[1])) console.log(`      ${i}: ${n} ruta(s)`)
+  }
+
+  // El choque de nombres entre países no se resuelve solo, porque las dos
+  // salidas posibles son opuestas y sólo una persona sabe cuál toca.
+  if (conflicts.length) {
+    console.log(`\n  ⚠ ${conflicts.length} saltada(s): el destino ya existe como ciudad en OTRO país`)
+    for (const c of conflicts) {
+      console.log(`      ${c.iata} → ${c.resort}: la ciudad que hay está en «${c.tiene}» y el aeropuerto está en «${c.esperado}»`)
+    }
+    console.log('    ¿Es el mismo sitio cruzando una frontera (Lieja → Maastricht)?  --cross-border=reuse')
+    console.log('    ¿Son dos sitios que se llaman igual (Murcia → Cartagena)?       --cross-border=split')
   }
 
   const batch = pending.slice(0, LIMIT)
@@ -461,7 +510,10 @@ async function run() {
 
       let city = r.city
       if (!city) {
-        const slug = slugify(r.resort)
+        const base = slugify(r.resort)
+        // Con --cross-border=split ya existe otra ciudad con este nombre en otro
+        // país, así que el slug lleva el país detrás para no pisarla.
+        const slug = cityByName[`slug:${base}`] ? `${base}-${r.countrySlug}` : base
         city = { _id: `city-${slug}`, title: r.resort, slug }
         await client.createOrReplace({
           _id: city._id, _type: 'city', title: r.resort,
