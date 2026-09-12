@@ -152,19 +152,17 @@ const nextConfig: NextConfig = {
       { source: '/es/pais/:slug([^/]+?)-traslados-privados/', destination: '/es/traslados-privados-pais/:slug/', permanent: true },
       { source: '/es/pais/:slug([^/]+?)-private-transfers/', destination: '/es/traslados-privados-pais/:slug/', permanent: true },
 
-      // ── ES country slug overrides (translated WP names → Sanity EN slugs) ──
-      { source: '/es/traslados-privados-pais/belgica/', destination: '/es/traslados-privados-pais/belgium/', permanent: true },
-      { source: '/es/traslados-privados-pais/grecia/', destination: '/es/traslados-privados-pais/greece/', permanent: true },
-      { source: '/es/traslados-privados-pais/hungria/', destination: '/es/traslados-privados-pais/hungary/', permanent: true },
-      { source: '/es/traslados-privados-pais/irlanda/', destination: '/es/traslados-privados-pais/ireland/', permanent: true },
-      { source: '/es/traslados-privados-pais/alemania/', destination: '/es/traslados-privados-pais/germany/', permanent: true },
-      { source: '/es/traslados-privados-pais/republica-checa/', destination: '/es/traslados-privados-pais/czech-republic/', permanent: true },
-      { source: '/es/traslados-privados-pais/marruecos/', destination: '/es/traslados-privados-pais/morocco/', permanent: true },
-      { source: '/es/traslados-privados-pais/egipto/', destination: '/es/traslados-privados-pais/egypt/', permanent: true },
-      { source: '/es/traslados-privados-pais/tailandia/', destination: '/es/traslados-privados-pais/thailand/', permanent: true },
-      { source: '/es/traslados-privados-pais/rumania/', destination: '/es/traslados-privados-pais/romania/', permanent: true },
-      // jamaica/jamaica was a self-redirect loop — removed.
-      { source: '/es/traslados-privados-pais/bosnia/', destination: '/es/traslados-privados-pais/bosnia-and-herzegovina/', permanent: true },
+      // ── ES country slugs ──────────────────────────────────────────────────
+      // Aquí hubo 10 redirecciones (alemania→germany, irlanda→ireland…) de
+      // cuando las páginas ES de país vivían con el slug inglés. Desde que
+      // Sanity tiene el slug en español, countryBySlugQuery resuelve el país
+      // por el slug de CUALQUIER idioma, así que sobraban — y hacían daño: el
+      // sitemap publica /es/…/alemania/, esa URL redirigía a /germany/, y
+      // /germany/ declaraba como canónica /alemania/. Google no podía indexar
+      // ninguna de las dos. Eliminadas el 12/09/2026.
+      // El alias corto legacy de WP sí se mantiene, apuntando al slug ES, que
+      // es el que publica el sitemap.
+      { source: '/es/traslados-privados-pais/bosnia/', destination: '/es/traslados-privados-pais/bosnia-y-herzegovina/', permanent: true },
 
       // /es/airport/:slug/, /es/city/:slug/, /es/pais/:slug/ (clean slug, no
       // translation suffix) -> handled by the :path* catchalls below, which
