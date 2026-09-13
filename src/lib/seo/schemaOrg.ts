@@ -1,5 +1,3 @@
-import { OVERALL_RATING, TOTAL_REVIEWS } from '@/lib/reviews'
-
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://titantransfers.com'
 
 export function generateTaxiServiceSchema(data: {
@@ -26,7 +24,7 @@ export function generateTaxiServiceSchema(data: {
       aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: data.rating,
-        reviewCount: data.reviewCount || TOTAL_REVIEWS,
+        reviewCount: data.reviewCount || 500,
         bestRating: 5,
       },
     }),
@@ -102,8 +100,8 @@ export function generateLocalBusinessSchema() {
     priceRange: '$$',
     aggregateRating: {
       '@type': 'AggregateRating',
-      ratingValue: OVERALL_RATING,
-      reviewCount: TOTAL_REVIEWS,
+      ratingValue: 4.8,
+      reviewCount: 2500,
       bestRating: 5,
     },
   }

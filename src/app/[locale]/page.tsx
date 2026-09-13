@@ -14,7 +14,6 @@ import { generateLocalBusinessSchema } from '@/lib/seo/schemaOrg'
 import { generatePageMetadata } from '@/lib/seo/generateMetadata'
 import { pick } from '@/lib/i18n/pick'
 import type { Locale } from '@/lib/i18n/config'
-import { OVERALL_RATING, REVIEWS_FLOOR, formatRating, formatCount } from '@/lib/reviews'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
 // stay cached so navigation feels instant; new content shows up within 1h
@@ -63,9 +62,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     "services": count(*[_type == "servicePage"])
   }`).catch(() => undefined)
 
-  const rating = formatRating(OVERALL_RATING, locale as Locale)
-  const reviews = formatCount(REVIEWS_FLOOR, locale as Locale)
-
   return (
     <>
       <SchemaOrg data={generateLocalBusinessSchema()} />
@@ -77,8 +73,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             {[
               {
                 icon: '★',
-                label: pick(locale, { en: `${rating}/5 Rating`, es: `Valoración ${rating}/5`, ar: `تقييم ${rating}/5`, it: `Valutazione ${rating}/5`, de: `${rating}/5 Bewertung`, fr: `${rating}/5 Évaluation` }),
-                sub: pick(locale, { en: `Based on ${reviews}+ verified reviews`, es: `Basado en +${reviews} reseñas verificadas`, ar: `بناءً على أكثر من ${reviews} تقييم موثّق`, it: `Basato su oltre ${reviews} recensioni verificate`, de: `Basierend auf über ${reviews} verifizierten Bewertungen`, fr: `Basé sur plus de ${reviews} avis vérifiés` }),
+                label: pick(locale, { en: '4.8/5 Rating', es: 'Valoración 4.8/5', ar: 'تقييم ٤٫٨/٥', it: 'Valutazione 4.8/5', de: '4.8/5 Bewertung', fr: '4.8/5 Évaluation' }),
+                sub: pick(locale, { en: 'Based on 2,500+ reviews', es: 'Basado en +2.500 reseñas', ar: 'بناءً على أكثر من ٢٬٥٠٠ تقييم', it: 'Basato su oltre 2.500 recensioni', de: 'Basierend auf über 2.500 Bewertungen', fr: 'Basé sur plus de 2 500 avis' }),
               },
               {
                 icon: '◈',

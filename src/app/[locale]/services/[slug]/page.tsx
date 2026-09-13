@@ -19,7 +19,6 @@ import type { Locale } from '@/lib/i18n/config'
 import { pick } from '@/lib/i18n/pick'
 import { getLocalizedPath, getServiceUrl } from '@/lib/utils/slugHelpers'
 import { russoOne } from '@/lib/fonts'
-import { OVERALL_RATING } from '@/lib/reviews'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
 // stay cached so navigation feels instant; new content shows up within 1h
@@ -197,7 +196,7 @@ export default async function ServicePage({ params }: { params: Promise<{ locale
 
   return (
     <>
-      <SchemaOrg data={generateTaxiServiceSchema({ name: `Private ${service.title}`, description: service.seoDescription || `Book private ${service.title.toLowerCase()}`, url: getServiceUrl(service, 'en'), rating: OVERALL_RATING })} />
+      <SchemaOrg data={generateTaxiServiceSchema({ name: `Private ${service.title}`, description: service.seoDescription || `Book private ${service.title.toLowerCase()}`, url: getServiceUrl(service, 'en'), rating: 4.8 })} />
 
       {/* ─── HERO ───────────────────────────────────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '720px' }}>

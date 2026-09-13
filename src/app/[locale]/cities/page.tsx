@@ -9,7 +9,6 @@ import { CitiesClient } from '@/components/listings/CitiesClient'
 import type { Locale } from '@/lib/i18n/config'
 import { pick } from '@/lib/i18n/pick'
 import { russoOne } from '@/lib/fonts'
-import { OVERALL_RATING, formatRating } from '@/lib/reviews'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
 // stay cached so navigation feels instant; new content shows up within 1h
@@ -98,7 +97,7 @@ export default async function CitiesPage({ params }: { params: Promise<{ locale:
               // Counted from the catalogue: these were frozen at 186/30.
               { n: String(cities.length), label: labels.statCities },
               { n: String(new Set(cities.map((c: { country?: { title?: string } }) => c.country?.title).filter(Boolean)).size), label: labels.statCountries },
-              { n: `${formatRating(OVERALL_RATING, locale as Locale)}★`, label: labels.statRating },
+              { n: '4.8★', label: labels.statRating },
             ].map(s => (
               <div key={s.label} style={{ flex: 1, background: '#ffffff', border: '1.5px solid #e5e7eb', padding: '1.5rem 1.75rem', transform: 'skewX(-6deg)', textAlign: 'center' }}>
                 <div style={{ transform: 'skewX(6deg)' }}>

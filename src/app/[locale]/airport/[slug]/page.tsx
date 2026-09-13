@@ -21,7 +21,6 @@ import type { Locale } from '@/lib/i18n/config'
 import { getAirportUrl, getCountryUrl } from '@/lib/utils/slugHelpers'
 import { pick } from '@/lib/i18n/pick'
 import { russoOne } from '@/lib/fonts'
-import { OVERALL_RATING } from '@/lib/reviews'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
 // stay cached so navigation feels instant; new content shows up within 1h
@@ -185,7 +184,7 @@ export default async function AirportPage({ params }: { params: Promise<{ locale
 
   return (
     <>
-      <SchemaOrg data={generateTaxiServiceSchema({ name: `${airportTitle} ${t('transfers')}`, description: t('transferBestPriceDesc', { airport: airportTitle }), url: getAirportUrl(airport, 'en'), areaServed: cityName, rating: OVERALL_RATING })} />
+      <SchemaOrg data={generateTaxiServiceSchema({ name: `${airportTitle} ${t('transfers')}`, description: t('transferBestPriceDesc', { airport: airportTitle }), url: getAirportUrl(airport, 'en'), areaServed: cityName, rating: 4.8, reviewCount: 2500 })} />
 
       {/* ─── HERO ───────────────────────────────────────────────────────── */}
       <section className="resp-2col" style={{ background: '#F8FAF0', display: 'grid', minHeight: '720px' }}>

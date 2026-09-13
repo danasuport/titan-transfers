@@ -1,9 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useLocale, useTranslations } from 'next-intl'
-import { OVERALL_RATING, formatRating } from '@/lib/reviews'
-import type { Locale } from '@/lib/i18n/config'
+import { useTranslations } from 'next-intl'
 import { russoOne } from '@/lib/fonts'
 import { BookingPanel } from '@/components/ui/BookingPanel'
 
@@ -39,7 +37,6 @@ function StarPartial({ size = 38 }: { size?: number }) {
 
 export function HeroSection() {
   const t = useTranslations('home')
-  const locale = useLocale() as Locale
 
   return (
     <section className="resp-hero-grid" style={{ background: '#F8FAF0', display: 'grid', minHeight: '720px' }}>
@@ -71,7 +68,7 @@ export function HeroSection() {
               className={`${russoOne.className} underline`}
               style={{ color: '#6B8313', fontSize: '24px' }}
             >
-              {formatRating(OVERALL_RATING, locale)}
+              4.8
             </span>
           </p>
         </div>

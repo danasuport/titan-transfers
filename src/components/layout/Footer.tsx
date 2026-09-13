@@ -8,7 +8,6 @@ import { getServiceUrl, getLocalizedPath } from '@/lib/utils/slugHelpers'
 import { pick } from '@/lib/i18n/pick'
 import { russoOne } from '@/lib/fonts'
 import type { Locale } from '@/lib/i18n/config'
-import { REVIEW_PLATFORMS, formatRating, formatCount } from '@/lib/reviews'
 
 const servicesSlugs = [
   { en: 'airport-transfers', es: 'traslados-aeropuerto', ar: 'nakl-mataar', key: 'airportTransfers' },
@@ -150,19 +149,11 @@ export function Footer() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {(() => {
                 const reviewsWord = pick(locale, { en: 'reviews', es: 'opiniones', ar: 'تقييم', it: 'recensioni', de: 'Bewertungen', fr: 'avis' })
-                const icons = {
-                  trustpilot: { icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="#00B67A"><path d="M12 0l3.09 9.26H24l-7.85 5.7 3.09 9.26L12 18.52l-7.24 5.7 3.09-9.26L0 9.26h8.91z"/></svg>, starColor: '#00B67A' },
-                  trustedShops: { icon: <Image src="/logo-trusted-shops.png" alt="Trusted Shops" width={16} height={16} style={{ objectFit: 'contain' }} />, starColor: '#FFDC0F' },
-                  google: { icon: <Image src="/logo-google.svg" alt="Google" width={16} height={16} style={{ objectFit: 'contain' }} />, starColor: '#FBBC05' },
-                }
-                // Cifras reales de cada plataforma (src/lib/reviews.ts). Sin cifra, solo el enlace.
-                return (Object.keys(REVIEW_PLATFORMS) as (keyof typeof REVIEW_PLATFORMS)[]).map(key => {
-                  const p = REVIEW_PLATFORMS[key]
-                  const score = p.rating !== null && p.count !== null
-                    ? `${formatRating(p.rating, locale)} / 5 · ${formatCount(p.count, locale)} ${reviewsWord}`
-                    : pick(locale, { en: 'See reviews', es: 'Ver opiniones', ar: 'عرض التقييمات', it: 'Vedi recensioni', de: 'Bewertungen ansehen', fr: 'Voir les avis' })
-                  return { href: p.url, name: p.name, ...icons[key], score }
-                })
+                return [
+                  { href: 'https://ie.trustpilot.com/review/titantransfers.com', name: 'Trustpilot', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="#00B67A"><path d="M12 0l3.09 9.26H24l-7.85 5.7 3.09 9.26L12 18.52l-7.24 5.7 3.09-9.26L0 9.26h8.91z"/></svg>, starColor: '#00B67A', score: `4.9 / 5 · +500 ${reviewsWord}` },
+                  { href: 'https://www.trustedshops.eu/buyerrating/info_X39CC0944707618A0C37EAA21E972D649.html', name: 'Trusted Shops', icon: <Image src="/logo-trusted-shops.png" alt="Trusted Shops" width={16} height={16} style={{ objectFit: 'contain' }} />, starColor: '#FFDC0F', score: `4.9 / 5 · +1.800 ${reviewsWord}` },
+                  { href: 'https://share.google/8rCcJLQZDJ7NPKDFf', name: 'Google', icon: <Image src="/logo-google.svg" alt="Google" width={16} height={16} style={{ objectFit: 'contain' }} />, starColor: '#FBBC05', score: `4.8 / 5 · +100 ${reviewsWord}` },
+                ]
               })().map(({ href, name, icon, starColor, score }) => (
                 <a key={name} href={href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', background: '#ffffff', borderRadius: '8px', padding: '0.6rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '0.25rem', transition: 'box-shadow 0.2s' }}
                   onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)')}

@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react'
 import { useLocale } from 'next-intl'
 import { russoOne } from '@/lib/fonts'
 import { pick } from '@/lib/i18n/pick'
-import { OVERALL_RATING, REVIEWS_FLOOR, formatRating, formatCount } from '@/lib/reviews'
-import type { Locale } from '@/lib/i18n/config'
 
 const starPaths = [
   'M51.7538 67.3504L54.7436 68.9755L53.7109 70.0167L50.7212 68.3916L51.7538 67.3504Z',
@@ -162,11 +160,11 @@ export function Testimonials() {
           {/* Rating + logos row */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ fontSize: '2rem', fontWeight: 800, color: '#6B8313', lineHeight: 1 }}>{formatRating(OVERALL_RATING, locale as Locale)}</span>
+              <span style={{ fontSize: '2rem', fontWeight: 800, color: '#6B8313', lineHeight: 1 }}>4.8</span>
               <span style={{ fontSize: '1rem', color: '#6b7280' }}>/5</span>
               <Stars count={5} />
               <span style={{ fontSize: '0.875rem', color: '#6b7280', marginLeft: '0.25rem' }}>
-                {(() => { const n = formatCount(REVIEWS_FLOOR, locale as Locale); return pick(locale, { en: `${n}+ verified reviews`, es: `+${n} reseñas verificadas`, ar: `+${n} تقييم موثّق`, it: `+${n} recensioni verificate`, de: `Über ${n} verifizierte Bewertungen`, fr: `Plus de ${n} avis vérifiés` }) })()}
+                {pick(locale, { en: '2,500+ reviews', es: '+2.500 reseñas', ar: '+٢٬٥٠٠ تقييم', it: '+2.500 recensioni', de: 'Über 2.500 Bewertungen', fr: 'Plus de 2 500 avis' })}
               </span>
             </div>
             <div style={{ width: '1px', height: '28px', background: '#e5e7eb' }} />
