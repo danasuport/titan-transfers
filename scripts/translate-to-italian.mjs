@@ -273,7 +273,12 @@ async function processDoc(doc) {
     await client
       .patch(doc._id)
       .setIfMissing({ translations: {} })
-      .set({ 'translations.it': it })
+      .set({ 'translations.it': {
+        // Con --force se re-traduce encima: conservar lo que la traducción no
+        // genera (slug, textos alternativos de imagen…). Antes se sustituía el
+        // objeto entero y el slug desaparecía: la URL en este idioma daba 404.
+        ...(existing || {}), ...it, ...(existing?.slug?.current ? { slug: existing.slug } : {}),
+      } })
       .commit()
 
     console.log(`  ✓ Patched translations.it (${Object.keys(it).join(', ')})`)

@@ -54,6 +54,9 @@ const args = Object.fromEntries(
 const TYPES = (args.type || 'country,region,city,airport,port,trainStation,servicePage,route,blogPost,page').split(',')
 const LIMIT = args.limit ? Number(args.limit) : Infinity
 const FORCE = !!args.force
+// Re-traducir un documento concreto (su slug en inglés). Imprescindible con
+// --force: sin él, --force reescribe todos los documentos del tipo.
+const ONLY_SLUG = args.slug || null
 const DRY_RUN = !!args['dry-run']
 const MODEL = args.model || DEFAULT_MODEL
 // Optional sharding for parallel runs: --shard=INDEX/TOTAL (0-based index).
@@ -270,7 +273,12 @@ async function processDoc(doc) {
     await client
       .patch(doc._id)
       .setIfMissing({ translations: {} })
-      .set({ 'translations.es': it })
+      .set({ 'translations.es': {
+        // Con --force se re-traduce encima: conservar lo que la traducción no
+        // genera (slug, textos alternativos de imagen…). Antes se sustituía el
+        // objeto entero y el slug desaparecía: la URL en este idioma daba 404.
+        ...(existing || {}), ...it, ...(existing?.slug?.current ? { slug: existing.slug } : {}),
+      } })
       .commit()
 
     console.log(`  ✓ Patched translations.es (${Object.keys(it).join(', ')})`)
@@ -301,6 +309,7 @@ async function run() {
     }`
     console.log(`\n━━━ ${type.toUpperCase()} ━━━`)
     let docs = await client.fetch(query)
+    if (ONLY_SLUG) docs = docs.filter(d => d.slug?.current === ONLY_SLUG)
     if (SHARD_N > 1) {
       docs = docs.filter((_, idx) => idx % SHARD_N === SHARD_I)
       console.log(`Shard ${SHARD_I + 1}/${SHARD_N}: ${docs.length} of this type`)
