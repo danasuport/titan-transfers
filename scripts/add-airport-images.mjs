@@ -39,6 +39,10 @@ const LIMIT = Number((process.argv.find(a => a.startsWith('--limit=')) || '').sp
 const LOOSE = process.argv.includes('--loose')
 const SKIP = ((process.argv.find(a => a.startsWith('--skip=')) || '').split('=')[1] || '')
   .split(',').map(s => s.trim().toLowerCase()).filter(Boolean)
+// --iata=SNN,ORK,... : limita la pasada a esos aeropuertos. Sirve para cubrir
+// un lote recién publicado sin tocar los que ya estaban sin foto de antes.
+const ONLY_IATA = ((process.argv.find(a => a.startsWith('--iata=')) || '').split('=')[1] || '')
+  .split(',').map(s => s.trim().toUpperCase()).filter(Boolean)
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -81,7 +85,11 @@ const airports = await client.fetch(
 )
 console.log(`Aeropuertos sin imagen: ${airports.length}`)
 
-const kept = SKIP.length ? airports.filter(a => !SKIP.includes(String(a.title || '').toLowerCase())) : airports
+let kept = SKIP.length ? airports.filter(a => !SKIP.includes(String(a.title || '').toLowerCase())) : airports
+if (ONLY_IATA.length) {
+  kept = kept.filter(a => ONLY_IATA.includes(String(a.iataCode || '').toUpperCase()))
+  console.log(`Filtrado por --iata: ${kept.length}`)
+}
 if (SKIP.length) console.log(`Excluidos por --skip: ${airports.length - kept.length}`)
 const batch = kept.slice(0, LIMIT)
 
