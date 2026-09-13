@@ -26,6 +26,21 @@ import { pick } from '@/lib/i18n/pick'
 import { russoOne } from '@/lib/fonts'
 import { OVERALL_RATING } from '@/lib/reviews'
 
+/** Preposición "de/desde" + artículo según el tipo de lugar, por idioma. */
+function withArticleEs(name: string) {
+  return /^(Aeropuerto|Puerto|Estación)\b/.test(name) ? `el ${name}` : name
+}
+function fromPlace(name: string, locale: Locale): string {
+  switch (locale) {
+    case 'es': return /^(Aeropuerto|Puerto|Estación)\b/.test(name) ? `del ${name}` : `de ${name}`
+    case 'it': return /^Aeroporto\b/.test(name) ? `dall'${name}` : /^Porto\b/.test(name) ? `dal ${name}` : /^Stazione\b/.test(name) ? `dalla ${name}` : `da ${name}`
+    case 'fr': return /^A[ée]roport\b/.test(name) ? `de l'${name}` : /^Port\b/.test(name) ? `du ${name}` : /^Gare\b/.test(name) ? `de la ${name}` : `de ${name}`
+    case 'de': return /^(Flughafen|Hafen|Bahnhof)\b/.test(name) ? `vom ${name}` : `von ${name}`
+    default: return `from ${name}`
+  }
+}
+
+
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
 // stay cached so navigation feels instant; new content shows up within 1h
 // or immediately via /api/revalidate.
@@ -207,6 +222,9 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
 
   const originTitle = (locale !== 'en' && route.origin?.translations?.[locale]?.title) || route.origin?.title || ''
   const destTitle = (locale !== 'en' && route.destination?.translations?.[locale]?.title) || route.destination?.title || ''
+  // "de" + nombre traducido: los aeropuertos llevan artículo ("del Aeropuerto de
+  // Glasgow", "dall'Aeroporto", "de l'aéroport", "vom Flughafen").
+  const from = fromPlace(originTitle, locale as Locale)
   const description = (locale !== 'en' && route.translations?.[locale]?.description) || route.description
 
   // Hero image with a fallback chain so no route is ever left with the bare dark
@@ -293,11 +311,11 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
     {
       question: pick(locale, {
         en: `How long is the transfer from ${originTitle} to ${destTitle}?`,
-        es: `¿Cuánto tarda el traslado de ${originTitle} a ${destTitle}?`,
+        es: `¿Cuánto tarda el traslado ${from} a ${destTitle}?`,
         ar: `كم تستغرق الرحلة من ${originTitle} إلى ${destTitle}؟`,
-        it: `Quanto dura il trasferimento da ${originTitle} a ${destTitle}?`,
-        de: `Wie lange dauert der Transfer von ${originTitle} nach ${destTitle}?`,
-        fr: `Combien de temps dure le transfert de ${originTitle} à ${destTitle} ?`,
+        it: `Quanto dura il trasferimento ${from} a ${destTitle}?`,
+        de: `Wie lange dauert der Transfer ${from} nach ${destTitle}?`,
+        fr: `Combien de temps dure le transfert ${from} à ${destTitle} ?`,
       }),
       answer: route.estimatedDuration
         ? pick(locale, {
@@ -453,22 +471,22 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
           <h1 className={russoOne.className} style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)', color: '#242426', lineHeight: 1.05, marginBottom: '1.25rem' }}>
             {pick(locale, {
               en: `Private transfer from ${originTitle} to ${destTitle}`,
-              es: `Traslado privado de ${originTitle} a ${destTitle}`,
+              es: `Traslado privado ${from} a ${destTitle}`,
               ar: `نقل خاص من ${originTitle} إلى ${destTitle}`,
-              it: `Trasferimento privato da ${originTitle} a ${destTitle}`,
-              de: `Privater Transfer von ${originTitle} nach ${destTitle}`,
-              fr: `Transfert privé de ${originTitle} à ${destTitle}`,
+              it: `Trasferimento privato ${from} a ${destTitle}`,
+              de: `Privater Transfer ${from} nach ${destTitle}`,
+              fr: `Transfert privé ${from} à ${destTitle}`,
             })}
           </h1>
 
           <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: 1.75, maxWidth: '480px' }}>
             {pick(locale, {
               en: `Door-to-door transfer from ${originTitle} to ${destTitle} with professional driver, fixed price and flight monitoring included.`,
-              es: `Traslado puerta a puerta desde ${originTitle} hasta ${destTitle} con conductor profesional, precio fijo y seguimiento de vuelo incluido.`,
+              es: `Traslado puerta a puerta desde ${withArticleEs(originTitle)} hasta ${destTitle} con conductor profesional, precio fijo y seguimiento de vuelo incluido.`,
               ar: `نقل من الباب إلى الباب من ${originTitle} إلى ${destTitle} مع سائق محترف وسعر ثابت ومتابعة الرحلات.`,
-              it: `Trasferimento porta a porta da ${originTitle} a ${destTitle} con autista professionale, prezzo fisso e monitoraggio del volo inclusi.`,
-              de: `Tür-zu-Tür-Transfer von ${originTitle} nach ${destTitle} mit professionellem Fahrer, Festpreis und Flugüberwachung inklusive.`,
-              fr: `Transfert porte-à-porte de ${originTitle} à ${destTitle} avec chauffeur professionnel, prix fixe et suivi de vol inclus.`,
+              it: `Trasferimento porta a porta ${from} a ${destTitle} con autista professionale, prezzo fisso e monitoraggio del volo inclusi.`,
+              de: `Tür-zu-Tür-Transfer ${from} nach ${destTitle} mit professionellem Fahrer, Festpreis und Flugüberwachung inklusive.`,
+              fr: `Transfert porte-à-porte ${from} à ${destTitle} avec chauffeur professionnel, prix fixe et suivi de vol inclus.`,
             })}
           </p>
         </div>
@@ -481,11 +499,11 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
                 src={heroImg}
                 alt={pick(locale, {
                   en: `Transfer from ${originTitle} to ${destTitle}`,
-                  es: `Traslado de ${originTitle} a ${destTitle}`,
+                  es: `Traslado ${from} a ${destTitle}`,
                   ar: `نقل من ${originTitle} إلى ${destTitle}`,
-                  it: `Trasferimento da ${originTitle} a ${destTitle}`,
-                  de: `Transfer von ${originTitle} nach ${destTitle}`,
-                  fr: `Transfert de ${originTitle} à ${destTitle}`,
+                  it: `Trasferimento ${from} a ${destTitle}`,
+                  de: `Transfer ${from} nach ${destTitle}`,
+                  fr: `Transfert ${from} à ${destTitle}`,
                 })}
                 fill
                 priority

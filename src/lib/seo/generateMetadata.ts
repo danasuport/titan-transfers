@@ -200,7 +200,7 @@ export function generateAirportMetadata(
 }
 
 export function generateRouteMetadata(
-  route: { title: string; seoTitle?: string; seoDescription?: string; origin?: { title: string }; destination?: { title: string }; translations?: Record<string, { seoTitle?: string; seoDescription?: string }> },
+  route: { title: string; seoTitle?: string; seoDescription?: string; origin?: { title: string; translations?: Record<string, { title?: string }> }; destination?: { title: string; translations?: Record<string, { title?: string }> }; translations?: Record<string, { seoTitle?: string; seoDescription?: string }> },
   locale: Locale,
   /**
    * The route's real "from" price, already formatted for this locale (e.g.
@@ -211,8 +211,11 @@ export function generateRouteMetadata(
   fromPrice?: string | null,
 ) {
   const t = locale !== defaultLocale ? route.translations?.[locale] : undefined
-  const origin = route.origin?.title || ''
-  const destination = route.destination?.title || ''
+  // Los nombres en el idioma de la página: sin esto, una ruta sin seoTitle
+  // traducido salía en español como "Traslado privado Miami International
+  // Airport a Miami Beach".
+  const origin = (locale !== defaultLocale && route.origin?.translations?.[locale]?.title) || route.origin?.title || ''
+  const destination = (locale !== defaultLocale && route.destination?.translations?.[locale]?.title) || route.destination?.title || ''
 
   const fallbackTitle = pick(locale, {
     en: `Private Transfer ${origin} to ${destination} | Fixed Price`,
