@@ -304,7 +304,7 @@ async function processDoc(doc) {
         // Con --force se re-traduce encima: conservar lo que la traducción no
         // genera (slug, textos alternativos de imagen…). Antes se sustituía el
         // objeto entero y el slug desaparecía: la URL en este idioma daba 404.
-        ...(existing || {}), ...de, ...(existing?.slug?.current ? { slug: existing.slug } : {}),
+        ...(doc.translations?.de || {}), ...de, ...(doc.translations?.de?.slug?.current ? { slug: doc.translations.de.slug } : {}),
       } })
       .commit()
 
