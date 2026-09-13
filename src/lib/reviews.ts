@@ -43,8 +43,8 @@ export const REVIEW_PLATFORMS = {
   google: {
     name: 'Google',
     url: 'https://share.google/yx9663y7evY9Sbv75',
-    rating: null,
-    count: null,
+    rating: 3.9,
+    count: 38,
   },
 } satisfies Record<string, Platform>
 
