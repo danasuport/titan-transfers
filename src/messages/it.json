@@ -111,8 +111,8 @@
     "premiumVanDesc": "Mercedes-Benz V-Class per gruppi che desiderano comfort premium. Fino a 6 passeggeri."
   },
   "trust": {
-    "rating": "Valutazione 4.8/5",
-    "ratingDesc": "Basato su oltre 2.500 recensioni",
+    "rating": "Valutazione [[RATING]]/5",
+    "ratingDesc": "Basato su oltre [[REVIEWS]] recensioni verificate",
     "destinations": "Oltre 200 destinazioni",
     "destinationsDesc": "Copertura mondiale",
     "support": "Supporto 24/7",
@@ -160,7 +160,7 @@
     "flightDelay": "Volo in ritardo? Il tuo taxi privato a {airport} ti aspetterà",
     "flightDelayDesc": "Monitoriamo tutti i voli in tempo reale. Se il tuo aereo è in ritardo, il tuo autista regolerà automaticamente l'orario di prelievo senza costi aggiuntivi. Non rimarrai mai senza trasporto.",
     "testimonials": "I tuoi transfer privati consigliati a {airport}",
-    "testimonialsDesc": "Migliaia di clienti soddisfatti avallano il nostro servizio. Con una valutazione di 4.8/5 basata su oltre 2.500 recensioni, siamo la scelta fidata per i transfer a {airport}.",
+    "testimonialsDesc": "Migliaia di clienti soddisfatti avallano il nostro servizio. Con una valutazione di [[RATING]]/5 basata su oltre [[REVIEWS]] recensioni verificate, siamo la scelta fidata per i transfer a {airport}.",
     "routes": "Transfer privato a {city}",
     "routeItem": "Transfer privato da {city} a {destination}",
     "nearbyAirports": "Aeroporti vicini",
