@@ -24,6 +24,7 @@ import type { Locale } from '@/lib/i18n/config'
 import { getAirportUrl, getCityUrl, getCountryUrl, getRouteUrl } from '@/lib/utils/slugHelpers'
 import { pick } from '@/lib/i18n/pick'
 import { russoOne } from '@/lib/fonts'
+import { OVERALL_RATING } from '@/lib/reviews'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
 // stay cached so navigation feels instant; new content shows up within 1h
@@ -397,7 +398,7 @@ export default async function RoutePage({ params }: { params: Promise<{ locale: 
         description: `Private transfer from ${originTitle} to ${destTitle}`,
         url: getRouteUrl(route.origin, route, 'en'),
         areaServed: destTitle,
-        rating: 4.8,
+        rating: OVERALL_RATING,
       })} />
 
       {/* ─── HERO ───────────────────────────────────────────────────────── */}

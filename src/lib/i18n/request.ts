@@ -1,6 +1,7 @@
 import { getRequestConfig } from 'next-intl/server'
 import { routing } from './routing'
 import type { Locale } from './config'
+import { withReviewFigures } from '@/lib/reviews'
 
 export default getRequestConfig(async ({ requestLocale }) => {
   let locale = await requestLocale
@@ -9,6 +10,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
   }
   return {
     locale,
-    messages: (await import(`@/messages/${locale}.json`)).default,
+    messages: withReviewFigures((await import(`@/messages/${locale}.json`)).default, locale as Locale),
   }
 })
