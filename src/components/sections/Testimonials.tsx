@@ -71,49 +71,27 @@ function TrustedShopsLogo() {
   )
 }
 
+// Reseñas reales, copiadas tal cual de los perfiles públicos el 13/09/2026
+// (Trustpilot: ie.trustpilot.com/review/titantransfers.com · Trusted Shops:
+// API pública de reseñas, que las publica sin nombre). Van en su idioma
+// original y sin retocar: traducirlas o "mejorarlas" dejaría de hacerlas
+// auténticas. Del nombre solo se muestra la inicial del apellido.
+// Antes aquí había 36 testimonios inventados, con versiones en árabe y alemán
+// de las mismas personas; mostrar reseñas ficticias con el logo de una
+// plataforma es práctica desleal (RDL 24/2021).
 const testimonials = [
-  { platform: 'trustpilot' as const, name: 'Sarah M.', location: 'London, UK', rating: 5, text: 'Excellent service from Barcelona Airport. Driver was waiting with a sign and the car was spotless. Will use again!' },
-  { platform: 'google' as const, name: 'Marco R.', location: 'Rome, Italy', rating: 5, text: 'Used Titan for our family trip to Malaga. The minivan was perfect for us and the kids. Great price too.' },
-  { platform: 'trustedshops' as const, name: 'Anna K.', location: 'Berlin, Germany', rating: 5, text: 'Very professional transfer from Palma Airport to our hotel. On time, friendly driver, fair price. Highly recommend.' },
-  { platform: 'trustpilot' as const, name: 'James T.', location: 'New York, USA', rating: 5, text: 'Best airport transfer service we have used in Europe. The booking was easy and the driver was punctual.' },
-  { platform: 'google' as const, name: 'Lucia F.', location: 'Madrid, Spain', rating: 5, text: 'Increíble servicio. El conductor estaba puntual y el coche en perfectas condiciones. Repetiré sin duda.' },
-  { platform: 'trustedshops' as const, name: 'Thomas B.', location: 'Amsterdam, NL', rating: 5, text: 'Smooth experience from start to finish. App was easy to use, driver was friendly and professional.' },
-  { platform: 'google' as const, name: 'Elena V.', location: 'Paris, France', rating: 5, text: 'Transfer parfait depuis CDG. Chauffeur ponctuel, véhicule propre, prix correct. Je recommande vivement.' },
-  { platform: 'trustpilot' as const, name: 'David O.', location: 'Dubai, UAE', rating: 5, text: 'Top notch experience. The driver was waiting at arrivals and helped with all our luggage. Highly professional.' },
-  { platform: 'trustedshops' as const, name: 'Marta S.', location: 'Barcelona, Spain', rating: 5, text: 'Usé Titan para el aeropuerto del Prat. Todo perfecto, el conductor super amable y llegamos antes de lo previsto.' },
-  { platform: 'google' as const, name: 'Kevin L.', location: 'Sydney, Australia', rating: 5, text: 'Used Titan from Heathrow to central London. Excellent communication, on time and great car. Will book again.' },
-  { platform: 'trustpilot' as const, name: 'Sophie M.', location: 'Amsterdam, NL', rating: 5, text: 'Booked for our honeymoon transfer. Everything was perfect — spotless car, friendly driver, no stress at all.' },
-  { platform: 'trustedshops' as const, name: 'Carlos P.', location: 'Lisbon, Portugal', rating: 5, text: 'Reservé desde Lisboa al aeropuerto. Puntual, profesional y con un precio muy competitivo. Repetiré.' },
-]
-
-const testimonialsAr = [
-  { platform: 'trustpilot' as const, name: 'أحمد ا.', location: 'دبي، الإمارات', rating: 5, text: 'خدمة ممتازة من مطار دبي إلى الفندق. كان السائق ينتظر باللافتة والسيارة نظيفة. سأحجز مرة أخرى!' },
-  { platform: 'google' as const, name: 'فاطمة ك.', location: 'الرياض، السعودية', rating: 5, text: 'استخدمنا تايتن في رحلتنا العائلية إلى برشلونة. الميني فان كان مثالياً لنا وللأطفال، والسعر معقول جداً.' },
-  { platform: 'trustedshops' as const, name: 'محمد ع.', location: 'أبو ظبي، الإمارات', rating: 5, text: 'نقل احترافي من مطار باريس شارل ديغول إلى الفندق. في الموعد، سائق ودود وسعر عادل. أنصح به بشدة.' },
-  { platform: 'trustpilot' as const, name: 'نور ح.', location: 'الكويت', rating: 5, text: 'أفضل خدمة نقل من المطار استخدمناها في أوروبا. الحجز سهل والسائق ملتزم بالمواعيد.' },
-  { platform: 'google' as const, name: 'ياسمين ف.', location: 'القاهرة، مصر', rating: 5, text: 'خدمة رائعة. كان السائق في الموعد والسيارة في حالة ممتازة. سأكرر التجربة بلا شك.' },
-  { platform: 'trustedshops' as const, name: 'خالد ب.', location: 'الدوحة، قطر', rating: 5, text: 'تجربة سلسة من البداية إلى النهاية. التطبيق سهل الاستخدام والسائق ودود ومحترف.' },
-  { platform: 'google' as const, name: 'ليلى م.', location: 'بيروت، لبنان', rating: 5, text: 'نقل مثالي من المطار. سائق ملتزم بالمواعيد، مركبة نظيفة، وسعر مناسب. أنصح به بشدة.' },
-  { platform: 'trustpilot' as const, name: 'عبد الله ن.', location: 'دبي، الإمارات', rating: 5, text: 'تجربة من الدرجة الأولى. كان السائق ينتظر في صالة الوصول وساعد في كل أمتعتنا. احترافي للغاية.' },
-  { platform: 'trustedshops' as const, name: 'سارة ر.', location: 'الرباط، المغرب', rating: 5, text: 'استخدمت تايتن من مطار مدريد. كل شيء كان مثالياً، السائق لطيف جداً ووصلنا قبل الوقت المتوقع.' },
-  { platform: 'google' as const, name: 'حسن ل.', location: 'مسقط، عُمان', rating: 5, text: 'استخدمت تايتن من هيثرو إلى وسط لندن. تواصل ممتاز، في الموعد وسيارة رائعة. سأحجز مرة أخرى.' },
-  { platform: 'trustpilot' as const, name: 'منى س.', location: 'الإسكندرية، مصر', rating: 5, text: 'حجزت لرحلة شهر العسل. كل شيء كان مثالياً — سيارة نظيفة، سائق ودود، بدون أي توتر.' },
-  { platform: 'trustedshops' as const, name: 'طارق ف.', location: 'تونس', rating: 5, text: 'حجزت من المطار إلى الفندق. ملتزم بالمواعيد، احترافي وبسعر تنافسي جداً. سأكرر التجربة.' },
-]
-
-const testimonialsDe = [
-  { platform: 'trustpilot' as const, name: 'Julia M.', location: 'München, Deutschland', rating: 5, text: 'Ausgezeichneter Service vom Flughafen Barcelona. Der Fahrer wartete mit einem Schild und das Auto war makellos. Sehr empfehlenswert!' },
-  { platform: 'google' as const, name: 'Stefan R.', location: 'Wien, Österreich', rating: 5, text: 'Titan für unsere Familienreise nach Málaga genutzt. Der Minivan war perfekt für uns und die Kinder. Auch preislich top.' },
-  { platform: 'trustedshops' as const, name: 'Anna K.', location: 'Berlin, Deutschland', rating: 5, text: 'Sehr professioneller Transfer vom Flughafen Palma zum Hotel. Pünktlich, freundlicher Fahrer, fairer Preis. Klare Empfehlung.' },
-  { platform: 'trustpilot' as const, name: 'Michael T.', location: 'Zürich, Schweiz', rating: 5, text: 'Bester Flughafentransfer, den wir in Europa genutzt haben. Die Buchung war einfach und der Fahrer absolut pünktlich.' },
-  { platform: 'google' as const, name: 'Laura F.', location: 'Hamburg, Deutschland', rating: 5, text: 'Unglaublicher Service. Der Fahrer war pünktlich und das Auto in einwandfreiem Zustand. Ich buche auf jeden Fall wieder.' },
-  { platform: 'trustedshops' as const, name: 'Thomas B.', location: 'Frankfurt, Deutschland', rating: 5, text: 'Von Anfang bis Ende reibungslos. Die App war einfach zu bedienen, der Fahrer freundlich und professionell.' },
-  { platform: 'google' as const, name: 'Elena V.', location: 'Köln, Deutschland', rating: 5, text: 'Perfekter Transfer vom Flughafen. Pünktlicher Fahrer, sauberes Fahrzeug, korrekter Preis. Sehr zu empfehlen.' },
-  { platform: 'trustpilot' as const, name: 'David O.', location: 'Salzburg, Österreich', rating: 5, text: 'Erstklassige Erfahrung. Der Fahrer wartete am Ankunftsbereich und half mit dem gesamten Gepäck. Hochprofessionell.' },
-  { platform: 'trustedshops' as const, name: 'Marta S.', location: 'Stuttgart, Deutschland', rating: 5, text: 'Titan für den Flughafen Barcelona-El Prat genutzt. Alles perfekt, der Fahrer super freundlich und wir kamen früher an als geplant.' },
-  { platform: 'google' as const, name: 'Kevin L.', location: 'Düsseldorf, Deutschland', rating: 5, text: 'Titan von Heathrow ins Zentrum von London genutzt. Ausgezeichnete Kommunikation, pünktlich und tolles Auto. Ich buche wieder.' },
-  { platform: 'trustpilot' as const, name: 'Sophie M.', location: 'Bern, Schweiz', rating: 5, text: 'Für unseren Hochzeitstransfer gebucht. Alles war perfekt — makelloses Auto, freundlicher Fahrer, absolut stressfrei.' },
-  { platform: 'trustedshops' as const, name: 'Carlos P.', location: 'Leipzig, Deutschland', rating: 5, text: 'Vom Hotel zum Flughafen gebucht. Pünktlich, professionell und zu einem sehr wettbewerbsfähigen Preis. Gerne wieder.' },
+  { platform: 'trustpilot' as const, name: 'Patricia', country: 'DE', rating: 5, text: 'Absolutely recommendable! Everything went smoothly, both the communication and the ride. I was warmly welcomed at the airport and escorted to the driver.' },
+  { platform: 'trustpilot' as const, name: 'Carl S.', country: 'GB', rating: 5, text: 'Booked a return transfer from Barcelona airport to hotel METT Absolutely brilliant, text and photo of where to meet at airport and text a few hours before to confirm return airport trip. Couldn\'t fault them at all. Great service.' },
+  { platform: 'trustpilot' as const, name: 'Adrie', country: 'NL', rating: 5, text: 'Excellent taxi service! Very easy to book and they really think along with you when it comes to the best pick-up time. Communication via WhatsApp is quick and convenient, and you receive clear information beforehand. The price is also communicated clearly in advance, so there are no surprises.' },
+  { platform: 'trustedshops' as const, name: null, country: null, rating: 5, text: 'Titan provide a reliable & reassuring service when travelling in a foreign country. They telephoned us on each occasion to make sure transport had arrived & we were on our way.' },
+  { platform: 'trustpilot' as const, name: 'Hae Uk H.', country: 'AU', rating: 5, text: 'Very good transport service with good communication and uncomplicated transfer from the airport to our apartment. It was so good to organise it before arrival for a smooth transition after a long flight.' },
+  { platform: 'trustpilot' as const, name: 'Gill M.', country: 'GB', rating: 5, text: 'The whole experience with Titan Transfers was great. From greeting us as we came through arrivals, taking us to our car, the transfer to the hotel and then being flexible when we wanted to change our return trip pick up time - fantastic service all round! Thank you' },
+  { platform: 'trustpilot' as const, name: 'Ioannis B.', country: 'GR', rating: 5, text: 'VERY GOOD SERVICE, ON TIME AND THE DRIVER VERY POLITE!!' },
+  { platform: 'trustpilot' as const, name: 'Helen', country: 'GB', rating: 5, text: 'Great service, waiting at the airport clearly signed on arrival and pick up nice and early on return, friendly driver, clean and spacious vehicle. Would definitely recommend' },
+  { platform: 'trustedshops' as const, name: null, country: null, rating: 5, text: 'Communication was excellent , the driver was running a little late due to traffic but kept me well informed and didn’t cause me any issues . Would highly recommend and will be using titan again' },
+  { platform: 'trustpilot' as const, name: 'Sam R.', country: 'GB', rating: 5, text: 'Our experience was great, met at the airport with a smile, smooth journey. Great contact from booking to picking us up, on return was a great service to on time. Really friendly driver. 5star in all.' },
+  { platform: 'trustpilot' as const, name: 'Katie E.', country: 'GB', rating: 5, text: 'The transfer was super easy, the driver was really friendly and I would highly recommend.' },
+  { platform: 'trustpilot' as const, name: 'Jan S.', country: 'GB', rating: 5, text: 'No Problems with pick up from airport to hotel and today from hotel to cruise terminal. Thanks to everyone concerned' },
 ]
 
 const PER_PAGE = 4
@@ -139,7 +117,10 @@ export function Testimonials() {
     return () => clearTimeout(t)
   }, [page])
 
-  const list = locale === 'ar' ? testimonialsAr : locale === 'de' ? testimonialsDe : testimonials
+  const list = testimonials
+  const countryName = (code: string) => {
+    try { return new Intl.DisplayNames([locale], { type: 'region' }).of(code) ?? code } catch { return code }
+  }
   const visible = list.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
 
   return (
@@ -196,8 +177,10 @@ export function Testimonials() {
                 <PlatformLogo platform={item.platform} />
               </div>
               <div style={{ marginBottom: '0.75rem' }}>
-                <div className={russoOne.className} style={{ fontSize: '0.95rem', color: '#242426' }}>{item.name}</div>
-                <div style={{ fontSize: '0.8rem', color: '#6b7280' }}>{item.location}</div>
+                <div className={russoOne.className} style={{ fontSize: '0.95rem', color: '#242426' }}>
+                  {item.name ?? pick(locale, { en: 'Verified customer', es: 'Cliente verificado', ar: 'عميل موثّق', it: 'Cliente verificato', de: 'Verifizierter Kunde', fr: 'Client vérifié' })}
+                </div>
+                <div style={{ fontSize: '0.8rem', color: '#6b7280' }}>{item.country ? countryName(item.country) : 'Trusted Shops'}</div>
               </div>
               <p style={{ fontSize: '0.9rem', color: '#374151', lineHeight: 1.65 }}>
                 &ldquo;{item.text}&rdquo;
