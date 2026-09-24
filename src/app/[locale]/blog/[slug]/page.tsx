@@ -18,6 +18,7 @@ import { getAirportUrl, getCityUrl, getBlogUrl, getTranslatedTitle } from '@/lib
 import { getCategoryLabel } from '@/lib/blog/categories'
 import { pick } from '@/lib/i18n/pick'
 import { russoOne } from '@/lib/fonts'
+import { ImageCredit } from '@/components/ui/ImageCredit'
 
 // ISR: rebuild this page in the background every hour. Reads (e.g. Sanity)
 // stay cached so navigation feels instant; new content shows up within 1h
@@ -173,14 +174,17 @@ export default async function BlogPostPage({ params }: { params: Promise<{ local
         {/* Right: featured image with diagonal clip */}
         <div className="resp-img-panel" style={{ position: 'relative', clipPath: 'polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)' }}>
           {post.featuredImage?.asset?.url ? (
-            <Image
-              src={post.featuredImage.asset.url}
-              alt={postTitle}
-              fill
-              priority
-              style={{ objectFit: 'cover', objectPosition: 'center' }}
-              sizes="50vw"
-            />
+            <>
+              <Image
+                src={post.featuredImage.asset.url}
+                alt={post.featuredImage.alt || postTitle}
+                fill
+                priority
+                style={{ objectFit: 'cover', objectPosition: 'center' }}
+                sizes="50vw"
+              />
+              <ImageCredit img={post.featuredImage} corner />
+            </>
           ) : (
             <div style={{ position: 'absolute', inset: 0, background: '#242426' }} />
           )}

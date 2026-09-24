@@ -228,7 +228,7 @@ export const allBlogPostsQuery = groq`*[_type == "blogPost"] | order(publishDate
 
 export const blogPostBySlugQuery = groq`*[_type == "blogPost" && (slug.current == $slug || translations.es.slug.current == $slug || translations.ar.slug.current == $slug || translations.it.slug.current == $slug || translations.de.slug.current == $slug || translations.fr.slug.current == $slug)][0] {
   _id, title, slug, category, content, excerpt, publishDate,
-  featuredImage { asset->{ url } },
+  featuredImage { asset->{ url }, alt, creditAuthor, creditLicense, creditUrl },
   seoTitle, seoDescription,
   relatedCities[]->{ _id, title, slug, country->{ title, slug }, translations },
   relatedAirports[]->{ _id, title, slug, iataCode, translations },

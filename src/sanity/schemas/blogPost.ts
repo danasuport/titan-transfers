@@ -35,7 +35,18 @@ export const blogPost = defineType({
       ],
     }),
     defineField({ name: 'excerpt', title: 'Excerpt', type: 'text', rows: 3 }),
-    defineField({ name: 'featuredImage', title: 'Featured Image', type: 'image', options: { hotspot: true } }),
+    defineField({
+      name: 'featuredImage', title: 'Featured Image', type: 'image', options: { hotspot: true },
+      // Mismos campos de crédito que en rutas y ciudades: las fotos de
+      // Wikimedia son CC BY / CC BY-SA y exigen mostrar autor y licencia
+      // junto a la imagen. Vacíos para fotos propias.
+      fields: [
+        defineField({ name: 'alt', title: 'Alt text', type: 'string' }),
+        defineField({ name: 'creditAuthor', title: 'Autor (crédito visible)', type: 'string' }),
+        defineField({ name: 'creditLicense', title: 'Licencia (ej. CC BY-SA 4.0)', type: 'string' }),
+        defineField({ name: 'creditUrl', title: 'URL de la imagen original', type: 'url' }),
+      ],
+    }),
     defineField({ name: 'publishDate', title: 'Publish Date', type: 'date' }),
     defineField({ name: 'seoTitle', title: 'SEO Title', type: 'string' }),
     defineField({ name: 'seoDescription', title: 'SEO Description', type: 'text', rows: 3 }),
