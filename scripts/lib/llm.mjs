@@ -30,12 +30,17 @@ export const DEFAULT_MODEL = 'claude-opus-5'
  * sampling parameters were removed on this model family and sending one is a
  * 400.
  */
+// `effort` solo existe en la familia Opus/Sonnet 5. Haiku devuelve un 400 si se
+// le manda, así que el modelo barato quedaba inutilizable: por eso se envía solo
+// cuando el modelo lo soporta.
+const SUPPORTS_EFFORT = /^claude-(opus|sonnet|fable)-5/
+
 export async function askForJson({ system, prompt, model = DEFAULT_MODEL, maxTokens = 8000 }) {
   const res = await getClient().messages.create({
     model,
     max_tokens: maxTokens,
     system,
-    output_config: { effort: 'low' },
+    ...(SUPPORTS_EFFORT.test(model) ? { output_config: { effort: 'low' } } : {}),
     messages: [{ role: 'user', content: prompt }],
   })
 
